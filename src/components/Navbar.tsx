@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
@@ -15,61 +16,88 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const isHomepage = pathname === "/";
+
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 24);
+    const fn = () => setScrolled(window.scrollY > 48);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  // Close menu on route change
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
+  // On homepage + not scrolled → transparent bar over dark hero image (white text)
+  // Otherwise → white bar with navy text
+  const transparent = isHomepage && !scrolled;
+
+  const navBg      = transparent ? "transparent" : "rgba(255,255,255,0.97)";
+  const navBorder  = transparent ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(11,24,41,0.08)";
+  const navShadow  = transparent ? "none" : "0 1px 20px rgba(11,24,41,0.06)";
+  const linkColor  = transparent ? "rgba(255,255,255,0.82)" : "var(--text-secondary)";
+  const logoColor  = transparent ? "#fff" : "var(--text-primary)";
+  const activeColor = transparent ? "#fff" : "var(--text-primary)";
+
   return (
-    <header
-      style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-        transition: "all 0.3s ease",
-        borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
-        background: scrolled ? "rgba(8,8,8,0.94)" : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-      }}
-    >
+    <header style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+      transition: "all 0.35s ease",
+      background: navBg,
+      borderBottom: navBorder,
+      boxShadow: navShadow,
+      backdropFilter: transparent ? "none" : "blur(20px)",
+    }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-        <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
+        <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
+
           {/* Logo */}
           <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{
-              width: 32, height: 32, borderRadius: 8,
-              background: "var(--accent)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 13, fontWeight: 700, color: "#fff", letterSpacing: "-0.02em",
-            }}>A</div>
-            <span style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.02em", color: "var(--text-primary)" }}>
-              AMI Panorama
-            </span>
+            <Image
+              src="/ami-logo.svg"
+              alt="AMI Panorama"
+              width={32}
+              height={32}
+              style={{
+                filter: transparent
+                  ? "brightness(0) invert(1)"       /* white on dark hero */
+                  : "none",                          /* original blue on white */
+                transition: "filter 0.35s ease",
+              }}
+            />
+            <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+              <span style={{
+                fontSize: 15, fontWeight: 700, letterSpacing: "-0.03em",
+                color: logoColor, transition: "color 0.35s ease", lineHeight: 1.2,
+              }}>AMI Panorama</span>
+              <span style={{
+                fontSize: 10, fontWeight: 400, letterSpacing: "0.1em",
+                color: transparent ? "rgba(255,255,255,0.5)" : "var(--text-muted)",
+                textTransform: "uppercase", transition: "color 0.35s ease",
+              }}>Mobilité internationale</span>
+            </div>
           </Link>
 
           {/* Desktop links */}
-          <div style={{ display: "flex", alignItems: "center", gap: 4 }} className="hidden-mobile">
+          <div style={{ display: "flex", alignItems: "center", gap: 2 }} className="hidden-mobile">
             {links.map(l => (
               <Link key={l.href} href={l.href} style={{
                 fontSize: 13,
-                color: pathname === l.href ? "var(--text-primary)" : "var(--text-secondary)",
-                padding: "6px 14px",
-                borderRadius: 6,
-                transition: "color 0.15s",
-                background: pathname === l.href ? "rgba(255,255,255,0.05)" : "transparent",
+                color: pathname === l.href ? activeColor : linkColor,
+                padding: "7px 15px",
+                borderRadius: 7,
+                transition: "all 0.2s ease",
                 fontWeight: pathname === l.href ? 500 : 400,
-              }}
-                onMouseEnter={e => { if (pathname !== l.href) e.currentTarget.style.color = "var(--text-primary)"; }}
-                onMouseLeave={e => { if (pathname !== l.href) e.currentTarget.style.color = "var(--text-secondary)"; }}
-              >{l.label}</Link>
+                background: pathname === l.href && !transparent ? "rgba(11,24,41,0.05)" : "transparent",
+              }}>{l.label}</Link>
             ))}
           </div>
 
           {/* CTA + mobile burger */}
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <Link href="/contact" className="btn-primary hidden-mobile" style={{ padding: "8px 18px", fontSize: 13 }}>
+            <Link
+              href="/contact"
+              className={`hidden-mobile ${transparent ? "btn-ghost-light" : "btn-primary"}`}
+              style={{ padding: "9px 20px", fontSize: 13 }}
+            >
               Demander un programme
               <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
                 <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -79,9 +107,14 @@ export default function Navbar() {
               className="show-mobile"
               onClick={() => setMenuOpen(o => !o)}
               style={{
-                background: "none", border: "1px solid var(--border)", borderRadius: 7,
-                color: "var(--text-primary)", padding: "6px 10px", cursor: "pointer",
-                fontSize: 13, lineHeight: 1,
+                background: "none",
+                border: `1px solid ${transparent ? "rgba(255,255,255,0.25)" : "var(--border)"}`,
+                borderRadius: 7,
+                color: transparent ? "#fff" : "var(--text-primary)",
+                padding: "6px 11px",
+                cursor: "pointer",
+                fontSize: 14, lineHeight: 1,
+                transition: "all 0.2s",
               }}
               aria-label="Menu"
             >{menuOpen ? "✕" : "☰"}</button>
@@ -92,16 +125,17 @@ export default function Navbar() {
       {/* Mobile drawer */}
       {menuOpen && (
         <div style={{
-          background: "rgba(8,8,8,0.97)", backdropFilter: "blur(20px)",
+          background: "rgba(255,255,255,0.98)", backdropFilter: "blur(20px)",
           borderTop: "1px solid var(--border)",
           padding: "20px 24px 28px",
         }}>
           {links.map(l => (
             <div key={l.href} style={{ marginBottom: 4 }}>
               <Link href={l.href} style={{
-                display: "block", padding: "10px 12px", borderRadius: 8,
-                fontSize: 15, color: pathname === l.href ? "var(--text-primary)" : "var(--text-secondary)",
-                background: pathname === l.href ? "rgba(255,255,255,0.05)" : "transparent",
+                display: "block", padding: "11px 14px", borderRadius: 8,
+                fontSize: 15, color: pathname === l.href ? "var(--navy)" : "var(--text-secondary)",
+                fontWeight: pathname === l.href ? 600 : 400,
+                background: pathname === l.href ? "var(--bg-2)" : "transparent",
               }}>{l.label}</Link>
             </div>
           ))}
@@ -112,11 +146,11 @@ export default function Navbar() {
       )}
 
       <style>{`
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
           .hidden-mobile { display: none !important; }
           .show-mobile { display: flex !important; }
         }
-        @media (min-width: 769px) {
+        @media (min-width: 901px) {
           .show-mobile { display: none !important; }
         }
       `}</style>

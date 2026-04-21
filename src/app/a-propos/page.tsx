@@ -9,23 +9,27 @@ export const metadata: Metadata = {
 
 const values = [
   {
-    icon: "◈",
+    num: "01",
     title: "Qualité sans compromis",
+    accent: "#1E52D0",
     desc: "Chaque hébergement, chaque formateur, chaque entreprise partenaire est sélectionné selon des critères stricts. Rien n'est laissé au hasard dans un programme AMI.",
   },
   {
-    icon: "◎",
+    num: "02",
     title: "Simplicité pour vous",
+    accent: "#E85835",
     desc: "Votre rôle est de vous concentrer sur vos apprentis. Le nôtre est de vous décharger de tout le reste — logistique, administratif, Erasmus+, coordination terrain.",
   },
   {
-    icon: "◉",
+    num: "03",
     title: "Impact sur les apprentis",
+    accent: "#1E52D0",
     desc: "Une mobilité réussie transforme un parcours. Nous le savons car nos 3 000 alumni nous le disent. C'est cette conviction qui anime chaque programme que nous construisons.",
   },
   {
-    icon: "◐",
+    num: "04",
     title: "Partenariat durable",
+    accent: "#E85835",
     desc: "Nous construisons des relations à long terme avec les CFA et les OPCO. 50 écoles nous font confiance depuis plusieurs années. Ce n'est pas un hasard.",
   },
 ];
@@ -40,21 +44,44 @@ const numbers = [
 export default function AProposPage() {
   return (
     <>
-      {/* Header */}
-      <section style={{ position: "relative", overflow: "hidden", paddingTop: 140, paddingBottom: 72 }}>
+      {/* Hero — dark photo section */}
+      <section style={{
+        position: "relative", paddingTop: 160, paddingBottom: 96,
+        background: "var(--navy)", overflow: "hidden",
+      }}>
         <div style={{
-          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
-          width: 700, height: 420,
-          background: "radial-gradient(ellipse, rgba(107,92,231,0.14) 0%, transparent 68%)",
+          position: "absolute", inset: 0,
+          backgroundImage: "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1400&q=80')",
+          backgroundSize: "cover", backgroundPosition: "center 30%",
+          opacity: 0.15,
+        }} />
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to bottom, rgba(11,24,41,0.2) 0%, var(--navy) 100%)",
+        }} />
+        {/* Blue glow */}
+        <div style={{
+          position: "absolute", top: 0, right: 0,
+          width: 600, height: 500,
+          background: "radial-gradient(ellipse at top right, rgba(30,82,208,0.2) 0%, transparent 65%)",
           pointerEvents: "none",
         }} />
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative" }}>
-          <div className="section-label">À propos</div>
-          <h1 style={{ fontSize: "clamp(36px, 5.5vw, 64px)", fontWeight: 700, letterSpacing: "-0.045em", lineHeight: 1.08, maxWidth: 680, marginBottom: 24 }}>
-            Nous ouvrons le monde<br />
-            <span className="gradient-text">aux apprentis.</span>
+          <div className="section-label-light anim-fade-up">À propos</div>
+          <h1 className="anim-fade-up-2" style={{
+            fontSize: "clamp(36px, 5.5vw, 64px)", fontWeight: 700,
+            letterSpacing: "-0.04em", lineHeight: 1.08, maxWidth: 700, marginBottom: 28,
+            color: "#fff",
+          }}>
+            Nous ouvrons le monde{" "}
+            <span style={{
+              fontFamily: "var(--font-serif)", fontStyle: "italic",
+              fontWeight: 500, color: "rgba(232,88,53,0.9)",
+            }}>aux apprentis.</span>
           </h1>
-          <p style={{ fontSize: 18, color: "var(--text-secondary)", maxWidth: 600, lineHeight: 1.75 }}>
+          <p className="anim-fade-up-3" style={{
+            fontSize: 18, color: "rgba(255,255,255,0.65)", maxWidth: 600, lineHeight: 1.75,
+          }}>
             AMI Panorama conçoit et coordonne des programmes de mobilité internationale
             pour les CFA, les OPCO et les entreprises françaises depuis plus de 10 ans.
             Basée au Canada, notre équipe opère avec un réseau en Europe, en Amérique
@@ -63,17 +90,23 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Numbers */}
-      <section style={{ padding: "0 24px 72px" }}>
+      {/* Numbers bar */}
+      <section style={{ padding: "0 24px", position: "relative", zIndex: 2, marginTop: -1 }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
-            display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1,
-            background: "var(--border)", border: "1px solid var(--border)",
-            borderRadius: 16, overflow: "hidden",
+            display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0,
+            background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 16, overflow: "hidden",
+            boxShadow: "0 8px 40px rgba(11,24,41,0.12)",
           }} className="numbers-grid">
-            {numbers.map(({ value, label }) => (
-              <div key={label} style={{ padding: "36px 28px", background: "var(--bg-1)", textAlign: "center" }}>
-                <div style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 700, letterSpacing: "-0.045em", color: "var(--accent-light)", lineHeight: 1, marginBottom: 8 }}>{value}</div>
+            {numbers.map(({ value, label }, i, arr) => (
+              <div key={label} style={{
+                padding: "36px 28px", textAlign: "center",
+                borderRight: i < arr.length - 1 ? "1px solid var(--border)" : "none",
+              }}>
+                <div style={{
+                  fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 700,
+                  letterSpacing: "-0.045em", color: "var(--blue)", lineHeight: 1, marginBottom: 8,
+                }}>{value}</div>
                 <div style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.4 }}>{label}</div>
               </div>
             ))}
@@ -82,16 +115,18 @@ export default function AProposPage() {
       </section>
 
       {/* Mission split */}
-      <section style={{ padding: "0 24px 72px" }}>
+      <section style={{ padding: "64px 24px 72px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
-            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2,
-            background: "var(--border)", border: "1px solid var(--border)",
+            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3,
             borderRadius: 20, overflow: "hidden",
           }} className="mission-grid">
-            <div style={{ padding: "52px 48px", background: "var(--bg-1)" }}>
+            <div style={{ padding: "52px 48px", background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 16 }}>
               <div className="section-label">Notre mission</div>
-              <h2 style={{ fontSize: "clamp(22px, 2.8vw, 32px)", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.2, marginBottom: 24 }}>
+              <h2 style={{
+                fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: 700,
+                letterSpacing: "-0.03em", lineHeight: 1.25, marginBottom: 24,
+              }}>
                 Rendre la mobilité internationale aussi accessible que possible pour chaque apprenti.
               </h2>
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 20 }}>
@@ -104,9 +139,12 @@ export default function AProposPage() {
                 et des organismes qui répètent l'expérience d'année en année.
               </p>
             </div>
-            <div style={{ padding: "52px 48px", background: "var(--bg-2)" }}>
+            <div style={{ padding: "52px 48px", background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: 16 }}>
               <div className="section-label">Notre modèle</div>
-              <h2 style={{ fontSize: "clamp(22px, 2.8vw, 32px)", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.2, marginBottom: 24 }}>
+              <h2 style={{
+                fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: 700,
+                letterSpacing: "-0.03em", lineHeight: 1.25, marginBottom: 24,
+              }}>
                 Pas un voyagiste. Pas une agence. Un opérateur de mobilité professionnelle.
               </h2>
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 20 }}>
@@ -128,19 +166,29 @@ export default function AProposPage() {
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 48 }}>
             <div className="section-label">Nos engagements</div>
-            <h2 style={{ fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 700, letterSpacing: "-0.035em" }}>Ce sur quoi vous pouvez compter.</h2>
+            <h2 style={{
+              fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 700,
+              letterSpacing: "-0.035em",
+            }}>Ce sur quoi vous pouvez compter.</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }} className="values-grid">
-            {values.map(({ icon, title, desc }) => (
-              <div key={title} className="card" style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 3 }} className="values-grid">
+            {values.map(({ num, title, accent, desc }) => (
+              <div key={title} style={{
+                padding: "36px 40px", background: "var(--bg-1)",
+                border: "1px solid var(--border)", borderRadius: 16,
+                display: "flex", gap: 24, alignItems: "flex-start",
+              }} className="hover-card-full">
                 <div style={{
-                  width: 44, height: 44, borderRadius: 11,
-                  background: "rgba(107,92,231,0.1)", border: "1px solid rgba(107,92,231,0.2)",
+                  width: 40, height: 40, borderRadius: 10,
+                  background: accent + "15", border: `1px solid ${accent}25`,
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 20, color: "var(--accent-light)", flexShrink: 0,
-                }}>{icon}</div>
+                  flexShrink: 0,
+                }}>
+                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: accent }} />
+                </div>
                 <div>
-                  <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 10 }}>{title}</h3>
+                  <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 6 }}>{num}</div>
+                  <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 10, letterSpacing: "-0.02em" }}>{title}</h3>
                   <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.75 }}>{desc}</p>
                 </div>
               </div>
@@ -153,31 +201,53 @@ export default function AProposPage() {
       <section style={{ padding: "0 24px 72px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
-            background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 20,
-            padding: "52px 48px", position: "relative", overflow: "hidden",
-          }}>
+            background: "var(--navy)", borderRadius: 20,
+            padding: "60px 56px", position: "relative", overflow: "hidden",
+            display: "grid", gridTemplateColumns: "1fr auto",
+            gap: 48, alignItems: "center",
+          }} className="testimonial-grid">
+            {/* Decorative glow */}
             <div style={{
-              position: "absolute", top: 0, right: 0, width: 400, height: 300,
-              background: "radial-gradient(ellipse at 80% 20%, rgba(107,92,231,0.08) 0%, transparent 70%)",
+              position: "absolute", top: "-80px", left: "0",
+              width: 500, height: 400,
+              background: "radial-gradient(ellipse at left, rgba(30,82,208,0.25) 0%, transparent 65%)",
               pointerEvents: "none",
             }} />
-            <div style={{ fontSize: 44, color: "var(--accent)", opacity: 0.3, lineHeight: 1, marginBottom: 20, fontFamily: "Georgia, serif" }}>&ldquo;</div>
-            <blockquote style={{
-              fontSize: "clamp(17px, 2.2vw, 22px)", fontWeight: 500, letterSpacing: "-0.02em",
-              lineHeight: 1.55, color: "var(--text-primary)", maxWidth: 640, marginBottom: 28,
-            }}>
-              Merci pour votre accompagnement. Vous avez été exceptionnels et vous avez rendu notre voyage incroyable.
-            </blockquote>
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <div style={{ position: "relative" }}>
               <div style={{
-                width: 40, height: 40, borderRadius: "50%", background: "var(--accent)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 14, fontWeight: 700, color: "#fff",
-              }}>F</div>
-              <div>
-                <div style={{ fontSize: 14, fontWeight: 600 }}>Florian Riocreux</div>
-                <div style={{ fontSize: 12, color: "var(--text-muted)" }}>Référent Mobilité — ECEMA</div>
+                fontSize: 60, lineHeight: 0.8, marginBottom: 24,
+                fontFamily: "Georgia, serif", color: "rgba(232,88,53,0.5)",
+              }}>&ldquo;</div>
+              <blockquote style={{
+                fontSize: "clamp(17px, 2.2vw, 22px)", fontWeight: 500,
+                fontFamily: "var(--font-serif)", fontStyle: "italic",
+                letterSpacing: "-0.01em", lineHeight: 1.55, color: "#fff", marginBottom: 32,
+              }}>
+                Merci pour votre accompagnement. Vous avez été exceptionnels
+                et vous avez rendu notre voyage incroyable.
+              </blockquote>
+              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                <div style={{
+                  width: 44, height: 44, borderRadius: "50%", background: "var(--blue)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 16, fontWeight: 700, color: "#fff",
+                }}>F</div>
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "#fff" }}>Florian Riocreux</div>
+                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)" }}>Référent Mobilité — ECEMA</div>
+                </div>
               </div>
+            </div>
+            {/* Right side stat callout */}
+            <div style={{
+              position: "relative", textAlign: "center",
+              padding: "32px 28px", background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, flexShrink: 0, minWidth: 160,
+            }}>
+              <div style={{ fontSize: 44, fontWeight: 700, letterSpacing: "-0.05em", color: "#fff", lineHeight: 1 }}>3 000+</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", marginTop: 8, lineHeight: 1.4 }}>apprentis accompagnés</div>
+              <div style={{ width: 32, height: 1.5, background: "var(--coral)", margin: "16px auto 0" }} />
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 10 }}>10 ans d'expérience</div>
             </div>
           </div>
         </div>
@@ -187,18 +257,25 @@ export default function AProposPage() {
       <section style={{ padding: "0 24px 96px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
-            background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 20,
-            padding: "64px 48px", textAlign: "center", position: "relative", overflow: "hidden",
+            background: "var(--bg-1)", border: "1px solid var(--border)",
+            borderRadius: 20, padding: "64px 48px", textAlign: "center",
+            position: "relative", overflow: "hidden",
           }}>
             <div style={{
               position: "absolute", inset: 0, pointerEvents: "none",
-              background: "radial-gradient(ellipse at 50% 0%, rgba(107,92,231,0.12) 0%, transparent 60%)",
+              background: "radial-gradient(ellipse at 50% 0%, rgba(30,82,208,0.07) 0%, transparent 60%)",
             }} />
             <div className="section-label" style={{ justifyContent: "center" }}>Travaillons ensemble</div>
-            <h2 style={{ fontSize: "clamp(24px, 3.5vw, 40px)", fontWeight: 700, letterSpacing: "-0.035em", marginBottom: 16, position: "relative" }}>
+            <h2 style={{
+              fontSize: "clamp(24px, 3.5vw, 40px)", fontWeight: 700,
+              letterSpacing: "-0.035em", marginBottom: 16, position: "relative",
+            }}>
               Votre prochain groupe mérite<br />une vraie mobilité internationale.
             </h2>
-            <p style={{ fontSize: 15, color: "var(--text-secondary)", maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.75, position: "relative" }}>
+            <p style={{
+              fontSize: 15, color: "var(--text-secondary)",
+              maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.75, position: "relative",
+            }}>
               Parlez-nous de votre projet. Premier échange gratuit et sans engagement.
             </p>
             <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", position: "relative" }}>
@@ -219,6 +296,7 @@ export default function AProposPage() {
           .mission-grid { grid-template-columns: 1fr !important; }
           .numbers-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .values-grid { grid-template-columns: 1fr !important; }
+          .testimonial-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </>

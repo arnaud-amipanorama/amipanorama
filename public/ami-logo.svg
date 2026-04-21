@@ -1,0 +1,10 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle -->
+  <circle cx="18" cy="18" r="16" stroke="#1E52D0" stroke-width="1.6"/>
+  <!-- Equator / horizontal arc -->
+  <ellipse cx="18" cy="18" rx="16" ry="6.5" stroke="#1E52D0" stroke-width="1.2"/>
+  <!-- Vertical meridian (petal shape) -->
+  <path d="M18 2 C24 9 24 27 18 34 C12 27 12 9 18 2Z" stroke="#1E52D0" stroke-width="1.2" fill="rgba(30,82,208,0.07)"/>
+  <!-- Subtle latitude line (upper third) -->
+  <path d="M6.5 12 Q18 16.5 29.5 12" stroke="#1E52D0" stroke-width="0.9" stroke-dasharray="2 2"/>
+</svg>

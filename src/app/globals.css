@@ -1,19 +1,46 @@
 @import "tailwindcss";
 
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
 :root {
-  --bg:            #080808;
-  --bg-1:          #0f0f0f;
-  --bg-2:          #161616;
-  --bg-3:          #1e1e1e;
-  --border:        rgba(255,255,255,0.07);
-  --border-hover:  rgba(255,255,255,0.14);
-  --text-primary:  #f0f0f0;
-  --text-secondary:#888;
-  --text-muted:    #444;
-  --accent:        #6B5CE7;
-  --accent-light:  #9B8CFF;
-  --accent-glow:   rgba(107,92,231,0.3);
-  --font-sans:     var(--font-geist-sans), "Inter", system-ui, sans-serif;
+  /* ── Light base ── */
+  --bg:            #F8F6F1;
+  --bg-1:          #FFFFFF;
+  --bg-2:          #F2EEE6;
+  --bg-3:          #E8E2D6;
+
+  /* ── Deep navy (hero, footer, CTA sections) ── */
+  --navy:          #0B1829;
+  --navy-2:        #132040;
+  --navy-3:        #1A3060;
+
+  /* ── Modern blue accent ── */
+  --blue:          #1E52D0;
+  --blue-light:    #4B76F0;
+  --blue-glow:     rgba(30,82,208,0.18);
+
+  /* ── Coral accent (CTA, highlights) ── */
+  --coral:         #E85835;
+  --coral-light:   #F07256;
+  --coral-glow:    rgba(232,88,53,0.18);
+
+  /* ── Text (on light bg) ── */
+  --text-primary:  #0B1829;
+  --text-secondary:#4A5870;
+  --text-muted:    #8A9BB0;
+
+  /* ── Borders (on light bg) ── */
+  --border:        rgba(11,24,41,0.09);
+  --border-hover:  rgba(11,24,41,0.18);
+
+  /* ── Legacy aliases (keep pages working unchanged) ── */
+  --accent:        var(--blue);
+  --accent-light:  var(--blue-light);
+  --accent-glow:   var(--blue-glow);
+
+  --font-sans: var(--font-geist-sans), "Inter", system-ui, sans-serif;
+  --font-serif: "Lora", Georgia, serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -30,13 +57,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-::selection { background: var(--accent); color: #fff; }
+::selection { background: var(--blue); color: #fff; }
 
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 2px; }
 
-/* Typography */
+/* ── Typography ── */
 h1, h2, h3, h4 {
   font-weight: 600;
   letter-spacing: -0.03em;
@@ -46,40 +73,72 @@ h1, h2, h3, h4 {
 
 a { color: inherit; text-decoration: none; }
 
-/* Utilities */
+/* ── Serif headline (editorial use) ── */
+.headline-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* ── Gradient text (blue → coral, premium international) ── */
 .gradient-text {
-  background: linear-gradient(135deg, #fff 20%, var(--accent-light) 100%);
+  background: linear-gradient(130deg, var(--blue) 0%, var(--coral) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+/* ── Section label ── */
 .section-label {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent-light);
+  color: var(--coral);
   margin-bottom: 16px;
 }
 
 .section-label::before {
   content: '';
   display: block;
-  width: 16px;
-  height: 1px;
-  background: var(--accent-light);
+  width: 18px;
+  height: 1.5px;
+  background: var(--coral);
+  flex-shrink: 0;
 }
 
-/* Buttons */
+/* ── Section label variant for dark sections ── */
+.section-label-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 16px;
+}
+
+.section-label-light::before {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: rgba(255,255,255,0.4);
+  flex-shrink: 0;
+}
+
+/* ── Buttons ── */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--accent);
+  background: var(--coral);
   color: #fff;
   padding: 13px 28px;
   border-radius: 8px;
@@ -87,16 +146,16 @@ a { color: inherit; text-decoration: none; }
   font-weight: 500;
   letter-spacing: -0.01em;
   transition: all 0.18s ease;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
 }
 
 .btn-primary:hover {
-  background: var(--accent-light);
+  background: var(--coral-light);
   transform: translateY(-1px);
-  box-shadow: 0 6px 24px var(--accent-glow);
+  box-shadow: 0 6px 24px var(--coral-glow);
 }
 
 .btn-primary:active { transform: translateY(0); }
@@ -121,33 +180,57 @@ a { color: inherit; text-decoration: none; }
 .btn-ghost:hover {
   color: var(--text-primary);
   border-color: var(--border-hover);
-  background: rgba(255,255,255,0.03);
+  background: rgba(11,24,41,0.03);
 }
 
-/* Cards */
+/* Ghost button variant for dark sections */
+.btn-ghost-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: rgba(255,255,255,0.7);
+  padding: 13px 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  border: 1px solid rgba(255,255,255,0.22);
+  transition: all 0.18s ease;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-ghost-light:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.07);
+}
+
+/* ── Cards ── */
 .card {
   background: var(--bg-1);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 28px;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
   border-color: var(--border-hover);
-  background: var(--bg-2);
+  background: var(--bg-1);
+  box-shadow: 0 4px 24px rgba(11,24,41,0.07);
 }
 
-/* ── Hover utilities (replaces JS onMouseEnter/Leave in Server Components) ── */
-/* Row-level hover: border brightens */
+/* ── Hover utilities (Server Component safe — CSS only) ── */
 .hover-row {
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .hover-row:hover {
   border-color: var(--border-hover) !important;
+  box-shadow: 0 4px 20px rgba(11,24,41,0.06);
 }
 
-/* Cell/card hover: bg darkens */
 .hover-bg {
   transition: background 0.2s ease;
 }
@@ -155,37 +238,89 @@ a { color: inherit; text-decoration: none; }
   background: var(--bg-2) !important;
 }
 
-/* Combined: border + bg */
 .hover-card-full {
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .hover-card-full:hover {
   border-color: var(--border-hover) !important;
-  background: var(--bg-2) !important;
+  box-shadow: 0 4px 20px rgba(11,24,41,0.06);
 }
 
-/* Destination card link hover */
 .dest-card {
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
 }
 .dest-card:hover {
-  border-color: var(--border-hover) !important;
-  background: var(--bg-2) !important;
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 40px rgba(11,24,41,0.16) !important;
 }
 
-/* Footer nav link hover */
 .footer-link {
   transition: color 0.15s ease;
 }
 .footer-link:hover {
-  color: var(--text-primary) !important;
+  color: #fff !important;
 }
 
-/* Grid noise overlay */
+/* ── Subtle grid overlay ── */
 .grid-overlay {
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-  background-size: 64px 64px;
+    linear-gradient(rgba(11,24,41,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11,24,41,0.025) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/* ── CSS Animations ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.anim-fade-up {
+  animation: fadeInUp 0.75s ease both;
+}
+.anim-fade-up-2 {
+  animation: fadeInUp 0.75s 0.12s ease both;
+}
+.anim-fade-up-3 {
+  animation: fadeInUp 0.75s 0.24s ease both;
+}
+.anim-fade-up-4 {
+  animation: fadeInUp 0.75s 0.36s ease both;
+}
+.anim-fade {
+  animation: fadeIn 1s ease both;
+}
+.anim-scale {
+  animation: scaleIn 0.7s ease both;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade-up, .anim-fade-up-2, .anim-fade-up-3, .anim-fade-up-4,
+  .anim-fade, .anim-scale {
+    animation: none !important;
+  }
+}
+
+/* ── Image overlay utility ── */
+.img-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }

@@ -8,12 +8,12 @@ const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 
 export const metadata: Metadata = {
   title: {
-    default: "AMI Panorama — Mobilité internationale des apprentis",
+    default: "AMI Panorama — Mobilité internationale des apprentis, clé en main",
     template: "%s | AMI Panorama",
   },
   description:
-    "AMI Panorama accompagne la mobilité internationale des apprentis. Financement Erasmus+, coordination et suivi terrain pour organismes de formation et entreprises.",
-  keywords: ["mobilité internationale", "apprentis", "Erasmus+", "CFA", "formation", "alternance"],
+    "AMI Panorama conçoit des programmes de mobilité internationale clé en main pour les CFA et les entreprises — 7 nuits, 6 destinations, formation, visites et financement Erasmus+.",
+  keywords: ["mobilité internationale", "apprentis", "Erasmus+", "CFA", "formation", "alternance", "Séville", "Montréal", "Londres", "Séoul", "New York"],
   openGraph: {
     siteName: "AMI Panorama",
     type: "website",

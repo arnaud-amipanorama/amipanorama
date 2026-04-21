@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 const components = [
   {
     num: "01",
-    icon: "◈",
     title: "Formation professionnelle",
     sub: "20 heures modulaires",
+    accent: "#1E52D0",
     desc: "Au cœur du programme, une formation de 20 heures conçue pour ouvrir vos apprentis au monde professionnel international. Panorama socio-économique du pays d'accueil, ateliers de Business English, workshops sectoriels et mises en situation professionnelle.",
     details: [
       "Cours animés par des formateurs locaux et professionnels du secteur",
@@ -23,9 +23,9 @@ const components = [
   },
   {
     num: "02",
-    icon: "◎",
     title: "Visites d'entreprise",
     sub: "Immersion professionnelle réelle",
+    accent: "#E85835",
     desc: "Vos apprentis ne visitent pas des vitrines — ils entrent dans les coulisses d'entreprises locales sélectionnées pour leur pertinence sectorielle. Échanges avec des professionnels, découverte des pratiques de travail locales, comparaison avec le marché français.",
     details: [
       "Sélection d'entreprises alignées avec les filières de votre CFA",
@@ -36,9 +36,9 @@ const components = [
   },
   {
     num: "03",
-    icon: "◉",
     title: "Activités culturelles",
     sub: "Programme saisonnier sur mesure",
+    accent: "#1E52D0",
     desc: "La mobilité internationale se vit aussi en dehors des salles de formation. Notre programme d'activités culturelles est conçu pour maximiser l'immersion : sites historiques, expériences locales authentiques et moments de vie partagée qui restent gravés.",
     details: [
       "Programme adapté à la saison et aux conditions météorologiques",
@@ -49,9 +49,9 @@ const components = [
   },
   {
     num: "04",
-    icon: "◐",
     title: "Logement 7 nuits",
     sub: "Hébergement sécurisé et confortable",
+    accent: "#E85835",
     desc: "Nous sélectionnons des établissements qui combinent confort, sécurité et cadre propice à la vie de groupe. Chaque hébergement est testé et validé par notre équipe terrain avant d'être intégré à nos programmes.",
     details: [
       "Petits-déjeuners complets inclus chaque matin",
@@ -62,9 +62,9 @@ const components = [
   },
   {
     num: "05",
-    icon: "◑",
     title: "Transports inclus",
     sub: "Zéro logistique de déplacement",
+    accent: "#1E52D0",
     desc: "De l'arrivée à l'aéroport jusqu'au retour, tous les transports sont coordonnés par notre équipe. Vos apprentis n'ont pas à gérer les trajets — ils se concentrent sur l'expérience.",
     details: [
       "Transferts aéroport aller et retour organisés",
@@ -75,9 +75,9 @@ const components = [
   },
   {
     num: "06",
-    icon: "◒",
     title: "Assurances complètes",
     sub: "Couverture totale pendant le séjour",
+    accent: "#E85835",
     desc: "La sécurité de vos apprentis est une priorité absolue. Notre couverture assurance est parmi les plus complètes du marché, avec une assistance rapatriement disponible 24h/24.",
     details: [
       "Assistance-rapatriement disponible 24h/24, 7j/7",
@@ -88,9 +88,9 @@ const components = [
   },
   {
     num: "07",
-    icon: "◓",
     title: "Support administratif & Erasmus+",
     sub: "Financement géré de bout en bout",
+    accent: "#1E52D0",
     desc: "C'est souvent ce qui freine les CFA : la complexité administrative. Nous prenons en charge l'intégralité du dossier Erasmus+ — de la vérification de l'éligibilité jusqu'au reporting final — pour que vous n'ayez qu'à valider.",
     details: [
       "Vérification d'éligibilité et stratégie de financement",
@@ -104,28 +104,37 @@ const components = [
 export default function NotreProgrammePage() {
   return (
     <>
-      {/* Header */}
-      <section style={{ position: "relative", overflow: "hidden", paddingTop: 140, paddingBottom: 72 }}>
+      {/* Hero */}
+      <section style={{
+        position: "relative", paddingTop: 160, paddingBottom: 80,
+        background: "var(--bg)", overflow: "hidden",
+      }}>
+        {/* Decorative blue glow top-right */}
         <div style={{
-          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
-          width: 700, height: 420,
-          background: "radial-gradient(ellipse, rgba(107,92,231,0.14) 0%, transparent 68%)",
+          position: "absolute", top: 0, right: 0,
+          width: 600, height: 500,
+          background: "radial-gradient(ellipse at top right, rgba(30,82,208,0.08) 0%, transparent 65%)",
           pointerEvents: "none",
         }} />
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative" }}>
-          <div className="section-label">Notre programme</div>
-          <h1 style={{ fontSize: "clamp(36px, 5.5vw, 64px)", fontWeight: 700, letterSpacing: "-0.045em", lineHeight: 1.08, maxWidth: 700, marginBottom: 24 }}>
-            7 nuits.<br />
+          <div className="section-label anim-fade-up">Notre programme</div>
+          <h1 className="anim-fade-up-2" style={{
+            fontSize: "clamp(36px, 5.5vw, 64px)", fontWeight: 700,
+            letterSpacing: "-0.04em", lineHeight: 1.08, maxWidth: 720, marginBottom: 24,
+          }}>
+            7 nuits.{" "}
             <span className="gradient-text">Tout compris.</span>
           </h1>
-          <p style={{ fontSize: 18, color: "var(--text-secondary)", maxWidth: 600, lineHeight: 1.75, marginBottom: 40 }}>
+          <p className="anim-fade-up-3" style={{
+            fontSize: 18, color: "var(--text-secondary)", maxWidth: 600, lineHeight: 1.75, marginBottom: 48,
+          }}>
             Chaque programme AMI Panorama est un séjour immersif complet, pensé pour que
             vos apprentis vivent une expérience professionnelle et humaine transformatrice.
             Vous gérez la pédagogie. Nous gérons tout le reste.
           </p>
 
-          {/* Quick stats bar */}
-          <div style={{
+          {/* Quick stats strip */}
+          <div className="anim-fade-up-4" style={{
             display: "flex", gap: 0, flexWrap: "wrap",
             background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden",
           }}>
@@ -136,10 +145,13 @@ export default function NotreProgrammePage() {
               ["Erasmus+", "financement inclus"],
             ] as [string, string][]).map(([v, l], i, arr) => (
               <div key={v} style={{
-                padding: "20px 28px", flex: 1, minWidth: 130,
+                padding: "22px 32px", flex: 1, minWidth: 140,
                 borderRight: i < arr.length - 1 ? "1px solid var(--border)" : "none",
               }}>
-                <div style={{ fontSize: "clamp(18px, 2.5vw, 24px)", fontWeight: 700, letterSpacing: "-0.03em", color: "var(--accent-light)", lineHeight: 1, marginBottom: 4 }}>{v}</div>
+                <div style={{
+                  fontSize: "clamp(20px, 2.5vw, 26px)", fontWeight: 700,
+                  letterSpacing: "-0.03em", color: "var(--blue)", lineHeight: 1, marginBottom: 5,
+                }}>{v}</div>
                 <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{l}</div>
               </div>
             ))}
@@ -147,46 +159,103 @@ export default function NotreProgrammePage() {
         </div>
       </section>
 
-      {/* Programme components */}
-      <section style={{ padding: "24px 24px 80px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 2 }}>
-          {components.map(({ num, icon, title, sub, desc, details }) => (
-            <div key={num} className="hover-row" style={{
-              display: "grid", gridTemplateColumns: "180px 1fr",
-              background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 16,
-              overflow: "hidden",
+      {/* Photo editorial break */}
+      <section style={{
+        position: "relative", height: 340, overflow: "hidden",
+        backgroundImage: "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1400&q=80')",
+        backgroundSize: "cover", backgroundPosition: "center 40%",
+      }}>
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to right, rgba(11,24,41,0.75) 0%, rgba(11,24,41,0.3) 60%, rgba(11,24,41,0.5) 100%)",
+        }} />
+        <div style={{
+          position: "absolute", inset: 0, display: "flex", alignItems: "center",
+          maxWidth: 1200, margin: "0 auto", padding: "0 24px", width: "100%",
+        }}>
+          <div style={{ maxWidth: 560 }}>
+            <p style={{
+              fontSize: "clamp(20px, 2.8vw, 32px)",
+              fontFamily: "var(--font-serif)", fontStyle: "italic",
+              fontWeight: 500, color: "#fff", lineHeight: 1.4,
+              letterSpacing: "-0.01em",
             }}>
-              {/* Left */}
-              <div style={{
-                padding: "36px 28px", background: "var(--bg-2)",
-                borderRight: "1px solid var(--border)",
-                display: "flex", flexDirection: "column", gap: 10,
-              }}>
-                <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", color: "var(--text-muted)", textTransform: "uppercase" }}>{num}</span>
-                <div style={{
-                  width: 40, height: 40, borderRadius: 10,
-                  background: "rgba(107,92,231,0.1)", border: "1px solid rgba(107,92,231,0.2)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 18, color: "var(--accent-light)",
-                }}>{icon}</div>
-                <h2 style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.3, marginTop: 4 }}>{title}</h2>
-                <span style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.4 }}>{sub}</span>
-              </div>
+              « Vos apprentis ne visitent pas des vitrines — ils entrent dans les coulisses
+              d'entreprises qui façonnent leur secteur. »
+            </p>
+            <div style={{ marginTop: 20, fontSize: 13, color: "rgba(255,255,255,0.5)" }}>
+              AMI Panorama — Philosophie du programme
+            </div>
+          </div>
+        </div>
+      </section>
 
-              {/* Right */}
-              <div style={{ padding: "36px 44px" }}>
-                <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 24, maxWidth: 640 }}>{desc}</p>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  {details.map(d => (
-                    <div key={d} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                      <div style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--accent)", flexShrink: 0, marginTop: 8 }} />
-                      <span style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.65 }}>{d}</span>
-                    </div>
-                  ))}
+      {/* Programme components */}
+      <section style={{ padding: "64px 24px 80px", background: "var(--bg)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ marginBottom: 40 }}>
+            <div className="section-label">Les 7 composantes</div>
+            <h2 style={{
+              fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 700,
+              letterSpacing: "-0.035em", maxWidth: 520,
+            }}>
+              Ce qui est inclus dans chaque programme
+            </h2>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+            {components.map(({ num, title, sub, accent, desc, details }) => (
+              <div key={num} className="hover-row" style={{
+                display: "grid", gridTemplateColumns: "200px 1fr",
+                background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 16,
+                overflow: "hidden",
+              }}>
+                {/* Left panel */}
+                <div style={{
+                  padding: "36px 28px", background: "var(--bg-2)",
+                  borderRight: "1px solid var(--border)",
+                  display: "flex", flexDirection: "column", gap: 12,
+                }}>
+                  <span style={{
+                    fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
+                    color: "var(--text-muted)", textTransform: "uppercase",
+                  }}>{num}</span>
+                  <div style={{
+                    width: 36, height: 36, borderRadius: 9,
+                    background: accent + "18",
+                    border: `1px solid ${accent}30`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <div style={{ width: 10, height: 10, borderRadius: "50%", background: accent }} />
+                  </div>
+                  <h2 style={{
+                    fontSize: 15, fontWeight: 600, letterSpacing: "-0.02em",
+                    lineHeight: 1.3, marginTop: 4, color: "var(--text-primary)",
+                  }}>{title}</h2>
+                  <span style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.4 }}>{sub}</span>
+                </div>
+
+                {/* Right panel */}
+                <div style={{ padding: "36px 44px" }}>
+                  <p style={{
+                    fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8,
+                    marginBottom: 24, maxWidth: 640,
+                  }}>{desc}</p>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                    {details.map(d => (
+                      <div key={d} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                        <div style={{
+                          width: 5, height: 5, borderRadius: "50%",
+                          background: accent, flexShrink: 0, marginTop: 8,
+                        }} />
+                        <span style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.65 }}>{d}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
@@ -194,18 +263,33 @@ export default function NotreProgrammePage() {
       <section style={{ padding: "0 24px 96px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
-            background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 20,
-            padding: "64px 48px", textAlign: "center", position: "relative", overflow: "hidden",
+            background: "var(--navy)", borderRadius: 20,
+            padding: "72px 48px", textAlign: "center", position: "relative", overflow: "hidden",
           }}>
             <div style={{
-              position: "absolute", inset: 0, pointerEvents: "none",
-              background: "radial-gradient(ellipse at 50% 0%, rgba(107,92,231,0.12) 0%, transparent 60%)",
+              position: "absolute", top: "-60px", left: "25%",
+              width: 450, height: 300,
+              background: "radial-gradient(ellipse, rgba(30,82,208,0.3) 0%, transparent 70%)",
+              pointerEvents: "none",
             }} />
-            <div className="section-label" style={{ justifyContent: "center" }}>Construisons votre programme</div>
-            <h2 style={{ fontSize: "clamp(24px, 3.5vw, 40px)", fontWeight: 700, letterSpacing: "-0.035em", marginBottom: 16, position: "relative" }}>
+            <div style={{
+              position: "absolute", bottom: "-40px", right: "20%",
+              width: 350, height: 250,
+              background: "radial-gradient(ellipse, rgba(232,88,53,0.22) 0%, transparent 70%)",
+              pointerEvents: "none",
+            }} />
+            <div className="section-label-light" style={{ justifyContent: "center" }}>Construisons votre programme</div>
+            <h2 style={{
+              fontSize: "clamp(24px, 3.5vw, 44px)", fontWeight: 500,
+              fontFamily: "var(--font-serif)", fontStyle: "italic",
+              letterSpacing: "-0.02em", marginBottom: 16, color: "#fff", position: "relative",
+            }}>
               Quel groupe souhaitez-vous envoyer ?
             </h2>
-            <p style={{ fontSize: 15, color: "var(--text-secondary)", maxWidth: 480, margin: "0 auto 36px", lineHeight: 1.75, position: "relative" }}>
+            <p style={{
+              fontSize: 16, color: "rgba(255,255,255,0.55)",
+              maxWidth: 480, margin: "0 auto 40px", lineHeight: 1.75, position: "relative",
+            }}>
               Chaque programme est adapté à votre filière, vos dates et vos contraintes.
               Parlez-nous de votre projet en moins de 5 minutes.
             </p>
@@ -216,7 +300,7 @@ export default function NotreProgrammePage() {
                   <path d="M2 7.5h11M8 2.5l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </Link>
-              <Link href="/destinations" className="btn-ghost">Choisir une destination</Link>
+              <Link href="/destinations" className="btn-ghost-light">Choisir une destination</Link>
             </div>
           </div>
         </div>
