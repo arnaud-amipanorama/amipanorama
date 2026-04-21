@@ -14,7 +14,7 @@ const destinations = [
     tag: "Culture & immersion",
     flag: "🇪🇸",
     accent: "#E85835",
-    photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80",
+    photo: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=900&q=80",
     headline: "L'Andalousie comme terrain de formation.",
     desc: "Séville offre un cadre exceptionnel pour une immersion totale : culture riche, économie sociale dynamique et chaleur humaine qui facilite l'ouverture interculturelle. Idéal pour les filières tourisme, commerce, services et RH.",
     highlights: [
@@ -31,7 +31,7 @@ const destinations = [
     tag: "Bilinguisme & innovation",
     flag: "🇨🇦",
     accent: "#1E52D0",
-    photo: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=900&q=80",
+    photo: "https://images.unsplash.com/photo-1559651986-3916e2faee65?w=900&q=80",
     headline: "L'Amérique du Nord, en français.",
     desc: "Métropole bilingue et cosmopolite, Montréal fusionne les cultures nord-américaine et européenne comme nulle part ailleurs. Environnement idéal pour les apprentis qui souhaitent découvrir un modèle économique différent, sans barrière linguistique.",
     highlights: [
@@ -48,7 +48,7 @@ const destinations = [
     tag: "Business English",
     flag: "🇬🇧",
     accent: "#1E52D0",
-    photo: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=900&q=80",
+    photo: "https://images.unsplash.com/photo-1520986606214-8b456906c813?w=900&q=80",
     headline: "La capitale mondiale du Business English.",
     desc: "Londres reste la référence pour l'apprentissage de l'anglais professionnel dans un contexte réel. Un séjour à Londres, c'est 7 jours d'immersion totale en anglais, dans une ville qui concentre une densité unique d'entreprises internationales.",
     highlights: [
@@ -82,7 +82,7 @@ const destinations = [
     tag: "Business & culture",
     flag: "🇺🇸",
     accent: "#1E52D0",
-    photo: "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=900&q=80",
+    photo: "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=900&q=80",
     headline: "La ville symbole du business mondial.",
     desc: "New York représente l'expérience ultime pour les apprentis qui veulent confronter leurs aspirations professionnelles à la réalité d'un marché international intense. Business English de haut niveau, énergie unique, culture multiple.",
     highlights: [
@@ -99,7 +99,7 @@ const destinations = [
     tag: "Tech & monde asiatique",
     flag: "🇰🇷",
     accent: "#E85835",
-    photo: "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=900&q=80",
+    photo: "https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=900&q=80",
     headline: "Une fenêtre sur l'Asie du XXIe siècle.",
     desc: "Séoul est l'une des villes les plus innovantes du monde. Un séjour en Corée du Sud offre aux apprentis une vision concrète du monde du travail asiatique : culture de l'innovation, discipline professionnelle, technologies de rupture.",
     highlights: [
@@ -123,7 +123,7 @@ export default function DestinationsPage() {
         {/* Background photo */}
         <div style={{
           position: "absolute", inset: 0,
-          backgroundImage: "url('https://images.unsplash.com/photo-1488085061387-422e29b40080?w=1400&q=80')",
+          backgroundImage: "url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80')",
           backgroundSize: "cover", backgroundPosition: "center",
           opacity: 0.18,
         }} />

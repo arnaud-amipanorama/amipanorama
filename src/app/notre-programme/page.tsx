@@ -162,7 +162,7 @@ export default function NotreProgrammePage() {
       {/* Photo editorial break */}
       <section style={{
         position: "relative", height: 340, overflow: "hidden",
-        backgroundImage: "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1400&q=80')",
+        backgroundImage: "url('/formation-seville.jpg')",
         backgroundSize: "cover", backgroundPosition: "center 40%",
       }}>
         <div style={{

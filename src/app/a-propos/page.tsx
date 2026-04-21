@@ -51,7 +51,7 @@ export default function AProposPage() {
       }}>
         <div style={{
           position: "absolute", inset: 0,
-          backgroundImage: "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1400&q=80')",
+          backgroundImage: "url('/formation-seville.jpg')",
           backgroundSize: "cover", backgroundPosition: "center 30%",
           opacity: 0.15,
         }} />

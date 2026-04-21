@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,59 +8,54 @@ export const metadata: Metadata = {
     "AMI Panorama conçoit des programmes de mobilité internationale sur mesure pour les CFA et les entreprises. 7 nuits, 6 destinations, formation + visites d'entreprise + financement Erasmus+.",
 };
 
-/* ─── Photo config ──────────────────────────────────────────────────── */
-const HERO_IMG   = "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1800&q=80";
-const WORKSHOP   = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80";
-const VISIT      = "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80";
-
 const destinations = [
   {
     city: "Séville",
     country: "Espagne",
     flag: "🇪🇸",
     tag: "Culture & immersion",
-    gradient: "linear-gradient(160deg,#B34820,#E8A020)",
-    img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=600&q=75",
+    gradient: "linear-gradient(170deg,rgba(100,30,10,0.92),rgba(180,80,20,0.85))",
+    img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=640&q=78",
   },
   {
     city: "Montréal",
     country: "Canada",
     flag: "🇨🇦",
     tag: "Bilinguisme & innovation",
-    gradient: "linear-gradient(160deg,#0D3B70,#1E52D0)",
-    img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=75",
+    gradient: "linear-gradient(170deg,rgba(8,28,60,0.92),rgba(20,52,140,0.85))",
+    img: "https://images.unsplash.com/photo-1559651986-3916e2faee65?auto=format&fit=crop&w=640&q=78",
   },
   {
     city: "Londres",
     country: "Royaume-Uni",
     flag: "🇬🇧",
     tag: "Business English",
-    gradient: "linear-gradient(160deg,#1A2840,#2E4870)",
-    img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=75",
+    gradient: "linear-gradient(170deg,rgba(10,20,44,0.92),rgba(24,44,88,0.85))",
+    img: "https://images.unsplash.com/photo-1520986606214-8b456906c813?auto=format&fit=crop&w=640&q=78",
   },
   {
     city: "Maroc",
     country: "Afrique du Nord",
     flag: "🇲🇦",
     tag: "Masterclasses & digital",
-    gradient: "linear-gradient(160deg,#8B3A20,#C85C20)",
-    img: "https://images.unsplash.com/photo-1551524559-8af4e6624178?auto=format&fit=crop&w=600&q=75",
+    gradient: "linear-gradient(170deg,rgba(80,30,10,0.92),rgba(160,80,20,0.85))",
+    img: "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?auto=format&fit=crop&w=640&q=78",
   },
   {
     city: "New York",
     country: "États-Unis",
     flag: "🇺🇸",
     tag: "Business & culture",
-    gradient: "linear-gradient(160deg,#1A2840,#1E3060)",
-    img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=600&q=75",
+    gradient: "linear-gradient(170deg,rgba(10,18,40,0.92),rgba(20,38,80,0.85))",
+    img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=640&q=78",
   },
   {
     city: "Séoul",
     country: "Corée du Sud",
     flag: "🇰🇷",
     tag: "Tech & monde asiatique",
-    gradient: "linear-gradient(160deg,#0D1E40,#1A3580)",
-    img: "https://images.unsplash.com/photo-1517154421773-0529f29ea451?auto=format&fit=crop&w=600&q=75",
+    gradient: "linear-gradient(170deg,rgba(6,14,36,0.92),rgba(16,32,80,0.85))",
+    img: "https://images.unsplash.com/photo-1517154421773-0529f29ea451?auto=format&fit=crop&w=640&q=78",
   },
 ];
 
@@ -71,20 +67,23 @@ const stats = [
 ];
 
 const included = [
-  { icon: "◈", label: "Formation 20h",        sub: "Business English + ateliers sectoriels" },
-  { icon: "◎", label: "Visites d'entreprise",  sub: "Immersion professionnelle réelle" },
-  { icon: "◉", label: "Activités culturelles", sub: "Programme saisonnier sur mesure" },
-  { icon: "◐", label: "Logement 7 nuits",      sub: "Hébergement sécurisé + rooftop" },
-  { icon: "◑", label: "Transports inclus",     sub: "Aéroport + navettes quotidiennes" },
-  { icon: "◒", label: "Assurances complètes",  sub: "Rapatriement 24h/24 + 200k€" },
-  { icon: "◓", label: "Support Erasmus+",      sub: "Dossiers, suivi administratif, reporting" },
+  { num: "01", label: "Formation 20h",        sub: "Business English + ateliers sectoriels" },
+  { num: "02", label: "Visites d'entreprise",  sub: "Immersion professionnelle réelle" },
+  { num: "03", label: "Activités culturelles", sub: "Programme saisonnier sur mesure" },
+  { num: "04", label: "Logement 7 nuits",      sub: "Hébergement sécurisé + rooftop" },
+  { num: "05", label: "Transports inclus",     sub: "Aéroport + navettes quotidiennes" },
+  { num: "06", label: "Assurances complètes",  sub: "Rapatriement 24h/24 + 200 k€" },
+  { num: "07", label: "Support Erasmus+",      sub: "Dossiers, suivi, reporting complet" },
 ];
 
 export default function HomePage() {
   return (
     <>
       {/* ══════════════════════════════════════════════
-          HERO — full-bleed photo + dark navy overlay
+          HERO — art-directed, no photo
+          Premium atmospheric layout: dark navy +
+          animated glow orbs + subtle world meridian
+          grid + editorial typography
       ══════════════════════════════════════════════ */}
       <section style={{
         position: "relative",
@@ -92,220 +91,243 @@ export default function HomePage() {
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
-        background: "var(--navy)",  /* fallback while image loads */
+        background: "var(--navy)",
       }}>
-        {/* Background photo */}
-        <div style={{
-          position: "absolute", inset: 0,
-          backgroundImage: `url(${HERO_IMG})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center 30%",
-          transform: "scale(1.04)",
-          transition: "transform 8s ease",
-        }} />
+        {/* ── Atmospheric glow orbs ── */}
+        <div className="hero-orb hero-orb-1" />
+        <div className="hero-orb hero-orb-2" />
+        <div className="hero-orb hero-orb-3" />
 
-        {/* Multi-layer overlay: stronger at bottom for text readability */}
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(160deg, rgba(11,24,41,0.72) 0%, rgba(11,24,41,0.55) 50%, rgba(11,24,41,0.8) 100%)",
-        }} />
-        {/* Bottom gradient fade into page */}
-        <div style={{
-          position: "absolute", bottom: 0, left: 0, right: 0, height: 200,
-          background: "linear-gradient(to bottom, transparent, var(--bg))",
-        }} />
+        {/* ── World meridian grid (SVG, very subtle) ── */}
+        <svg
+          aria-hidden="true"
+          style={{
+            position: "absolute", inset: 0, width: "100%", height: "100%",
+            opacity: 0.05, pointerEvents: "none",
+          }}
+          viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
+        >
+          {/* Latitude lines */}
+          {[100, 220, 340, 460, 580, 700, 820].map(y => (
+            <line key={y} x1="0" y1={y} x2="1440" y2={y}
+              stroke="rgba(255,255,255,0.9)" strokeWidth="0.7" />
+          ))}
+          {/* Longitude curves — vertical meridians as paths */}
+          {[120, 240, 360, 480, 600, 720, 840, 960, 1080, 1200, 1320].map(x => (
+            <path key={x}
+              d={`M${x} 0 C${x - 40} 450 ${x + 40} 450 ${x} 900`}
+              fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="0.7"
+            />
+          ))}
+          {/* Central equator ellipse */}
+          <ellipse cx="720" cy="450" rx="680" ry="160"
+            fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="0.9" />
+          {/* Great circle diagonal */}
+          <path d="M200 0 C500 250 940 650 1240 900"
+            fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="0.7" />
+          <path d="M1240 0 C940 250 500 650 200 900"
+            fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="0.7" />
+        </svg>
 
-        {/* Hero content */}
+        {/* ── Hero content ── */}
         <div style={{
-          maxWidth: 1200, margin: "0 auto", padding: "140px 24px 120px",
+          maxWidth: 1200, margin: "0 auto", padding: "120px 24px 80px",
           position: "relative", width: "100%",
         }}>
-          {/* Eyebrow badge */}
+          {/* Eyebrow */}
           <div className="anim-fade-up" style={{
-            display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 32,
-            background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.18)",
-            borderRadius: 100, padding: "7px 16px 7px 10px",
-            backdropFilter: "blur(8px)",
+            display: "inline-flex", alignItems: "center", gap: 10,
+            marginBottom: 36,
           }}>
             <div style={{
-              width: 22, height: 22, borderRadius: "50%",
-              background: "var(--coral)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 11, color: "#fff", fontWeight: 700,
-            }}>✦</div>
-            <span style={{ fontSize: 12, fontWeight: 500, color: "rgba(255,255,255,0.85)", letterSpacing: "0.04em" }}>
-              Programmes 2025 — Séville · Montréal · Londres · Maroc · New York · Séoul
-            </span>
+              width: 7, height: 7, borderRadius: "50%",
+              background: "var(--coral)", boxShadow: "0 0 12px rgba(232,88,53,0.6)",
+              animation: "heroPulse 2.5s ease infinite",
+            }} />
+            <span style={{
+              fontSize: 11, fontWeight: 600, letterSpacing: "0.14em",
+              textTransform: "uppercase", color: "rgba(255,255,255,0.45)",
+            }}>Mobilité internationale · Clé en main</span>
           </div>
 
           {/* Main headline */}
-          <h1 className="anim-fade-up-2" style={{
-            fontSize: "clamp(44px, 7vw, 82px)",
-            fontWeight: 700,
-            letterSpacing: "-0.045em",
-            lineHeight: 1.04,
-            color: "#fff",
-            maxWidth: 820,
-            marginBottom: 8,
-          }}>
-            La mobilité internationale
-          </h1>
-          <h1 className="anim-fade-up-2" style={{
-            fontSize: "clamp(44px, 7vw, 82px)",
-            fontWeight: 500,
-            letterSpacing: "-0.03em",
-            lineHeight: 1.04,
-            maxWidth: 820,
-            marginBottom: 28,
-            fontFamily: "var(--font-serif)",
-            fontStyle: "italic",
-            background: "linear-gradient(130deg, #fff 0%, rgba(232,88,53,0.9) 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}>
-            des apprentis, clé en main.
+          <h1 style={{ marginBottom: 28 }}>
+            <span className="anim-fade-up-2" style={{
+              display: "block",
+              fontSize: "clamp(52px, 8vw, 104px)",
+              fontWeight: 700,
+              letterSpacing: "-0.05em",
+              lineHeight: 1.0,
+              color: "#fff",
+            }}>
+              Ouvrir le monde
+            </span>
+            <span className="anim-fade-up-3" style={{
+              display: "block",
+              fontSize: "clamp(52px, 8vw, 104px)",
+              fontWeight: 500,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.0,
+              fontFamily: "var(--font-serif)",
+              fontStyle: "italic",
+              color: "transparent",
+              WebkitTextStroke: "0px",
+              background: "linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(232,88,53,0.85) 100%)",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              paddingBottom: 4,
+            }}>
+              aux apprentis.
+            </span>
           </h1>
 
-          <p className="anim-fade-up-3" style={{
-            fontSize: "clamp(16px, 1.8vw, 20px)",
-            color: "rgba(255,255,255,0.72)",
-            lineHeight: 1.75,
-            maxWidth: 560,
-            marginBottom: 48,
+          {/* Description + CTAs */}
+          <div className="anim-fade-up-4" style={{
+            display: "flex", flexWrap: "wrap", gap: 48, alignItems: "flex-start",
+            marginBottom: 64,
           }}>
-            AMI Panorama conçoit des séjours de 7 nuits sur mesure pour les CFA et
-            les entreprises — formation, visites professionnelles, activités culturelles
-            et financement Erasmus+, gérés de A à Z.
-          </p>
-
-          <div className="anim-fade-up-4" style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <Link href="/contact" className="btn-primary" style={{ fontSize: 15, padding: "14px 32px" }}>
-              Demander un programme
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-                <path d="M2 7.5h11M8 2.5l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
-            <Link href="/destinations" className="btn-ghost-light" style={{ fontSize: 15, padding: "14px 32px" }}>
-              Voir les destinations
-            </Link>
+            <p style={{
+              fontSize: "clamp(15px, 1.6vw, 18px)",
+              color: "rgba(255,255,255,0.55)",
+              lineHeight: 1.75, maxWidth: 460,
+            }}>
+              AMI Panorama conçoit des séjours de 7 nuits sur mesure pour les CFA
+              et les entreprises — formation, visites professionnelles, culture
+              et financement Erasmus+ pris en charge de bout en bout.
+            </p>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", paddingTop: 4 }}>
+              <Link href="/contact" className="btn-primary">
+                Demander un programme
+                <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Link>
+              <Link href="/destinations" className="btn-ghost-light">
+                Voir les destinations
+              </Link>
+            </div>
           </div>
 
-          {/* Trust strip */}
-          <div className="anim-fade" style={{
-            display: "flex", gap: 20, alignItems: "center", marginTop: 56,
-            flexWrap: "wrap",
-          }}>
-            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase" }}>Ils nous font confiance</span>
-            {["ECEMA", "OPCO EP", "Région Île-de-France", "Erasmus+"].map((name, i) => (
-              <span key={i} style={{
-                fontSize: 12, color: "rgba(255,255,255,0.55)",
-                padding: "4px 12px",
-                border: "1px solid rgba(255,255,255,0.14)",
+          {/* Destination chips */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {destinations.map(({ city, flag }, i) => (
+              <Link key={city} href="/destinations" style={{
+                display: "inline-flex", alignItems: "center", gap: 7,
+                padding: "7px 14px",
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.1)",
                 borderRadius: 100,
-              }}>{name}</span>
+                fontSize: 12, color: "rgba(255,255,255,0.55)",
+                transition: "all 0.2s",
+                animation: `fadeInUp 0.6s ${0.6 + i * 0.08}s ease both`,
+              }}>
+                <span style={{ fontSize: 13 }}>{flag}</span>
+                {city}
+              </Link>
             ))}
           </div>
         </div>
+
+        {/* Scroll cue */}
+        <div style={{
+          position: "absolute", bottom: 36, left: "50%", transform: "translateX(-50%)",
+          display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+          opacity: 0.3,
+          animation: "fadeIn 1.5s 1.5s ease both",
+        }}>
+          <div style={{
+            width: 1, height: 48, background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.6))",
+            animation: "heroPulse 2s ease infinite",
+          }} />
+        </div>
       </section>
 
+      {/* ══════════════════════════════════════════════
+          STATS BAR
+      ══════════════════════════════════════════════ */}
+      <section style={{ background: "var(--bg-1)", borderBottom: "1px solid var(--border)" }}>
+        <div style={{
+          maxWidth: 1200, margin: "0 auto", padding: "0 24px",
+          display: "grid", gridTemplateColumns: "repeat(4,1fr)",
+        }} className="stats-bar">
+          {stats.map(({ value, label }, i, arr) => (
+            <div key={label} style={{
+              padding: "32px 28px", textAlign: "center",
+              borderRight: i < arr.length - 1 ? "1px solid var(--border)" : "none",
+            }}>
+              <div style={{
+                fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 700,
+                letterSpacing: "-0.05em", color: "var(--text-primary)", lineHeight: 1, marginBottom: 6,
+              }}>{value}</div>
+              <div style={{ fontSize: 12, color: "var(--text-muted)", letterSpacing: "0.01em" }}>{label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* ══════════════════════════════════════════════
-          STATS BAR — white section, navy numbers
+          DESTINATIONS PREVIEW GRID
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "0 24px 88px", background: "var(--bg)" }}>
+      <section style={{ padding: "80px 24px 0", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
-            display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
-            border: "1px solid var(--border)", borderRadius: 16,
-            overflow: "hidden", boxShadow: "0 2px 20px rgba(11,24,41,0.06)",
-          }} className="stats-grid">
-            {stats.map(({ value, label }, i) => (
-              <div key={label} style={{
-                padding: "36px 28px", background: "var(--bg-1)",
-                borderRight: i < stats.length - 1 ? "1px solid var(--border)" : "none",
-              }}>
-                <div style={{
-                  fontSize: "clamp(30px, 3.5vw, 46px)", fontWeight: 700,
-                  letterSpacing: "-0.045em", color: "var(--navy)", lineHeight: 1, marginBottom: 8,
-                }}>{value}</div>
-                <div style={{ fontSize: 13, color: "var(--text-muted)" }}>{label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-      {/* ══════════════════════════════════════════════
-          DESTINATIONS GRID — photo cards
-      ══════════════════════════════════════════════ */}
-      <section style={{ padding: "0 24px 96px", background: "var(--bg)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          {/* Section header */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 40, flexWrap: "wrap", gap: 20 }}>
+            display: "flex", justifyContent: "space-between", alignItems: "flex-end",
+            marginBottom: 40, flexWrap: "wrap", gap: 16,
+          }}>
             <div>
               <div className="section-label">6 destinations</div>
-              <h2 style={{ fontSize: "clamp(28px, 3.8vw, 44px)", fontWeight: 700, letterSpacing: "-0.04em", maxWidth: 480 }}>
-                Chaque ville est une<br />
-                <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 500 }}>expérience à part entière.</span>
+              <h2 style={{
+                fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700,
+                letterSpacing: "-0.04em", maxWidth: 480,
+              }}>
+                Le monde,<br />à portée de groupe.
               </h2>
             </div>
-            <Link href="/destinations" className="btn-ghost">
-              Toutes les destinations
-              <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+            <Link href="/destinations" style={{
+              fontSize: 13, color: "var(--blue)", fontWeight: 500,
+              display: "flex", alignItems: "center", gap: 6,
+              transition: "gap 0.2s",
+            }} className="dest-link-hover">
+              Voir toutes les destinations
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </Link>
           </div>
 
-          {/* 6-card grid */}
           <div style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 16,
+            gridTemplateRows: "240px 240px",
+            gap: 12,
           }} className="dest-grid">
             {destinations.map(({ city, country, flag, tag, gradient, img }) => (
-              <Link href="/destinations" key={city} className="dest-card" style={{
-                position: "relative",
-                display: "block",
-                height: 240,
-                borderRadius: 16,
-                overflow: "hidden",
-                textDecoration: "none",
-                background: gradient, /* gradient fallback */
+              <Link key={city} href="/destinations" className="dest-card" style={{
+                position: "relative", borderRadius: 16, overflow: "hidden",
+                display: "block", textDecoration: "none",
+                backgroundImage: `${gradient}, url('${img}')`,
+                backgroundSize: "cover, cover",
+                backgroundPosition: "center",
               }}>
-                {/* Photo background */}
-                <div style={{
+                {/* Hover overlay */}
+                <div className="dest-card-overlay" style={{
                   position: "absolute", inset: 0,
-                  backgroundImage: `url(${img})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  transition: "transform 0.6s ease",
-                }} className="dest-photo" />
-                {/* Gradient overlay for text legibility */}
-                <div style={{
-                  position: "absolute", inset: 0,
-                  background: "linear-gradient(180deg, rgba(11,24,41,0.1) 0%, rgba(11,24,41,0.72) 100%)",
+                  background: "rgba(11,24,41,0.0)",
+                  transition: "background 0.3s ease",
                 }} />
                 {/* Content */}
                 <div style={{
                   position: "absolute", bottom: 0, left: 0, right: 0,
-                  padding: "24px 24px 22px",
+                  padding: "20px 20px 20px",
+                  background: "linear-gradient(to top, rgba(11,24,41,0.8) 0%, transparent 100%)",
                 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                    <span style={{ fontSize: 18 }}>{flag}</span>
-                    <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>{country}</span>
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginBottom: 4, letterSpacing: "0.08em", textTransform: "uppercase" }}>{tag}</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontSize: 16 }}>{flag}</span>
+                    <span style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.03em" }}>{city}</span>
+                    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginLeft: 2 }}>{country}</span>
                   </div>
-                  <div style={{ fontSize: "clamp(22px, 2.8vw, 28px)", fontWeight: 700, letterSpacing: "-0.03em", color: "#fff", lineHeight: 1.1, marginBottom: 10 }}>{city}</div>
-                  <span style={{
-                    display: "inline-flex", fontSize: 11, fontWeight: 500,
-                    color: "rgba(255,255,255,0.75)",
-                    background: "rgba(255,255,255,0.12)",
-                    border: "1px solid rgba(255,255,255,0.18)",
-                    borderRadius: 100, padding: "4px 12px",
-                    backdropFilter: "blur(8px)",
-                  }}>{tag}</span>
                 </div>
               </Link>
             ))}
@@ -313,118 +335,100 @@ export default function HomePage() {
         </div>
       </section>
 
-
       {/* ══════════════════════════════════════════════
-          PROGRAMME INCLUDED — 2-column editorial
+          PROGRAMME — real photo + included list
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "0 24px 96px", background: "var(--bg-1)" }}>
+      <section style={{ padding: "96px 24px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
             display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center",
-          }} className="prog-editorial">
-
-            {/* Left: photo collage */}
+          }} className="prog-grid">
+            {/* Photo side */}
             <div style={{ position: "relative" }}>
-              {/* Main image */}
               <div style={{
-                borderRadius: 16, overflow: "hidden", height: 420,
-                backgroundImage: `url(${WORKSHOP})`,
-                backgroundSize: "cover", backgroundPosition: "center",
-                boxShadow: "0 16px 48px rgba(11,24,41,0.12)",
-              }} />
+                borderRadius: 20, overflow: "hidden",
+                aspectRatio: "4/3",
+                position: "relative",
+              }}>
+                <Image
+                  src="/formation-seville.jpg"
+                  alt="Session de formation professionnelle AMI Panorama à Séville"
+                  fill
+                  style={{ objectFit: "cover", objectPosition: "center 30%" }}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                {/* Overlay tint */}
+                <div style={{
+                  position: "absolute", inset: 0,
+                  background: "rgba(11,24,41,0.08)",
+                }} />
+              </div>
               {/* Floating card */}
               <div style={{
                 position: "absolute", bottom: -20, right: -20,
-                background: "var(--navy)", borderRadius: 14, padding: "20px 24px",
-                boxShadow: "0 8px 32px rgba(11,24,41,0.2)",
-                minWidth: 160,
+                background: "var(--navy)", borderRadius: 14,
+                padding: "18px 22px", minWidth: 180,
+                boxShadow: "0 8px 40px rgba(11,24,41,0.28)",
               }}>
-                <div style={{ fontSize: 28, fontWeight: 700, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}>7 nuits</div>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 4 }}>tout inclus</div>
+                <div style={{
+                  fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
+                  textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 6,
+                }}>Formation réelle</div>
+                <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.04em" }}>20h</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 2 }}>de contenu professionnel</div>
               </div>
-              {/* Second floating card */}
+              {/* Erasmus badge */}
               <div style={{
-                position: "absolute", top: 24, right: -16,
-                background: "var(--bg-1)", borderRadius: 12, padding: "14px 18px",
-                boxShadow: "0 6px 24px rgba(11,24,41,0.1)",
-                border: "1px solid var(--border)",
+                position: "absolute", top: -16, left: -16,
+                background: "var(--coral)", borderRadius: 10,
+                padding: "12px 18px",
+                boxShadow: "0 4px 20px rgba(232,88,53,0.35)",
               }}>
-                <div style={{ fontSize: 18, fontWeight: 700, color: "var(--coral)", letterSpacing: "-0.03em", lineHeight: 1 }}>Erasmus+</div>
-                <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 3 }}>financement inclus</div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", letterSpacing: "0.06em" }}>Financement</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: "-0.02em" }}>Erasmus+</div>
               </div>
             </div>
 
-            {/* Right: content */}
+            {/* Content side */}
             <div>
               <div className="section-label">Ce qui est inclus</div>
-              <h2 style={{ fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.15, marginBottom: 20 }}>
-                Un programme complet.<br />
-                <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 500 }}>Zéro coordination de votre côté.</span>
+              <h2 style={{
+                fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 700,
+                letterSpacing: "-0.04em", lineHeight: 1.1, marginBottom: 16,
+              }}>
+                7 nuits.<br />
+                <span className="gradient-text">Tout compris.</span>
               </h2>
-              <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 36, maxWidth: 460 }}>
-                De la formation aux assurances, en passant par les visites d'entreprise et le financement Erasmus+, tout est coordonné par notre équipe. Vous vous concentrez sur vos apprentis.
+              <p style={{
+                fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 36,
+              }}>
+                AMI Panorama coordonne chaque détail du séjour pour que vos apprentis
+                vivent une expérience professionnelle complète. Vous gérez la pédagogie.
+                Nous gérons tout le reste.
               </p>
-
-              {/* Included items */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 36 }}>
-                {included.map(({ icon, label, sub }) => (
-                  <div key={label} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-                    <div style={{
-                      width: 38, height: 38, borderRadius: 9, flexShrink: 0,
-                      background: "var(--bg-2)", border: "1px solid var(--border)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 15, color: "var(--blue)",
-                    }}>{icon}</div>
-                    <div style={{ paddingTop: 4 }}>
-                      <div style={{ fontSize: 14, fontWeight: 600, letterSpacing: "-0.01em", color: "var(--text-primary)", marginBottom: 2 }}>{label}</div>
-                      <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{sub}</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 0, marginBottom: 40 }}>
+                {included.map(({ num, label, sub }) => (
+                  <div key={num} style={{
+                    display: "flex", gap: 16, alignItems: "flex-start",
+                    padding: "13px 0", borderBottom: "1px solid var(--border)",
+                  }}>
+                    <span style={{
+                      fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
+                      color: "var(--text-muted)", flexShrink: 0, paddingTop: 3, minWidth: 22,
+                    }}>{num}</span>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)" }}>{label}</div>
+                      <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>{sub}</div>
                     </div>
+                    <div style={{
+                      width: 5, height: 5, borderRadius: "50%",
+                      background: "var(--blue)", flexShrink: 0, marginTop: 8,
+                    }} />
                   </div>
                 ))}
               </div>
-
-              <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-                <Link href="/notre-programme" className="btn-primary">
-                  Découvrir le programme
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </Link>
-                <Link href="/contact" className="btn-ghost">Demander un devis</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* ══════════════════════════════════════════════
-          PROFESSIONAL VISIT PHOTO BAND
-      ══════════════════════════════════════════════ */}
-      <section style={{ padding: "0 24px 96px", background: "var(--bg)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{
-            display: "grid", gridTemplateColumns: "1fr 1fr",
-            border: "1px solid var(--border)", borderRadius: 20, overflow: "hidden",
-            boxShadow: "0 4px 24px rgba(11,24,41,0.06)",
-          }} className="band-grid">
-            {/* Left: photo */}
-            <div style={{
-              height: 360,
-              backgroundImage: `url(${VISIT})`,
-              backgroundSize: "cover", backgroundPosition: "center",
-            }} />
-            {/* Right: copy */}
-            <div style={{ padding: "52px 48px", background: "var(--navy)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <div className="section-label-light">Visites professionnelles</div>
-              <h2 style={{ fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 700, letterSpacing: "-0.04em", color: "#fff", lineHeight: 1.2, marginBottom: 20 }}>
-                Vos apprentis ne visitent pas des vitrines.
-              </h2>
-              <p style={{ fontSize: 15, color: "rgba(255,255,255,0.6)", lineHeight: 1.8, marginBottom: 32, maxWidth: 400 }}>
-                Ils entrent dans les coulisses d'entreprises locales sélectionnées pour leur pertinence sectorielle — échanges directs avec des professionnels, découverte des pratiques de travail internationales.
-              </p>
-              <Link href="/notre-programme" className="btn-ghost-light" style={{ alignSelf: "flex-start" }}>
-                Voir le programme
+              <Link href="/notre-programme" className="btn-primary">
+                Voir le programme complet
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
                   <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -434,154 +438,245 @@ export default function HomePage() {
         </div>
       </section>
 
-
       {/* ══════════════════════════════════════════════
-          TESTIMONIAL — editorial quote
+          HOW IT WORKS — process steps (no photo needed)
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "0 24px 96px", background: "var(--bg-1)" }}>
+      <section style={{ padding: "0 24px 96px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
-            display: "grid", gridTemplateColumns: "1fr 2fr", gap: 0,
-            border: "1px solid var(--border)", borderRadius: 20, overflow: "hidden",
-          }} className="quote-grid">
-            {/* Left: decorative */}
+            background: "var(--bg-2)", border: "1px solid var(--border)",
+            borderRadius: 20, padding: "56px 48px",
+          }}>
+            <div style={{ marginBottom: 48, textAlign: "center" }}>
+              <div className="section-label" style={{ justifyContent: "center" }}>Notre méthode</div>
+              <h2 style={{
+                fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 700,
+                letterSpacing: "-0.035em",
+              }}>
+                Simple pour vous, complet pour vos apprentis.
+              </h2>
+            </div>
             <div style={{
-              background: "var(--navy-2)",
-              padding: "52px 44px",
-              display: "flex", flexDirection: "column", justifyContent: "flex-end", gap: 20,
-            }}>
+              display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 24,
+            }} className="process-grid">
+              {[
+                { num: "1", title: "Vous nous contactez", desc: "Premier échange pour comprendre votre groupe, votre filière, vos dates." },
+                { num: "2", title: "Nous proposons", desc: "Programme sur mesure en 24h — destination, hébergement, planning complet." },
+                { num: "3", title: "Nous coordonnons", desc: "Logistique, formations, visites, assurances, dossier Erasmus+ géré intégralement." },
+                { num: "4", title: "Vos apprentis partent", desc: "Vous accompagnez. Nous assurons tout sur place. Tout est prévu." },
+              ].map(({ num, title, desc }) => (
+                <div key={num} style={{ position: "relative" }}>
+                  <div style={{
+                    fontSize: 11, fontWeight: 700, letterSpacing: "0.06em",
+                    color: "var(--blue)", marginBottom: 16, display: "flex", alignItems: "center", gap: 10,
+                  }}>
+                    <div style={{
+                      width: 28, height: 28, borderRadius: "50%",
+                      background: "rgba(30,82,208,0.12)", border: "1px solid rgba(30,82,208,0.2)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: 12, fontWeight: 700, color: "var(--blue)",
+                    }}>{num}</div>
+                  </div>
+                  <h3 style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.02em", marginBottom: 8 }}>{title}</h3>
+                  <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7 }}>{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          TESTIMONIAL
+      ══════════════════════════════════════════════ */}
+      <section style={{ padding: "0 24px 96px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{
+            background: "var(--navy)", borderRadius: 20, overflow: "hidden",
+            display: "grid", gridTemplateColumns: "1fr 380px",
+          }} className="testimonial-grid">
+            <div style={{ padding: "60px 56px", position: "relative" }}>
               <div style={{
-                fontSize: 80, lineHeight: 1, color: "var(--coral)", fontFamily: "Georgia, serif",
-                opacity: 0.7,
+                position: "absolute", top: 0, left: 0, width: 500, height: "100%",
+                background: "radial-gradient(ellipse at left, rgba(30,82,208,0.18) 0%, transparent 65%)",
+                pointerEvents: "none",
+              }} />
+              <div style={{
+                fontSize: 56, lineHeight: 0.8, marginBottom: 28,
+                fontFamily: "Georgia, serif", color: "rgba(232,88,53,0.4)",
+                position: "relative",
               }}>&ldquo;</div>
-              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <blockquote style={{
+                fontSize: "clamp(16px, 2vw, 22px)", fontWeight: 500,
+                fontFamily: "var(--font-serif)", fontStyle: "italic",
+                letterSpacing: "-0.01em", lineHeight: 1.6,
+                color: "#fff", maxWidth: 520, marginBottom: 36, position: "relative",
+              }}>
+                Merci pour votre accompagnement. Vous avez été exceptionnels
+                et vous avez rendu notre voyage incroyable.
+              </blockquote>
+              <div style={{ display: "flex", alignItems: "center", gap: 14, position: "relative" }}>
                 <div style={{
                   width: 44, height: 44, borderRadius: "50%",
-                  background: "var(--coral)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
+                  background: "var(--blue)", display: "flex",
+                  alignItems: "center", justifyContent: "center",
                   fontSize: 16, fontWeight: 700, color: "#fff",
                 }}>F</div>
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 600, color: "#fff" }}>Florian Riocreux</div>
-                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>Référent Mobilité · ECEMA</div>
+                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)" }}>Référent Mobilité — ECEMA</div>
                 </div>
               </div>
             </div>
-
-            {/* Right: quote + context */}
-            <div style={{ padding: "52px 52px", background: "var(--bg-1)" }}>
-              <div className="section-label" style={{ marginBottom: 20 }}>Témoignage</div>
-              <blockquote style={{
-                fontFamily: "var(--font-serif)",
-                fontStyle: "italic",
-                fontSize: "clamp(20px, 2.8vw, 30px)",
-                fontWeight: 400,
-                letterSpacing: "-0.01em",
-                lineHeight: 1.5,
-                color: "var(--navy)",
-                maxWidth: 580,
-                marginBottom: 36,
-              }}>
-                Merci pour votre accompagnement. Vous avez été exceptionnels et vous avez rendu notre voyage incroyable.
-              </blockquote>
-              <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-                {[
-                  { v: "3 000+", l: "apprentis accompagnés" },
-                  { v: "50",     l: "écoles partenaires" },
-                  { v: "98%",    l: "taux de satisfaction" },
-                ].map(({ v, l }) => (
-                  <div key={l}>
-                    <div style={{ fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: 700, letterSpacing: "-0.04em", color: "var(--blue)", lineHeight: 1, marginBottom: 4 }}>{v}</div>
-                    <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{l}</div>
-                  </div>
-                ))}
-              </div>
+            {/* Right stat panel */}
+            <div style={{
+              background: "rgba(255,255,255,0.04)", borderLeft: "1px solid rgba(255,255,255,0.08)",
+              padding: "60px 40px", display: "flex", flexDirection: "column",
+              justifyContent: "center", gap: 32,
+            }}>
+              {[
+                { value: "3 000+", label: "apprentis depuis 10 ans" },
+                { value: "96 %", label: "de satisfaction déclarée" },
+                { value: "50", label: "CFA partenaires actifs" },
+              ].map(({ value, label }) => (
+                <div key={value}>
+                  <div style={{ fontSize: 32, fontWeight: 700, letterSpacing: "-0.05em", color: "#fff", lineHeight: 1 }}>{value}</div>
+                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 5 }}>{label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
-
 
       {/* ══════════════════════════════════════════════
-          FINAL CTA — full navy section
+          FINAL CTA
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "0 24px 0", background: "var(--bg)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", paddingBottom: 96 }}>
+      <section style={{ padding: "0 24px 96px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
-            background: "var(--navy)",
-            borderRadius: 24, padding: "80px 64px",
-            position: "relative", overflow: "hidden", textAlign: "center",
+            background: "var(--navy)", borderRadius: 20,
+            padding: "80px 48px", textAlign: "center",
+            position: "relative", overflow: "hidden",
           }}>
-            {/* Decorative glow spots */}
+            {/* Glows */}
             <div style={{
-              position: "absolute", top: "-30%", left: "20%",
-              width: 400, height: 400, borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(30,82,208,0.2) 0%, transparent 70%)",
+              position: "absolute", top: "-80px", left: "10%",
+              width: 500, height: 380,
+              background: "radial-gradient(ellipse, rgba(30,82,208,0.3) 0%, transparent 65%)",
               pointerEvents: "none",
             }} />
             <div style={{
-              position: "absolute", bottom: "-20%", right: "15%",
-              width: 350, height: 350, borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(232,88,53,0.18) 0%, transparent 70%)",
+              position: "absolute", bottom: "-60px", right: "10%",
+              width: 380, height: 300,
+              background: "radial-gradient(ellipse, rgba(232,88,53,0.22) 0%, transparent 65%)",
               pointerEvents: "none",
             }} />
-
-            <div className="section-label-light" style={{ justifyContent: "center" }}>Passons à l&apos;action</div>
+            <div className="section-label-light" style={{ justifyContent: "center" }}>
+              Vous souhaitez envoyer un groupe ?
+            </div>
             <h2 style={{
-              fontSize: "clamp(30px, 4.5vw, 56px)", fontWeight: 700,
-              letterSpacing: "-0.045em", color: "#fff",
-              marginBottom: 8, position: "relative", lineHeight: 1.1,
+              fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 500,
+              fontFamily: "var(--font-serif)", fontStyle: "italic",
+              letterSpacing: "-0.025em", lineHeight: 1.2,
+              color: "#fff", maxWidth: 640, margin: "0 auto 20px", position: "relative",
             }}>
-              Votre prochain groupe part
-            </h2>
-            <h2 style={{
-              fontSize: "clamp(30px, 4.5vw, 56px)",
-              letterSpacing: "-0.02em",
-              marginBottom: 24, position: "relative", lineHeight: 1.1,
-              fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 500,
-              background: "linear-gradient(130deg, rgba(255,255,255,0.9), var(--coral))",
-              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-            }}>
-              dans combien de mois ?
+              Un programme sur mesure,<br />livré en 24 heures.
             </h2>
             <p style={{
-              fontSize: 17, color: "rgba(255,255,255,0.6)",
-              maxWidth: 520, margin: "0 auto 44px", lineHeight: 1.75, position: "relative",
+              fontSize: 16, color: "rgba(255,255,255,0.5)", maxWidth: 440,
+              margin: "0 auto 44px", lineHeight: 1.75, position: "relative",
             }}>
-              Programme sur mesure, financement Erasmus+ si applicable, coordination
-              complète. Premier échange gratuit et sans engagement.
+              Parlez-nous de votre projet. Destination, filière, dates, taille du groupe.
+              Nous vous répondons sous 24h ouvrables.
             </p>
-            <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", position: "relative" }}>
-              <Link href="/contact" className="btn-primary" style={{ fontSize: 15, padding: "14px 32px" }}>
+            <div style={{
+              display: "flex", gap: 14, justifyContent: "center",
+              flexWrap: "wrap", position: "relative",
+            }}>
+              <Link href="/contact" className="btn-primary">
                 Demander un programme
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-                  <path d="M2 7.5h11M8 2.5l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </Link>
-              <Link href="/destinations" className="btn-ghost-light" style={{ fontSize: 15, padding: "14px 32px" }}>
-                Explorer les destinations
-              </Link>
+              <Link href="/destinations" className="btn-ghost-light">Explorer les destinations</Link>
             </div>
           </div>
         </div>
       </section>
 
+      {/* ══ Hero & animation styles ══ */}
       <style>{`
+        /* Hero glow orbs */
+        .hero-orb {
+          position: absolute;
+          border-radius: 50%;
+          pointer-events: none;
+          filter: blur(80px);
+        }
+        .hero-orb-1 {
+          width: 600px; height: 500px;
+          background: radial-gradient(ellipse, rgba(30,82,208,0.22) 0%, transparent 70%);
+          bottom: -100px; left: -80px;
+          animation: orbFloat1 18s ease-in-out infinite;
+        }
+        .hero-orb-2 {
+          width: 480px; height: 420px;
+          background: radial-gradient(ellipse, rgba(232,88,53,0.16) 0%, transparent 70%);
+          top: -60px; right: -60px;
+          animation: orbFloat2 22s ease-in-out infinite;
+        }
+        .hero-orb-3 {
+          width: 300px; height: 300px;
+          background: radial-gradient(ellipse, rgba(75,118,240,0.12) 0%, transparent 70%);
+          top: 40%; left: 50%;
+          animation: orbFloat3 14s ease-in-out infinite;
+        }
+
+        @keyframes orbFloat1 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33%       { transform: translate(80px, -60px) scale(1.08); }
+          66%       { transform: translate(-40px, 40px) scale(0.95); }
+        }
+        @keyframes orbFloat2 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          40%       { transform: translate(-70px, 50px) scale(1.1); }
+          70%       { transform: translate(50px, -30px) scale(0.92); }
+        }
+        @keyframes orbFloat3 {
+          0%, 100% { transform: translate(-50%, -50%) scale(1); }
+          50%       { transform: translate(-50%, -50%) scale(1.4); opacity: 0.7; }
+        }
+        @keyframes heroPulse {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0.4; }
+        }
+
+        /* Destination cards */
+        .dest-card {
+          transition: transform 0.32s ease, box-shadow 0.32s ease;
+        }
+        .dest-card:hover {
+          transform: translateY(-5px) scale(1.01) !important;
+          box-shadow: 0 20px 48px rgba(11,24,41,0.28) !important;
+        }
+        .dest-card:hover .dest-card-overlay {
+          background: rgba(11,24,41,0.18) !important;
+        }
+
+        /* Responsive */
         @media (max-width: 900px) {
-          .dest-grid     { grid-template-columns: repeat(2, 1fr) !important; }
-          .prog-editorial { grid-template-columns: 1fr !important; }
-          .prog-editorial > div:first-child { height: 320px !important; }
-          .band-grid     { grid-template-columns: 1fr !important; }
-          .band-grid > div:first-child { height: 260px !important; }
-          .quote-grid    { grid-template-columns: 1fr !important; }
+          .dest-grid { grid-template-columns: repeat(2,1fr) !important; grid-template-rows: auto !important; }
+          .prog-grid { grid-template-columns: 1fr !important; }
+          .stats-bar { grid-template-columns: repeat(2,1fr) !important; }
+          .testimonial-grid { grid-template-columns: 1fr !important; }
+          .process-grid { grid-template-columns: repeat(2,1fr) !important; }
         }
-        @media (max-width: 600px) {
-          .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .dest-grid  { grid-template-columns: 1fr !important; }
-        }
-        /* Dest card photo zoom on hover */
-        .dest-card:hover .dest-photo {
-          transform: scale(1.06) !important;
+        @media (max-width: 540px) {
+          .dest-grid { grid-template-columns: 1fr !important; }
+          .stats-bar { grid-template-columns: repeat(2,1fr) !important; }
+          .process-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </>
