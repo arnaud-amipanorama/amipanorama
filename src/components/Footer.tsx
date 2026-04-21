@@ -27,7 +27,7 @@ export default function Footer() {
                 alt="AMI Panorama"
                 width={30}
                 height={30}
-                style={{ filter: "brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(195deg)", opacity: 0.9 }}
+                style={{ filter: "brightness(0) invert(1)", opacity: 0.85 }}
               />
               <span style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.03em", color: "#fff" }}>AMI Panorama</span>
             </div>
