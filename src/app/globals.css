@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+:root {
+  --bg:            #080808;
+  --bg-1:          #0f0f0f;
+  --bg-2:          #161616;
+  --bg-3:          #1e1e1e;
+  --border:        rgba(255,255,255,0.07);
+  --border-hover:  rgba(255,255,255,0.14);
+  --text-primary:  #f0f0f0;
+  --text-secondary:#888;
+  --text-muted:    #444;
+  --accent:        #6B5CE7;
+  --accent-light:  #9B8CFF;
+  --accent-glow:   rgba(107,92,231,0.3);
+  --font-sans:     var(--font-geist-sans), "Inter", system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection { background: var(--accent); color: #fff; }
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 2px; }
+
+/* Typography */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--text-primary);
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* Utilities */
+.gradient-text {
+  background: linear-gradient(135deg, #fff 20%, var(--accent-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 16px;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 16px;
+  height: 1px;
+  background: var(--accent-light);
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  padding: 13px 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: all 0.18s ease;
+  border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background: var(--accent-light);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px var(--accent-glow);
+}
+
+.btn-primary:active { transform: translateY(0); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 13px 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  border: 1px solid var(--border);
+  transition: all 0.18s ease;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-ghost:hover {
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+  background: rgba(255,255,255,0.03);
+}
+
+/* Cards */
+.card {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-2);
+}
+
+/* ── Hover utilities (replaces JS onMouseEnter/Leave in Server Components) ── */
+/* Row-level hover: border brightens */
+.hover-row {
+  transition: border-color 0.2s ease;
+}
+.hover-row:hover {
+  border-color: var(--border-hover) !important;
+}
+
+/* Cell/card hover: bg darkens */
+.hover-bg {
+  transition: background 0.2s ease;
+}
+.hover-bg:hover {
+  background: var(--bg-2) !important;
+}
+
+/* Combined: border + bg */
+.hover-card-full {
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.hover-card-full:hover {
+  border-color: var(--border-hover) !important;
+  background: var(--bg-2) !important;
+}
+
+/* Destination card link hover */
+.dest-card {
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.dest-card:hover {
+  border-color: var(--border-hover) !important;
+  background: var(--bg-2) !important;
+}
+
+/* Footer nav link hover */
+.footer-link {
+  transition: color 0.15s ease;
+}
+.footer-link:hover {
+  color: var(--text-primary) !important;
+}
+
+/* Grid noise overlay */
+.grid-overlay {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
