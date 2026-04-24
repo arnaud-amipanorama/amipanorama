@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import AnimateOnView from "@/components/AnimateOnView";
 
 export const metadata: Metadata = {
   title: "AMI Panorama — Mobilité internationale des apprentis, clé en main",
@@ -15,7 +16,7 @@ const destinations = [
     flag: "🇪🇸",
     tag: "Culture & immersion",
     gradient: "linear-gradient(170deg,rgba(100,30,10,0.68),rgba(180,80,20,0.55))",
-    img: "https://images.unsplash.com/photo-1565629482903-c659ae06ebae?auto=format&fit=crop&w=640&q=78",
+    img: "https://images.pexels.com/photos/3408354/pexels-photo-3408354.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
   },
   {
     city: "Montréal",
@@ -23,7 +24,7 @@ const destinations = [
     flag: "🇨🇦",
     tag: "Bilinguisme & innovation",
     gradient: "linear-gradient(170deg,rgba(8,28,60,0.68),rgba(20,52,140,0.55))",
-    img: "https://images.unsplash.com/photo-1533619927166-7cfb93c9268a?auto=format&fit=crop&w=640&q=78",
+    img: "https://images.pexels.com/photos/3584819/pexels-photo-3584819.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
   },
   {
     city: "Londres",
@@ -31,7 +32,7 @@ const destinations = [
     flag: "🇬🇧",
     tag: "Business English",
     gradient: "linear-gradient(170deg,rgba(10,20,44,0.68),rgba(24,44,88,0.55))",
-    img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=640&q=78",
+    img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80",
   },
   {
     city: "Maroc",
@@ -39,7 +40,7 @@ const destinations = [
     flag: "🇲🇦",
     tag: "Masterclasses & digital",
     gradient: "linear-gradient(170deg,rgba(80,30,10,0.68),rgba(160,80,20,0.55))",
-    img: "https://images.unsplash.com/photo-1585058521924-07b91b1e3aab?auto=format&fit=crop&w=640&q=78",
+    img: "https://images.pexels.com/photos/2398220/pexels-photo-2398220.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
   },
   {
     city: "New York",
@@ -47,7 +48,7 @@ const destinations = [
     flag: "🇺🇸",
     tag: "Business & culture",
     gradient: "linear-gradient(170deg,rgba(10,18,40,0.68),rgba(20,38,80,0.55))",
-    img: "https://images.unsplash.com/photo-1518391846015-55a9cc003b25?auto=format&fit=crop&w=640&q=78",
+    img: "https://images.unsplash.com/photo-1518391846015-55a9cc003b25?auto=format&fit=crop&w=800&q=80",
   },
   {
     city: "Séoul",
@@ -55,7 +56,7 @@ const destinations = [
     flag: "🇰🇷",
     tag: "Tech & monde asiatique",
     gradient: "linear-gradient(170deg,rgba(6,14,36,0.68),rgba(16,32,80,0.55))",
-    img: "https://images.unsplash.com/photo-1528164343614-5e5f1b73a13e?auto=format&fit=crop&w=640&q=78",
+    img: "https://images.pexels.com/photos/3714896/pexels-photo-3714896.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
   },
 ];
 
@@ -252,7 +253,7 @@ export default function HomePage() {
           display: "grid", gridTemplateColumns: "repeat(4,1fr)",
         }} className="stats-bar">
           {stats.map(({ value, label }, i, arr) => (
-            <div key={label} style={{
+            <AnimateOnView key={label} delay={i * 0.07} style={{
               padding: "32px 28px", textAlign: "center",
               borderRight: i < arr.length - 1 ? "1px solid var(--border)" : "none",
             }}>
@@ -261,7 +262,7 @@ export default function HomePage() {
                 letterSpacing: "-0.05em", color: "var(--text-primary)", lineHeight: 1, marginBottom: 6,
               }}>{value}</div>
               <div style={{ fontSize: 12, color: "var(--text-muted)", letterSpacing: "0.01em" }}>{label}</div>
-            </div>
+            </AnimateOnView>
           ))}
         </div>
       </section>
@@ -271,67 +272,74 @@ export default function HomePage() {
       ══════════════════════════════════════════════ */}
       <section style={{ padding: "80px 24px 0", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{
-            display: "flex", justifyContent: "space-between", alignItems: "flex-end",
-            marginBottom: 40, flexWrap: "wrap", gap: 16,
-          }}>
-            <div>
-              <div className="section-label">6 destinations</div>
-              <h2 style={{
-                fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700,
-                letterSpacing: "-0.04em", maxWidth: 480,
-              }}>
-                Le monde,<br />à portée de groupe.
-              </h2>
-            </div>
-            <Link href="/destinations" style={{
-              fontSize: 13, color: "var(--blue)", fontWeight: 500,
-              display: "flex", alignItems: "center", gap: 6,
-              transition: "gap 0.2s",
-            }} className="dest-link-hover">
-              Voir toutes les destinations
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
-          </div>
-
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gridTemplateRows: "240px 240px",
-            gap: 12,
-          }} className="dest-grid">
-            {destinations.map(({ city, country, flag, tag, gradient, img }) => (
-              <Link key={city} href="/destinations" className="dest-card" style={{
-                position: "relative", borderRadius: 16, overflow: "hidden",
-                display: "block", textDecoration: "none",
-                backgroundImage: `${gradient}, url('${img}')`,
-                backgroundSize: "cover, cover",
-                backgroundPosition: "center",
-              }}>
-                {/* Hover overlay */}
-                <div className="dest-card-overlay" style={{
-                  position: "absolute", inset: 0,
-                  background: "rgba(11,24,41,0.0)",
-                  transition: "background 0.3s ease",
-                }} />
-                {/* Content */}
-                <div style={{
-                  position: "absolute", bottom: 0, left: 0, right: 0,
-                  padding: "20px 20px 20px",
-                  background: "linear-gradient(to top, rgba(11,24,41,0.8) 0%, transparent 100%)",
+          <AnimateOnView>
+            <div style={{
+              display: "flex", justifyContent: "space-between", alignItems: "flex-end",
+              marginBottom: 40, flexWrap: "wrap", gap: 16,
+            }}>
+              <div>
+                <div className="section-label">6 destinations</div>
+                <h2 style={{
+                  fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700,
+                  letterSpacing: "-0.04em", maxWidth: 480,
                 }}>
-                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginBottom: 4, letterSpacing: "0.08em", textTransform: "uppercase" }}>{tag}</div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontSize: 16 }}>{flag}</span>
-                    <span style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.03em" }}>{city}</span>
-                    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginLeft: 2 }}>{country}</span>
-                  </div>
-                </div>
+                  Le monde,<br />à portée de groupe.
+                </h2>
+              </div>
+              <Link href="/destinations" style={{
+                fontSize: 13, color: "var(--blue)", fontWeight: 500,
+                display: "flex", alignItems: "center", gap: 6,
+              }} className="dest-link-hover">
+                Voir toutes les destinations
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </Link>
-            ))}
-          </div>
+            </div>
+          </AnimateOnView>
+
+          <AnimateOnView delay={0.1}>
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gridTemplateRows: "240px 240px",
+              gap: 12,
+            }} className="dest-grid">
+              {destinations.map(({ city, country, flag, tag, gradient, img }) => (
+                <Link key={city} href="/destinations" className="dest-card" style={{
+                  position: "relative", borderRadius: 16, overflow: "hidden",
+                  display: "block", textDecoration: "none",
+                }}>
+                  {/* Background image — isolated div so we can zoom it independently */}
+                  <div className="dest-card-bg" style={{
+                    position: "absolute", inset: 0,
+                    backgroundImage: `${gradient}, url('${img}')`,
+                    backgroundSize: "cover, cover",
+                    backgroundPosition: "center",
+                  }} />
+                  {/* Hover overlay */}
+                  <div className="dest-card-overlay" style={{
+                    position: "absolute", inset: 0,
+                    background: "rgba(11,24,41,0.0)",
+                    transition: "background 0.35s ease",
+                  }} />
+                  {/* Content */}
+                  <div style={{
+                    position: "absolute", bottom: 0, left: 0, right: 0,
+                    padding: "20px 20px 20px",
+                    background: "linear-gradient(to top, rgba(11,24,41,0.82) 0%, transparent 100%)",
+                  }}>
+                    <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginBottom: 4, letterSpacing: "0.08em", textTransform: "uppercase" }}>{tag}</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{ fontSize: 16 }}>{flag}</span>
+                      <span style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.03em" }}>{city}</span>
+                      <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginLeft: 2 }}>{country}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </AnimateOnView>
         </div>
       </section>
 
@@ -340,6 +348,7 @@ export default function HomePage() {
       ══════════════════════════════════════════════ */}
       <section style={{ padding: "96px 24px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <AnimateOnView>
           <div style={{
             display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center",
           }} className="prog-grid">
@@ -435,6 +444,7 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+          </AnimateOnView>
         </div>
       </section>
 
@@ -443,46 +453,53 @@ export default function HomePage() {
       ══════════════════════════════════════════════ */}
       <section style={{ padding: "0 24px 96px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{
-            background: "var(--bg-2)", border: "1px solid var(--border)",
-            borderRadius: 20, padding: "56px 48px",
-          }}>
-            <div style={{ marginBottom: 48, textAlign: "center" }}>
-              <div className="section-label" style={{ justifyContent: "center" }}>Notre méthode</div>
-              <h2 style={{
-                fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 700,
-                letterSpacing: "-0.035em",
-              }}>
-                Simple pour vous, complet pour vos apprentis.
-              </h2>
-            </div>
+          <AnimateOnView>
             <div style={{
-              display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 24,
-            }} className="process-grid">
-              {[
-                { num: "1", title: "Vous nous contactez", desc: "Premier échange pour comprendre votre groupe, votre filière, vos dates." },
-                { num: "2", title: "Nous proposons", desc: "Programme sur mesure en 24h — destination, hébergement, planning complet." },
-                { num: "3", title: "Nous coordonnons", desc: "Logistique, formations, visites, assurances, dossier Erasmus+ géré intégralement." },
-                { num: "4", title: "Vos apprentis partent", desc: "Vous accompagnez. Nous assurons tout sur place. Tout est prévu." },
-              ].map(({ num, title, desc }) => (
-                <div key={num} style={{ position: "relative" }}>
-                  <div style={{
-                    fontSize: 11, fontWeight: 700, letterSpacing: "0.06em",
-                    color: "var(--blue)", marginBottom: 16, display: "flex", alignItems: "center", gap: 10,
-                  }}>
+              background: "var(--bg-2)", border: "1px solid var(--border)",
+              borderRadius: 20, padding: "56px 48px",
+            }}>
+              <div style={{ marginBottom: 48, textAlign: "center" }}>
+                <div className="section-label" style={{ justifyContent: "center" }}>Notre méthode</div>
+                <h2 style={{
+                  fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 700,
+                  letterSpacing: "-0.035em",
+                }}>
+                  Simple pour vous, complet pour vos apprentis.
+                </h2>
+              </div>
+              <div style={{
+                display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 24,
+              }} className="process-grid">
+                {[
+                  { num: "1", title: "Vous nous contactez", desc: "Premier échange pour comprendre votre groupe, votre filière, vos dates." },
+                  { num: "2", title: "Nous proposons", desc: "Programme sur mesure en 24h — destination, hébergement, planning complet." },
+                  { num: "3", title: "Nous coordonnons", desc: "Logistique, formations, visites, assurances, dossier Erasmus+ géré intégralement." },
+                  { num: "4", title: "Vos apprentis partent", desc: "Vous accompagnez. Nous assurons tout sur place. Tout est prévu." },
+                ].map(({ num, title, desc }) => (
+                  <div key={num} style={{ position: "relative" }}>
+                    {/* Connector line toward next step */}
+                    {num !== "4" && (
+                      <div className="process-connector" />
+                    )}
                     <div style={{
-                      width: 28, height: 28, borderRadius: "50%",
-                      background: "rgba(30,82,208,0.12)", border: "1px solid rgba(30,82,208,0.2)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 12, fontWeight: 700, color: "var(--blue)",
-                    }}>{num}</div>
+                      fontSize: 11, fontWeight: 700, letterSpacing: "0.06em",
+                      color: "var(--blue)", marginBottom: 16, display: "flex", alignItems: "center", gap: 10,
+                    }}>
+                      <div style={{
+                        width: 28, height: 28, borderRadius: "50%",
+                        background: "rgba(30,82,208,0.12)", border: "1px solid rgba(30,82,208,0.2)",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        fontSize: 12, fontWeight: 700, color: "var(--blue)",
+                        position: "relative", zIndex: 1,
+                      }}>{num}</div>
+                    </div>
+                    <h3 style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.02em", marginBottom: 8 }}>{title}</h3>
+                    <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7 }}>{desc}</p>
                   </div>
-                  <h3 style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.02em", marginBottom: 8 }}>{title}</h3>
-                  <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7 }}>{desc}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          </AnimateOnView>
         </div>
       </section>
 
@@ -491,6 +508,7 @@ export default function HomePage() {
       ══════════════════════════════════════════════ */}
       <section style={{ padding: "0 24px 96px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <AnimateOnView>
           <div style={{
             background: "var(--navy)", borderRadius: 20, overflow: "hidden",
             display: "grid", gridTemplateColumns: "1fr 380px",
@@ -546,6 +564,7 @@ export default function HomePage() {
               ))}
             </div>
           </div>
+          </AnimateOnView>
         </div>
       </section>
 
@@ -554,6 +573,7 @@ export default function HomePage() {
       ══════════════════════════════════════════════ */}
       <section style={{ padding: "0 24px 96px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <AnimateOnView>
           <div style={{
             background: "var(--navy)", borderRadius: 20,
             padding: "80px 48px", textAlign: "center",
@@ -603,6 +623,7 @@ export default function HomePage() {
               <Link href="/destinations" className="btn-ghost-light">Explorer les destinations</Link>
             </div>
           </div>
+          </AnimateOnView>
         </div>
       </section>
 

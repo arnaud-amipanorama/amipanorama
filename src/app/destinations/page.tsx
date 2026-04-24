@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import AnimateOnView from "@/components/AnimateOnView";
 
 export const metadata: Metadata = {
   title: "Destinations",
@@ -176,18 +177,24 @@ export default function DestinationsPage() {
       <section style={{ padding: "64px 24px 96px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 24 }}>
           {destinations.map(({ city, country, tag, flag, accent, photo, headline, desc, highlights, ideal }, i) => (
-            <div key={city} className="hover-row" style={{
+            <AnimateOnView key={city} delay={i * 0.06}>
+            <div className="hover-row" style={{
               background: "var(--bg-1)", border: "1px solid var(--border)",
               borderRadius: 20, overflow: "hidden",
               display: "grid", gridTemplateColumns: "340px 1fr",
             }}>
-              {/* Photo side */}
+              {/* Photo side — overflow hidden for zoom effect */}
               <div style={{
                 position: "relative",
-                backgroundImage: `url('${photo}')`,
-                backgroundSize: "cover", backgroundPosition: "center",
                 minHeight: 280,
+                overflow: "hidden",
               }}>
+                {/* Background image — separate div for CSS zoom transform */}
+                <div className="dest-photo-inner" style={{
+                  position: "absolute", inset: 0,
+                  backgroundImage: `url('${photo}')`,
+                  backgroundSize: "cover", backgroundPosition: "center",
+                }} />
                 <div style={{
                   position: "absolute", inset: 0,
                   background: "linear-gradient(135deg, rgba(11,24,41,0.55) 0%, rgba(11,24,41,0.2) 100%)",
@@ -254,6 +261,7 @@ export default function DestinationsPage() {
                 </div>
               </div>
             </div>
+            </AnimateOnView>
           ))}
         </div>
       </section>
@@ -261,6 +269,7 @@ export default function DestinationsPage() {
       {/* CTA section */}
       <section style={{ padding: "0 24px 96px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <AnimateOnView>
           <div style={{
             background: "var(--navy)", borderRadius: 20,
             padding: "72px 48px", textAlign: "center", position: "relative", overflow: "hidden",
@@ -300,17 +309,18 @@ export default function DestinationsPage() {
               </svg>
             </Link>
           </div>
+          </AnimateOnView>
         </div>
       </section>
 
       <style>{`
         @media (max-width: 1024px) {
-          .dest-full-card { grid-template-columns: 1fr !important; }
-          .dest-full-card > div:first-child { min-height: 200px !important; }
+          .hover-row { grid-template-columns: 1fr !important; }
+          .hover-row > div:first-child { min-height: 220px !important; }
         }
         @media (max-width: 640px) {
-          .dest-content-grid { grid-template-columns: 1fr !important; }
-          .dest-content-grid > div:first-child { border-right: none !important; border-bottom: 1px solid var(--border); }
+          .hover-row > div:nth-child(2) { grid-template-columns: 1fr !important; }
+          .hover-row > div:nth-child(2) > div:first-child { border-right: none !important; border-bottom: 1px solid var(--border); }
         }
       `}</style>
     </>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const links = [
   { href: "/", label: "Accueil" },
@@ -78,17 +79,39 @@ export default function Navbar() {
 
           {/* Desktop links */}
           <div style={{ display: "flex", alignItems: "center", gap: 2 }} className="hidden-mobile">
-            {links.map(l => (
-              <Link key={l.href} href={l.href} style={{
-                fontSize: 13,
-                color: pathname === l.href ? activeColor : linkColor,
-                padding: "7px 15px",
-                borderRadius: 7,
-                transition: "all 0.2s ease",
-                fontWeight: pathname === l.href ? 500 : 400,
-                background: pathname === l.href && !transparent ? "rgba(11,24,41,0.05)" : "transparent",
-              }}>{l.label}</Link>
-            ))}
+            {links.map(l => {
+              const isActive = pathname === l.href;
+              return (
+                <Link key={l.href} href={l.href} style={{
+                  fontSize: 13,
+                  color: isActive ? activeColor : linkColor,
+                  padding: "7px 15px",
+                  borderRadius: 7,
+                  fontWeight: isActive ? 500 : 400,
+                  position: "relative",
+                  transition: "color 0.25s ease",
+                }}>
+                  <AnimatePresence>
+                    {isActive && !transparent && (
+                      <motion.div
+                        layoutId="nav-active-pill"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 420, damping: 38 }}
+                        style={{
+                          position: "absolute", inset: 0,
+                          background: "rgba(11,24,41,0.05)",
+                          borderRadius: 7,
+                          zIndex: 0,
+                        }}
+                      />
+                    )}
+                  </AnimatePresence>
+                  <span style={{ position: "relative", zIndex: 1 }}>{l.label}</span>
+                </Link>
+              );
+            })}
           </div>
 
           {/* CTA + mobile burger */}
