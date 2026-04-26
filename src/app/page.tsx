@@ -194,8 +194,9 @@ export default function HomePage() {
             }}>
               AMI Panorama conçoit des programmes de mobilité internationale
               pour les CFA et les établissements d'enseignement supérieur —
-              formation structurée, visites professionnelles, encadrement terrain
-              et accompagnement administratif de A à Z.
+              pour que leurs apprentis accèdent à l'expérience collective et
+              internationale qui construit les liens, les souvenirs et l'ambition
+              qui font une formation vraiment complète.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", paddingTop: 4 }}>
               <Link href="/contact" className="btn-primary">

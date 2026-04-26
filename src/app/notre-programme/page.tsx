@@ -7,6 +7,76 @@ export const metadata: Metadata = {
     "Un programme de mobilité internationale complet : formation professionnelle structurée, visites d'entreprise, encadrement terrain, logistique et accompagnement administratif. Découvrez chaque composante du programme AMI Panorama.",
 };
 
+const whyItems = [
+  {
+    num: "01",
+    title: "Attractivité et différenciation",
+    accent: "#1E52D0",
+    desc: "Les établissements qui intègrent une mobilité internationale dans leur cursus se démarquent dans le recrutement. C'est souvent ce qui fait la différence dans le choix d'une filière par les candidats et leurs familles.",
+  },
+  {
+    num: "02",
+    title: "Cohésion de promotion",
+    accent: "#E85835",
+    desc: "Une semaine à l'étranger crée des liens entre étudiants que plusieurs années de cours ne recréent pas. Ces liens renforcent l'engagement, réduisent l'abandon et construisent un sentiment d'appartenance durable.",
+  },
+  {
+    num: "03",
+    title: "Image et positionnement",
+    accent: "#1E52D0",
+    desc: "Proposer une mobilité internationale signale un standard d'ambition et d'exigence. C'est un investissement dans la perception de qualité de votre formation — et dans la fierté de vos étudiants.",
+  },
+  {
+    num: "04",
+    title: "Valeur du parcours étudiant",
+    accent: "#E85835",
+    desc: "Les apprentis qui vivent une expérience internationale en ressortent avec une vision plus large et une confiance renforcée. Ils valorisent mieux leur formation — et ils en parlent autour d'eux.",
+  },
+];
+
+const faqItems = [
+  {
+    q: "À qui s'adressent les programmes AMI Panorama ?",
+    a: "Aux CFA, lycées professionnels, écoles supérieures et établissements en alternance souhaitant intégrer une mobilité internationale structurée à leur cursus. Nos programmes s'adressent à des groupes de 10 à 40 étudiants, encadrés par un ou plusieurs référents pédagogiques de l'établissement.",
+  },
+  {
+    q: "Combien de temps dure une mobilité ?",
+    a: "Nos programmes standards durent 7 nuits sur place. Nous proposons également des formats étendus de 10 à 14 nuits pour les établissements souhaitant approfondir l'immersion pédagogique et l'expérience culturelle.",
+  },
+  {
+    q: "Que comprend concrètement le programme ?",
+    a: "Formation professionnelle (20 heures), visites d'entreprises sélectionnées pour leur pertinence sectorielle, programme d'activités culturelles, hébergement avec petit-déjeuner, ensemble des transports sur place, assurances complètes et accompagnement administratif de bout en bout.",
+  },
+  {
+    q: "Quel est le rôle de l'établissement pendant le séjour ?",
+    a: "L'établissement reste le référent pédagogique du groupe. Son rôle est d'accompagner les étudiants sur le plan éducatif et de valider l'intégration du séjour dans le parcours de formation. Nous prenons en charge tout ce qui relève de la logistique, de l'encadrement terrain et de l'organisation.",
+  },
+  {
+    q: "Comment la mobilité s'intègre-t-elle dans un calendrier de formation ?",
+    a: "Nous adaptons les dates, la destination et le contenu en fonction du calendrier de votre établissement et des contraintes de l'alternance. La coordination avec les entreprises d'accueil des apprentis fait partie de notre accompagnement préalable.",
+  },
+  {
+    q: "Proposez-vous un accompagnement administratif ?",
+    a: "Oui. L'ingénierie administrative fait partie intégrante de chaque programme : structuration du projet de mobilité, rédaction des conventions, identification des cadres de financement mobilisables selon votre situation et suivi documentaire jusqu'à la clôture du projet.",
+  },
+  {
+    q: "Comment abordez-vous la structuration financière ?",
+    a: "Nous accompagnons chaque établissement dans l'identification des dispositifs pertinents selon sa situation — fonds propres, branches professionnelles, collectivités, fonds européens. Nous ne garantissons pas de financement, mais nous structurons le projet pour qu'il soit éligible aux dispositifs existants et coordonnons les démarches.",
+  },
+  {
+    q: "Les programmes sont-ils personnalisables ?",
+    a: "Oui. Chaque programme est adapté à la filière, au niveau et au projet de votre groupe. Le contenu de formation, le choix des entreprises visitées, le programme culturel et les dates peuvent être ajustés en concertation avec votre équipe.",
+  },
+  {
+    q: "Qui encadre les étudiants sur place ?",
+    a: "Une équipe terrain AMI Panorama est présente et disponible 24h/24 pendant toute la durée du séjour. En parallèle, le ou les référents de l'établissement accompagnent le groupe sur le plan pédagogique.",
+  },
+  {
+    q: "Quel est le niveau d'accompagnement avant, pendant et après ?",
+    a: "Avant : coordination complète — programme, logistique, assurances, documents. Pendant : encadrement terrain 24h/24. Après : bilan de séjour, attestations de formation, comptes-rendus de visite et accompagnement pour la clôture administrative du projet.",
+  },
+];
+
 const components = [
   {
     num: "01",
@@ -160,6 +230,44 @@ export default function NotreProgrammePage() {
         </div>
       </section>
 
+      {/* Why it matters */}
+      <section style={{ padding: "0 24px 72px", background: "var(--bg)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ marginBottom: 40 }}>
+            <div className="section-label">Pourquoi ça compte</div>
+            <h2 style={{
+              fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 700,
+              letterSpacing: "-0.035em", maxWidth: 560,
+            }}>
+              Ce que la mobilité apporte à votre établissement
+            </h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 3 }} className="why-grid">
+            {whyItems.map(({ num, title, accent, desc }) => (
+              <div key={num} style={{
+                padding: "36px 40px", background: "var(--bg-1)",
+                border: "1px solid var(--border)", borderRadius: 16,
+                display: "flex", gap: 24, alignItems: "flex-start",
+              }}>
+                <div style={{
+                  width: 40, height: 40, borderRadius: 10,
+                  background: accent + "15", border: `1px solid ${accent}25`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  flexShrink: 0,
+                }}>
+                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: accent }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 6 }}>{num}</div>
+                  <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 10, letterSpacing: "-0.02em" }}>{title}</h3>
+                  <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.75 }}>{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Photo editorial break */}
       <section style={{
         position: "relative", height: 340, overflow: "hidden",
@@ -260,6 +368,35 @@ export default function NotreProgrammePage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section style={{ padding: "0 24px 80px", background: "var(--bg)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ marginBottom: 40 }}>
+            <div className="section-label">Questions fréquentes</div>
+            <h2 style={{
+              fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 700,
+              letterSpacing: "-0.035em", maxWidth: 520,
+            }}>
+              Ce que les établissements nous demandent le plus souvent
+            </h2>
+          </div>
+          <div>
+            {faqItems.map(({ q, a }, i) => (
+              <div key={i} style={{
+                display: "grid", gridTemplateColumns: "2fr 3fr", gap: 48,
+                padding: "28px 0",
+                borderTop: "1px solid var(--border)",
+                alignItems: "start",
+              }} className="faq-row">
+                <div style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.01em", lineHeight: 1.4, color: "var(--text-primary)" }}>{q}</div>
+                <div style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.85 }}>{a}</div>
+              </div>
+            ))}
+            <div style={{ borderTop: "1px solid var(--border)" }} />
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section style={{ padding: "0 24px 96px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -311,6 +448,8 @@ export default function NotreProgrammePage() {
         @media (max-width: 700px) {
           .hover-row { grid-template-columns: 1fr !important; }
           .hover-row > div:first-child { border-right: none !important; border-bottom: 1px solid var(--border); }
+          .why-grid { grid-template-columns: 1fr !important; }
+          .faq-row { grid-template-columns: 1fr !important; gap: 12px !important; }
         }
       `}</style>
     </>

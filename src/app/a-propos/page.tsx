@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "À propos",
   description:
-    "AMI Panorama accompagne les CFA et les entreprises dans la mobilité internationale des apprentis depuis plus de 10 ans. Basés au Canada, actifs en Europe et dans le monde.",
+    "L'histoire d'AMI Panorama : deux fondateurs, deux trajectoires, un constat sur le parcours des apprentis. Notre mission, notre modèle et ce qui nous distingue en tant qu'opérateur de mobilité.",
 };
 
 const values = [
@@ -35,10 +35,10 @@ const values = [
 ];
 
 const numbers = [
-  { value: "10+", label: "années d'expérience" },
+  { value: "2022", label: "fondé à Montréal" },
   { value: "3 000+", label: "apprentis accompagnés" },
   { value: "100+", label: "groupes coordonnés" },
-  { value: "50", label: "écoles partenaires" },
+  { value: "50", label: "établissements partenaires" },
 ];
 
 export default function AProposPage() {
@@ -70,22 +70,21 @@ export default function AProposPage() {
           <div className="section-label-light anim-fade-up">À propos</div>
           <h1 className="anim-fade-up-2" style={{
             fontSize: "clamp(36px, 5.5vw, 64px)", fontWeight: 700,
-            letterSpacing: "-0.04em", lineHeight: 1.08, maxWidth: 700, marginBottom: 28,
+            letterSpacing: "-0.04em", lineHeight: 1.08, maxWidth: 740, marginBottom: 28,
             color: "#fff",
           }}>
-            Nous ouvrons le monde{" "}
+            Nés du contraste{" "}
             <span style={{
               fontFamily: "var(--font-serif)", fontStyle: "italic",
               fontWeight: 500, color: "rgba(232,88,53,0.9)",
-            }}>aux apprentis.</span>
+            }}>entre deux mondes.</span>
           </h1>
           <p className="anim-fade-up-3" style={{
             fontSize: 18, color: "rgba(255,255,255,0.65)", maxWidth: 600, lineHeight: 1.75,
           }}>
-            AMI Panorama conçoit et coordonne des programmes de mobilité internationale
-            pour les CFA, les écoles et les établissements d'enseignement supérieur
-            depuis plus de 10 ans. Basée au Canada, notre équipe opère avec un réseau
-            de partenaires en Europe, en Amérique du Nord, en Asie et en Afrique du Nord.
+            AMI Panorama est née d'une observation simple : dans le parcours d'un étudiant,
+            certaines expériences — collectives, internationales, mémorables — ne sont pas
+            accessibles de la même façon selon la filière choisie. Nous existons pour changer ça.
           </p>
         </div>
       </section>
@@ -114,48 +113,122 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Mission split */}
-      <section style={{ padding: "64px 24px 72px" }}>
+      {/* Founding story */}
+      <section style={{ padding: "72px 24px 0" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div className="section-label">Notre histoire</div>
           <div style={{
-            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3,
-            borderRadius: 20, overflow: "hidden",
-          }} className="mission-grid">
-            <div style={{ padding: "52px 48px", background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 16 }}>
-              <div className="section-label">Notre mission</div>
+            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64,
+          }} className="founder-grid">
+            <div>
               <h2 style={{
-                fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: 700,
-                letterSpacing: "-0.03em", lineHeight: 1.25, marginBottom: 24,
+                fontSize: "clamp(22px, 2.8vw, 32px)", fontWeight: 700,
+                letterSpacing: "-0.03em", lineHeight: 1.2, marginBottom: 28,
               }}>
-                Rendre la mobilité internationale concrète, structurée et reproductible pour chaque établissement.
+                Deux trajectoires,{" "}
+                <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 500 }}>
+                  une conviction.
+                </span>
               </h2>
-              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 20 }}>
-                Trop d'établissements renoncent à la mobilité internationale parce qu'elle leur
-                semble trop complexe à mettre en place. Notre rôle est de supprimer cette barrière —
-                en prenant en charge tout ce qui est hors du champ pédagogique de nos clients.
+              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: 18 }}>
+                Arnaud a fait une grande partie de ses études à l'international — notamment à
+                l'Université de Montréal et à Harvard. Il a vécu ce que les étudiants des grandes
+                écoles et des campus anglophones connaissent : des cohortes soudées, des réseaux
+                qui durent toute une vie, des séjours internationaux qui forgent une identité
+                collective. Des souvenirs qui restent.
               </p>
-              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8 }}>
-                Le résultat : des groupes qui partent, des apprentis qui reviennent transformés,
-                et des établissements qui renouvellent l'expérience d'année en année.
+              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85 }}>
+                Samuel venait d'un autre horizon — celui de la formation professionnelle et de
+                l'apprentissage. Un monde exigeant, formateur, qui donne aux étudiants une avance
+                réelle sur le marché du travail. Mais dans lequel certaines expériences manquent
+                structurellement : l'international collectif, la vie de groupe hors cadre
+                professionnel, les moments qui lient une promotion durablement.
               </p>
             </div>
-            <div style={{ padding: "52px 48px", background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: 16 }}>
-              <div className="section-label">Notre modèle</div>
-              <h2 style={{
-                fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: 700,
-                letterSpacing: "-0.03em", lineHeight: 1.25, marginBottom: 24,
-              }}>
-                Pas un voyagiste. Pas une agence. Un opérateur de mobilité professionnelle.
-              </h2>
-              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 20 }}>
-                Nous ne vendons pas des voyages. Nous construisons des programmes de mobilité
-                professionnelle — avec tout ce qu'une mobilité sérieuse implique : formation
-                structurée, visites d'entreprise, encadrement terrain, logistique, assurances
-                et accompagnement administratif complet.
+            <div>
+              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: 18 }}>
+                Tous deux ont beaucoup voyagé ensemble. Et à chaque voyage, la même conviction
+                s'est renforcée : le voyage crée certains des liens les plus durables d'un parcours
+                de formation. Pas simplement des souvenirs — des transformations professionnelles
+                et humaines qui durent.
               </p>
-              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8 }}>
-                Notre ancrage au Canada nous donne une vision nord-américaine qui enrichit
-                notre approche — et Montréal est l'une de nos destinations phares.
+              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: 18 }}>
+                De cette conviction est née une question : pourquoi cette expérience serait-elle
+                réservée à certains parcours ? Et si on la construisait intentionnellement, pour
+                ceux qui en bénéficient le moins ?
+              </p>
+              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: 32 }}>
+                AMI Panorama a été fondé en 2022. En 2023, le premier groupe quittait Paris pour
+                Montréal. Depuis, d'autres établissements nous ont rejoints, d'autres destinations
+                ont ouvert — et la conviction initiale s'est confirmée séjour après séjour.
+              </p>
+              <div style={{ paddingTop: 24, borderTop: "1px solid var(--border)" }}>
+                <div style={{ display: "flex", gap: 40 }}>
+                  <div>
+                    <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 5 }}>Arnaud</div>
+                    <div style={{ fontSize: 13, color: "var(--text-secondary)" }}>Université de Montréal · Harvard</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 5 }}>Samuel</div>
+                    <div style={{ fontSize: 13, color: "var(--text-secondary)" }}>Formation professionnelle · Alternance</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The gap we bridge */}
+      <section style={{ padding: "56px 24px 72px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ marginBottom: 32 }}>
+            <div className="section-label">Ce que nous cherchons à corriger</div>
+          </div>
+          <div style={{
+            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3,
+          }} className="gap-grid">
+            <div style={{ padding: "44px 44px", background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 16 }}>
+              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--blue)", marginBottom: 16 }}>Grandes écoles · Universités</div>
+              <h3 style={{
+                fontSize: "clamp(16px, 2vw, 21px)", fontWeight: 700,
+                letterSpacing: "-0.03em", lineHeight: 1.3, marginBottom: 20,
+              }}>
+                Cohésion de promotion. Réseaux actifs. Mémoires collectives.
+              </h3>
+              <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.85 }}>
+                Dans les grandes écoles et les campus traditionnels, les étudiants bénéficient
+                d'une vie collective structurée : voyages de promotion, séjours internationaux,
+                associations, cohortes soudées, réseaux alumni actifs. Ces expériences ne sont
+                pas accessoires — elles construisent une identité, des liens durables et un fort
+                attachement à l'établissement. Elles contribuent directement à son attractivité.
+              </p>
+            </div>
+            <div style={{
+              padding: "44px 44px", background: "var(--navy)",
+              border: "1px solid rgba(255,255,255,0.08)", borderRadius: 16,
+              position: "relative", overflow: "hidden",
+            }}>
+              <div style={{
+                position: "absolute", inset: 0,
+                background: "radial-gradient(ellipse at top right, rgba(232,88,53,0.14) 0%, transparent 65%)",
+                pointerEvents: "none",
+              }} />
+              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(232,88,53,0.8)", marginBottom: 16, position: "relative" }}>CFA · Formations en alternance</div>
+              <h3 style={{
+                fontSize: "clamp(16px, 2vw, 21px)", fontWeight: 700,
+                letterSpacing: "-0.03em", lineHeight: 1.3, marginBottom: 20,
+                color: "#fff", position: "relative",
+              }}>
+                Un parcours exigeant. Mais souvent moins de ces expériences collectives.
+              </h3>
+              <p style={{ fontSize: 14, color: "rgba(255,255,255,0.60)", lineHeight: 1.85, position: "relative" }}>
+                Les apprentis vivent un parcours intensément professionnel et formateur. Mais ils
+                ont moins accès, structurellement, aux expériences qui marquent durablement une
+                formation : l'international collectif, les souvenirs partagés hors contexte
+                professionnel, les moments qui lient une promotion. AMI Panorama existe pour que
+                cette dimension soit accessible à eux aussi — sans renoncer à l'exigence
+                pédagogique qui les caractérise.
               </p>
             </div>
           </div>
@@ -294,7 +367,8 @@ export default function AProposPage() {
 
       <style>{`
         @media (max-width: 768px) {
-          .mission-grid { grid-template-columns: 1fr !important; }
+          .founder-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .gap-grid { grid-template-columns: 1fr !important; }
           .numbers-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .values-grid { grid-template-columns: 1fr !important; }
           .testimonial-grid { grid-template-columns: 1fr !important; }
