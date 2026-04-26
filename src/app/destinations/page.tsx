@@ -15,7 +15,7 @@ const destinations = [
     tag: "Culture & immersion",
     flag: "🇪🇸",
     accent: "#E85835",
-    photo: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=900&q=80",
+    photo: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=900&q=80",
     headline: "L'Andalousie comme terrain de formation.",
     desc: "Séville offre un cadre exceptionnel pour une immersion totale : culture riche, économie sociale dynamique et chaleur humaine qui facilite l'ouverture interculturelle. Idéal pour les filières tourisme, commerce, services et RH.",
     highlights: [
@@ -32,7 +32,7 @@ const destinations = [
     tag: "Bilinguisme & innovation",
     flag: "🇨🇦",
     accent: "#1E52D0",
-    photo: "https://images.unsplash.com/photo-1559651986-3916e2faee65?w=900&q=80",
+    photo: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=900&q=80",
     headline: "L'Amérique du Nord, en français.",
     desc: "Métropole bilingue et cosmopolite, Montréal fusionne les cultures nord-américaine et européenne comme nulle part ailleurs. Environnement idéal pour les apprentis qui souhaitent découvrir un modèle économique différent, sans barrière linguistique.",
     highlights: [
@@ -49,7 +49,7 @@ const destinations = [
     tag: "Business English",
     flag: "🇬🇧",
     accent: "#1E52D0",
-    photo: "https://images.unsplash.com/photo-1520986606214-8b456906c813?w=900&q=80",
+    photo: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=900&q=80",
     headline: "La capitale mondiale du Business English.",
     desc: "Londres reste la référence pour l'apprentissage de l'anglais professionnel dans un contexte réel. Un séjour à Londres, c'est 7 jours d'immersion totale en anglais, dans une ville qui concentre une densité unique d'entreprises internationales.",
     highlights: [
@@ -66,7 +66,7 @@ const destinations = [
     tag: "Masterclasses & digital",
     flag: "🇲🇦",
     accent: "#D4862A",
-    photo: "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=900&q=80",
+    photo: "https://images.unsplash.com/photo-1548013146-72479768bada?w=900&q=80",
     headline: "L'Afrique du Nord, entre tradition et disruption.",
     desc: "Le Maroc, principalement à Marrakech, propose un programme adapté aux ambitions professionnelles les plus contemporaines : masterclasses en IA, marketing digital et management interculturel, dans un cadre chargé d'histoire et d'inspiration.",
     highlights: [
@@ -83,7 +83,7 @@ const destinations = [
     tag: "Business & culture",
     flag: "🇺🇸",
     accent: "#1E52D0",
-    photo: "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=900&q=80",
+    photo: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=900&q=80",
     headline: "La ville symbole du business mondial.",
     desc: "New York représente l'expérience ultime pour les apprentis qui veulent confronter leurs aspirations professionnelles à la réalité d'un marché international intense. Business English de haut niveau, énergie unique, culture multiple.",
     highlights: [
@@ -100,7 +100,7 @@ const destinations = [
     tag: "Tech & monde asiatique",
     flag: "🇰🇷",
     accent: "#E85835",
-    photo: "https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=900&q=80",
+    photo: "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=900&q=80",
     headline: "Une fenêtre sur l'Asie du XXIe siècle.",
     desc: "Séoul est l'une des villes les plus innovantes du monde. Un séjour en Corée du Sud offre aux apprentis une vision concrète du monde du travail asiatique : culture de l'innovation, discipline professionnelle, technologies de rupture.",
     highlights: [
@@ -197,7 +197,7 @@ export default function DestinationsPage() {
                 }} />
                 <div style={{
                   position: "absolute", inset: 0,
-                  background: "linear-gradient(135deg, rgba(11,24,41,0.55) 0%, rgba(11,24,41,0.2) 100%)",
+                  background: "linear-gradient(135deg, rgba(11,24,41,0.38) 0%, rgba(11,24,41,0.10) 100%)",
                 }} />
                 {/* City label over photo */}
                 <div style={{ position: "absolute", bottom: 28, left: 28 }}>

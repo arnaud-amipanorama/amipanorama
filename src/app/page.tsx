@@ -15,48 +15,48 @@ const destinations = [
     country: "Espagne",
     flag: "🇪🇸",
     tag: "Culture & immersion",
-    gradient: "linear-gradient(170deg,rgba(100,30,10,0.68),rgba(180,80,20,0.55))",
-    img: "https://images.pexels.com/photos/3408354/pexels-photo-3408354.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
+    gradient: "linear-gradient(170deg,rgba(100,30,10,0.42),rgba(180,80,20,0.28))",
+    img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=800&q=80",
   },
   {
     city: "Montréal",
     country: "Canada",
     flag: "🇨🇦",
     tag: "Bilinguisme & innovation",
-    gradient: "linear-gradient(170deg,rgba(8,28,60,0.68),rgba(20,52,140,0.55))",
-    img: "https://images.pexels.com/photos/3584819/pexels-photo-3584819.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
+    gradient: "linear-gradient(170deg,rgba(8,28,60,0.42),rgba(20,52,140,0.28))",
+    img: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=800&q=80",
   },
   {
     city: "Londres",
     country: "Royaume-Uni",
     flag: "🇬🇧",
     tag: "Business English",
-    gradient: "linear-gradient(170deg,rgba(10,20,44,0.68),rgba(24,44,88,0.55))",
-    img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80",
+    gradient: "linear-gradient(170deg,rgba(10,20,44,0.42),rgba(24,44,88,0.28))",
+    img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80",
   },
   {
     city: "Maroc",
     country: "Afrique du Nord",
     flag: "🇲🇦",
     tag: "Masterclasses & digital",
-    gradient: "linear-gradient(170deg,rgba(80,30,10,0.68),rgba(160,80,20,0.55))",
-    img: "https://images.pexels.com/photos/2398220/pexels-photo-2398220.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
+    gradient: "linear-gradient(170deg,rgba(80,30,10,0.42),rgba(160,80,20,0.28))",
+    img: "https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80",
   },
   {
     city: "New York",
     country: "États-Unis",
     flag: "🇺🇸",
     tag: "Business & culture",
-    gradient: "linear-gradient(170deg,rgba(10,18,40,0.68),rgba(20,38,80,0.55))",
-    img: "https://images.unsplash.com/photo-1518391846015-55a9cc003b25?auto=format&fit=crop&w=800&q=80",
+    gradient: "linear-gradient(170deg,rgba(10,18,40,0.42),rgba(20,38,80,0.28))",
+    img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800&q=80",
   },
   {
     city: "Séoul",
     country: "Corée du Sud",
     flag: "🇰🇷",
     tag: "Tech & monde asiatique",
-    gradient: "linear-gradient(170deg,rgba(6,14,36,0.68),rgba(16,32,80,0.55))",
-    img: "https://images.pexels.com/photos/3714896/pexels-photo-3714896.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
+    gradient: "linear-gradient(170deg,rgba(6,14,36,0.42),rgba(16,32,80,0.28))",
+    img: "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=800&q=80",
   },
 ];
 
@@ -65,6 +65,17 @@ const stats = [
   { value: "100+",   label: "groupes coordonnés" },
   { value: "50",     label: "écoles partenaires" },
   { value: "6",      label: "destinations actives" },
+];
+
+const trustItems = [
+  "ECEMA Lyon",
+  "CFA de branche",
+  "Lycées professionnels",
+  "CFA d'entreprise",
+  "Écoles supérieures",
+  "Formations en alternance",
+  "CFA régionaux",
+  "Établissements d'enseignement supérieur",
 ];
 
 const included = [
@@ -99,36 +110,24 @@ export default function HomePage() {
         <div className="hero-orb hero-orb-2" />
         <div className="hero-orb hero-orb-3" />
 
-        {/* ── World meridian grid (SVG, very subtle) ── */}
-        <svg
-          aria-hidden="true"
-          style={{
-            position: "absolute", inset: 0, width: "100%", height: "100%",
-            opacity: 0.05, pointerEvents: "none",
-          }}
-          viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
-        >
-          {/* Latitude lines */}
-          {[100, 220, 340, 460, 580, 700, 820].map(y => (
-            <line key={y} x1="0" y1={y} x2="1440" y2={y}
-              stroke="rgba(255,255,255,0.9)" strokeWidth="0.7" />
-          ))}
-          {/* Longitude curves — vertical meridians as paths */}
-          {[120, 240, 360, 480, 600, 720, 840, 960, 1080, 1200, 1320].map(x => (
-            <path key={x}
-              d={`M${x} 0 C${x - 40} 450 ${x + 40} 450 ${x} 900`}
-              fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="0.7"
-            />
-          ))}
-          {/* Central equator ellipse */}
-          <ellipse cx="720" cy="450" rx="680" ry="160"
-            fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="0.9" />
-          {/* Great circle diagonal */}
-          <path d="M200 0 C500 250 940 650 1240 900"
-            fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="0.7" />
-          <path d="M1240 0 C940 250 500 650 200 900"
-            fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="0.7" />
-        </svg>
+        {/* ── Film grain texture ── */}
+        <div className="hero-grain" aria-hidden="true" />
+        {/* ── Background word mark ── */}
+        <div aria-hidden="true" style={{
+          position: "absolute",
+          bottom: "3%", right: "-3%",
+          fontSize: "clamp(130px, 21vw, 280px)",
+          fontFamily: "var(--font-serif)",
+          fontStyle: "italic",
+          fontWeight: 500,
+          color: "rgba(255,255,255,0.028)",
+          letterSpacing: "-0.04em",
+          lineHeight: 1,
+          whiteSpace: "nowrap",
+          pointerEvents: "none",
+          userSelect: "none",
+          zIndex: 0,
+        }}>Mobilité</div>
 
         {/* ── Hero content ── */}
         <div style={{
@@ -211,37 +210,59 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Destination chips */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-            {destinations.map(({ city, flag }, i) => (
-              <Link key={city} href="/destinations" style={{
-                display: "inline-flex", alignItems: "center", gap: 7,
-                padding: "7px 14px",
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: 100,
-                fontSize: 12, color: "rgba(255,255,255,0.55)",
-                transition: "all 0.2s",
-                animation: `fadeInUp 0.6s ${0.6 + i * 0.08}s ease both`,
-              }}>
-                <span style={{ fontSize: 13 }}>{flag}</span>
-                {city}
-              </Link>
-            ))}
-          </div>
         </div>
+      </section>
 
-        {/* Scroll cue */}
+      {/* ══════════════════════════════════════════════
+          TRUST BAND
+      ══════════════════════════════════════════════ */}
+      <section style={{
+        borderBottom: "1px solid var(--border)",
+        background: "var(--bg)",
+        overflow: "hidden",
+        padding: "0 24px",
+      }}>
         <div style={{
-          position: "absolute", bottom: 36, left: "50%", transform: "translateX(-50%)",
-          display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
-          opacity: 0.3,
-          animation: "fadeIn 1.5s 1.5s ease both",
+          maxWidth: 1200, margin: "0 auto",
+          display: "flex", alignItems: "center", gap: 28,
+          padding: "22px 0",
         }}>
           <div style={{
-            width: 1, height: 48, background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.6))",
-            animation: "heroPulse 2s ease infinite",
-          }} />
+            flexShrink: 0,
+            fontSize: 10, fontWeight: 600, letterSpacing: "0.12em",
+            textTransform: "uppercase", color: "var(--text-muted)",
+            lineHeight: 1.6,
+          }}>
+            Ils nous<br />font confiance
+          </div>
+          <div style={{ width: 1, height: 28, background: "var(--border)", flexShrink: 0 }} />
+          <div style={{
+            overflow: "hidden", flex: 1,
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+            maskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+          }}>
+            <div className="trust-marquee" style={{
+              display: "flex", whiteSpace: "nowrap", alignItems: "center",
+            }}>
+              {[...trustItems, ...trustItems].map((item, i) => (
+                <span key={i} style={{
+                  fontSize: 13, color: "var(--text-secondary)", fontWeight: 400,
+                  padding: "0 32px",
+                  borderRight: "1px solid var(--border)",
+                }}>
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div style={{ width: 1, height: 28, background: "var(--border)", flexShrink: 0 }} />
+          <div style={{ flexShrink: 0, textAlign: "right" }}>
+            <span style={{
+              fontSize: 20, fontWeight: 700, color: "var(--text-primary)",
+              letterSpacing: "-0.04em",
+            }}>50</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)", marginLeft: 6 }}>établissements</span>
+          </div>
         </div>
       </section>
 
@@ -265,82 +286,6 @@ export default function HomePage() {
               <div style={{ fontSize: 12, color: "var(--text-muted)", letterSpacing: "0.01em" }}>{label}</div>
             </AnimateOnView>
           ))}
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════
-          DESTINATIONS PREVIEW GRID
-      ══════════════════════════════════════════════ */}
-      <section style={{ padding: "80px 24px 0", background: "var(--bg)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <AnimateOnView>
-            <div style={{
-              display: "flex", justifyContent: "space-between", alignItems: "flex-end",
-              marginBottom: 40, flexWrap: "wrap", gap: 16,
-            }}>
-              <div>
-                <div className="section-label">6 destinations</div>
-                <h2 style={{
-                  fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700,
-                  letterSpacing: "-0.04em", maxWidth: 480,
-                }}>
-                  Le monde,<br />à portée de groupe.
-                </h2>
-              </div>
-              <Link href="/destinations" style={{
-                fontSize: 13, color: "var(--blue)", fontWeight: 500,
-                display: "flex", alignItems: "center", gap: 6,
-              }} className="dest-link-hover">
-                Voir toutes les destinations
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
-            </div>
-          </AnimateOnView>
-
-          <AnimateOnView delay={0.1}>
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gridTemplateRows: "240px 240px",
-              gap: 12,
-            }} className="dest-grid">
-              {destinations.map(({ city, country, flag, tag, gradient, img }) => (
-                <Link key={city} href="/destinations" className="dest-card" style={{
-                  position: "relative", borderRadius: 16, overflow: "hidden",
-                  display: "block", textDecoration: "none",
-                }}>
-                  {/* Background image — isolated div so we can zoom it independently */}
-                  <div className="dest-card-bg" style={{
-                    position: "absolute", inset: 0,
-                    backgroundImage: `${gradient}, url('${img}')`,
-                    backgroundSize: "cover, cover",
-                    backgroundPosition: "center",
-                  }} />
-                  {/* Hover overlay */}
-                  <div className="dest-card-overlay" style={{
-                    position: "absolute", inset: 0,
-                    background: "rgba(11,24,41,0.0)",
-                    transition: "background 0.35s ease",
-                  }} />
-                  {/* Content */}
-                  <div style={{
-                    position: "absolute", bottom: 0, left: 0, right: 0,
-                    padding: "20px 20px 20px",
-                    background: "linear-gradient(to top, rgba(11,24,41,0.82) 0%, transparent 100%)",
-                  }}>
-                    <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginBottom: 4, letterSpacing: "0.08em", textTransform: "uppercase" }}>{tag}</div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ fontSize: 16 }}>{flag}</span>
-                      <span style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.03em" }}>{city}</span>
-                      <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginLeft: 2 }}>{country}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </AnimateOnView>
         </div>
       </section>
 
@@ -446,6 +391,79 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+          </AnimateOnView>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          DESTINATIONS PREVIEW GRID
+      ══════════════════════════════════════════════ */}
+      <section style={{ padding: "0 24px 80px", background: "var(--bg)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <AnimateOnView>
+            <div style={{
+              display: "flex", justifyContent: "space-between", alignItems: "flex-end",
+              marginBottom: 40, flexWrap: "wrap", gap: 16,
+            }}>
+              <div>
+                <div className="section-label">6 destinations</div>
+                <h2 style={{
+                  fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700,
+                  letterSpacing: "-0.04em", maxWidth: 480,
+                }}>
+                  Le monde,<br />à portée de groupe.
+                </h2>
+              </div>
+              <Link href="/destinations" style={{
+                fontSize: 13, color: "var(--blue)", fontWeight: 500,
+                display: "flex", alignItems: "center", gap: 6,
+              }} className="dest-link-hover">
+                Voir toutes les destinations
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Link>
+            </div>
+          </AnimateOnView>
+
+          <AnimateOnView delay={0.1}>
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gridTemplateRows: "240px 240px",
+              gap: 12,
+            }} className="dest-grid">
+              {destinations.map(({ city, country, flag, tag, gradient, img }) => (
+                <Link key={city} href="/destinations" className="dest-card" style={{
+                  position: "relative", borderRadius: 16, overflow: "hidden",
+                  display: "block", textDecoration: "none",
+                }}>
+                  <div className="dest-card-bg" style={{
+                    position: "absolute", inset: 0,
+                    backgroundImage: `${gradient}, url('${img}')`,
+                    backgroundSize: "cover, cover",
+                    backgroundPosition: "center",
+                  }} />
+                  <div className="dest-card-overlay" style={{
+                    position: "absolute", inset: 0,
+                    background: "rgba(11,24,41,0.0)",
+                    transition: "background 0.35s ease",
+                  }} />
+                  <div style={{
+                    position: "absolute", bottom: 0, left: 0, right: 0,
+                    padding: "20px 20px 20px",
+                    background: "linear-gradient(to top, rgba(11,24,41,0.82) 0%, transparent 100%)",
+                  }}>
+                    <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginBottom: 4, letterSpacing: "0.08em", textTransform: "uppercase" }}>{tag}</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{ fontSize: 16 }}>{flag}</span>
+                      <span style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.03em" }}>{city}</span>
+                      <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginLeft: 2 }}>{country}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </AnimateOnView>
         </div>
       </section>
@@ -631,49 +649,73 @@ export default function HomePage() {
 
       {/* ══ Hero & animation styles ══ */}
       <style>{`
-        /* Hero glow orbs */
+        /* Hero grain texture */
+        .hero-grain {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          opacity: 0.045;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");
+          background-size: 180px 180px;
+        }
+
+        /* Hero glow orbs — slow, large, organic */
         .hero-orb {
           position: absolute;
           border-radius: 50%;
           pointer-events: none;
-          filter: blur(80px);
+          filter: blur(110px);
         }
         .hero-orb-1 {
-          width: 600px; height: 500px;
-          background: radial-gradient(ellipse, rgba(30,82,208,0.22) 0%, transparent 70%);
-          bottom: -100px; left: -80px;
-          animation: orbFloat1 18s ease-in-out infinite;
+          width: 820px; height: 720px;
+          background: radial-gradient(ellipse, rgba(30,82,208,0.2) 0%, transparent 70%);
+          bottom: -180px; left: -120px;
+          animation: orbFloat1 36s ease-in-out infinite;
         }
         .hero-orb-2 {
-          width: 480px; height: 420px;
-          background: radial-gradient(ellipse, rgba(232,88,53,0.16) 0%, transparent 70%);
-          top: -60px; right: -60px;
-          animation: orbFloat2 22s ease-in-out infinite;
+          width: 640px; height: 580px;
+          background: radial-gradient(ellipse, rgba(232,88,53,0.12) 0%, transparent 70%);
+          top: -80px; right: -80px;
+          animation: orbFloat2 44s ease-in-out infinite;
         }
         .hero-orb-3 {
-          width: 300px; height: 300px;
-          background: radial-gradient(ellipse, rgba(75,118,240,0.12) 0%, transparent 70%);
-          top: 40%; left: 50%;
-          animation: orbFloat3 14s ease-in-out infinite;
+          width: 400px; height: 380px;
+          background: radial-gradient(ellipse, rgba(75,118,240,0.10) 0%, transparent 70%);
+          top: 38%; left: 48%;
+          animation: orbFloat3 26s ease-in-out infinite;
         }
 
         @keyframes orbFloat1 {
           0%, 100% { transform: translate(0, 0) scale(1); }
-          33%       { transform: translate(80px, -60px) scale(1.08); }
-          66%       { transform: translate(-40px, 40px) scale(0.95); }
+          33%       { transform: translate(60px, -50px) scale(1.06); }
+          66%       { transform: translate(-30px, 35px) scale(0.96); }
         }
         @keyframes orbFloat2 {
           0%, 100% { transform: translate(0, 0) scale(1); }
-          40%       { transform: translate(-70px, 50px) scale(1.1); }
-          70%       { transform: translate(50px, -30px) scale(0.92); }
+          40%       { transform: translate(-55px, 40px) scale(1.08); }
+          70%       { transform: translate(40px, -25px) scale(0.94); }
         }
         @keyframes orbFloat3 {
           0%, 100% { transform: translate(-50%, -50%) scale(1); }
-          50%       { transform: translate(-50%, -50%) scale(1.4); opacity: 0.7; }
+          50%       { transform: translate(-50%, -50%) scale(1.3); opacity: 0.75; }
         }
         @keyframes heroPulse {
           0%, 100% { opacity: 1; }
           50%       { opacity: 0.4; }
+        }
+
+        /* Trust marquee */
+        @keyframes marquee {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        .trust-marquee {
+          animation: marquee 32s linear infinite;
+          will-change: transform;
+        }
+        .trust-marquee:hover {
+          animation-play-state: paused;
         }
 
         /* Destination cards */
