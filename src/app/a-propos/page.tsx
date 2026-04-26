@@ -18,7 +18,7 @@ const values = [
     num: "02",
     title: "Simplicité pour vous",
     accent: "#E85835",
-    desc: "Votre rôle est de vous concentrer sur vos apprentis. Le nôtre est de vous décharger de tout le reste — logistique, administratif, Erasmus+, coordination terrain.",
+    desc: "Votre rôle est de vous concentrer sur vos apprentis et votre pédagogie. Le nôtre est de prendre en charge tout ce qui entoure le séjour — logistique, encadrement terrain, démarches administratives et ingénierie de financement.",
   },
   {
     num: "03",
@@ -30,7 +30,7 @@ const values = [
     num: "04",
     title: "Partenariat durable",
     accent: "#E85835",
-    desc: "Nous construisons des relations à long terme avec les CFA et les OPCO. 50 écoles nous font confiance depuis plusieurs années. Ce n'est pas un hasard.",
+    desc: "Nous construisons des relations à long terme avec les établissements qui nous font confiance. 50 organismes travaillent avec nous depuis plusieurs années — et la majorité repart chaque saison.",
   },
 ];
 
@@ -83,9 +83,9 @@ export default function AProposPage() {
             fontSize: 18, color: "rgba(255,255,255,0.65)", maxWidth: 600, lineHeight: 1.75,
           }}>
             AMI Panorama conçoit et coordonne des programmes de mobilité internationale
-            pour les CFA, les OPCO et les entreprises françaises depuis plus de 10 ans.
-            Basée au Canada, notre équipe opère avec un réseau en Europe, en Amérique
-            du Nord, en Asie et en Afrique du Nord.
+            pour les CFA, les écoles et les établissements d'enseignement supérieur
+            depuis plus de 10 ans. Basée au Canada, notre équipe opère avec un réseau
+            de partenaires en Europe, en Amérique du Nord, en Asie et en Afrique du Nord.
           </p>
         </div>
       </section>
@@ -127,16 +127,16 @@ export default function AProposPage() {
                 fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: 700,
                 letterSpacing: "-0.03em", lineHeight: 1.25, marginBottom: 24,
               }}>
-                Rendre la mobilité internationale aussi accessible que possible pour chaque apprenti.
+                Rendre la mobilité internationale concrète, structurée et reproductible pour chaque établissement.
               </h2>
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 20 }}>
-                Trop de CFA renoncent à la mobilité internationale parce qu'elle leur semble trop
-                complexe à organiser. Notre rôle est de supprimer cette barrière — en prenant en charge
-                tout ce qui est hors du champ pédagogique de nos clients.
+                Trop d'établissements renoncent à la mobilité internationale parce qu'elle leur
+                semble trop complexe à mettre en place. Notre rôle est de supprimer cette barrière —
+                en prenant en charge tout ce qui est hors du champ pédagogique de nos clients.
               </p>
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8 }}>
                 Le résultat : des groupes qui partent, des apprentis qui reviennent transformés,
-                et des organismes qui répètent l'expérience d'année en année.
+                et des établissements qui renouvellent l'expérience d'année en année.
               </p>
             </div>
             <div style={{ padding: "52px 48px", background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: 16 }}>
@@ -148,9 +148,10 @@ export default function AProposPage() {
                 Pas un voyagiste. Pas une agence. Un opérateur de mobilité professionnelle.
               </h2>
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 20 }}>
-                Nous ne vendons pas des voyages. Nous construisons des programmes pédagogiques
-                à l'international — avec tout ce qu'une mobilité sérieuse implique : formation,
-                visites professionnelles, logistique, assurances et financement.
+                Nous ne vendons pas des voyages. Nous construisons des programmes de mobilité
+                professionnelle — avec tout ce qu'une mobilité sérieuse implique : formation
+                structurée, visites d'entreprise, encadrement terrain, logistique, assurances
+                et accompagnement administratif complet.
               </p>
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8 }}>
                 Notre ancrage au Canada nous donne une vision nord-américaine qui enrichit

@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Notre programme",
   description:
-    "7 nuits, 20h de formation, visites d'entreprise, activités culturelles, logement, transports et assurances. Découvrez le programme AMI Panorama dans le détail.",
+    "Un programme de mobilité internationale complet : formation professionnelle structurée, visites d'entreprise, encadrement terrain, logistique et accompagnement administratif. Découvrez chaque composante du programme AMI Panorama.",
 };
 
 const components = [
@@ -88,15 +88,15 @@ const components = [
   },
   {
     num: "07",
-    title: "Support administratif & Erasmus+",
-    sub: "Financement géré de bout en bout",
+    title: "Ingénierie administrative & financière",
+    sub: "Accompagnement de A à Z",
     accent: "#1E52D0",
-    desc: "C'est souvent ce qui freine les CFA : la complexité administrative. Nous prenons en charge l'intégralité du dossier Erasmus+ — de la vérification de l'éligibilité jusqu'au reporting final — pour que vous n'ayez qu'à valider.",
+    desc: "La complexité administrative est souvent ce qui dissuade les établissements de se lancer. AMI Panorama prend en charge l'intégralité de l'ingénierie de projet — structuration, démarches documentaires, identification des dispositifs mobilisables et coordination des étapes clés — pour que vous n'ayez qu'à valider.",
     details: [
-      "Vérification d'éligibilité et stratégie de financement",
-      "Rédaction et dépôt du dossier auprès de l'agence nationale",
-      "Conventions de mobilité et documents réglementaires",
-      "Suivi budgétaire et reporting de fin de projet",
+      "Structuration du projet de mobilité et calendrier réglementaire",
+      "Identification des cadres de financement mobilisables selon votre situation",
+      "Rédaction des conventions de mobilité et documents requis",
+      "Suivi documentaire et coordination jusqu'à la clôture du projet",
     ],
   },
 ];
@@ -122,15 +122,16 @@ export default function NotreProgrammePage() {
             fontSize: "clamp(36px, 5.5vw, 64px)", fontWeight: 700,
             letterSpacing: "-0.04em", lineHeight: 1.08, maxWidth: 720, marginBottom: 24,
           }}>
-            7 nuits.{" "}
-            <span className="gradient-text">Tout compris.</span>
+            Un programme structuré.{" "}
+            <span className="gradient-text">Coordonné de bout en bout.</span>
           </h1>
           <p className="anim-fade-up-3" style={{
-            fontSize: 18, color: "var(--text-secondary)", maxWidth: 600, lineHeight: 1.75, marginBottom: 48,
+            fontSize: 18, color: "var(--text-secondary)", maxWidth: 620, lineHeight: 1.75, marginBottom: 48,
           }}>
-            Chaque programme AMI Panorama est un séjour immersif complet, pensé pour que
-            vos apprentis vivent une expérience professionnelle et humaine transformatrice.
-            Vous gérez la pédagogie. Nous gérons tout le reste.
+            Chaque programme AMI Panorama est un séjour immersif et professionnel,
+            pensé pour que vos apprentis vivent une expérience formative et humaine
+            réelle. Formation, visites, encadrement, logistique, démarches administratives —
+            tout est inclus. Vous vous concentrez sur votre groupe.
           </p>
 
           {/* Quick stats strip */}
@@ -139,10 +140,10 @@ export default function NotreProgrammePage() {
             background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden",
           }}>
             {([
-              ["7 nuits", "d'hébergement"],
-              ["20h", "de formation"],
-              ["6", "destinations"],
-              ["Erasmus+", "financement inclus"],
+              ["7 à 14 nuits", "d'hébergement encadré"],
+              ["20h", "de formation structurée"],
+              ["6", "destinations actives"],
+              ["Appui admin.", "inclus dans chaque programme"],
             ] as [string, string][]).map(([v, l], i, arr) => (
               <div key={v} style={{
                 padding: "22px 32px", flex: 1, minWidth: 140,
@@ -194,12 +195,12 @@ export default function NotreProgrammePage() {
       <section style={{ padding: "64px 24px 80px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 40 }}>
-            <div className="section-label">Les 7 composantes</div>
+            <div className="section-label">Les composantes du programme</div>
             <h2 style={{
               fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 700,
-              letterSpacing: "-0.035em", maxWidth: 520,
+              letterSpacing: "-0.035em", maxWidth: 560,
             }}>
-              Ce qui est inclus dans chaque programme
+              Ce qui est inclus dans chaque programme AMI Panorama
             </h2>
           </div>
 
@@ -284,14 +285,14 @@ export default function NotreProgrammePage() {
               fontFamily: "var(--font-serif)", fontStyle: "italic",
               letterSpacing: "-0.02em", marginBottom: 16, color: "#fff", position: "relative",
             }}>
-              Quel groupe souhaitez-vous envoyer ?
+              Parlez-nous de votre groupe et de votre projet.
             </h2>
             <p style={{
               fontSize: 16, color: "rgba(255,255,255,0.55)",
-              maxWidth: 480, margin: "0 auto 40px", lineHeight: 1.75, position: "relative",
+              maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.75, position: "relative",
             }}>
-              Chaque programme est adapté à votre filière, vos dates et vos contraintes.
-              Parlez-nous de votre projet en moins de 5 minutes.
+              Filière, destination envisagée, dates, taille du groupe. Nous revenons vers
+              vous avec une proposition sur mesure — sous 24 heures ouvrables.
             </p>
             <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", position: "relative" }}>
               <Link href="/contact" className="btn-primary">

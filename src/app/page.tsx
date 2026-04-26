@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 import AnimateOnView from "@/components/AnimateOnView";
 
 export const metadata: Metadata = {
-  title: "AMI Panorama — Mobilité internationale des apprentis, clé en main",
+  title: "AMI Panorama — Opérateur de mobilité internationale pour les CFA et les établissements",
   description:
-    "AMI Panorama conçoit des programmes de mobilité internationale sur mesure pour les CFA et les entreprises. 7 nuits, 6 destinations, formation + visites d'entreprise + financement Erasmus+.",
+    "AMI Panorama conçoit des programmes de mobilité internationale structurés pour les CFA, les écoles et les établissements d'enseignement supérieur. Formation professionnelle, visites d'entreprise, encadrement terrain et accompagnement administratif de A à Z.",
 };
 
 const destinations = [
@@ -74,7 +74,7 @@ const included = [
   { num: "04", label: "Logement 7 nuits",      sub: "Hébergement sécurisé + rooftop" },
   { num: "05", label: "Transports inclus",     sub: "Aéroport + navettes quotidiennes" },
   { num: "06", label: "Assurances complètes",  sub: "Rapatriement 24h/24 + 200 k€" },
-  { num: "07", label: "Support Erasmus+",      sub: "Dossiers, suivi, reporting complet" },
+  { num: "07", label: "Ingénierie administrative", sub: "Structuration, dispositifs, suivi documentaire" },
 ];
 
 export default function HomePage() {
@@ -148,7 +148,7 @@ export default function HomePage() {
             <span style={{
               fontSize: 11, fontWeight: 600, letterSpacing: "0.14em",
               textTransform: "uppercase", color: "rgba(255,255,255,0.45)",
-            }}>Mobilité internationale · Clé en main</span>
+            }}>Opérateur de mobilité professionnelle · Depuis 2014</span>
           </div>
 
           {/* Main headline */}
@@ -193,9 +193,10 @@ export default function HomePage() {
               color: "rgba(255,255,255,0.55)",
               lineHeight: 1.75, maxWidth: 460,
             }}>
-              AMI Panorama conçoit des séjours de 7 nuits sur mesure pour les CFA
-              et les entreprises — formation, visites professionnelles, culture
-              et financement Erasmus+ pris en charge de bout en bout.
+              AMI Panorama conçoit des programmes de mobilité internationale
+              pour les CFA et les établissements d'enseignement supérieur —
+              formation structurée, visites professionnelles, encadrement terrain
+              et accompagnement administratif de A à Z.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", paddingTop: 4 }}>
               <Link href="/contact" className="btn-primary">
@@ -386,15 +387,15 @@ export default function HomePage() {
                 <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.04em" }}>20h</div>
                 <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 2 }}>de contenu professionnel</div>
               </div>
-              {/* Erasmus badge */}
+              {/* Encadrement badge */}
               <div style={{
                 position: "absolute", top: -16, left: -16,
                 background: "var(--coral)", borderRadius: 10,
                 padding: "12px 18px",
                 boxShadow: "0 4px 20px rgba(232,88,53,0.35)",
               }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", letterSpacing: "0.06em" }}>Financement</div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: "-0.02em" }}>Erasmus+</div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", letterSpacing: "0.06em" }}>Encadrement</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: "-0.02em" }}>24h / 7j</div>
               </div>
             </div>
 
@@ -405,14 +406,15 @@ export default function HomePage() {
                 fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 700,
                 letterSpacing: "-0.04em", lineHeight: 1.1, marginBottom: 16,
               }}>
-                7 nuits.<br />
-                <span className="gradient-text">Tout compris.</span>
+                Un programme complet.<br />
+                <span className="gradient-text">Coordonné de bout en bout.</span>
               </h2>
               <p style={{
                 fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 36,
               }}>
-                AMI Panorama coordonne chaque détail du séjour pour que vos apprentis
-                vivent une expérience professionnelle complète. Vous gérez la pédagogie.
+                AMI Panorama prend en charge l'intégralité de l'organisation pour que
+                vos apprentis vivent une expérience internationale structurée et
+                professionnalisante. Vous vous concentrez sur la pédagogie.
                 Nous gérons tout le reste.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 0, marginBottom: 40 }}>
@@ -473,7 +475,7 @@ export default function HomePage() {
                 {[
                   { num: "1", title: "Vous nous contactez", desc: "Premier échange pour comprendre votre groupe, votre filière, vos dates." },
                   { num: "2", title: "Nous proposons", desc: "Programme sur mesure en 24h — destination, hébergement, planning complet." },
-                  { num: "3", title: "Nous coordonnons", desc: "Logistique, formations, visites, assurances, dossier Erasmus+ géré intégralement." },
+                  { num: "3", title: "Nous coordonnons", desc: "Logistique, formations, visites professionnelles, assurances et démarches administratives — tout est pris en charge." },
                   { num: "4", title: "Vos apprentis partent", desc: "Vous accompagnez. Nous assurons tout sur place. Tout est prévu." },
                 ].map(({ num, title, desc }) => (
                   <div key={num} style={{ position: "relative" }}>
@@ -593,7 +595,7 @@ export default function HomePage() {
               pointerEvents: "none",
             }} />
             <div className="section-label-light" style={{ justifyContent: "center" }}>
-              Vous souhaitez envoyer un groupe ?
+              Construisons votre programme
             </div>
             <h2 style={{
               fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 500,
@@ -601,14 +603,14 @@ export default function HomePage() {
               letterSpacing: "-0.025em", lineHeight: 1.2,
               color: "#fff", maxWidth: 640, margin: "0 auto 20px", position: "relative",
             }}>
-              Un programme sur mesure,<br />livré en 24 heures.
+              Une proposition sur mesure,<br />sous 24 heures ouvrables.
             </h2>
             <p style={{
-              fontSize: 16, color: "rgba(255,255,255,0.5)", maxWidth: 440,
+              fontSize: 16, color: "rgba(255,255,255,0.5)", maxWidth: 480,
               margin: "0 auto 44px", lineHeight: 1.75, position: "relative",
             }}>
-              Parlez-nous de votre projet. Destination, filière, dates, taille du groupe.
-              Nous vous répondons sous 24h ouvrables.
+              Partagez votre projet avec nous — destination envisagée, filière, dates,
+              taille du groupe. Nous revenons vers vous avec une proposition complète.
             </p>
             <div style={{
               display: "flex", gap: 14, justifyContent: "center",

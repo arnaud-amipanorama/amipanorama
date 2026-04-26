@@ -5,7 +5,7 @@ import AnimateOnView from "@/components/AnimateOnView";
 export const metadata: Metadata = {
   title: "Destinations",
   description:
-    "Séville, Montréal, Londres, Maroc, New York, Séoul — 6 destinations de mobilité internationale pour vos apprentis. Chaque programme est unique, chaque ville est une expérience.",
+    "Séville, Montréal, Londres, Maroc, New York, Séoul — 6 destinations de mobilité professionnelle internationale. Chaque programme est structuré pour sa valeur pédagogique et professionnelle, adapté à votre filière.",
 };
 
 const destinations = [
@@ -19,10 +19,10 @@ const destinations = [
     headline: "L'Andalousie comme terrain de formation.",
     desc: "Séville offre un cadre exceptionnel pour une immersion totale : culture riche, économie sociale dynamique et chaleur humaine qui facilite l'ouverture interculturelle. Idéal pour les filières tourisme, commerce, services et RH.",
     highlights: [
-      "Hébergement en centre-ville dans un établissement sélectionné",
-      "Panorama de l'économie sociale espagnole",
-      "Visites d'entreprises locales dans le secteur tertiaire",
-      "Activités culturelles : flamenco, Cathédrale, Alcazar",
+      "Hébergement en centre-ville dans un établissement sélectionné et testé",
+      "Formation avec panorama socio-économique de la région andalouse",
+      "Visites d'entreprises locales dans les secteurs tertiaire et services",
+      "Activités culturelles : flamenco, Cathédrale de Séville, Alcazar",
     ],
     ideal: "Tourisme · Commerce · RH · Services",
   },
@@ -53,10 +53,10 @@ const destinations = [
     headline: "La capitale mondiale du Business English.",
     desc: "Londres reste la référence pour l'apprentissage de l'anglais professionnel dans un contexte réel. Un séjour à Londres, c'est 7 jours d'immersion totale en anglais, dans une ville qui concentre une densité unique d'entreprises internationales.",
     highlights: [
-      "Cours intensifs d'anglais avec des formateurs natifs",
-      "Visites de sites emblématiques : British Museum, London Eye, Westminster",
-      "Programme Business English adapté au niveau du groupe",
-      "Expériences de vie à Londres : marchés, quartiers, transports",
+      "Formation Business English avec des formateurs professionnels natifs",
+      "Visites d'entreprises et observation du monde du travail londonien",
+      "Programme adapté au niveau et à la filière du groupe",
+      "Découverte des quartiers emblématiques et de la culture urbaine britannique",
     ],
     ideal: "Toutes filières · Amélioration du niveau d'anglais",
   },
@@ -104,10 +104,10 @@ const destinations = [
     headline: "Une fenêtre sur l'Asie du XXIe siècle.",
     desc: "Séoul est l'une des villes les plus innovantes du monde. Un séjour en Corée du Sud offre aux apprentis une vision concrète du monde du travail asiatique : culture de l'innovation, discipline professionnelle, technologies de rupture.",
     highlights: [
-      "Apprentissage en classe et observation quotidienne sur le terrain",
-      "Visite de districts tech, startups et grandes corporations",
-      "Développement de la capacité d'adaptation interculturelle",
-      "Culture K-pop, gastronomie et art de vivre coréen",
+      "Observation des pratiques professionnelles dans un environnement tech de pointe",
+      "Visites de districts d'innovation, startups et grandes corporations coréennes",
+      "Développement de la capacité d'adaptation interculturelle en contexte réel",
+      "Immersion dans les codes sociaux et professionnels du monde du travail asiatique",
     ],
     ideal: "Numérique · Tech · Industrie · Innovation",
   },
@@ -148,11 +148,11 @@ export default function DestinationsPage() {
           </h1>
           <p className="anim-fade-up-3" style={{
             fontSize: 18, color: "rgba(255,255,255,0.65)",
-            maxWidth: 560, lineHeight: 1.75,
+            maxWidth: 580, lineHeight: 1.75,
           }}>
             Chaque destination est sélectionnée pour sa valeur pédagogique,
-            professionnelle et humaine — avec le même programme de qualité,
-            adapté à chaque contexte.
+            professionnelle et humaine. Le même niveau d'exigence, la même
+            structure de programme — adapté au contexte et à la filière de votre groupe.
           </p>
 
           {/* Flag strip */}
@@ -287,7 +287,7 @@ export default function DestinationsPage() {
               background: "radial-gradient(ellipse, rgba(232,88,53,0.2) 0%, transparent 70%)",
               pointerEvents: "none",
             }} />
-            <div className="section-label-light" style={{ justifyContent: "center" }}>Une destination vous attire ?</div>
+            <div className="section-label-light" style={{ justifyContent: "center" }}>Une destination vous intéresse ?</div>
             <h2 style={{
               fontSize: "clamp(26px, 3.5vw, 44px)", fontWeight: 500,
               fontFamily: "var(--font-serif)", fontStyle: "italic",
@@ -297,10 +297,10 @@ export default function DestinationsPage() {
             </h2>
             <p style={{
               fontSize: 16, color: "rgba(255,255,255,0.55)",
-              maxWidth: 480, margin: "0 auto 40px", lineHeight: 1.75, position: "relative",
+              maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.75, position: "relative",
             }}>
-              Indiquez-nous la destination qui vous intéresse, la taille de votre groupe et vos dates.
-              Nous vous répondons sous 24h ouvrables.
+              Destination envisagée, filière, taille du groupe, dates — partagez votre projet.
+              Nous vous revenons avec une proposition complète sous 24 heures ouvrables.
             </p>
             <Link href="/contact" className="btn-primary" style={{ position: "relative" }}>
               Demander un programme
