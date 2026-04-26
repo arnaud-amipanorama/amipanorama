@@ -15,7 +15,7 @@ const destinations = [
     tag: "Culture & immersion",
     flag: "🇪🇸",
     accent: "#E85835",
-    photo: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=900&q=80",
+    photo: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
     headline: "L'Andalousie comme terrain de formation.",
     desc: "Séville offre un cadre exceptionnel pour une immersion totale : culture riche, économie sociale dynamique et chaleur humaine qui facilite l'ouverture interculturelle. Idéal pour les filières tourisme, commerce, services et RH.",
     highlights: [
@@ -66,7 +66,7 @@ const destinations = [
     tag: "Masterclasses & digital",
     flag: "🇲🇦",
     accent: "#D4862A",
-    photo: "https://images.unsplash.com/photo-1548013146-72479768bada?w=900&q=80",
+    photo: "https://images.pexels.com/photos/30710069/pexels-photo-30710069.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
     headline: "L'Afrique du Nord, entre tradition et disruption.",
     desc: "Le Maroc, principalement à Marrakech, propose un programme adapté aux ambitions professionnelles les plus contemporaines : masterclasses en IA, marketing digital et management interculturel, dans un cadre chargé d'histoire et d'inspiration.",
     highlights: [

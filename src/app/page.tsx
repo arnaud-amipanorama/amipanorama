@@ -16,7 +16,7 @@ const destinations = [
     flag: "🇪🇸",
     tag: "Culture & immersion",
     gradient: "linear-gradient(170deg,rgba(100,30,10,0.42),rgba(180,80,20,0.28))",
-    img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=800&q=80",
+    img: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
   },
   {
     city: "Montréal",
@@ -40,7 +40,7 @@ const destinations = [
     flag: "🇲🇦",
     tag: "Masterclasses & digital",
     gradient: "linear-gradient(170deg,rgba(80,30,10,0.42),rgba(160,80,20,0.28))",
-    img: "https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80",
+    img: "https://images.pexels.com/photos/30710069/pexels-photo-30710069.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
   },
   {
     city: "New York",
@@ -67,15 +67,10 @@ const stats = [
   { value: "6",      label: "destinations actives" },
 ];
 
-const trustItems = [
+// Partner school names — update with real partner list
+const partnerNames = [
   "ECEMA Lyon",
-  "CFA de branche",
-  "Lycées professionnels",
-  "CFA d'entreprise",
-  "Écoles supérieures",
-  "Formations en alternance",
-  "CFA régionaux",
-  "Établissements d'enseignement supérieur",
+  // Add confirmed partner names here
 ];
 
 const included = [
@@ -105,6 +100,14 @@ export default function HomePage() {
         overflow: "hidden",
         background: "var(--navy)",
       }}>
+        {/* ── Aerial city photo — very faint base layer ── */}
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundImage: "url('https://images.pexels.com/photos/326329/pexels-photo-326329.jpeg?auto=compress&cs=tinysrgb&w=1600&q=80')",
+          backgroundSize: "cover", backgroundPosition: "center",
+          opacity: 0.07,
+        }} />
+
         {/* ── Atmospheric glow orbs ── */}
         <div className="hero-orb hero-orb-1" />
         <div className="hero-orb hero-orb-2" />
@@ -220,49 +223,46 @@ export default function HomePage() {
       <section style={{
         borderBottom: "1px solid var(--border)",
         background: "var(--bg)",
-        overflow: "hidden",
         padding: "0 24px",
       }}>
         <div style={{
           maxWidth: 1200, margin: "0 auto",
-          display: "flex", alignItems: "center", gap: 28,
-          padding: "22px 0",
+          display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap",
+          padding: "18px 0",
         }}>
-          <div style={{
-            flexShrink: 0,
+          <span style={{
             fontSize: 10, fontWeight: 600, letterSpacing: "0.12em",
             textTransform: "uppercase", color: "var(--text-muted)",
-            lineHeight: 1.6,
+            flexShrink: 0,
           }}>
-            Ils nous<br />font confiance
-          </div>
-          <div style={{ width: 1, height: 28, background: "var(--border)", flexShrink: 0 }} />
-          <div style={{
-            overflow: "hidden", flex: 1,
-            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
-            maskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
-          }}>
-            <div className="trust-marquee" style={{
-              display: "flex", whiteSpace: "nowrap", alignItems: "center",
-            }}>
-              {[...trustItems, ...trustItems].map((item, i) => (
-                <span key={i} style={{
-                  fontSize: 13, color: "var(--text-secondary)", fontWeight: 400,
-                  padding: "0 32px",
-                  borderRight: "1px solid var(--border)",
-                }}>
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div style={{ width: 1, height: 28, background: "var(--border)", flexShrink: 0 }} />
-          <div style={{ flexShrink: 0, textAlign: "right" }}>
+            Ils nous font confiance
+          </span>
+          <div style={{ width: 1, height: 20, background: "var(--border)", flexShrink: 0 }} />
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", flex: 1 }}>
+            {partnerNames.map(name => (
+              <span key={name} style={{
+                fontSize: 12, fontWeight: 500, color: "var(--text-secondary)",
+                background: "var(--bg-1)", border: "1px solid var(--border)",
+                borderRadius: 100, padding: "5px 14px",
+              }}>
+                {name}
+              </span>
+            ))}
             <span style={{
-              fontSize: 20, fontWeight: 700, color: "var(--text-primary)",
+              fontSize: 12, fontWeight: 400, color: "var(--text-muted)",
+              background: "transparent",
+              padding: "5px 2px",
+            }}>
+              et 49 autres établissements
+            </span>
+          </div>
+          <div style={{ width: 1, height: 20, background: "var(--border)", flexShrink: 0 }} />
+          <div style={{ flexShrink: 0 }}>
+            <span style={{
+              fontSize: 18, fontWeight: 700, color: "var(--text-primary)",
               letterSpacing: "-0.04em",
             }}>50</span>
-            <span style={{ fontSize: 12, color: "var(--text-muted)", marginLeft: 6 }}>établissements</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)", marginLeft: 5 }}>établissements partenaires</span>
           </div>
         </div>
       </section>
