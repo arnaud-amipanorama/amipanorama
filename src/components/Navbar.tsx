@@ -65,10 +65,10 @@ export default function Navbar() {
             ) : (
               /* Dark logo on light scrolled navbar */
               <Image
-                src="/Assets/AMI%20Panorama%20Logo%20Signature.png"
+                src="/Assets/AMI%20PANORAMA%20Logo%20Black.png"
                 alt="AMI Panorama"
-                width={140}
-                height={42}
+                width={160}
+                height={48}
                 priority
                 style={{ height: 32, width: "auto", objectFit: "contain" }}
               />
