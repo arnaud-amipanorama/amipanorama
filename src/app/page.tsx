@@ -40,7 +40,7 @@ const destinations = [
     flag: "🇲🇹",
     tag: "English immersion",
     gradient: "linear-gradient(170deg,rgba(8,28,70,0.42),rgba(18,50,130,0.28))",
-    img: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80",
+    img: "https://images.pexels.com/photos/18021128/pexels-photo-18021128.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
   },
   {
     city: "Maroc",
@@ -48,7 +48,7 @@ const destinations = [
     flag: "🇲🇦",
     tag: "Immersion & interculturel",
     gradient: "linear-gradient(170deg,rgba(80,30,10,0.42),rgba(160,80,20,0.28))",
-    img: "https://images.pexels.com/photos/30710069/pexels-photo-30710069.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
+    img: "https://images.pexels.com/photos/36202810/pexels-photo-36202810.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
   },
   {
     city: "Berlin",
@@ -80,7 +80,7 @@ const destinations = [
     flag: "🇺🇸",
     tag: "Business English & ouverture US",
     gradient: "linear-gradient(170deg,rgba(8,24,55,0.42),rgba(18,44,100,0.28))",
-    img: "https://images.unsplash.com/photo-1533106418989-88406c7cc8ca?w=800&q=80",
+    img: "https://images.pexels.com/photos/29360684/pexels-photo-29360684.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
   },
   {
     city: "Séoul",

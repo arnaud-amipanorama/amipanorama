@@ -66,7 +66,7 @@ const destinations = [
     tag: "English immersion",
     flag: "🇲🇹",
     accent: "#1E52D0",
-    photo: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=900&q=80",
+    photo: "https://images.pexels.com/photos/18021128/pexels-photo-18021128.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
     headline: "L'anglais en immersion totale, sous le soleil méditerranéen.",
     desc: "Malte est l'une des rares destinations européennes entièrement anglophones — et l'une des plus accessibles. Son cadre méditerranéen, son histoire millénaire et sa taille humaine en font un environnement idéal pour une progression réelle en anglais professionnel, dans une atmosphère solaire et engageante.",
     highlights: [
@@ -83,7 +83,7 @@ const destinations = [
     tag: "Immersion & management interculturel",
     flag: "🇲🇦",
     accent: "#D4862A",
-    photo: "https://images.pexels.com/photos/30710069/pexels-photo-30710069.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
+    photo: "https://images.pexels.com/photos/36202810/pexels-photo-36202810.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
     headline: "L'Afrique du Nord, entre tradition et dynamisme contemporain.",
     desc: "Le Maroc — principalement Marrakech et Casablanca — propose un programme ancré dans les réalités économiques et culturelles du pays. Une destination qui confronte les apprentis à un environnement professionnel différent, entre héritage fort et ambitions de modernisation.",
     highlights: [
@@ -151,7 +151,7 @@ const destinations = [
     tag: "Business English & ouverture américaine",
     flag: "🇺🇸",
     accent: "#1E52D0",
-    photo: "https://images.unsplash.com/photo-1533106418989-88406c7cc8ca?w=900&q=80",
+    photo: "https://images.pexels.com/photos/29360684/pexels-photo-29360684.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
     headline: "L'Amérique dans sa version la plus internationale.",
     desc: "Miami n'est pas New York — et c'est précisément son atout. Carrefour des Amériques, ville internationale par nature, elle offre aux apprentis une lecture concrète du modèle économique américain dans un environnement cosmopolite, accessible et tourné vers l'Atlantique.",
     highlights: [
