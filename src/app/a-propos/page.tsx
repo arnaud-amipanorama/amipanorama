@@ -235,6 +235,41 @@ export default function AProposPage() {
         </div>
       </section>
 
+      {/* Real photo — Séville programme, certificate ceremony */}
+      <section style={{ padding: "0 24px 56px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{
+            position: "relative", borderRadius: 20, overflow: "hidden",
+            height: "clamp(280px, 38vw, 480px)",
+          }}>
+            <div style={{
+              position: "absolute", inset: 0,
+              backgroundImage: "url('/Assets/Groupe Seville .jpg')",
+              backgroundSize: "cover", backgroundPosition: "center 30%",
+            }} />
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "linear-gradient(to right, rgba(11,24,41,0.72) 0%, rgba(11,24,41,0.10) 55%, transparent 100%)",
+            }} />
+            <div style={{
+              position: "absolute", bottom: 36, left: 40,
+            }}>
+              <div style={{
+                fontSize: 11, fontWeight: 600, letterSpacing: "0.12em",
+                textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 10,
+              }}>Séville · Programme 2024</div>
+              <p style={{
+                fontSize: "clamp(18px, 2.5vw, 26px)", fontWeight: 500,
+                fontFamily: "var(--font-serif)", fontStyle: "italic",
+                color: "#fff", lineHeight: 1.3, maxWidth: 420,
+              }}>
+                Ce que ça ressemble,<br />quand ça fonctionne.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Values */}
       <section style={{ padding: "0 24px 72px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>

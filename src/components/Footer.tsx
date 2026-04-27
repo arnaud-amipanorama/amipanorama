@@ -21,15 +21,20 @@ export default function Footer() {
 
           {/* Brand */}
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
+            <div style={{ marginBottom: 20 }}>
               <Image
-                src="/ami-logo.svg"
+                src="/Assets/AMI Panorama Logo Signature.png"
                 alt="AMI Panorama"
-                width={30}
-                height={30}
-                style={{ filter: "brightness(0) invert(1)", opacity: 0.85 }}
+                width={140}
+                height={42}
+                style={{
+                  height: 38,
+                  width: "auto",
+                  filter: "brightness(0) invert(1)",
+                  opacity: 0.85,
+                  objectFit: "contain",
+                }}
               />
-              <span style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.03em", color: "#fff" }}>AMI Panorama</span>
             </div>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.75, maxWidth: 240 }}>
               Programmes de mobilité internationale clé en main pour les CFA et les entreprises françaises.

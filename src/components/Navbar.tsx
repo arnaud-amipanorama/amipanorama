@@ -51,30 +51,22 @@ export default function Navbar() {
         <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
 
           {/* Logo */}
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center" }}>
             <Image
-              src="/ami-logo.svg"
+              src="/Assets/AMI Panorama Logo Signature.png"
               alt="AMI Panorama"
-              width={32}
-              height={32}
+              width={120}
+              height={36}
               style={{
+                height: 34,
+                width: "auto",
                 filter: transparent
-                  ? "brightness(0) invert(1)"       /* white on dark hero */
-                  : "none",                          /* original blue on white */
+                  ? "brightness(0) invert(1)"
+                  : "brightness(0)",
                 transition: "filter 0.35s ease",
+                objectFit: "contain",
               }}
             />
-            <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-              <span style={{
-                fontSize: 15, fontWeight: 700, letterSpacing: "-0.03em",
-                color: logoColor, transition: "color 0.35s ease", lineHeight: 1.2,
-              }}>AMI Panorama</span>
-              <span style={{
-                fontSize: 10, fontWeight: 400, letterSpacing: "0.1em",
-                color: transparent ? "rgba(255,255,255,0.5)" : "var(--text-muted)",
-                textTransform: "uppercase", transition: "color 0.35s ease",
-              }}>Mobilité internationale</span>
-            </div>
           </Link>
 
           {/* Desktop links */}

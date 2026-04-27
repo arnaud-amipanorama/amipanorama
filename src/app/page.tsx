@@ -103,10 +103,8 @@ export default function HomePage() {
   return (
     <>
       {/* ══════════════════════════════════════════════
-          HERO — art-directed, no photo
-          Premium atmospheric layout: dark navy +
-          animated glow orbs + subtle world meridian
-          grid + editorial typography
+          HERO — cinematic split layout
+          Dark navy + animated orbs + real group photos
       ══════════════════════════════════════════════ */}
       <section style={{
         position: "relative",
@@ -116,14 +114,6 @@ export default function HomePage() {
         overflow: "hidden",
         background: "var(--navy)",
       }}>
-        {/* ── Aerial city photo — very faint base layer ── */}
-        <div style={{
-          position: "absolute", inset: 0,
-          backgroundImage: "url('https://images.pexels.com/photos/326329/pexels-photo-326329.jpeg?auto=compress&cs=tinysrgb&w=1600&q=80')",
-          backgroundSize: "cover", backgroundPosition: "center",
-          opacity: 0.07,
-        }} />
-
         {/* ── Atmospheric glow orbs ── */}
         <div className="hero-orb hero-orb-1" />
         <div className="hero-orb hero-orb-2" />
@@ -131,102 +121,134 @@ export default function HomePage() {
 
         {/* ── Film grain texture ── */}
         <div className="hero-grain" aria-hidden="true" />
-        {/* ── Background word mark ── */}
-        <div aria-hidden="true" style={{
-          position: "absolute",
-          bottom: "3%", right: "-3%",
-          fontSize: "clamp(130px, 21vw, 280px)",
-          fontFamily: "var(--font-serif)",
-          fontStyle: "italic",
-          fontWeight: 500,
-          color: "rgba(255,255,255,0.028)",
-          letterSpacing: "-0.04em",
-          lineHeight: 1,
-          whiteSpace: "nowrap",
-          pointerEvents: "none",
-          userSelect: "none",
-          zIndex: 0,
-        }}>Mobilité</div>
 
-        {/* ── Hero content ── */}
+        {/* ── Hero content: text left + photos right ── */}
         <div style={{
           maxWidth: 1200, margin: "0 auto", padding: "120px 24px 80px",
           position: "relative", width: "100%",
-        }}>
-          {/* Eyebrow */}
-          <div className="anim-fade-up" style={{
-            display: "inline-flex", alignItems: "center", gap: 10,
-            marginBottom: 36,
-          }}>
-            <div style={{
-              width: 7, height: 7, borderRadius: "50%",
-              background: "var(--coral)", boxShadow: "0 0 12px rgba(232,88,53,0.6)",
-              animation: "heroPulse 2.5s ease infinite",
-            }} />
-            <span style={{
-              fontSize: 11, fontWeight: 600, letterSpacing: "0.14em",
-              textTransform: "uppercase", color: "rgba(255,255,255,0.45)",
-            }}>Opérateur de mobilité professionnelle · Depuis 2014</span>
+          display: "grid",
+          gridTemplateColumns: "1fr auto",
+          alignItems: "center",
+          gap: 0,
+        }} className="hero-grid">
+
+          {/* Left: text */}
+          <div className="hero-text-col">
+            {/* Eyebrow */}
+            <div className="anim-fade-up" style={{
+              display: "inline-flex", alignItems: "center", gap: 10,
+              marginBottom: 36,
+            }}>
+              <div style={{
+                width: 7, height: 7, borderRadius: "50%",
+                background: "var(--coral)", boxShadow: "0 0 12px rgba(232,88,53,0.6)",
+                animation: "heroPulse 2.5s ease infinite",
+              }} />
+              <span style={{
+                fontSize: 11, fontWeight: 600, letterSpacing: "0.14em",
+                textTransform: "uppercase", color: "rgba(255,255,255,0.45)",
+              }}>Opérateur de mobilité professionnelle · Depuis 2014</span>
+            </div>
+
+            {/* Main headline */}
+            <h1 style={{ marginBottom: 28 }}>
+              <span className="anim-fade-up-2" style={{
+                display: "block",
+                fontSize: "clamp(48px, 6.5vw, 96px)",
+                fontWeight: 700,
+                letterSpacing: "-0.05em",
+                lineHeight: 1.0,
+                color: "#fff",
+              }}>
+                Ouvrir le monde
+              </span>
+              <span className="anim-fade-up-3" style={{
+                display: "block",
+                fontSize: "clamp(48px, 6.5vw, 96px)",
+                fontWeight: 500,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.0,
+                fontFamily: "var(--font-serif)",
+                fontStyle: "italic",
+                color: "transparent",
+                background: "linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(232,88,53,0.85) 100%)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                paddingBottom: 4,
+              }}>
+                aux apprentis.
+              </span>
+            </h1>
+
+            {/* Description + CTAs */}
+            <div className="anim-fade-up-4" style={{
+              display: "flex", flexWrap: "wrap", gap: 48, alignItems: "flex-start",
+              marginBottom: 64,
+            }}>
+              <p style={{
+                fontSize: "clamp(15px, 1.5vw, 17px)",
+                color: "rgba(255,255,255,0.52)",
+                lineHeight: 1.8, maxWidth: 420,
+              }}>
+                AMI Panorama conçoit des programmes de mobilité internationale
+                pour les CFA et les établissements d'enseignement supérieur —
+                pour que leurs apprentis accèdent à l'expérience collective et
+                internationale qui construit les liens, les souvenirs et l'ambition
+                qui font une formation vraiment complète.
+              </p>
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", paddingTop: 4 }}>
+                <Link href="/contact" className="btn-primary">
+                  Demander un programme
+                  <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </Link>
+                <Link href="/destinations" className="btn-ghost-light">
+                  Voir les destinations
+                </Link>
+              </div>
+            </div>
           </div>
 
-          {/* Main headline */}
-          <h1 style={{ marginBottom: 28 }}>
-            <span className="anim-fade-up-2" style={{
-              display: "block",
-              fontSize: "clamp(52px, 8vw, 104px)",
-              fontWeight: 700,
-              letterSpacing: "-0.05em",
-              lineHeight: 1.0,
-              color: "#fff",
-            }}>
-              Ouvrir le monde
-            </span>
-            <span className="anim-fade-up-3" style={{
-              display: "block",
-              fontSize: "clamp(52px, 8vw, 104px)",
-              fontWeight: 500,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.0,
-              fontFamily: "var(--font-serif)",
-              fontStyle: "italic",
-              color: "transparent",
-              WebkitTextStroke: "0px",
-              background: "linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(232,88,53,0.85) 100%)",
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              paddingBottom: 4,
-            }}>
-              aux apprentis.
-            </span>
-          </h1>
+          {/* Right: floating photo stack */}
+          <div className="hero-photo-col" aria-hidden="true">
+            {/* Secondary photo: Montréal — top-left, behind */}
+            <div className="hero-photo hero-photo-secondary">
+              <div style={{
+                position: "absolute", inset: 0,
+                backgroundImage: "url('/Assets/Groupe Montreal.jpg')",
+                backgroundSize: "cover", backgroundPosition: "center top",
+              }} />
+              <div style={{
+                position: "absolute", inset: 0,
+                background: "linear-gradient(160deg, rgba(11,24,41,0.08) 0%, rgba(11,24,41,0.22) 100%)",
+              }} />
+              <div className="hero-photo-label">🇨🇦 Montréal</div>
+            </div>
 
-          {/* Description + CTAs */}
-          <div className="anim-fade-up-4" style={{
-            display: "flex", flexWrap: "wrap", gap: 48, alignItems: "flex-start",
-            marginBottom: 64,
-          }}>
-            <p style={{
-              fontSize: "clamp(15px, 1.6vw, 18px)",
-              color: "rgba(255,255,255,0.55)",
-              lineHeight: 1.75, maxWidth: 460,
-            }}>
-              AMI Panorama conçoit des programmes de mobilité internationale
-              pour les CFA et les établissements d'enseignement supérieur —
-              pour que leurs apprentis accèdent à l'expérience collective et
-              internationale qui construit les liens, les souvenirs et l'ambition
-              qui font une formation vraiment complète.
-            </p>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", paddingTop: 4 }}>
-              <Link href="/contact" className="btn-primary">
-                Demander un programme
-                <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
-                  <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
-              <Link href="/destinations" className="btn-ghost-light">
-                Voir les destinations
-              </Link>
+            {/* Primary photo: New York Brooklyn Bridge — front, larger */}
+            <div className="hero-photo hero-photo-primary">
+              <div style={{
+                position: "absolute", inset: 0,
+                backgroundImage: "url('/Assets/NEW YORK AMI Panorama.jpg')",
+                backgroundSize: "cover", backgroundPosition: "center",
+              }} />
+              <div style={{
+                position: "absolute", inset: 0,
+                background: "linear-gradient(160deg, rgba(11,24,41,0.04) 0%, rgba(11,24,41,0.28) 100%)",
+              }} />
+              <div className="hero-photo-label">🇺🇸 New York</div>
+            </div>
+
+            {/* Floating stat pill */}
+            <div className="hero-stat-pill">
+              <div style={{
+                width: 8, height: 8, borderRadius: "50%",
+                background: "var(--coral)", boxShadow: "0 0 8px rgba(232,88,53,0.7)",
+                flexShrink: 0,
+              }} />
+              <span style={{ fontSize: 12, fontWeight: 500, color: "#fff" }}>3 000+ apprentis accompagnés</span>
             </div>
           </div>
 
@@ -730,6 +752,86 @@ export default function HomePage() {
         @keyframes heroPulse {
           0%, 100% { opacity: 1; }
           50%       { opacity: 0.4; }
+        }
+
+        /* Hero split layout */
+        .hero-grid { grid-template-columns: 1fr 420px !important; gap: 0 !important; }
+        .hero-text-col { padding-right: 48px; }
+
+        /* Floating photo cards */
+        .hero-photo-col {
+          position: relative;
+          width: 420px;
+          height: 520px;
+          flex-shrink: 0;
+          pointer-events: none;
+        }
+        .hero-photo {
+          position: absolute;
+          overflow: hidden;
+          border-radius: 14px;
+          border: 1px solid rgba(255,255,255,0.13);
+          box-shadow: 0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04) inset;
+        }
+        .hero-photo-secondary {
+          width: 240px; height: 300px;
+          top: 0; left: 0;
+          animation:
+            heroPhotoReveal 1.1s cubic-bezier(0.2,0,0,1) both 0.3s,
+            heroFloat2 8s ease-in-out infinite 1.4s;
+          z-index: 1;
+        }
+        .hero-photo-primary {
+          width: 310px; height: 400px;
+          bottom: 0; right: 0;
+          animation:
+            heroPhotoReveal 1.1s cubic-bezier(0.2,0,0,1) both 0.65s,
+            heroFloat1 10s ease-in-out infinite 1.75s;
+          z-index: 2;
+        }
+        .hero-photo-label {
+          position: absolute;
+          bottom: 14px; left: 14px;
+          font-size: 11px; font-weight: 500;
+          color: rgba(255,255,255,0.8);
+          letter-spacing: 0.04em;
+          background: rgba(11,24,41,0.55);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 100px;
+          padding: 5px 12px;
+        }
+        .hero-stat-pill {
+          position: absolute;
+          bottom: -20px; left: -10px;
+          display: flex; align-items: center; gap: 8px;
+          background: rgba(11,24,41,0.85);
+          backdrop-filter: blur(16px);
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 100px;
+          padding: 9px 16px;
+          animation: heroPhotoReveal 1.1s cubic-bezier(0.2,0,0,1) both 1s;
+          z-index: 3;
+          white-space: nowrap;
+        }
+
+        @keyframes heroPhotoReveal {
+          from { opacity: 0; transform: translateY(28px) scale(0.96); }
+          to   { opacity: 1; transform: translateY(0)   scale(1); }
+        }
+        @keyframes heroFloat1 {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-14px); }
+        }
+        @keyframes heroFloat2 {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-9px); }
+        }
+
+        @media (max-width: 960px) {
+          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-photo-col { display: none !important; }
+          .hero-text-col { padding-right: 0 !important; }
         }
 
         /* Trust marquee */
