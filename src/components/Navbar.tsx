@@ -52,21 +52,27 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link href="/" style={{ display: "flex", alignItems: "center" }}>
-            <Image
-              src="/Assets/AMI Panorama Logo Signature.png"
-              alt="AMI Panorama"
-              width={120}
-              height={36}
-              style={{
-                height: 34,
-                width: "auto",
-                filter: transparent
-                  ? "brightness(0) invert(1)"
-                  : "brightness(0)",
-                transition: "filter 0.35s ease",
-                objectFit: "contain",
-              }}
-            />
+            {transparent ? (
+              /* White logo on dark hero */
+              <Image
+                src="/Assets/AMI%20PANORAMA%20Logo%20White%20%281%29.png"
+                alt="AMI Panorama"
+                width={160}
+                height={48}
+                priority
+                style={{ height: 36, width: "auto", objectFit: "contain" }}
+              />
+            ) : (
+              /* Dark logo on light scrolled navbar */
+              <Image
+                src="/Assets/AMI%20Panorama%20Logo%20Signature.png"
+                alt="AMI Panorama"
+                width={140}
+                height={42}
+                priority
+                style={{ height: 32, width: "auto", objectFit: "contain" }}
+              />
+            )}
           </Link>
 
           {/* Desktop links */}
