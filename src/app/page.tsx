@@ -121,6 +121,30 @@ const partnerNames = [
   "Les Charmilles",
 ];
 
+const testimonials = [
+  {
+    quote: "Retour du Canada : Certaines expériences laissent une empreinte indélébile sur notre parcours professionnel et mon séjour au Canada en fait partie !",
+    name: "Ambre Spechier",
+    school: "My Business School",
+    dest: "Montréal",
+    flag: "🇨🇦",
+  },
+  {
+    quote: "Grâce à AMI Panorama et l'Institut Européen de Formation, j'ai eu la chance de me rendre à Montréal. Je ne qualifierais pas ce séjour de vacances, car même là-bas, nous avons continué à travailler.\nNous avons pris de nouveaux contacts et passé plusieurs heures à rédiger nos BP. Cependant, nous avons su joindre l'utile à l'agréable, en explorant bars, restaurants, gyms et parcs.",
+    name: "Hugo Zenner",
+    school: "Institut Européen de Formation",
+    dest: "Montréal",
+    flag: "🇨🇦",
+  },
+  {
+    quote: "Une expérience incroyable, qui nous a ouvert les yeux aux nouvelles cultures et architectures. Qui nous a aussi permis de faire des nouvelles rencontres et des très belles activités. Finalement on ne peut que garder des très beaux souvenirs de ce voyage à Séville.\n\nMerci Ami Panorama et les accompagnateurs pour ce beau voyage !",
+    name: "Aya Hazzaz",
+    school: "ECEMA",
+    dest: "Séville",
+    flag: "🇪🇸",
+  },
+];
+
 const included = [
   { num: "01", label: "Formation 16–20h",       sub: "Business English + ateliers sectoriels" },
   { num: "02", label: "Visites d'entreprise",  sub: "Immersion professionnelle réelle" },
@@ -605,6 +629,60 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
+          STUDENT TESTIMONIALS
+      ══════════════════════════════════════════════ */}
+      <section style={{ padding: "0 24px 80px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <AnimateOnView>
+            <div style={{ marginBottom: 40 }}>
+              <div className="section-label">Ce qu&apos;ils en retiennent</div>
+              <h2 style={{
+                fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 700,
+                letterSpacing: "-0.035em",
+              }}>
+                La parole aux apprentis.
+              </h2>
+            </div>
+          </AnimateOnView>
+          <div style={{
+            display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16,
+          }} className="testimonials-grid">
+            {testimonials.map(({ quote, name, school, dest, flag }, i) => (
+              <AnimateOnView key={name} delay={i * 0.08}>
+                <div style={{
+                  background: "var(--bg-1)", border: "1px solid var(--border)",
+                  borderRadius: 16, padding: "32px 28px",
+                  display: "flex", flexDirection: "column", gap: 0,
+                  height: "100%",
+                }}>
+                  <div style={{
+                    fontSize: 28, lineHeight: 0.8, marginBottom: 20,
+                    fontFamily: "Georgia, serif", color: "var(--coral)",
+                    opacity: 0.5,
+                  }}>&ldquo;</div>
+                  <p style={{
+                    fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.8,
+                    whiteSpace: "pre-line", flex: 1, marginBottom: 28,
+                  }}>{quote}</p>
+                  <div style={{ borderTop: "1px solid var(--border)", paddingTop: 20 }}>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-primary)", marginBottom: 3 }}>{name}</div>
+                    <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 10 }}>{school}</div>
+                    <div style={{
+                      display: "inline-flex", alignItems: "center", gap: 6,
+                      fontSize: 11, fontWeight: 500, color: "var(--text-muted)",
+                      background: "var(--bg-2)", borderRadius: 100, padding: "4px 10px",
+                    }}>
+                      <span>{flag}</span> {dest}
+                    </div>
+                  </div>
+                </div>
+              </AnimateOnView>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
           TESTIMONIAL
       ══════════════════════════════════════════════ */}
       <section style={{ padding: "0 24px 96px" }}>
@@ -898,6 +976,7 @@ export default function HomePage() {
           .stats-bar { grid-template-columns: repeat(2,1fr) !important; }
           .testimonial-grid { grid-template-columns: 1fr !important; }
           .process-grid { grid-template-columns: repeat(2,1fr) !important; }
+          .testimonials-grid { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 540px) {
           .dest-grid { grid-template-columns: 1fr !important; }

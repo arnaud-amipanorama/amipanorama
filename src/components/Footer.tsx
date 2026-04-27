@@ -108,9 +108,16 @@ export default function Footer() {
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>
             © {new Date().getFullYear()} AMI Panorama. Tous droits réservés.
           </p>
-          <div style={{ display: "flex", gap: 24 }}>
-            {["Mentions légales", "Confidentialité", "Politique de cookies"].map(l => (
-              <span key={l} style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>{l}</span>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+            {[
+              { label: "Mentions légales", href: "/mentions-legales" },
+              { label: "Conditions générales", href: "/conditions-generales" },
+              { label: "Confidentialité", href: "/politique-de-confidentialite" },
+              { label: "Cookies", href: "/politique-cookies" },
+            ].map(({ label, href }) => (
+              <Link key={href} href={href} className="footer-link" style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>
+                {label}
+              </Link>
             ))}
           </div>
         </div>

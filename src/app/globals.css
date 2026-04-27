@@ -377,3 +377,19 @@ a { color: inherit; text-decoration: none; }
 .dest-link-hover:hover svg {
   transform: translateX(4px);
 }
+
+/* ── Mobile performance: kill heavy GPU-painted elements ── */
+@media (max-width: 768px) {
+  .hero-orb  { display: none !important; }
+  .hero-grain { display: none !important; }
+  /* Grid overlay adds a fixed paint layer — remove on low-power screens */
+  .grid-overlay { display: none !important; }
+}
+
+/* ── Reduced motion: stop all continuous animations ── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-orb, .hero-grain { display: none !important; }
+  .trust-marquee { animation: none !important; }
+  /* Entrance animations already handled above; cover hero floats */
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
