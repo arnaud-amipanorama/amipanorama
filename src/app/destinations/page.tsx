@@ -445,7 +445,7 @@ export default function DestinationsPage() {
               maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.75, position: "relative",
             }}>
               Destination envisagée, filière, taille du groupe, dates — partagez votre projet.
-              Nous vous revenons avec une proposition complète sous 24 heures ouvrables.
+              Nous vous revenons rapidement avec une première proposition adaptée à votre filière.
             </p>
             <Link href="/contact" className="btn-primary" style={{ position: "relative" }}>
               Demander un programme

@@ -438,10 +438,10 @@ export default function HomePage() {
               <p style={{
                 fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 36,
               }}>
-                AMI Panorama prend en charge l'intégralité de l'organisation pour que
+                AMI Panorama coordonne chaque dimension du programme pour que
                 vos apprentis vivent une expérience internationale structurée et
-                professionnalisante. Vous vous concentrez sur la pédagogie.
-                Nous gérons tout le reste.
+                professionnalisante. Vous restez le référent pédagogique de votre groupe.
+                Nous prenons en charge la logistique, l'encadrement terrain et l'appui administratif.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 0, marginBottom: 40 }}>
                 {included.map(({ num, label, sub }) => (
@@ -573,9 +573,9 @@ export default function HomePage() {
               }} className="process-grid">
                 {[
                   { num: "1", title: "Vous nous contactez", desc: "Premier échange pour comprendre votre groupe, votre filière, vos dates." },
-                  { num: "2", title: "Nous proposons", desc: "Programme sur mesure en 24h — destination, hébergement, planning complet." },
-                  { num: "3", title: "Nous coordonnons", desc: "Logistique, formations, visites professionnelles, assurances et démarches administratives — tout est pris en charge." },
-                  { num: "4", title: "Vos apprentis partent", desc: "Vous accompagnez. Nous assurons tout sur place. Tout est prévu." },
+                  { num: "2", title: "Nous proposons", desc: "Proposition adaptée à votre filière et à vos dates — destination, hébergement, planning indicatif." },
+                  { num: "3", title: "Nous coordonnons", desc: "Logistique, formations, visites professionnelles, assurances et appui administratif — nous structurons chaque étape avec vous." },
+                  { num: "4", title: "Vos apprentis partent", desc: "Vous accompagnez votre groupe sur le plan pédagogique. Notre équipe terrain assure l'encadrement et la coordination sur place." },
                 ].map(({ num, title, desc }) => (
                   <div key={num} style={{ position: "relative" }}>
                     {/* Connector line toward next step */}
@@ -702,14 +702,14 @@ export default function HomePage() {
               letterSpacing: "-0.025em", lineHeight: 1.2,
               color: "#fff", maxWidth: 640, margin: "0 auto 20px", position: "relative",
             }}>
-              Une proposition sur mesure,<br />sous 24 heures ouvrables.
+              Partagez votre projet.<br />Nous vous répondons rapidement.
             </h2>
             <p style={{
               fontSize: 16, color: "rgba(255,255,255,0.5)", maxWidth: 480,
               margin: "0 auto 44px", lineHeight: 1.75, position: "relative",
             }}>
               Partagez votre projet avec nous — destination envisagée, filière, dates,
-              taille du groupe. Nous revenons vers vous avec une proposition complète.
+              taille du groupe. Nous revenons vers vous avec une première proposition adaptée.
             </p>
             <div style={{
               display: "flex", gap: 14, justifyContent: "center",

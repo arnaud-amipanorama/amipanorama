@@ -18,7 +18,7 @@ const values = [
     num: "02",
     title: "Simplicité pour vous",
     accent: "#E85835",
-    desc: "Votre rôle est de vous concentrer sur vos apprentis et votre pédagogie. Le nôtre est de prendre en charge tout ce qui entoure le séjour — logistique, encadrement terrain, démarches administratives et ingénierie de financement.",
+    desc: "Votre rôle est de rester le référent pédagogique de votre groupe. Le nôtre est d'organiser ce qui entoure le séjour — logistique, encadrement terrain, démarches administratives et structuration du projet de financement.",
   },
   {
     num: "03",

@@ -101,7 +101,7 @@ const components = [
       "Sélection d'entreprises alignées avec les filières de votre CFA",
       "Format : visite + échanges + questions/réponses",
       "Secteurs couverts : tech, industrie, services, tourisme, commerce",
-      "Compte-rendu de visite fourni pour valorisation pédagogique",
+      "Compte-rendu de visite disponible pour valorisation pédagogique",
     ],
   },
   {
@@ -161,7 +161,7 @@ const components = [
     title: "Ingénierie administrative & financière",
     sub: "Accompagnement de A à Z",
     accent: "#1E52D0",
-    desc: "La complexité administrative est souvent ce qui dissuade les établissements de se lancer. AMI Panorama prend en charge l'intégralité de l'ingénierie de projet — structuration, démarches documentaires, identification des dispositifs mobilisables et coordination des étapes clés — pour que vous n'ayez qu'à valider.",
+    desc: "La complexité administrative est souvent ce qui freine un premier projet de mobilité. AMI Panorama vous accompagne sur l'ensemble de cette dimension — structuration, démarches documentaires, identification des dispositifs mobilisables et coordination des étapes clés — en travaillant avec vous à chaque étape.",
     details: [
       "Structuration du projet de mobilité et calendrier réglementaire",
       "Identification des cadres de financement mobilisables selon votre situation",
@@ -200,8 +200,8 @@ export default function NotreProgrammePage() {
           }}>
             Chaque programme AMI Panorama est un séjour immersif et professionnel,
             pensé pour que vos apprentis vivent une expérience formative et humaine
-            réelle. Formation, visites, encadrement, logistique, démarches administratives —
-            tout est inclus. Vous vous concentrez sur votre groupe.
+            réelle. Formation, visites, encadrement, logistique, appui administratif —
+            chaque composante est coordonnée par notre équipe. Vous restez le référent pédagogique de votre groupe.
           </p>
 
           {/* Quick stats strip */}
@@ -445,7 +445,7 @@ export default function NotreProgrammePage() {
               maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.75, position: "relative",
             }}>
               Filière, destination envisagée, dates, taille du groupe. Nous revenons vers
-              vous avec une proposition sur mesure — sous 24 heures ouvrables.
+              vous avec une première proposition adaptée à votre contexte.
             </p>
             <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", position: "relative" }}>
               <Link href="/contact" className="btn-primary">
