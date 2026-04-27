@@ -45,7 +45,7 @@ const faqItems = [
   },
   {
     q: "Que comprend concrètement le programme ?",
-    a: "Formation professionnelle (20 heures), visites d'entreprises sélectionnées pour leur pertinence sectorielle, programme d'activités culturelles, hébergement avec petit-déjeuner, ensemble des transports sur place, assurances complètes et accompagnement administratif de bout en bout.",
+    a: "Formation professionnelle (minimum 16 heures, généralement entre 16 et 20 heures selon la destination et le projet), visites d'entreprises sélectionnées pour leur pertinence sectorielle, programme d'activités culturelles, hébergement avec petit-déjeuner, ensemble des transports sur place, assurances complètes et accompagnement administratif de bout en bout.",
   },
   {
     q: "Quel est le rôle de l'établissement pendant le séjour ?",
@@ -81,9 +81,9 @@ const components = [
   {
     num: "01",
     title: "Formation professionnelle",
-    sub: "20 heures modulaires",
+    sub: "16 à 20+ heures selon le programme",
     accent: "#1E52D0",
-    desc: "Au cœur du programme, une formation de 20 heures conçue pour ouvrir vos apprentis au monde professionnel international. Panorama socio-économique du pays d'accueil, ateliers de Business English, workshops sectoriels et mises en situation professionnelle.",
+    desc: "Au cœur du programme, une formation structurée — minimum 16 heures, généralement entre 16 et 20 heures — conçue pour ouvrir vos apprentis au monde professionnel international. Panorama socio-économique du pays d'accueil, ateliers de Business English, workshops sectoriels et mises en situation professionnelle.",
     details: [
       "Cours animés par des formateurs locaux et professionnels du secteur",
       "Contenu personnalisable selon le secteur d'activité de vos apprentis",
@@ -211,7 +211,7 @@ export default function NotreProgrammePage() {
           }}>
             {([
               ["7 à 14 nuits", "d'hébergement encadré"],
-              ["20h", "de formation structurée"],
+              ["16–20h", "de formation structurée"],
               ["6", "destinations actives"],
               ["Appui admin.", "inclus dans chaque programme"],
             ] as [string, string][]).map(([v, l], i, arr) => (
@@ -233,37 +233,53 @@ export default function NotreProgrammePage() {
       {/* Why it matters */}
       <section style={{ padding: "0 24px 72px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ marginBottom: 40 }}>
-            <div className="section-label">Pourquoi ça compte</div>
-            <h2 style={{
-              fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 700,
-              letterSpacing: "-0.035em", maxWidth: 560,
-            }}>
-              Ce que la mobilité apporte à votre établissement
-            </h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 3 }} className="why-grid">
-            {whyItems.map(({ num, title, accent, desc }) => (
-              <div key={num} style={{
-                padding: "36px 40px", background: "var(--bg-1)",
-                border: "1px solid var(--border)", borderRadius: 16,
-                display: "flex", gap: 24, alignItems: "flex-start",
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }} className="why-grid">
+            {/* Left: editorial statement */}
+            <div style={{ position: "sticky", top: 100 }}>
+              <div className="section-label">Pourquoi ça compte</div>
+              <h2 style={{
+                fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 700,
+                letterSpacing: "-0.035em", marginBottom: 40,
               }}>
-                <div style={{
-                  width: 40, height: 40, borderRadius: 10,
-                  background: accent + "15", border: `1px solid ${accent}25`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  flexShrink: 0,
-                }}>
-                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: accent }} />
-                </div>
-                <div>
-                  <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 6 }}>{num}</div>
-                  <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 10, letterSpacing: "-0.02em" }}>{title}</h3>
-                  <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.75 }}>{desc}</p>
-                </div>
+                Ce que la mobilité apporte à votre établissement
+              </h2>
+              <p style={{
+                fontSize: "clamp(17px, 2vw, 22px)",
+                fontFamily: "var(--font-serif)", fontStyle: "italic",
+                fontWeight: 500, lineHeight: 1.5,
+                color: "var(--text-secondary)", marginBottom: 28,
+                letterSpacing: "-0.01em",
+              }}>
+                « Une mobilité internationale n'est pas un avantage accessoire.
+                C'est ce qui fait la différence entre une formation bonne —
+                et une formation mémorable. »
+              </p>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 12, color: "var(--text-muted)" }}>
+                <div style={{ width: 28, height: 1.5, background: "var(--coral)", flexShrink: 0 }} />
+                AMI Panorama
               </div>
-            ))}
+            </div>
+            {/* Right: numbered list, no boxes */}
+            <div>
+              {whyItems.map(({ num, title, accent, desc }) => (
+                <div key={num} style={{
+                  display: "flex", gap: 24,
+                  padding: "28px 0",
+                  borderTop: "1px solid var(--border)",
+                }}>
+                  <div style={{
+                    fontSize: 13, fontWeight: 700,
+                    color: accent, flexShrink: 0,
+                    minWidth: 28, paddingTop: 2,
+                  }}>{num}</div>
+                  <div>
+                    <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 8, letterSpacing: "-0.02em" }}>{title}</h3>
+                    <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.75 }}>{desc}</p>
+                  </div>
+                </div>
+              ))}
+              <div style={{ borderTop: "1px solid var(--border)" }} />
+            </div>
           </div>
         </div>
       </section>
@@ -448,7 +464,7 @@ export default function NotreProgrammePage() {
         @media (max-width: 700px) {
           .hover-row { grid-template-columns: 1fr !important; }
           .hover-row > div:first-child { border-right: none !important; border-bottom: 1px solid var(--border); }
-          .why-grid { grid-template-columns: 1fr !important; }
+          .why-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           .faq-row { grid-template-columns: 1fr !important; gap: 12px !important; }
         }
       `}</style>

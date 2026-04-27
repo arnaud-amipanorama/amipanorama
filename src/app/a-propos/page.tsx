@@ -270,38 +270,40 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Values */}
+      {/* Values — manifesto list */}
       <section style={{ padding: "0 24px 72px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ marginBottom: 48 }}>
+          <div style={{ marginBottom: 56 }}>
             <div className="section-label">Nos engagements</div>
             <h2 style={{
               fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 700,
               letterSpacing: "-0.035em",
             }}>Ce sur quoi vous pouvez compter.</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 3 }} className="values-grid">
+          <div>
             {values.map(({ num, title, accent, desc }) => (
               <div key={title} style={{
-                padding: "36px 40px", background: "var(--bg-1)",
-                border: "1px solid var(--border)", borderRadius: 16,
-                display: "flex", gap: 24, alignItems: "flex-start",
-              }} className="hover-card-full">
+                display: "grid",
+                gridTemplateColumns: "72px 1fr 2fr",
+                gap: 48,
+                padding: "36px 0",
+                borderTop: "1px solid var(--border)",
+                alignItems: "start",
+              }} className="values-row">
                 <div style={{
-                  width: 40, height: 40, borderRadius: 10,
-                  background: accent + "15", border: `1px solid ${accent}25`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  flexShrink: 0,
-                }}>
-                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: accent }} />
-                </div>
-                <div>
-                  <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 6 }}>{num}</div>
-                  <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 10, letterSpacing: "-0.02em" }}>{title}</h3>
-                  <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.75 }}>{desc}</p>
-                </div>
+                  fontSize: "clamp(28px, 3vw, 40px)", fontWeight: 700,
+                  letterSpacing: "-0.06em", color: accent,
+                  lineHeight: 1, paddingTop: 4,
+                }}>{num}</div>
+                <h3 style={{
+                  fontSize: "clamp(15px, 1.6vw, 18px)", fontWeight: 600,
+                  letterSpacing: "-0.025em", lineHeight: 1.3,
+                  paddingTop: 6,
+                }}>{title}</h3>
+                <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.85 }}>{desc}</p>
               </div>
             ))}
+            <div style={{ borderTop: "1px solid var(--border)" }} />
           </div>
         </div>
       </section>
@@ -405,7 +407,8 @@ export default function AProposPage() {
           .founder-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
           .gap-grid { grid-template-columns: 1fr !important; }
           .numbers-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .values-grid { grid-template-columns: 1fr !important; }
+          .values-row { grid-template-columns: 48px 1fr !important; gap: 20px !important; }
+          .values-row > p { grid-column: 1 / -1 !important; padding-left: 68px; }
           .testimonial-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
