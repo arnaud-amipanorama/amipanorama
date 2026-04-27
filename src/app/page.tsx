@@ -67,10 +67,26 @@ const stats = [
   { value: "6",      label: "destinations actives" },
 ];
 
-// Partner school names — update with real partner list
 const partnerNames = [
-  "ECEMA Lyon",
-  // Add confirmed partner names here
+  "CCI Grand Est",
+  "Collège de Paris",
+  "Groupe Alternance",
+  "IFPASS",
+  "HOMNEO Business School",
+  "My Business School",
+  "Sully Business School",
+  "Institut Européen de Formation",
+  "Financia",
+  "ESA",
+  "CMA Normandie",
+  "ESMP",
+  "Médéric",
+  "IMC Nancy",
+  "ESCM",
+  "ESMG",
+  "ESGM",
+  "CCI Vaucluse",
+  "Les Charmilles",
 ];
 
 const included = [
@@ -223,47 +239,57 @@ export default function HomePage() {
       <section style={{
         borderBottom: "1px solid var(--border)",
         background: "var(--bg)",
-        padding: "0 24px",
+        overflow: "hidden",
       }}>
         <div style={{
-          maxWidth: 1200, margin: "0 auto",
-          display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap",
-          padding: "18px 0",
+          maxWidth: 1200, margin: "0 auto", padding: "0 24px",
+          display: "flex", alignItems: "center", gap: 0,
+          height: 52,
         }}>
+          {/* Label */}
           <span style={{
             fontSize: 10, fontWeight: 600, letterSpacing: "0.12em",
             textTransform: "uppercase", color: "var(--text-muted)",
-            flexShrink: 0,
+            flexShrink: 0, paddingRight: 20,
           }}>
             Ils nous font confiance
           </span>
           <div style={{ width: 1, height: 20, background: "var(--border)", flexShrink: 0 }} />
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", flex: 1 }}>
-            {partnerNames.map(name => (
-              <span key={name} style={{
-                fontSize: 12, fontWeight: 500, color: "var(--text-secondary)",
-                background: "var(--bg-1)", border: "1px solid var(--border)",
-                borderRadius: 100, padding: "5px 14px",
-              }}>
-                {name}
-              </span>
-            ))}
-            <span style={{
-              fontSize: 12, fontWeight: 400, color: "var(--text-muted)",
-              background: "transparent",
-              padding: "5px 2px",
-            }}>
-              et 49 autres établissements
-            </span>
+          {/* Scrolling names */}
+          <div style={{ flex: 1, overflow: "hidden", position: "relative", margin: "0 4px" }}>
+            {/* Fade masks */}
+            <div style={{
+              position: "absolute", left: 0, top: 0, bottom: 0, width: 48,
+              background: "linear-gradient(to right, var(--bg), transparent)",
+              zIndex: 1, pointerEvents: "none",
+            }} />
+            <div style={{
+              position: "absolute", right: 0, top: 0, bottom: 0, width: 48,
+              background: "linear-gradient(to left, var(--bg), transparent)",
+              zIndex: 1, pointerEvents: "none",
+            }} />
+            <div className="trust-marquee" style={{ display: "flex", width: "max-content" }}>
+              {[...partnerNames, ...partnerNames].map((name, i) => (
+                <span key={i} style={{
+                  fontSize: 12, fontWeight: 500, color: "var(--text-secondary)",
+                  padding: "0 22px", whiteSpace: "nowrap",
+                  borderRight: "1px solid var(--border)",
+                  lineHeight: "52px",
+                }}>
+                  {name}
+                </span>
+              ))}
+            </div>
           </div>
           <div style={{ width: 1, height: 20, background: "var(--border)", flexShrink: 0 }} />
-          <div style={{ flexShrink: 0 }}>
-            <span style={{
-              fontSize: 18, fontWeight: 700, color: "var(--text-primary)",
-              letterSpacing: "-0.04em",
-            }}>50</span>
-            <span style={{ fontSize: 12, color: "var(--text-muted)", marginLeft: 5 }}>établissements partenaires</span>
-          </div>
+          {/* Trailing note */}
+          <span style={{
+            fontSize: 11, fontWeight: 400, color: "var(--text-muted)",
+            flexShrink: 0, paddingLeft: 20,
+            fontStyle: "italic", whiteSpace: "nowrap",
+          }}>
+            et d&apos;autres établissements partenaires
+          </span>
         </div>
       </section>
 
