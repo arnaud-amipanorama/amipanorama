@@ -212,7 +212,7 @@ export default function NotreProgrammePage() {
             {([
               ["7 à 14 nuits", "d'hébergement encadré"],
               ["16–20h", "de formation structurée"],
-              ["6", "destinations actives"],
+              ["10", "destinations actives"],
               ["Appui admin.", "inclus dans chaque programme"],
             ] as [string, string][]).map(([v, l], i, arr) => (
               <div key={v} style={{

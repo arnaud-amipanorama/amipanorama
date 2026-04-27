@@ -22,7 +22,7 @@ const destinations = [
     city: "Montréal",
     country: "Canada",
     flag: "🇨🇦",
-    tag: "Bilinguisme & innovation",
+    tag: "Bilinguisme & Amérique du Nord",
     gradient: "linear-gradient(170deg,rgba(8,28,60,0.42),rgba(20,52,140,0.28))",
     img: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=800&q=80",
   },
@@ -35,12 +35,28 @@ const destinations = [
     img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80",
   },
   {
+    city: "Malte",
+    country: "Méditerranée",
+    flag: "🇲🇹",
+    tag: "English immersion",
+    gradient: "linear-gradient(170deg,rgba(8,28,70,0.42),rgba(18,50,130,0.28))",
+    img: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80",
+  },
+  {
     city: "Maroc",
     country: "Afrique du Nord",
     flag: "🇲🇦",
-    tag: "Masterclasses & digital",
+    tag: "Immersion & interculturel",
     gradient: "linear-gradient(170deg,rgba(80,30,10,0.42),rgba(160,80,20,0.28))",
     img: "https://images.pexels.com/photos/30710069/pexels-photo-30710069.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
+  },
+  {
+    city: "Berlin",
+    country: "Allemagne",
+    flag: "🇩🇪",
+    tag: "Entrepreneuriat & innovation",
+    gradient: "linear-gradient(170deg,rgba(60,20,10,0.42),rgba(120,50,20,0.28))",
+    img: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=800&q=80",
   },
   {
     city: "New York",
@@ -49,6 +65,22 @@ const destinations = [
     tag: "Business & culture",
     gradient: "linear-gradient(170deg,rgba(10,18,40,0.42),rgba(20,38,80,0.28))",
     img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800&q=80",
+  },
+  {
+    city: "Rome",
+    country: "Italie",
+    flag: "🇮🇹",
+    tag: "Culture & économie italienne",
+    gradient: "linear-gradient(170deg,rgba(90,35,8,0.42),rgba(160,70,18,0.28))",
+    img: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&q=80",
+  },
+  {
+    city: "Miami",
+    country: "États-Unis",
+    flag: "🇺🇸",
+    tag: "Business English & ouverture US",
+    gradient: "linear-gradient(170deg,rgba(8,24,55,0.42),rgba(18,44,100,0.28))",
+    img: "https://images.unsplash.com/photo-1533106418989-88406c7cc8ca?w=800&q=80",
   },
   {
     city: "Séoul",
@@ -64,7 +96,7 @@ const stats = [
   { value: "3 000+", label: "apprentis accompagnés" },
   { value: "100+",   label: "groupes coordonnés" },
   { value: "50",     label: "écoles partenaires" },
-  { value: "6",      label: "destinations actives" },
+  { value: "10",     label: "destinations actives" },
 ];
 
 const partnerNames = [
@@ -455,7 +487,7 @@ export default function HomePage() {
               marginBottom: 40, flexWrap: "wrap", gap: 16,
             }}>
               <div>
-                <div className="section-label">6 destinations</div>
+                <div className="section-label">10 destinations</div>
                 <h2 style={{
                   fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700,
                   letterSpacing: "-0.04em", maxWidth: 480,
@@ -479,7 +511,7 @@ export default function HomePage() {
             <div style={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)",
-              gridTemplateRows: "240px 240px",
+              gridAutoRows: "240px",
               gap: 12,
             }} className="dest-grid">
               {destinations.map(({ city, country, flag, tag, gradient, img }) => (
