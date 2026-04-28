@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "À propos",
   description:
-    "L'histoire d'AMI Panorama : deux fondateurs, deux trajectoires, un constat sur le parcours des apprentis. Notre mission, notre modèle et ce qui nous distingue en tant qu'opérateur de mobilité.",
+    "L'histoire d'AMI Panorama — un constat sur l'accès inégal à la mobilité internationale selon les filières, et la mission construite pour y répondre.",
 };
 
 const values = [
@@ -41,10 +41,33 @@ const numbers = [
   { value: "50", label: "établissements partenaires" },
 ];
 
+const milestones = [
+  {
+    year: "2022",
+    title: "Fondation",
+    desc: "AMI Panorama naît. Objectif : construire des programmes de mobilité internationale pensés pour les contraintes et les ambitions de l'apprentissage.",
+  },
+  {
+    year: "2023",
+    title: "Premier groupe à Montréal",
+    desc: "Le premier groupe d'apprentis part pour une semaine structurée au Canada. Visites professionnelles, vie collective, découverte. La conviction initiale se confirme.",
+  },
+  {
+    year: "2024",
+    title: "Expansion",
+    desc: "De nouveaux établissements rejoignent le réseau. Séville, Londres, Berlin, New York, Rome — les destinations s'élargissent au fil des saisons.",
+  },
+  {
+    year: "Aujourd'hui",
+    title: "10 destinations · 50 établissements",
+    desc: "Plus de 3 000 apprentis accompagnés. La même conviction qu'au premier jour.",
+  },
+];
+
 export default function AProposPage() {
   return (
     <>
-      {/* Hero — dark photo section */}
+      {/* Hero */}
       <section style={{
         position: "relative", paddingTop: 160, paddingBottom: 96,
         background: "var(--navy)", overflow: "hidden",
@@ -59,7 +82,6 @@ export default function AProposPage() {
           position: "absolute", inset: 0,
           background: "linear-gradient(to bottom, rgba(11,24,41,0.2) 0%, var(--navy) 100%)",
         }} />
-        {/* Blue glow */}
         <div style={{
           position: "absolute", top: 0, right: 0,
           width: 600, height: 500,
@@ -70,14 +92,14 @@ export default function AProposPage() {
           <div className="section-label-light anim-fade-up">À propos</div>
           <h1 className="anim-fade-up-2" style={{
             fontSize: "clamp(36px, 5.5vw, 64px)", fontWeight: 700,
-            letterSpacing: "-0.04em", lineHeight: 1.08, maxWidth: 740, marginBottom: 28,
+            letterSpacing: "-0.04em", lineHeight: 1.08, maxWidth: 780, marginBottom: 28,
             color: "#fff",
           }}>
-            Nés du contraste{" "}
+            La mobilité internationale{" "}
             <span style={{
               fontFamily: "var(--font-serif)", fontStyle: "italic",
               fontWeight: 500, color: "rgba(232,88,53,0.9)",
-            }}>entre deux mondes.</span>
+            }}>ne devrait pas dépendre de la filière.</span>
           </h1>
           <p className="anim-fade-up-3" style={{
             fontSize: 18, color: "rgba(255,255,255,0.65)", maxWidth: 600, lineHeight: 1.75,
@@ -113,74 +135,8 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Founding story */}
+      {/* The gap we bridge — moved up to establish context first */}
       <section style={{ padding: "72px 24px 0" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div className="section-label">Notre histoire</div>
-          <div style={{
-            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64,
-          }} className="founder-grid">
-            <div>
-              <h2 style={{
-                fontSize: "clamp(22px, 2.8vw, 32px)", fontWeight: 700,
-                letterSpacing: "-0.03em", lineHeight: 1.2, marginBottom: 28,
-              }}>
-                Deux trajectoires,{" "}
-                <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 500 }}>
-                  une conviction.
-                </span>
-              </h2>
-              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: 18 }}>
-                Arnaud a fait une grande partie de ses études à l'international — notamment à
-                l'Université de Montréal et à Harvard. Il a vécu ce que les étudiants des grandes
-                écoles et des campus anglophones connaissent : des cohortes soudées, des réseaux
-                qui durent toute une vie, des séjours internationaux qui forgent une identité
-                collective. Des souvenirs qui restent.
-              </p>
-              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85 }}>
-                Samuel venait d'un autre horizon — celui de la formation professionnelle et de
-                l'apprentissage. Un monde exigeant, formateur, qui donne aux étudiants une avance
-                réelle sur le marché du travail. Mais dans lequel certaines expériences manquent
-                structurellement : l'international collectif, la vie de groupe hors cadre
-                professionnel, les moments qui lient une promotion durablement.
-              </p>
-            </div>
-            <div>
-              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: 18 }}>
-                Tous deux ont beaucoup voyagé ensemble. Et à chaque voyage, la même conviction
-                s'est renforcée : le voyage crée certains des liens les plus durables d'un parcours
-                de formation. Pas simplement des souvenirs — des transformations professionnelles
-                et humaines qui durent.
-              </p>
-              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: 18 }}>
-                De cette conviction est née une question : pourquoi cette expérience serait-elle
-                réservée à certains parcours ? Et si on la construisait intentionnellement, pour
-                ceux qui en bénéficient le moins ?
-              </p>
-              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: 32 }}>
-                AMI Panorama a été fondé en 2022. En 2023, le premier groupe quittait Paris pour
-                Montréal. Depuis, d'autres établissements nous ont rejoints, d'autres destinations
-                ont ouvert — et la conviction initiale s'est confirmée séjour après séjour.
-              </p>
-              <div style={{ paddingTop: 24, borderTop: "1px solid var(--border)" }}>
-                <div style={{ display: "flex", gap: 40 }}>
-                  <div>
-                    <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 5 }}>Arnaud</div>
-                    <div style={{ fontSize: 13, color: "var(--text-secondary)" }}>Université de Montréal · Harvard</div>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 5 }}>Samuel</div>
-                    <div style={{ fontSize: 13, color: "var(--text-secondary)" }}>Formation professionnelle · Alternance</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* The gap we bridge */}
-      <section style={{ padding: "56px 24px 72px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 32 }}>
             <div className="section-label">Ce que nous cherchons à corriger</div>
@@ -235,8 +191,72 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Real photo — Séville programme, certificate ceremony */}
-      <section style={{ padding: "0 24px 56px" }}>
+      {/* Company story — rewritten around company history, not founder biographies */}
+      <section style={{ padding: "72px 24px 0" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div className="section-label">Notre histoire</div>
+          <div style={{
+            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64,
+          }} className="story-grid">
+            {/* Left: why AMI exists */}
+            <div>
+              <h2 style={{
+                fontSize: "clamp(22px, 2.8vw, 32px)", fontWeight: 700,
+                letterSpacing: "-0.03em", lineHeight: 1.2, marginBottom: 28,
+              }}>
+                D&apos;un constat,{" "}
+                <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 500 }}>
+                  une mission.
+                </span>
+              </h2>
+              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: 18 }}>
+                En France, l'accès à la mobilité internationale collective reste structurellement
+                inégal selon les filières. Les grandes écoles et les universités disposent d'une
+                infrastructure bien établie pour les voyages de groupe et les cohortes soudées.
+                La formation en apprentissage — plus exigeante professionnellement, plus contrainte
+                administrativement — en bénéficie beaucoup moins.
+              </p>
+              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: 18 }}>
+                Cette inégalité n'est pas une fatalité. Elle est le résultat d'un manque
+                d'infrastructure dédiée. Organiser une mobilité pour des apprentis demande une
+                expertise spécifique : cadres réglementaires, financements disponibles, contraintes
+                du calendrier en alternance, documentation pédagogique. AMI Panorama a été créé
+                pour apporter cette expertise.
+              </p>
+              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85 }}>
+                Depuis 2022, nous construisons des programmes qui permettent à des groupes
+                d'apprentis de vivre des expériences collectives et internationales de la même
+                qualité que celles proposées dans les cursus traditionnels — sans que l'établissement
+                ait à porter seul la complexité que cela représente.
+              </p>
+            </div>
+
+            {/* Right: company timeline */}
+            <div>
+              {milestones.map(({ year, title, desc }, i) => (
+                <div key={year} style={{
+                  paddingBottom: i < milestones.length - 1 ? 28 : 0,
+                  marginBottom: i < milestones.length - 1 ? 28 : 0,
+                  borderBottom: i < milestones.length - 1 ? "1px solid var(--border)" : "none",
+                  display: "grid", gridTemplateColumns: "80px 1fr", gap: 20, alignItems: "start",
+                }}>
+                  <div style={{
+                    fontSize: 11, fontWeight: 700, letterSpacing: "0.06em",
+                    textTransform: "uppercase", color: "var(--blue)", paddingTop: 3, lineHeight: 1.3,
+                  }}>{year}</div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-primary)", marginBottom: 6 }}>{title}</div>
+                    <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.8, margin: 0 }}>{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Real photo */}
+      <section style={{ padding: "56px 24px 56px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
             position: "relative", borderRadius: 20, overflow: "hidden",
@@ -251,9 +271,7 @@ export default function AProposPage() {
               position: "absolute", inset: 0,
               background: "linear-gradient(to right, rgba(11,24,41,0.72) 0%, rgba(11,24,41,0.10) 55%, transparent 100%)",
             }} />
-            <div style={{
-              position: "absolute", bottom: 36, left: 40,
-            }}>
+            <div style={{ position: "absolute", bottom: 36, left: 40 }}>
               <div style={{
                 fontSize: 11, fontWeight: 600, letterSpacing: "0.12em",
                 textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 10,
@@ -270,7 +288,7 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Values — manifesto list */}
+      {/* Values */}
       <section style={{ padding: "0 24px 72px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 56 }}>
@@ -308,6 +326,37 @@ export default function AProposPage() {
         </div>
       </section>
 
+      {/* Founders — compact, secondary layer */}
+      <section style={{ padding: "0 24px 72px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div className="section-label">Les fondateurs</div>
+          <div style={{
+            background: "var(--bg-1)", border: "1px solid var(--border)",
+            borderRadius: 16, padding: "40px 44px",
+            display: "grid", gridTemplateColumns: "1fr auto", gap: 48, alignItems: "center",
+          }} className="founders-card">
+            <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, margin: 0 }}>
+              AMI Panorama a été fondé par Arnaud et Samuel, portés par des trajectoires
+              complémentaires. L'un ancré dans l'enseignement supérieur international,
+              l'autre dans la formation professionnelle, ils ont construit AMI Panorama
+              sur la conviction que les apprentis méritent des expériences collectives
+              et internationales aussi structurées et mémorables que celles proposées
+              dans les cursus traditionnels.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20, flexShrink: 0 }}>
+              <div>
+                <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 4 }}>Arnaud</div>
+                <div style={{ fontSize: 13, color: "var(--text-secondary)" }}>Université de Montréal · Harvard</div>
+              </div>
+              <div>
+                <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 4 }}>Samuel</div>
+                <div style={{ fontSize: 13, color: "var(--text-secondary)" }}>Formation professionnelle · Alternance</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonial */}
       <section style={{ padding: "0 24px 72px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -317,7 +366,6 @@ export default function AProposPage() {
             display: "grid", gridTemplateColumns: "1fr auto",
             gap: 48, alignItems: "center",
           }} className="testimonial-grid">
-            {/* Decorative glow */}
             <div style={{
               position: "absolute", top: "-80px", left: "0",
               width: 500, height: 400,
@@ -349,7 +397,6 @@ export default function AProposPage() {
                 </div>
               </div>
             </div>
-            {/* Right side stat callout */}
             <div style={{
               position: "relative", textAlign: "center",
               padding: "32px 28px", background: "rgba(255,255,255,0.05)",
@@ -358,7 +405,7 @@ export default function AProposPage() {
               <div style={{ fontSize: 44, fontWeight: 700, letterSpacing: "-0.05em", color: "#fff", lineHeight: 1 }}>3 000+</div>
               <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", marginTop: 8, lineHeight: 1.4 }}>apprentis accompagnés</div>
               <div style={{ width: 32, height: 1.5, background: "var(--coral)", margin: "16px auto 0" }} />
-              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 10 }}>10 ans d'expérience</div>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 10 }}>10 ans d&apos;expérience</div>
             </div>
           </div>
         </div>
@@ -404,12 +451,13 @@ export default function AProposPage() {
 
       <style>{`
         @media (max-width: 768px) {
-          .founder-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .story-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           .gap-grid { grid-template-columns: 1fr !important; }
           .numbers-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .values-row { grid-template-columns: 48px 1fr !important; gap: 20px !important; }
           .values-row > p { grid-column: 1 / -1 !important; padding-left: 68px; }
           .testimonial-grid { grid-template-columns: 1fr !important; }
+          .founders-card { grid-template-columns: 1fr !important; gap: 28px !important; }
         }
       `}</style>
     </>
