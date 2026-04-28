@@ -27,16 +27,15 @@ export default function Navbar() {
 
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
-  // On homepage + not scrolled → transparent bar over dark hero image (white text)
-  // Otherwise → white bar with navy text
+  // On homepage + not scrolled → frosted light bar over light hero
+  // When scrolled (or other pages) → solid white bar
   const transparent = isHomepage && !scrolled;
 
-  const navBg      = transparent ? "transparent" : "rgba(255,255,255,0.97)";
-  const navBorder  = transparent ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(11,24,41,0.08)";
+  const navBg      = transparent ? "rgba(248,246,241,0.72)" : "rgba(255,255,255,0.97)";
+  const navBorder  = transparent ? "1px solid rgba(11,24,41,0.06)" : "1px solid rgba(11,24,41,0.08)";
   const navShadow  = transparent ? "none" : "0 1px 20px rgba(11,24,41,0.06)";
-  const linkColor  = transparent ? "rgba(255,255,255,0.82)" : "var(--text-secondary)";
-  const logoColor  = transparent ? "#fff" : "var(--text-primary)";
-  const activeColor = transparent ? "#fff" : "var(--text-primary)";
+  const linkColor   = "var(--text-secondary)";
+  const activeColor = "var(--text-primary)";
 
   return (
     <header style={{
@@ -45,34 +44,21 @@ export default function Navbar() {
       background: navBg,
       borderBottom: navBorder,
       boxShadow: navShadow,
-      backdropFilter: transparent ? "none" : "blur(20px)",
+      backdropFilter: "blur(16px)",
     }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
         <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
 
           {/* Logo */}
           <Link href="/" style={{ display: "flex", alignItems: "center" }}>
-            {transparent ? (
-              /* White logo on dark hero */
-              <Image
-                src="/Assets/AMI%20PANORAMA%20Logo%20White%20%281%29.png"
-                alt="AMI Panorama"
-                width={160}
-                height={48}
-                priority
-                style={{ height: 36, width: "auto", objectFit: "contain" }}
-              />
-            ) : (
-              /* Dark logo on light scrolled navbar */
-              <Image
-                src="/Assets/AMI%20PANORAMA%20Logo%20Black.png"
-                alt="AMI Panorama"
-                width={160}
-                height={48}
-                priority
-                style={{ height: 32, width: "auto", objectFit: "contain" }}
-              />
-            )}
+            <Image
+              src="/Assets/AMI%20PANORAMA%20Logo%20Black.png"
+              alt="AMI Panorama"
+              width={160}
+              height={48}
+              priority
+              style={{ height: 32, width: "auto", objectFit: "contain" }}
+            />
           </Link>
 
           {/* Desktop links */}
@@ -116,7 +102,7 @@ export default function Navbar() {
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <Link
               href="/contact"
-              className={`hidden-mobile ${transparent ? "btn-ghost-light" : "btn-primary"}`}
+              className="hidden-mobile btn-primary"
               style={{ padding: "9px 20px", fontSize: 13 }}
             >
               Demander un programme
@@ -129,9 +115,9 @@ export default function Navbar() {
               onClick={() => setMenuOpen(o => !o)}
               style={{
                 background: "none",
-                border: `1px solid ${transparent ? "rgba(255,255,255,0.25)" : "var(--border)"}`,
+                border: "1px solid var(--border)",
                 borderRadius: 7,
-                color: transparent ? "#fff" : "var(--text-primary)",
+                color: "var(--text-primary)",
                 padding: "6px 11px",
                 cursor: "pointer",
                 fontSize: 14, lineHeight: 1,

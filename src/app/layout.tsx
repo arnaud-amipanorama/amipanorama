@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta",
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -27,7 +32,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={geist.variable}>
+    <html lang="fr" className={plusJakarta.variable}>
       <body className="min-h-screen flex flex-col">
         <div className="grid-overlay" aria-hidden="true" />
         <Navbar />
