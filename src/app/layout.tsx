@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
 
-const plusJakarta = Plus_Jakarta_Sans({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-plus-jakarta",
+  variable: "--font-manrope",
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={plusJakarta.variable}>
+    <html lang="fr" className={manrope.variable}>
       <body className="min-h-screen flex flex-col">
         <div className="grid-overlay" aria-hidden="true" />
         <Navbar />

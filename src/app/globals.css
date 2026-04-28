@@ -39,7 +39,7 @@
   --accent-light:  var(--blue-light);
   --accent-glow:   var(--blue-glow);
 
-  --font-sans: var(--font-plus-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
   --font-serif: "Lora", Georgia, serif;
 }
 
