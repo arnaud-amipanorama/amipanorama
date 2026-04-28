@@ -191,7 +191,7 @@ export default function HomePage() {
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
-        background: "var(--navy)",
+        background: "var(--bg)",
       }}>
         {/* ── Atmospheric glow orbs ── */}
         <div className="hero-orb hero-orb-1" />
@@ -220,12 +220,12 @@ export default function HomePage() {
             }}>
               <div style={{
                 width: 7, height: 7, borderRadius: "50%",
-                background: "var(--coral)", boxShadow: "0 0 12px rgba(232,88,53,0.6)",
+                background: "var(--coral)", boxShadow: "0 0 12px rgba(232,88,53,0.4)",
                 animation: "heroPulse 2.5s ease infinite",
               }} />
               <span style={{
                 fontSize: 11, fontWeight: 600, letterSpacing: "0.14em",
-                textTransform: "uppercase", color: "rgba(255,255,255,0.45)",
+                textTransform: "uppercase", color: "var(--text-muted)",
               }}>Opérateur de mobilité professionnelle · Depuis 2014</span>
             </div>
 
@@ -237,7 +237,7 @@ export default function HomePage() {
                 fontWeight: 700,
                 letterSpacing: "-0.05em",
                 lineHeight: 1.0,
-                color: "#fff",
+                color: "var(--text-primary)",
               }}>
                 Ouvrir le monde
               </span>
@@ -250,7 +250,7 @@ export default function HomePage() {
                 fontFamily: "var(--font-serif)",
                 fontStyle: "italic",
                 color: "transparent",
-                background: "linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(232,88,53,0.85) 100%)",
+                background: "linear-gradient(135deg, #0B1829 0%, #E85835 100%)",
                 WebkitBackgroundClip: "text",
                 backgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -267,7 +267,7 @@ export default function HomePage() {
             }}>
               <p style={{
                 fontSize: "clamp(15px, 1.5vw, 17px)",
-                color: "rgba(255,255,255,0.52)",
+                color: "var(--text-secondary)",
                 lineHeight: 1.8, maxWidth: 420,
               }}>
                 AMI Panorama conçoit des programmes de mobilité internationale
@@ -283,7 +283,7 @@ export default function HomePage() {
                     <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </Link>
-                <Link href="/destinations" className="btn-ghost-light">
+                <Link href="/destinations" className="btn-ghost">
                   Voir les destinations
                 </Link>
               </div>
@@ -301,7 +301,7 @@ export default function HomePage() {
               }} />
               <div style={{
                 position: "absolute", inset: 0,
-                background: "linear-gradient(160deg, rgba(11,24,41,0.08) 0%, rgba(11,24,41,0.22) 100%)",
+                background: "linear-gradient(160deg, rgba(11,24,41,0.04) 0%, rgba(11,24,41,0.14) 100%)",
               }} />
               <div className="hero-photo-label">🇨🇦 Montréal</div>
             </div>
@@ -327,7 +327,7 @@ export default function HomePage() {
                 background: "var(--coral)", boxShadow: "0 0 8px rgba(232,88,53,0.7)",
                 flexShrink: 0,
               }} />
-              <span style={{ fontSize: 12, fontWeight: 500, color: "#fff" }}>3 000+ apprentis accompagnés</span>
+              <span style={{ fontSize: 12, fontWeight: 500, color: "var(--text-primary)" }}>3 000+ apprentis accompagnés</span>
             </div>
           </div>
 
@@ -854,7 +854,7 @@ export default function HomePage() {
           inset: 0;
           pointer-events: none;
           z-index: 0;
-          opacity: 0.045;
+          opacity: 0.018;
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");
           background-size: 180px 180px;
         }
@@ -868,19 +868,19 @@ export default function HomePage() {
         }
         .hero-orb-1 {
           width: 820px; height: 720px;
-          background: radial-gradient(ellipse, rgba(30,82,208,0.2) 0%, transparent 70%);
+          background: radial-gradient(ellipse, rgba(30,82,208,0.07) 0%, transparent 70%);
           bottom: -180px; left: -120px;
           animation: orbFloat1 36s ease-in-out infinite;
         }
         .hero-orb-2 {
           width: 640px; height: 580px;
-          background: radial-gradient(ellipse, rgba(232,88,53,0.12) 0%, transparent 70%);
+          background: radial-gradient(ellipse, rgba(232,88,53,0.06) 0%, transparent 70%);
           top: -80px; right: -80px;
           animation: orbFloat2 44s ease-in-out infinite;
         }
         .hero-orb-3 {
           width: 400px; height: 380px;
-          background: radial-gradient(ellipse, rgba(75,118,240,0.10) 0%, transparent 70%);
+          background: radial-gradient(ellipse, rgba(30,82,208,0.05) 0%, transparent 70%);
           top: 38%; left: 48%;
           animation: orbFloat3 26s ease-in-out infinite;
         }
@@ -920,8 +920,8 @@ export default function HomePage() {
           position: absolute;
           overflow: hidden;
           border-radius: 14px;
-          border: 1px solid rgba(255,255,255,0.13);
-          box-shadow: 0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04) inset;
+          border: 1px solid rgba(11,24,41,0.10);
+          box-shadow: 0 24px 64px rgba(11,24,41,0.18), 0 4px 16px rgba(11,24,41,0.08);
         }
         .hero-photo-secondary {
           width: 240px; height: 300px;
@@ -943,11 +943,11 @@ export default function HomePage() {
           position: absolute;
           bottom: 14px; left: 14px;
           font-size: 11px; font-weight: 500;
-          color: rgba(255,255,255,0.8);
+          color: var(--text-primary);
           letter-spacing: 0.04em;
-          background: rgba(11,24,41,0.55);
+          background: rgba(255,255,255,0.88);
           backdrop-filter: blur(8px);
-          border: 1px solid rgba(255,255,255,0.12);
+          border: 1px solid rgba(11,24,41,0.10);
           border-radius: 100px;
           padding: 5px 12px;
         }
@@ -955,14 +955,15 @@ export default function HomePage() {
           position: absolute;
           bottom: -20px; left: -10px;
           display: flex; align-items: center; gap: 8px;
-          background: rgba(11,24,41,0.85);
+          background: rgba(255,255,255,0.92);
           backdrop-filter: blur(16px);
-          border: 1px solid rgba(255,255,255,0.12);
+          border: 1px solid rgba(11,24,41,0.10);
           border-radius: 100px;
           padding: 9px 16px;
           animation: heroPhotoReveal 1.1s cubic-bezier(0.2,0,0,1) both 1s;
           z-index: 3;
           white-space: nowrap;
+          box-shadow: 0 4px 20px rgba(11,24,41,0.10);
         }
 
         @keyframes heroPhotoReveal {
