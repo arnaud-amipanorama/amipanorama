@@ -45,22 +45,27 @@ const milestones = [
   {
     year: "2022",
     title: "Fondation",
-    desc: "AMI Panorama naît. Objectif : construire des programmes de mobilité internationale pensés pour les contraintes et les ambitions de l'apprentissage.",
+    desc: "AMI Panorama naît avec une ambition claire : concevoir des programmes de mobilité internationale pensés pour les réalités de l'apprentissage, avec une approche plus structurée, plus professionnalisante et plus collective.",
   },
   {
     year: "2023",
-    title: "Premier groupe à Montréal",
-    desc: "Le premier groupe d'apprentis part pour une semaine structurée au Canada. Visites professionnelles, vie collective, découverte. La conviction initiale se confirme.",
+    title: "Premiers départs à Montréal",
+    desc: "Les premiers groupes partent à Montréal. 4 groupes issus de 3 écoles, environ 126 participants. Cette première phase valide le modèle et confirme la pertinence du projet.",
   },
   {
     year: "2024",
-    title: "Expansion",
-    desc: "De nouveaux établissements rejoignent le réseau. Séville, Londres, Berlin, New York, Rome — les destinations s'élargissent au fil des saisons.",
+    title: "Montée en puissance et ouverture de Séville",
+    desc: "Montréal continue de croître fortement et Séville devient le deuxième grand pilier du programme. Une forte accélération, avec environ 800 participants accompagnés sur l'année.",
   },
   {
-    year: "Aujourd'hui",
-    title: "10 destinations · 50 établissements",
-    desc: "Plus de 3 000 apprentis accompagnés. La même conviction qu'au premier jour.",
+    year: "2025",
+    title: "Accélération et diversification",
+    desc: "Ouverture et consolidation de nouvelles destinations — Londres, Berlin, New York, Maroc. Environ 2 000 participants accompagnés sur l'année.",
+  },
+  {
+    year: "2026",
+    title: "Changement d'échelle",
+    desc: "AMI Panorama dépasse les 3 000 participants accompagnés sur l'année et continue d'élargir son portefeuille de destinations avec une présence renforcée auprès des établissements partenaires.",
   },
 ];
 
