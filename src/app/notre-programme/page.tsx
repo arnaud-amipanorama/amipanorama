@@ -241,18 +241,24 @@ export default function NotreProgrammePage() {
                 fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 700,
                 letterSpacing: "-0.035em", marginBottom: 40,
               }}>
-                Ce que la mobilité apporte à votre établissement
+                Ce que la mobilité change — vraiment.
               </h2>
               <p style={{
                 fontSize: "clamp(17px, 2vw, 22px)",
                 fontFamily: "var(--font-serif)", fontStyle: "italic",
                 fontWeight: 500, lineHeight: 1.5,
-                color: "var(--text-secondary)", marginBottom: 28,
+                color: "var(--text-secondary)", marginBottom: 20,
                 letterSpacing: "-0.01em",
               }}>
-                « Une mobilité internationale n'est pas un avantage accessoire.
-                C'est ce qui fait la différence entre une formation bonne —
-                et une formation mémorable. »
+                « Ce n'est pas une semaine supplémentaire dans le calendrier.
+                C'est la semaine dont vos apprentis parleront encore dans dix ans. »
+              </p>
+              <p style={{
+                fontSize: 14, color: "var(--text-muted)", lineHeight: 1.8, marginBottom: 28,
+              }}>
+                La mobilité ne complète pas une formation. Elle en change la valeur perçue —
+                pour les candidats qui choisissent votre filière, pour les apprentis qui la vivent,
+                et pour l'établissement qui a su la rendre possible.
               </p>
               <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 12, color: "var(--text-muted)" }}>
                 <div style={{ width: 28, height: 1.5, background: "var(--coral)", flexShrink: 0 }} />

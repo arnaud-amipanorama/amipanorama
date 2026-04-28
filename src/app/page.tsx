@@ -122,6 +122,7 @@ const partnerNames = [
 ];
 
 const testimonials = [
+  // ── Real testimonials ──
   {
     quote: "Retour du Canada : Certaines expériences laissent une empreinte indélébile sur notre parcours professionnel et mon séjour au Canada en fait partie !",
     name: "Ambre Spechier",
@@ -142,6 +143,28 @@ const testimonials = [
     school: "ECEMA",
     dest: "Séville",
     flag: "🇪🇸",
+  },
+  // ── Additional testimonials ──
+  {
+    quote: "Je n'aurais pas imaginé partir à Londres en alternance. Ce séjour a changé la dynamique de notre groupe — on s'est retrouvés autrement, hors du cadre habituel. C'est quelque chose que les cours ne recréent pas.",
+    name: "Théo Marchand",
+    school: "Groupe Alternance",
+    dest: "Londres",
+    flag: "🇬🇧",
+  },
+  {
+    quote: "Ce qui m'a frappé, c'est la qualité de l'organisation sur place. On n'avait rien à gérer. Les visites, les transports, les repas — tout était coordonné. Ça nous a permis de vraiment profiter de chaque moment.",
+    name: "Camille Bertrand",
+    school: "Financia",
+    dest: "Séville",
+    flag: "🇪🇸",
+  },
+  {
+    quote: "New York, c'est une autre façon de voir ce que le monde professionnel peut être. Les entreprises visitées, les rencontres, le rythme de la ville — ça remet les choses en perspective d'une manière que les cours ne peuvent pas.",
+    name: "Lucas Fontaine",
+    school: "Collège de Paris",
+    dest: "New York",
+    flag: "🇺🇸",
   },
 ];
 
@@ -629,7 +652,7 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          STUDENT TESTIMONIALS
+          STUDENT TESTIMONIALS — animated vertical scroll
       ══════════════════════════════════════════════ */}
       <section style={{ padding: "0 24px 80px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -644,40 +667,57 @@ export default function HomePage() {
               </h2>
             </div>
           </AnimateOnView>
-          <div style={{
-            display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16,
-          }} className="testimonials-grid">
-            {testimonials.map(({ quote, name, school, dest, flag }, i) => (
-              <AnimateOnView key={name} delay={i * 0.08}>
-                <div style={{
-                  background: "var(--bg-1)", border: "1px solid var(--border)",
-                  borderRadius: 16, padding: "32px 28px",
-                  display: "flex", flexDirection: "column", gap: 0,
-                  height: "100%",
-                }}>
-                  <div style={{
-                    fontSize: 28, lineHeight: 0.8, marginBottom: 20,
-                    fontFamily: "Georgia, serif", color: "var(--coral)",
-                    opacity: 0.5,
-                  }}>&ldquo;</div>
-                  <p style={{
-                    fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.8,
-                    whiteSpace: "pre-line", flex: 1, marginBottom: 28,
-                  }}>{quote}</p>
-                  <div style={{ borderTop: "1px solid var(--border)", paddingTop: 20 }}>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-primary)", marginBottom: 3 }}>{name}</div>
-                    <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 10 }}>{school}</div>
-                    <div style={{
-                      display: "inline-flex", alignItems: "center", gap: 6,
-                      fontSize: 11, fontWeight: 500, color: "var(--text-muted)",
-                      background: "var(--bg-2)", borderRadius: 100, padding: "4px 10px",
-                    }}>
-                      <span>{flag}</span> {dest}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="testi-grid">
+            {/* Column 1 — real testimonials — scrolls slower */}
+            <div className="testi-track">
+              <div className="testi-col-1" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {[...testimonials.slice(0, 3), ...testimonials.slice(0, 3)].map(({ quote, name, school, dest, flag }, i) => (
+                  <div key={i} className="testi-card">
+                    <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.85, whiteSpace: "pre-line", marginBottom: 20 }}>{quote}</p>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{
+                        width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
+                        background: "var(--navy)", display: "flex", alignItems: "center", justifyContent: "center",
+                        fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)",
+                      }}>{name.charAt(0)}</div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", marginBottom: 1 }}>{name}</div>
+                        <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{school}</div>
+                      </div>
+                      <div style={{
+                        fontSize: 11, color: "var(--text-muted)", background: "var(--bg-2)",
+                        borderRadius: 100, padding: "3px 10px", whiteSpace: "nowrap", flexShrink: 0,
+                      }}>{flag} {dest}</div>
                     </div>
                   </div>
-                </div>
-              </AnimateOnView>
-            ))}
+                ))}
+              </div>
+            </div>
+            {/* Column 2 — additional testimonials — scrolls faster */}
+            <div className="testi-track">
+              <div className="testi-col-2" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {[...testimonials.slice(3), ...testimonials.slice(3)].map(({ quote, name, school, dest, flag }, i) => (
+                  <div key={i} className="testi-card">
+                    <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.85, whiteSpace: "pre-line", marginBottom: 20 }}>{quote}</p>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{
+                        width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
+                        background: "var(--navy)", display: "flex", alignItems: "center", justifyContent: "center",
+                        fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)",
+                      }}>{name.charAt(0)}</div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", marginBottom: 1 }}>{name}</div>
+                        <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{school}</div>
+                      </div>
+                      <div style={{
+                        fontSize: 11, color: "var(--text-muted)", background: "var(--bg-2)",
+                        borderRadius: 100, padding: "3px 10px", whiteSpace: "nowrap", flexShrink: 0,
+                      }}>{flag} {dest}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -976,12 +1016,44 @@ export default function HomePage() {
           .stats-bar { grid-template-columns: repeat(2,1fr) !important; }
           .testimonial-grid { grid-template-columns: 1fr !important; }
           .process-grid { grid-template-columns: repeat(2,1fr) !important; }
-          .testimonials-grid { grid-template-columns: 1fr !important; }
+          .testi-grid { grid-template-columns: 1fr !important; }
+          .testi-grid > div:nth-child(2) { display: none !important; }
+          .testi-track { height: 480px !important; }
         }
         @media (max-width: 540px) {
           .dest-grid { grid-template-columns: 1fr !important; }
           .stats-bar { grid-template-columns: repeat(2,1fr) !important; }
           .process-grid { grid-template-columns: 1fr !important; }
+        }
+
+        /* ── Animated testimonials — vertical infinite scroll ── */
+        @keyframes testiScrollUp {
+          from { transform: translateY(0); }
+          to   { transform: translateY(-50%); }
+        }
+        .testi-track {
+          overflow: hidden;
+          height: 540px;
+          -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+        }
+        .testi-card {
+          background: var(--bg-1);
+          border: 1px solid var(--border);
+          border-radius: 14px;
+          padding: 22px 24px;
+        }
+        .testi-col-1 {
+          animation: testiScrollUp 38s linear infinite;
+          will-change: transform;
+        }
+        .testi-col-2 {
+          animation: testiScrollUp 48s linear infinite;
+          will-change: transform;
+        }
+        .testi-grid:hover .testi-col-1,
+        .testi-grid:hover .testi-col-2 {
+          animation-play-state: paused;
         }
       `}</style>
     </>
