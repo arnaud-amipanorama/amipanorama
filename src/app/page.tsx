@@ -185,7 +185,7 @@ export default function HomePage() {
           HERO — cinematic split layout
           Dark navy + animated orbs + real group photos
       ══════════════════════════════════════════════ */}
-      <section style={{
+      <section className="hero-section" style={{
         position: "relative",
         minHeight: "100svh",
         display: "flex",
@@ -233,7 +233,7 @@ export default function HomePage() {
             <h1 style={{ marginBottom: 28 }}>
               <span className="anim-fade-up-2" style={{
                 display: "block",
-                fontSize: "clamp(48px, 6.5vw, 96px)",
+                fontSize: "clamp(36px, 10vw, 96px)",
                 fontWeight: 700,
                 letterSpacing: "-0.05em",
                 lineHeight: 1.0,
@@ -243,7 +243,7 @@ export default function HomePage() {
               </span>
               <span className="anim-fade-up-3" style={{
                 display: "block",
-                fontSize: "clamp(48px, 6.5vw, 96px)",
+                fontSize: "clamp(36px, 10vw, 96px)",
                 fontWeight: 500,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.0,
@@ -261,7 +261,7 @@ export default function HomePage() {
             </h1>
 
             {/* Description + CTAs */}
-            <div className="anim-fade-up-4" style={{
+            <div className="anim-fade-up-4 hero-cta-group" style={{
               display: "flex", flexWrap: "wrap", gap: 48, alignItems: "flex-start",
               marginBottom: 64,
             }}>
@@ -388,7 +388,7 @@ export default function HomePage() {
             fontSize: 11, fontWeight: 400, color: "var(--text-muted)",
             flexShrink: 0, paddingLeft: 20,
             fontStyle: "italic", whiteSpace: "nowrap",
-          }}>
+          }} className="trust-trailing">
             et d&apos;autres établissements partenaires
           </span>
         </div>
@@ -403,7 +403,7 @@ export default function HomePage() {
           display: "grid", gridTemplateColumns: "repeat(4,1fr)",
         }} className="stats-bar">
           {stats.map(({ value, label }, i, arr) => (
-            <AnimateOnView key={label} delay={i * 0.07} style={{
+            <AnimateOnView key={label} delay={i * 0.07} className="stats-cell" style={{
               padding: "32px 28px", textAlign: "center",
               borderRight: i < arr.length - 1 ? "1px solid var(--border)" : "none",
             }}>
@@ -420,7 +420,7 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════
           PROGRAMME — real photo + included list
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "96px 24px", background: "var(--bg)" }}>
+      <section className="prog-section" style={{ padding: "96px 24px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <AnimateOnView>
           <div style={{
@@ -447,7 +447,7 @@ export default function HomePage() {
                 }} />
               </div>
               {/* Floating card */}
-              <div style={{
+              <div className="prog-float-card" style={{
                 position: "absolute", bottom: -20, right: -20,
                 background: "var(--navy)", borderRadius: 14,
                 padding: "18px 22px", minWidth: 180,
@@ -461,7 +461,7 @@ export default function HomePage() {
                 <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 2 }}>de formation structurée</div>
               </div>
               {/* Encadrement badge */}
-              <div style={{
+              <div className="prog-float-badge" style={{
                 position: "absolute", top: -16, left: -16,
                 background: "var(--coral)", borderRadius: 10,
                 padding: "12px 18px",
@@ -526,7 +526,7 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════
           DESTINATIONS PREVIEW GRID
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "0 24px 80px", background: "var(--bg)" }}>
+      <section className="dest-section" style={{ padding: "0 24px 80px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <AnimateOnView>
             <div style={{
@@ -599,10 +599,10 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════
           HOW IT WORKS — process steps (no photo needed)
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "0 24px 96px", background: "var(--bg)" }}>
+      <section className="process-section" style={{ padding: "0 24px 96px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <AnimateOnView>
-            <div style={{
+            <div className="process-inner-card" style={{
               background: "var(--bg-2)", border: "1px solid var(--border)",
               borderRadius: 20, padding: "56px 48px",
             }}>
@@ -654,7 +654,7 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════
           STUDENT TESTIMONIALS — animated vertical scroll
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "0 24px 80px" }}>
+      <section className="testi-section" style={{ padding: "0 24px 80px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <AnimateOnView>
             <div style={{ marginBottom: 40 }}>
@@ -725,14 +725,14 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════
           TESTIMONIAL
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "0 24px 96px" }}>
+      <section className="testi-feature-section" style={{ padding: "0 24px 96px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <AnimateOnView>
           <div style={{
             background: "var(--navy)", borderRadius: 20, overflow: "hidden",
             display: "grid", gridTemplateColumns: "1fr 380px",
           }} className="testimonial-grid">
-            <div style={{ padding: "60px 56px", position: "relative" }}>
+            <div className="testi-feature-inner" style={{ padding: "60px 56px", position: "relative" }}>
               <div style={{
                 position: "absolute", top: 0, left: 0, width: 500, height: "100%",
                 background: "radial-gradient(ellipse at left, rgba(30,82,208,0.18) 0%, transparent 65%)",
@@ -766,7 +766,7 @@ export default function HomePage() {
               </div>
             </div>
             {/* Right stat panel */}
-            <div style={{
+            <div className="testi-stat-panel" style={{
               background: "rgba(255,255,255,0.04)", borderLeft: "1px solid rgba(255,255,255,0.08)",
               padding: "60px 40px", display: "flex", flexDirection: "column",
               justifyContent: "center", gap: 32,
@@ -790,10 +790,10 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════
           FINAL CTA
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "0 24px 96px" }}>
+      <section className="cta-section" style={{ padding: "0 24px 96px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <AnimateOnView>
-          <div style={{
+          <div className="cta-inner" style={{
             background: "var(--navy)", borderRadius: 20,
             padding: "80px 48px", textAlign: "center",
             position: "relative", overflow: "hidden",
@@ -1055,6 +1055,29 @@ export default function HomePage() {
         .testi-grid:hover .testi-col-1,
         .testi-grid:hover .testi-col-2 {
           animation-play-state: paused;
+        }
+
+        /* ─── Mobile layout (≤640px) ─── */
+        @media (max-width: 640px) {
+          .hero-section          { padding-top: 96px !important; padding-bottom: 40px !important; }
+          .hero-cta-group        { gap: 28px !important; margin-bottom: 40px !important; }
+          .trust-trailing        { display: none !important; }
+          .stats-cell            { padding: 24px 16px !important; }
+          .prog-section          { padding-top: 56px !important; padding-bottom: 56px !important; }
+          .prog-float-card       { display: none !important; }
+          .prog-float-badge      { display: none !important; }
+          .dest-section          { padding-bottom: 48px !important; }
+          .process-section       { padding-bottom: 48px !important; }
+          .process-inner-card    { padding: 36px 24px !important; }
+          .testi-section         { padding-bottom: 48px !important; }
+          .testi-track           { height: 360px !important; }
+          .testi-feature-section { padding-bottom: 52px !important; }
+          .testi-feature-inner   { padding: 36px 24px !important; }
+          .testi-stat-panel      { padding: 32px 24px !important; border-left: none !important; border-top: 1px solid rgba(255,255,255,0.08) !important; }
+          .cta-section           { padding-bottom: 52px !important; }
+          .cta-inner             { padding: 44px 24px !important; }
+          .dest-grid             { grid-auto-rows: 200px !important; }
+          .prog-photo-outer      { margin-bottom: 24px; }
         }
       `}</style>
     </>

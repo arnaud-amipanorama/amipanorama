@@ -73,7 +73,7 @@ export default function AProposPage() {
   return (
     <>
       {/* Hero */}
-      <section style={{
+      <section className="page-hero-section" style={{
         position: "relative", paddingTop: 160, paddingBottom: 96,
         background: "var(--navy)", overflow: "hidden",
       }}>

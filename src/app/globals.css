@@ -386,6 +386,35 @@ a { color: inherit; text-decoration: none; }
   .grid-overlay { display: none !important; }
 }
 
+/* ── Mobile: reduce animation travel distance for faster perceived paint ── */
+@media (max-width: 640px) {
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .anim-fade-up,
+  .anim-fade-up-2,
+  .anim-fade-up-3,
+  .anim-fade-up-4 {
+    animation-duration: 0.45s !important;
+  }
+
+  /* Sub-page hero padding — keeps breathing room without being excessive */
+  .page-hero-section {
+    padding-top: 108px !important;
+    padding-bottom: 52px !important;
+  }
+
+  /* Button tap comfort */
+  .btn-primary, .btn-ghost, .btn-ghost-light {
+    padding: 14px 22px !important;
+    font-size: 14px !important;
+  }
+
+  /* Footer inner padding */
+  footer { padding: 44px 20px 28px !important; }
+}
+
 /* ── Reduced motion: stop all continuous animations ── */
 @media (prefers-reduced-motion: reduce) {
   .hero-orb, .hero-grain { display: none !important; }

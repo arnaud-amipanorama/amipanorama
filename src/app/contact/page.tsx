@@ -36,7 +36,7 @@ export default function ContactPage() {
   return (
     <>
       {/* Header */}
-      <section style={{ position: "relative", overflow: "hidden", paddingTop: 140, paddingBottom: 72 }}>
+      <section className="page-hero-section" style={{ position: "relative", overflow: "hidden", paddingTop: 140, paddingBottom: 72 }}>
         <div style={{
           position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
           width: 600, height: 400,

@@ -211,7 +211,7 @@ export default function DestinationsPage() {
   return (
     <>
       {/* Hero header */}
-      <section style={{
+      <section className="page-hero-section" style={{
         position: "relative", paddingTop: 160, paddingBottom: 80,
         background: "var(--navy)", overflow: "hidden",
       }}>
