@@ -153,7 +153,7 @@ const components = [
       "Assistance-rapatriement disponible 24h/24, 7j/7",
       "Hospitalisation et soins médicaux couverts jusqu'à 200 000 €",
       "Bagages couverts jusqu'à 2 000 €",
-      "Responsabilité civile et annulation incluses",
+      "Assistance, rapatriement et responsabilité civile inclus",
     ],
   },
   {
