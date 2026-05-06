@@ -40,7 +40,7 @@ const destinations = [
     flag: "🇲🇹",
     tag: "English immersion",
     gradient: "linear-gradient(170deg,rgba(8,28,70,0.42),rgba(18,50,130,0.28))",
-    img: "https://images.pexels.com/photos/18021128/pexels-photo-18021128.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
+    img: "/assets/destinations/Malte Destination.png",
   },
   {
     city: "Maroc",
@@ -48,7 +48,7 @@ const destinations = [
     flag: "🇲🇦",
     tag: "Immersion & interculturel",
     gradient: "linear-gradient(170deg,rgba(80,30,10,0.42),rgba(160,80,20,0.28))",
-    img: "https://images.pexels.com/photos/36202810/pexels-photo-36202810.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
+    img: "/assets/destinations/Maroc.jpg",
   },
   {
     city: "Berlin",
@@ -72,7 +72,7 @@ const destinations = [
     flag: "🇮🇹",
     tag: "Culture & économie italienne",
     gradient: "linear-gradient(170deg,rgba(90,35,8,0.42),rgba(160,70,18,0.28))",
-    img: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&q=80",
+    img: "/assets/destinations/Rome.jpg",
   },
   {
     city: "Miami",
@@ -80,7 +80,7 @@ const destinations = [
     flag: "🇺🇸",
     tag: "Business English & ouverture US",
     gradient: "linear-gradient(170deg,rgba(8,24,55,0.42),rgba(18,44,100,0.28))",
-    img: "https://images.pexels.com/photos/29360684/pexels-photo-29360684.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
+    img: "/assets/destinations/Miami-unsplash.jpg",
   },
   {
     city: "Séoul",
