@@ -66,7 +66,7 @@ const destinations = [
     tag: "English immersion",
     flag: "🇲🇹",
     accent: "#1E52D0",
-    photo: "https://images.pexels.com/photos/18021128/pexels-photo-18021128.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
+    photo: "/assets/destinations/Malte Destination.png",
     headline: "L'anglais en immersion totale, sous le soleil méditerranéen.",
     desc: "Malte est l'une des rares destinations européennes entièrement anglophones — et l'une des plus accessibles. Son cadre méditerranéen, son histoire millénaire et sa taille humaine en font un environnement idéal pour une progression réelle en anglais professionnel, dans une atmosphère solaire et engageante.",
     highlights: [
@@ -83,7 +83,7 @@ const destinations = [
     tag: "Immersion & management interculturel",
     flag: "🇲🇦",
     accent: "#D4862A",
-    photo: "https://images.pexels.com/photos/36202810/pexels-photo-36202810.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
+    photo: "/assets/destinations/Maroc.jpg",
     headline: "L'Afrique du Nord, entre tradition et dynamisme contemporain.",
     desc: "Le Maroc — principalement Marrakech et Casablanca — propose un programme ancré dans les réalités économiques et culturelles du pays. Une destination qui confronte les apprentis à un environnement professionnel différent, entre héritage fort et ambitions de modernisation.",
     highlights: [
@@ -134,7 +134,7 @@ const destinations = [
     tag: "Culture & économie italienne",
     flag: "🇮🇹",
     accent: "#D4862A",
-    photo: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=900&q=80",
+    photo: "/assets/destinations/Rome.jpg",
     headline: "L'Italie entre grandeur historique et réalité économique.",
     desc: "Rome offre un cadre de formation unique : une compréhension par l'immersion. Le programme s'appuie sur la richesse culturelle de la Ville éternelle pour ouvrir les apprentis à la réalité économique italienne — ses secteurs d'activité, ses entreprises, ses codes professionnels et son rapport singulier à la qualité.",
     highlights: [
@@ -151,7 +151,7 @@ const destinations = [
     tag: "Business English & ouverture américaine",
     flag: "🇺🇸",
     accent: "#1E52D0",
-    photo: "https://images.pexels.com/photos/29360684/pexels-photo-29360684.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
+    photo: "/assets/destinations/Miami-unsplash.jpg",
     headline: "L'Amérique dans sa version la plus internationale.",
     desc: "Miami n'est pas New York — et c'est précisément son atout. Carrefour des Amériques, ville internationale par nature, elle offre aux apprentis une lecture concrète du modèle économique américain dans un environnement cosmopolite, accessible et tourné vers l'Atlantique.",
     highlights: [
