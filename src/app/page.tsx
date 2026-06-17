@@ -163,6 +163,46 @@ const included = [
 ];
 
 export default function HomePage() {
+  const renderDestCard = ({ city, country, flag, tag, gradient, img, phare }: (typeof destinations)[number]) => (
+    <Link key={city} href="/destinations" className="dest-card" style={{
+      position: "relative", borderRadius: 16, overflow: "hidden",
+      display: "block", textDecoration: "none",
+    }}>
+      <div className="dest-card-bg" style={{
+        position: "absolute", inset: 0,
+        backgroundImage: `${gradient}, url('${img}')`,
+        backgroundSize: "cover, cover",
+        backgroundPosition: "center",
+      }} />
+      <div className="dest-card-overlay" style={{
+        position: "absolute", inset: 0,
+        background: "rgba(11,24,41,0.0)",
+        transition: "background 0.35s ease",
+      }} />
+      {phare && (
+        <div style={{
+          position: "absolute", top: 12, left: 12, zIndex: 2,
+          fontSize: 9, fontWeight: 600, letterSpacing: "0.1em",
+          textTransform: "uppercase", color: "#fff",
+          background: "rgba(232,88,53,0.92)", borderRadius: 100,
+          padding: "4px 10px",
+        }}>Destination phare</div>
+      )}
+      <div style={{
+        position: "absolute", bottom: 0, left: 0, right: 0,
+        padding: "20px 20px 20px",
+        background: "linear-gradient(to top, rgba(11,24,41,0.82) 0%, transparent 100%)",
+      }}>
+        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginBottom: 4, letterSpacing: "0.08em", textTransform: "uppercase" }}>{tag}</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ fontSize: 16 }}>{flag}</span>
+          <span style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.03em" }}>{city}</span>
+          <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginLeft: 2 }}>{country}</span>
+        </div>
+      </div>
+    </Link>
+  );
+
   return (
     <>
       {/* ══════════════════════════════════════════════
@@ -539,51 +579,24 @@ export default function HomePage() {
           </AnimateOnView>
 
           <AnimateOnView delay={0.1}>
+            {/* Rangée mise en avant : les deux destinations phares */}
+            <div className="dest-grid-phares" style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              gridAutoRows: "300px",
+              gap: 12,
+              marginBottom: 12,
+            }}>
+              {destinations.filter((d) => d.phare).map(renderDestCard)}
+            </div>
+            {/* Les autres destinations */}
             <div style={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)",
               gridAutoRows: "240px",
               gap: 12,
             }} className="dest-grid">
-              {destinations.map(({ city, country, flag, tag, gradient, img, phare }) => (
-                <Link key={city} href="/destinations" className="dest-card" style={{
-                  position: "relative", borderRadius: 16, overflow: "hidden",
-                  display: "block", textDecoration: "none",
-                }}>
-                  <div className="dest-card-bg" style={{
-                    position: "absolute", inset: 0,
-                    backgroundImage: `${gradient}, url('${img}')`,
-                    backgroundSize: "cover, cover",
-                    backgroundPosition: "center",
-                  }} />
-                  <div className="dest-card-overlay" style={{
-                    position: "absolute", inset: 0,
-                    background: "rgba(11,24,41,0.0)",
-                    transition: "background 0.35s ease",
-                  }} />
-                  {phare && (
-                    <div style={{
-                      position: "absolute", top: 12, left: 12, zIndex: 2,
-                      fontSize: 9, fontWeight: 600, letterSpacing: "0.1em",
-                      textTransform: "uppercase", color: "#fff",
-                      background: "rgba(232,88,53,0.92)", borderRadius: 100,
-                      padding: "4px 10px",
-                    }}>Destination phare</div>
-                  )}
-                  <div style={{
-                    position: "absolute", bottom: 0, left: 0, right: 0,
-                    padding: "20px 20px 20px",
-                    background: "linear-gradient(to top, rgba(11,24,41,0.82) 0%, transparent 100%)",
-                  }}>
-                    <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginBottom: 4, letterSpacing: "0.08em", textTransform: "uppercase" }}>{tag}</div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ fontSize: 16 }}>{flag}</span>
-                      <span style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.03em" }}>{city}</span>
-                      <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginLeft: 2 }}>{country}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+              {destinations.filter((d) => !d.phare).map(renderDestCard)}
             </div>
           </AnimateOnView>
         </div>
@@ -832,7 +845,7 @@ export default function HomePage() {
                   <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </Link>
-              <Link href="/destinations" className="btn-ghost-light">Explorer les destinations</Link>
+              <Link href="/rendez-vous" className="btn-ghost-light">Réserver un échange</Link>
             </div>
           </div>
           </AnimateOnView>
@@ -1016,6 +1029,7 @@ export default function HomePage() {
         }
         @media (max-width: 540px) {
           .dest-grid { grid-template-columns: 1fr !important; }
+          .dest-grid-phares { grid-template-columns: 1fr !important; grid-auto-rows: 220px !important; }
           .stats-bar { grid-template-columns: repeat(2,1fr) !important; }
           .process-grid { grid-template-columns: 1fr !important; }
         }

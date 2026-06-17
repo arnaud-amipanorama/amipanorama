@@ -1,9 +1,10 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 
 const topics = [
   "Demande de programme",
-  "Financement Erasmus+",
+  "Financement & dispositifs",
   "Information sur une destination",
   "Partenariat école / CFA",
   "Autre",
@@ -11,26 +12,64 @@ const topics = [
 
 const profiles = [
   "CFA / Organisme de formation",
+  "École / Établissement",
   "Entreprise / OPCO",
   "Collectivité / Région",
-  "Particulier / Apprenti",
   "Autre",
 ];
 
 export default function ContactPage() {
   const [form, setForm] = useState({
-    name: "", org: "", profile: "", email: "", topic: "", destination: "", groupSize: "", message: "",
+    prenom: "", nom: "", org: "", profile: "", email: "", telephone: "",
+    topic: "", destination: "", groupSize: "", message: "", rgpd: false,
+    company: "", // honeypot anti-spam (caché)
   });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const set = <K extends keyof typeof form>(key: K, value: (typeof form)[K]) =>
+    setForm((f) => ({ ...f, [key]: value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    if (!form.rgpd) {
+      setError("Merci d'accepter la politique de confidentialité pour continuer.");
+      return;
+    }
     setLoading(true);
-    // Wire up to your own API route, Resend, or Formspree
-    await new Promise(r => setTimeout(r, 900));
-    setSent(true);
-    setLoading(false);
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prenom: form.prenom,
+          nom: form.nom,
+          email: form.email,
+          telephone: form.telephone,
+          etablissement: form.org,
+          profil: form.profile,
+          objet: form.topic,
+          destination: form.destination,
+          tailleGroupe: form.groupSize,
+          message: form.message,
+          rgpd: form.rgpd,
+          company: form.company,
+          page: typeof window !== "undefined" ? window.location.pathname : "/contact",
+          date: new Date().toISOString(),
+          source: "formulaire contact",
+        }),
+      });
+      if (!res.ok) throw new Error("server");
+      setSent(true);
+    } catch {
+      setError(
+        "Une erreur est survenue. Réessayez, ou écrivez-nous directement à info@amipanorama.com."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -40,7 +79,7 @@ export default function ContactPage() {
         <div style={{
           position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
           width: 600, height: 400,
-          background: "radial-gradient(ellipse, rgba(107,92,231,0.14) 0%, transparent 68%)",
+          background: "radial-gradient(ellipse, rgba(30,82,208,0.10) 0%, transparent 68%)",
           pointerEvents: "none",
         }} />
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative" }}>
@@ -51,7 +90,8 @@ export default function ContactPage() {
           </h1>
           <p style={{ fontSize: 18, color: "var(--text-secondary)", maxWidth: 560, lineHeight: 1.75 }}>
             Décrivez votre projet en quelques lignes. Nous vous répondons sous 24h ouvrables
-            avec une proposition adaptée à votre contexte.
+            avec une proposition adaptée à votre contexte. Vous préférez en parler de vive voix ?{" "}
+            <Link href="/rendez-vous" style={{ color: "var(--blue)", fontWeight: 500 }}>Réservez un échange.</Link>
           </p>
         </div>
       </section>
@@ -71,45 +111,68 @@ export default function ContactPage() {
                 <div style={{ textAlign: "center", padding: "48px 0" }}>
                   <div style={{
                     width: 56, height: 56, borderRadius: 14,
-                    background: "rgba(107,92,231,0.1)", border: "1px solid rgba(107,92,231,0.25)",
+                    background: "rgba(30,82,208,0.10)", border: "1px solid rgba(30,82,208,0.25)",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 22, margin: "0 auto 24px",
+                    fontSize: 22, color: "var(--blue)", margin: "0 auto 24px",
                   }}>✓</div>
                   <h2 style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 12 }}>
-                    Message envoyé !
+                    Demande envoyée !
                   </h2>
-                  <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 380, margin: "0 auto" }}>
-                    Merci. Notre équipe reviendra vers vous dans les 24 heures ouvrables avec une réponse personnalisée.
+                  <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 400, margin: "0 auto 28px" }}>
+                    Merci {form.prenom || ""}. Notre équipe revient vers vous dans les 24 heures ouvrables.
+                    Pour gagner du temps, vous pouvez aussi réserver un créneau d&apos;échange dès maintenant.
                   </p>
+                  <Link href="/rendez-vous" className="btn-primary" style={{ display: "inline-flex" }}>
+                    Réserver un échange
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                      <path d="M2 7.5h11M8 2.5l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </Link>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} noValidate>
                   <h2 style={{ fontSize: 18, fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 32 }}>
                     Votre demande
                   </h2>
 
-                  {/* Row 1 */}
+                  {/* Row 1 — prénom / nom */}
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }} className="form-row">
                     <div>
-                      <label style={lbl}>Votre nom *</label>
-                      <input required placeholder="Prénom Nom" value={form.name}
-                        onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                      <label style={lbl}>Prénom *</label>
+                      <input required placeholder="Prénom" value={form.prenom}
+                        onChange={e => set("prenom", e.target.value)}
                         style={inp} onFocus={focus} onBlur={blur} />
                     </div>
                     <div>
-                      <label style={lbl}>Organisation *</label>
-                      <input required placeholder="Nom du CFA / entreprise" value={form.org}
-                        onChange={e => setForm(f => ({ ...f, org: e.target.value }))}
+                      <label style={lbl}>Nom *</label>
+                      <input required placeholder="Nom" value={form.nom}
+                        onChange={e => set("nom", e.target.value)}
                         style={inp} onFocus={focus} onBlur={blur} />
                     </div>
                   </div>
 
-                  {/* Row 2 */}
+                  {/* Row 2 — organisation / email */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }} className="form-row">
+                    <div>
+                      <label style={lbl}>Organisation</label>
+                      <input placeholder="Nom du CFA / établissement" value={form.org}
+                        onChange={e => set("org", e.target.value)}
+                        style={inp} onFocus={focus} onBlur={blur} />
+                    </div>
+                    <div>
+                      <label style={lbl}>Email *</label>
+                      <input required type="email" placeholder="vous@organisation.fr" value={form.email}
+                        onChange={e => set("email", e.target.value)}
+                        style={inp} onFocus={focus} onBlur={blur} />
+                    </div>
+                  </div>
+
+                  {/* Row 3 — profil / téléphone */}
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }} className="form-row">
                     <div>
                       <label style={lbl}>Vous êtes…</label>
                       <select value={form.profile}
-                        onChange={e => setForm(f => ({ ...f, profile: e.target.value }))}
+                        onChange={e => set("profile", e.target.value)}
                         style={{ ...inp, appearance: "none" as const, cursor: "pointer" }}
                         onFocus={focus} onBlur={blur}>
                         <option value="">Votre profil…</option>
@@ -117,19 +180,19 @@ export default function ContactPage() {
                       </select>
                     </div>
                     <div>
-                      <label style={lbl}>Email *</label>
-                      <input required type="email" placeholder="vous@organisation.fr" value={form.email}
-                        onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                      <label style={lbl}>Téléphone</label>
+                      <input type="tel" placeholder="Optionnel" value={form.telephone}
+                        onChange={e => set("telephone", e.target.value)}
                         style={inp} onFocus={focus} onBlur={blur} />
                     </div>
                   </div>
 
-                  {/* Row 3 */}
+                  {/* Row 4 — objet / destination */}
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }} className="form-row">
                     <div>
                       <label style={lbl}>Objet de votre demande</label>
                       <select value={form.topic}
-                        onChange={e => setForm(f => ({ ...f, topic: e.target.value }))}
+                        onChange={e => set("topic", e.target.value)}
                         style={{ ...inp, appearance: "none" as const, cursor: "pointer" }}
                         onFocus={focus} onBlur={blur}>
                         <option value="">Choisir…</option>
@@ -139,11 +202,11 @@ export default function ContactPage() {
                     <div>
                       <label style={lbl}>Destination envisagée</label>
                       <select value={form.destination}
-                        onChange={e => setForm(f => ({ ...f, destination: e.target.value }))}
+                        onChange={e => set("destination", e.target.value)}
                         style={{ ...inp, appearance: "none" as const, cursor: "pointer" }}
                         onFocus={focus} onBlur={blur}>
                         <option value="">Pas encore décidé</option>
-                        {["Séville", "Montréal", "Londres", "Maroc", "New York", "Séoul"].map(d => <option key={d}>{d}</option>)}
+                        {["Montréal", "Séville", "Londres", "Maroc", "New York", "Séoul", "Autre"].map(d => <option key={d}>{d}</option>)}
                       </select>
                     </div>
                   </div>
@@ -152,20 +215,49 @@ export default function ContactPage() {
                   <div style={{ marginBottom: 16 }}>
                     <label style={lbl}>Taille du groupe (approximative)</label>
                     <input placeholder="Ex. 12 apprentis" value={form.groupSize}
-                      onChange={e => setForm(f => ({ ...f, groupSize: e.target.value }))}
+                      onChange={e => set("groupSize", e.target.value)}
                       style={inp} onFocus={focus} onBlur={blur} />
                   </div>
 
                   {/* Message */}
-                  <div style={{ marginBottom: 28 }}>
+                  <div style={{ marginBottom: 20 }}>
                     <label style={lbl}>Votre message *</label>
                     <textarea required rows={5}
                       placeholder="Décrivez votre projet, vos contraintes, vos dates souhaitées, votre secteur d'activité…"
                       value={form.message}
-                      onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                      onChange={e => set("message", e.target.value)}
                       style={{ ...inp, resize: "vertical" as const, minHeight: 120 }}
                       onFocus={focus} onBlur={blur} />
                   </div>
+
+                  {/* Honeypot — caché aux humains, piège à bots */}
+                  <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
+                    <label>Ne pas remplir
+                      <input tabIndex={-1} autoComplete="off" value={form.company}
+                        onChange={e => set("company", e.target.value)} />
+                    </label>
+                  </div>
+
+                  {/* RGPD */}
+                  <label style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 24, cursor: "pointer" }}>
+                    <input type="checkbox" required checked={form.rgpd}
+                      onChange={e => set("rgpd", e.target.checked)}
+                      style={{ marginTop: 3, width: 16, height: 16, accentColor: "var(--coral)", flexShrink: 0, cursor: "pointer" }} />
+                    <span style={{ fontSize: 12.5, color: "var(--text-secondary)", lineHeight: 1.6 }}>
+                      J&apos;accepte que mes données soient utilisées pour traiter ma demande, conformément à la{" "}
+                      <Link href="/politique-de-confidentialite" style={{ color: "var(--blue)", textDecoration: "underline" }}>
+                        politique de confidentialité
+                      </Link>. *
+                    </span>
+                  </label>
+
+                  {error && (
+                    <div style={{
+                      fontSize: 13, color: "#B42318", background: "rgba(180,35,24,0.07)",
+                      border: "1px solid rgba(180,35,24,0.2)", borderRadius: 8,
+                      padding: "10px 14px", marginBottom: 16, lineHeight: 1.5,
+                    }}>{error}</div>
+                  )}
 
                   <button type="submit" className="btn-primary" disabled={loading}
                     style={{ width: "100%", justifyContent: "center", opacity: loading ? 0.7 : 1 }}>
@@ -182,6 +274,28 @@ export default function ContactPage() {
 
             {/* Sidebar */}
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {/* Booking */}
+              <div style={{
+                background: "var(--navy)", borderRadius: 16, padding: "28px", position: "relative", overflow: "hidden",
+              }}>
+                <div style={{
+                  position: "absolute", inset: 0, pointerEvents: "none",
+                  background: "radial-gradient(ellipse at top right, rgba(232,88,53,0.18) 0%, transparent 65%)",
+                }} />
+                <h3 style={{ fontSize: 15, fontWeight: 600, color: "#fff", marginBottom: 8, position: "relative" }}>
+                  Préférez un échange direct ?
+                </h3>
+                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, marginBottom: 18, position: "relative" }}>
+                  Réservez un créneau de 20 minutes, sans engagement, pour parler de votre projet.
+                </p>
+                <Link href="/rendez-vous" className="btn-primary" style={{ position: "relative", display: "inline-flex" }}>
+                  Réserver un échange
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </Link>
+              </div>
+
               <div style={{
                 background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 16, padding: "28px",
               }}>
@@ -189,7 +303,6 @@ export default function ContactPage() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                   {[
                     { label: "Email", value: "info@amipanorama.com" },
-                    { label: "Basés à", value: "Canada · Timezone EST" },
                     { label: "Réponse sous", value: "24h ouvrables" },
                     { label: "Langues", value: "Français · Anglais" },
                   ].map(({ label, value }) => (
@@ -231,11 +344,11 @@ export default function ContactPage() {
               </div>
 
               <div style={{
-                background: "rgba(107,92,231,0.06)", border: "1px solid rgba(107,92,231,0.18)",
+                background: "rgba(232,88,53,0.06)", border: "1px solid rgba(232,88,53,0.18)",
                 borderRadius: 16, padding: "28px",
               }}>
                 <div style={{ fontSize: 20, marginBottom: 12 }}>✦</div>
-                <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8, color: "var(--accent-light)" }}>
+                <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8, color: "var(--coral)" }}>
                   Premier échange gratuit
                 </h3>
                 <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.75 }}>
