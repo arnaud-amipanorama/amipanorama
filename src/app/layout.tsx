@@ -18,8 +18,8 @@ export const metadata: Metadata = {
     template: "%s | AMI Panorama",
   },
   description:
-    "AMI Panorama conçoit des programmes de mobilité internationale clé en main pour les CFA et les entreprises — 7 nuits, 6 destinations, formation, visites et financement Erasmus+.",
-  keywords: ["mobilité internationale", "apprentis", "Erasmus+", "CFA", "formation", "alternance", "Séville", "Montréal", "Londres", "Séoul", "New York"],
+    "AMI Panorama conçoit des programmes de mobilité internationale pour les CFA, les écoles et les établissements de l'alternance — des formats de 4 à 31 nuits, 10 destinations, formation professionnelle, visites d'entreprise, encadrement terrain et accompagnement administratif de A à Z.",
+  keywords: ["mobilité internationale", "apprentis", "CFA", "alternance", "formation professionnelle", "établissements", "Séville", "Montréal", "Londres", "Séoul", "New York"],
   openGraph: {
     siteName: "AMI Panorama",
     type: "website",

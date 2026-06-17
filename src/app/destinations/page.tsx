@@ -10,31 +10,15 @@ export const metadata: Metadata = {
 
 const destinations = [
   {
-    city: "Séville",
-    country: "Espagne",
-    tag: "Culture & immersion",
-    flag: "🇪🇸",
-    accent: "#E85835",
-    photo: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
-    headline: "L'Andalousie comme terrain de formation.",
-    desc: "Séville offre un cadre exceptionnel pour une immersion totale : architecture baroque, économie tertiaire dynamique et chaleur humaine qui facilite naturellement l'ouverture interculturelle. Une destination idéale pour les filières orientées vers les services, le tourisme et le commerce.",
-    highlights: [
-      "Hébergement en centre-ville dans un établissement sélectionné et testé sur place",
-      "Formation avec panorama socio-économique de la région andalouse",
-      "Visites d'entreprises locales dans les secteurs tertiaire et services",
-      "Activités culturelles : flamenco, Cathédrale de Séville, Alcazar",
-    ],
-    ideal: "Tourisme · Commerce · RH · Services",
-  },
-  {
     city: "Montréal",
     country: "Canada",
-    tag: "Bilinguisme & Amérique du Nord",
+    tag: "Destination historique · Amérique du Nord",
     flag: "🇨🇦",
     accent: "#1E52D0",
+    phare: true,
     photo: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=900&q=80",
     headline: "L'Amérique du Nord, en français.",
-    desc: "Métropole bilingue et cosmopolite, Montréal est la seule ville nord-américaine où les apprentis francophones peuvent découvrir un modèle économique radicalement différent sans barrière linguistique. Un cadre idéal pour élargir sa vision tout en restant ancré dans sa langue.",
+    desc: "Notre destination historique, et la plus maîtrisée. Métropole bilingue et cosmopolite, Montréal est la seule ville nord-américaine où les apprentis francophones peuvent découvrir un modèle économique radicalement différent sans barrière linguistique. Un cadre idéal pour élargir sa vision tout en restant ancré dans sa langue.",
     highlights: [
       "Formation sur le modèle économique et l'environnement professionnel nord-américain",
       "Visites d'entreprises innovantes : tech, commerce, services, secteur créatif",
@@ -44,6 +28,24 @@ const destinations = [
     ideal: "Numérique · Gestion · Commerce · Communication",
   },
   {
+    city: "Séville",
+    country: "Espagne",
+    tag: "Deuxième pilier · Culture & immersion",
+    flag: "🇪🇸",
+    accent: "#E85835",
+    phare: true,
+    photo: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
+    headline: "L'Andalousie comme terrain de formation.",
+    desc: "Notre deuxième pilier. Séville offre un cadre exceptionnel pour une immersion totale : architecture baroque, économie tertiaire dynamique et chaleur humaine qui facilite naturellement l'ouverture interculturelle. Une destination idéale pour les filières orientées vers les services, le tourisme et le commerce.",
+    highlights: [
+      "Hébergement en centre-ville dans un établissement sélectionné et testé sur place",
+      "Formation avec panorama socio-économique de la région andalouse",
+      "Visites d'entreprises locales dans les secteurs tertiaire et services",
+      "Activités culturelles : flamenco, Cathédrale de Séville, Alcazar",
+    ],
+    ideal: "Tourisme · Commerce · RH · Services",
+  },
+  {
     city: "Londres",
     country: "Royaume-Uni",
     tag: "Business English",
@@ -51,7 +53,7 @@ const destinations = [
     accent: "#1E52D0",
     photo: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=900&q=80",
     headline: "La capitale mondiale du Business English.",
-    desc: "Londres reste la référence absolue pour l'apprentissage de l'anglais professionnel en contexte réel. Une semaine à Londres, c'est une immersion totale dans une ville qui concentre une densité unique d'entreprises internationales et où l'anglais professionnel est la langue de travail universelle.",
+    desc: "Londres reste la référence absolue pour l'apprentissage de l'anglais professionnel en contexte réel. Un séjour à Londres, c'est une immersion totale dans une ville qui concentre une densité unique d'entreprises internationales et où l'anglais professionnel est la langue de travail universelle.",
     highlights: [
       "Formation Business English avec des formateurs professionnels natifs certifiés",
       "Visites d'entreprises et observation du monde du travail londonien",
@@ -66,7 +68,7 @@ const destinations = [
     tag: "English immersion",
     flag: "🇲🇹",
     accent: "#1E52D0",
-    photo: "/assets/destinations/Malte Destination.png",
+    photo: "/Assets/destinations/Malte Destination.png",
     headline: "L'anglais en immersion totale, sous le soleil méditerranéen.",
     desc: "Malte est l'une des rares destinations européennes entièrement anglophones — et l'une des plus accessibles. Son cadre méditerranéen, son histoire millénaire et sa taille humaine en font un environnement idéal pour une progression réelle en anglais professionnel, dans une atmosphère solaire et engageante.",
     highlights: [
@@ -83,7 +85,7 @@ const destinations = [
     tag: "Immersion & management interculturel",
     flag: "🇲🇦",
     accent: "#D4862A",
-    photo: "/assets/destinations/Maroc.jpg",
+    photo: "/Assets/destinations/Maroc.jpg",
     headline: "L'Afrique du Nord, entre tradition et dynamisme contemporain.",
     desc: "Le Maroc — principalement Marrakech et Casablanca — propose un programme ancré dans les réalités économiques et culturelles du pays. Une destination qui confronte les apprentis à un environnement professionnel différent, entre héritage fort et ambitions de modernisation.",
     highlights: [
@@ -134,7 +136,7 @@ const destinations = [
     tag: "Culture & économie italienne",
     flag: "🇮🇹",
     accent: "#D4862A",
-    photo: "/assets/destinations/Rome.jpg",
+    photo: "/Assets/destinations/Rome.jpg",
     headline: "L'Italie entre grandeur historique et réalité économique.",
     desc: "Rome offre un cadre de formation unique : une compréhension par l'immersion. Le programme s'appuie sur la richesse culturelle de la Ville éternelle pour ouvrir les apprentis à la réalité économique italienne — ses secteurs d'activité, ses entreprises, ses codes professionnels et son rapport singulier à la qualité.",
     highlights: [
@@ -151,7 +153,7 @@ const destinations = [
     tag: "Business English & ouverture américaine",
     flag: "🇺🇸",
     accent: "#1E52D0",
-    photo: "/assets/destinations/Miami-unsplash.jpg",
+    photo: "/Assets/destinations/Miami-unsplash.jpg",
     headline: "L'Amérique dans sa version la plus internationale.",
     desc: "Miami n'est pas New York — et c'est précisément son atout. Carrefour des Amériques, ville internationale par nature, elle offre aux apprentis une lecture concrète du modèle économique américain dans un environnement cosmopolite, accessible et tourné vers l'Atlantique.",
     highlights: [
@@ -279,7 +281,7 @@ export default function DestinationsPage() {
       {/* Destination cards */}
       <section style={{ padding: "64px 24px 96px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 24 }}>
-          {destinations.map(({ city, country, tag, flag, accent, photo, headline, desc, highlights, ideal, comingSoon }, i) => (
+          {destinations.map(({ city, country, tag, flag, accent, photo, headline, desc, highlights, ideal, comingSoon, phare }, i) => (
             <AnimateOnView key={city} delay={i * 0.06}>
             {comingSoon ? (
             /* ── Coming soon card ── */
@@ -365,6 +367,15 @@ export default function DestinationsPage() {
                   fontSize: 11, fontWeight: 600, letterSpacing: "0.08em",
                   color: "rgba(255,255,255,0.35)",
                 }}>0{i + 1}</div>
+                {phare && (
+                  <div style={{
+                    position: "absolute", top: 18, left: 28,
+                    fontSize: 10, fontWeight: 600, letterSpacing: "0.1em",
+                    textTransform: "uppercase", color: "#fff",
+                    background: "rgba(232,88,53,0.92)", borderRadius: 100,
+                    padding: "4px 12px",
+                  }}>Destination phare</div>
+                )}
               </div>
 
               {/* Content side */}

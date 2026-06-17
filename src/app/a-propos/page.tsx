@@ -410,7 +410,7 @@ export default function AProposPage() {
               <div style={{ fontSize: 44, fontWeight: 700, letterSpacing: "-0.05em", color: "#fff", lineHeight: 1 }}>3 000+</div>
               <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", marginTop: 8, lineHeight: 1.4 }}>apprentis accompagnés</div>
               <div style={{ width: 32, height: 1.5, background: "var(--coral)", margin: "16px auto 0" }} />
-              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 10 }}>10 ans d&apos;expérience</div>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 10 }}>Depuis 2022</div>
             </div>
           </div>
         </div>

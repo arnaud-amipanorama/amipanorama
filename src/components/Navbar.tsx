@@ -52,7 +52,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" style={{ display: "flex", alignItems: "center" }}>
             <Image
-              src="/Assets/AMI%20PANORAMA%20Logo%20Black.png"
+              src="/Assets/AMI%20Panorama%20Logo%20Signature.png"
               alt="AMI Panorama"
               width={160}
               height={48}

@@ -18,7 +18,7 @@ const whyItems = [
     num: "02",
     title: "Cohésion de promotion",
     accent: "#E85835",
-    desc: "Une semaine à l'étranger crée des liens entre étudiants que plusieurs années de cours ne recréent pas. Ces liens renforcent l'engagement, réduisent l'abandon et construisent un sentiment d'appartenance durable.",
+    desc: "Un séjour à l'étranger crée des liens entre étudiants que plusieurs années de cours ne recréent pas. Ces liens renforcent l'engagement, réduisent l'abandon et construisent un sentiment d'appartenance durable.",
   },
   {
     num: "03",
@@ -41,7 +41,7 @@ const faqItems = [
   },
   {
     q: "Combien de temps dure une mobilité ?",
-    a: "Nos programmes standards durent 7 nuits sur place. Nous proposons également des formats étendus de 10 à 14 nuits pour les établissements souhaitant approfondir l'immersion pédagogique et l'expérience culturelle.",
+    a: "Nos séjours vont de 4 à 31 nuits. Nous sommes particulièrement spécialisés dans trois formats : une semaine, deux semaines et un mois. La durée se définit avec vous, selon les objectifs pédagogiques, le profil du groupe, la destination et le projet de l'établissement.",
   },
   {
     q: "Que comprend concrètement le programme ?",
@@ -119,8 +119,8 @@ const components = [
   },
   {
     num: "04",
-    title: "Logement 7 nuits",
-    sub: "Hébergement sécurisé et confortable",
+    title: "Hébergement encadré",
+    sub: "Logement sécurisé, durée selon le format",
     accent: "#E85835",
     desc: "Nous sélectionnons des établissements qui combinent confort, sécurité et cadre propice à la vie de groupe. Chaque hébergement est testé et validé par notre équipe terrain avant d'être intégré à nos programmes.",
     details: [
@@ -210,7 +210,7 @@ export default function NotreProgrammePage() {
             background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden",
           }}>
             {([
-              ["7 à 14 nuits", "d'hébergement encadré"],
+              ["4 à 31 nuits", "selon le format du séjour"],
               ["16–20h", "de formation structurée"],
               ["10", "destinations actives"],
               ["Appui admin.", "inclus dans chaque programme"],

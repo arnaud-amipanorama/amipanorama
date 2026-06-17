@@ -9,22 +9,27 @@ export const metadata: Metadata = {
     "AMI Panorama conçoit des programmes de mobilité internationale structurés pour les CFA, les écoles et les établissements d'enseignement supérieur. Formation professionnelle, visites d'entreprise, encadrement terrain et accompagnement administratif de A à Z.",
 };
 
-const destinations = [
-  {
-    city: "Séville",
-    country: "Espagne",
-    flag: "🇪🇸",
-    tag: "Culture & immersion",
-    gradient: "linear-gradient(170deg,rgba(100,30,10,0.42),rgba(180,80,20,0.28))",
-    img: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
-  },
+const destinations: {
+  city: string; country: string; flag: string; tag: string;
+  gradient: string; img: string; phare?: boolean;
+}[] = [
   {
     city: "Montréal",
     country: "Canada",
     flag: "🇨🇦",
-    tag: "Bilinguisme & Amérique du Nord",
+    tag: "Destination historique · Amérique du Nord",
+    phare: true,
     gradient: "linear-gradient(170deg,rgba(8,28,60,0.42),rgba(20,52,140,0.28))",
     img: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=800&q=80",
+  },
+  {
+    city: "Séville",
+    country: "Espagne",
+    flag: "🇪🇸",
+    tag: "Deuxième pilier · Culture & immersion",
+    phare: true,
+    gradient: "linear-gradient(170deg,rgba(100,30,10,0.42),rgba(180,80,20,0.28))",
+    img: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
   },
   {
     city: "Londres",
@@ -40,7 +45,7 @@ const destinations = [
     flag: "🇲🇹",
     tag: "English immersion",
     gradient: "linear-gradient(170deg,rgba(8,28,70,0.42),rgba(18,50,130,0.28))",
-    img: "/assets/destinations/Malte Destination.png",
+    img: "/Assets/destinations/Malte Destination.png",
   },
   {
     city: "Maroc",
@@ -48,7 +53,7 @@ const destinations = [
     flag: "🇲🇦",
     tag: "Immersion & interculturel",
     gradient: "linear-gradient(170deg,rgba(80,30,10,0.42),rgba(160,80,20,0.28))",
-    img: "/assets/destinations/Maroc.jpg",
+    img: "/Assets/destinations/Maroc.jpg",
   },
   {
     city: "Berlin",
@@ -72,7 +77,7 @@ const destinations = [
     flag: "🇮🇹",
     tag: "Culture & économie italienne",
     gradient: "linear-gradient(170deg,rgba(90,35,8,0.42),rgba(160,70,18,0.28))",
-    img: "/assets/destinations/Rome.jpg",
+    img: "/Assets/destinations/Rome.jpg",
   },
   {
     city: "Miami",
@@ -80,7 +85,7 @@ const destinations = [
     flag: "🇺🇸",
     tag: "Business English & ouverture US",
     gradient: "linear-gradient(170deg,rgba(8,24,55,0.42),rgba(18,44,100,0.28))",
-    img: "/assets/destinations/Miami-unsplash.jpg",
+    img: "/Assets/destinations/Miami-unsplash.jpg",
   },
   {
     city: "Séoul",
@@ -144,35 +149,14 @@ const testimonials = [
     dest: "Séville",
     flag: "🇪🇸",
   },
-  // ── Additional testimonials ──
-  {
-    quote: "Je n'aurais pas imaginé partir à Londres en alternance. Ce séjour a changé la dynamique de notre groupe — on s'est retrouvés autrement, hors du cadre habituel. C'est quelque chose que les cours ne recréent pas.",
-    name: "Théo Marchand",
-    school: "Groupe Alternance",
-    dest: "Londres",
-    flag: "🇬🇧",
-  },
-  {
-    quote: "Ce qui m'a frappé, c'est la qualité de l'organisation sur place. On n'avait rien à gérer. Les visites, les transports, les repas — tout était coordonné. Ça nous a permis de vraiment profiter de chaque moment.",
-    name: "Camille Bertrand",
-    school: "Financia",
-    dest: "Séville",
-    flag: "🇪🇸",
-  },
-  {
-    quote: "New York, c'est une autre façon de voir ce que le monde professionnel peut être. Les entreprises visitées, les rencontres, le rythme de la ville — ça remet les choses en perspective d'une manière que les cours ne peuvent pas.",
-    name: "Lucas Fontaine",
-    school: "Collège de Paris",
-    dest: "New York",
-    flag: "🇺🇸",
-  },
+  // NOTE: emplacements prêts pour de vrais témoignages supplémentaires fournis par AMI Panorama.
 ];
 
 const included = [
   { num: "01", label: "Formation 16–20h",       sub: "Business English + ateliers sectoriels" },
   { num: "02", label: "Visites d'entreprise",  sub: "Immersion professionnelle réelle" },
   { num: "03", label: "Activités culturelles", sub: "Programme saisonnier sur mesure" },
-  { num: "04", label: "Logement 7 nuits",      sub: "Hébergement sécurisé + rooftop" },
+  { num: "04", label: "Hébergement encadré",   sub: "Logement sécurisé, testé sur place" },
   { num: "05", label: "Transports inclus",     sub: "Aéroport + navettes quotidiennes" },
   { num: "06", label: "Assurances complètes",  sub: "Rapatriement 24h/24 + 200 k€" },
   { num: "07", label: "Ingénierie administrative", sub: "Structuration, dispositifs, suivi documentaire" },
@@ -226,7 +210,7 @@ export default function HomePage() {
               <span style={{
                 fontSize: 11, fontWeight: 600, letterSpacing: "0.14em",
                 textTransform: "uppercase", color: "var(--text-muted)",
-              }}>Opérateur de mobilité professionnelle · Depuis 2014</span>
+              }}>Opérateur de mobilité professionnelle · Depuis 2022</span>
             </div>
 
             {/* Main headline */}
@@ -561,7 +545,7 @@ export default function HomePage() {
               gridAutoRows: "240px",
               gap: 12,
             }} className="dest-grid">
-              {destinations.map(({ city, country, flag, tag, gradient, img }) => (
+              {destinations.map(({ city, country, flag, tag, gradient, img, phare }) => (
                 <Link key={city} href="/destinations" className="dest-card" style={{
                   position: "relative", borderRadius: 16, overflow: "hidden",
                   display: "block", textDecoration: "none",
@@ -577,6 +561,15 @@ export default function HomePage() {
                     background: "rgba(11,24,41,0.0)",
                     transition: "background 0.35s ease",
                   }} />
+                  {phare && (
+                    <div style={{
+                      position: "absolute", top: 12, left: 12, zIndex: 2,
+                      fontSize: 9, fontWeight: 600, letterSpacing: "0.1em",
+                      textTransform: "uppercase", color: "#fff",
+                      background: "rgba(232,88,53,0.92)", borderRadius: 100,
+                      padding: "4px 10px",
+                    }}>Destination phare</div>
+                  )}
                   <div style={{
                     position: "absolute", bottom: 0, left: 0, right: 0,
                     padding: "20px 20px 20px",
@@ -696,7 +689,7 @@ export default function HomePage() {
             {/* Column 2 — additional testimonials — scrolls faster */}
             <div className="testi-track">
               <div className="testi-col-2" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                {[...testimonials.slice(3), ...testimonials.slice(3)].map(({ quote, name, school, dest, flag }, i) => (
+                {[...[...testimonials].reverse(), ...[...testimonials].reverse()].map(({ quote, name, school, dest, flag }, i) => (
                   <div key={i} className="testi-card">
                     <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.85, whiteSpace: "pre-line", marginBottom: 20 }}>{quote}</p>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -772,7 +765,7 @@ export default function HomePage() {
               justifyContent: "center", gap: 32,
             }}>
               {[
-                { value: "3 000+", label: "apprentis depuis 10 ans" },
+                { value: "3 000+", label: "apprentis accompagnés" },
                 { value: "96 %", label: "de satisfaction déclarée" },
                 { value: "50", label: "CFA partenaires actifs" },
               ].map(({ value, label }) => (

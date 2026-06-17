@@ -23,15 +23,15 @@ export default function Footer() {
           <div>
             <div style={{ marginBottom: 20 }}>
               <Image
-                src="/Assets/AMI%20PANORAMA%20Logo%20White%20%281%29.png"
+                src="/Assets/AMI%20Panorama%20Logo%20Signature.png"
                 alt="AMI Panorama"
                 width={160}
                 height={48}
-                style={{ height: 38, width: "auto", objectFit: "contain", opacity: 0.88 }}
+                style={{ height: 38, width: "auto", objectFit: "contain", opacity: 0.9, filter: "brightness(0) invert(1)" }}
               />
             </div>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.75, maxWidth: 240 }}>
-              Programmes de mobilité internationale clé en main pour les CFA et les entreprises françaises.
+              Programmes de mobilité internationale clé en main pour les CFA, les écoles et les établissements de formation.
             </p>
             <div style={{ display: "flex", gap: 10, marginTop: 24 }}>
               {[
@@ -71,8 +71,8 @@ export default function Footer() {
           <div>
             <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 18 }}>Destinations</p>
             {[
-              { label: "Séville", flag: "🇪🇸" },
               { label: "Montréal", flag: "🇨🇦" },
+              { label: "Séville", flag: "🇪🇸" },
               { label: "Londres", flag: "🇬🇧" },
               { label: "Maroc", flag: "🇲🇦" },
               { label: "New York", flag: "🇺🇸" },
