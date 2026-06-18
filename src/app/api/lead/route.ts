@@ -41,6 +41,87 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({ success: true });
 }
 
+// ──────────────────────────────────────────────────────────────
+// DIAGNOSTIC TEMPORAIRE — GET /api/lead
+// But : voir en prod pourquoi les leads n'arrivent pas dans Notion,
+// sans exposer de secret. Accès aux tests live protégé par ?key=<NOTION_LEADS_DB>.
+// À SUPPRIMER une fois le problème résolu.
+// ──────────────────────────────────────────────────────────────
+export async function GET(request: NextRequest) {
+  const token = process.env.NOTION_TOKEN;
+  const dbId = process.env.NOTION_LEADS_DB;
+
+  // Présence des variables (booléens uniquement, aucun secret révélé)
+  const env = {
+    NOTION_TOKEN: token ? "présent" : "ABSENT",
+    NOTION_LEADS_DB: dbId ? "présent" : "ABSENT",
+    RESEND_API_KEY: process.env.RESEND_API_KEY ? "présent" : "absent (normal pour l'instant)",
+    NEXT_PUBLIC_BOOKING_URL: process.env.NEXT_PUBLIC_BOOKING_URL ? "présent" : "absent (défaut codé utilisé)",
+  };
+
+  const url = new URL(request.url);
+  const authorized = !!dbId && url.searchParams.get("key") === dbId;
+
+  if (!authorized) {
+    return NextResponse.json({
+      ok: true,
+      route: "nouvelle route Phase 1 active",
+      env,
+      note: "Pour les tests Notion live, ajoutez ?key=<valeur de NOTION_LEADS_DB> à l'URL.",
+    });
+  }
+
+  // Test 1 — le token peut-il LIRE la base ? (valide token + id + connexion)
+  let dbRetrieve = "non exécuté";
+  if (token && dbId) {
+    try {
+      const r = await fetch(`https://api.notion.com/v1/databases/${dbId}`, {
+        headers: { Authorization: `Bearer ${token}`, "Notion-Version": "2022-06-28" },
+      });
+      dbRetrieve = r.ok
+        ? "OK — le token a bien accès à la base"
+        : `ERREUR ${r.status} — ${(await r.text()).slice(0, 300)}`;
+    } catch (e) {
+      dbRetrieve = `EXCEPTION — ${String(e).slice(0, 200)}`;
+    }
+  }
+
+  // Test 2 — insertion réelle (uniquement avec ?test=1) : reproduit EXACTEMENT
+  // ce que fait la route, pour révéler un éventuel souci de mapping/propriétés.
+  let testInsert = "non exécuté (ajouter &test=1 pour créer une ligne de test à supprimer)";
+  if (url.searchParams.get("test") === "1" && token && dbId) {
+    const parsed = parseLead({
+      prenom: "Diagnostic", nom: "Test", email: "diagnostic@amipanorama.com",
+      rgpd: true, source: "formulaire contact", objet: "Demande de programme",
+      destination: "Montréal", message: "Ligne de test /api/lead?test=1 — à supprimer",
+      date: new Date().toISOString(),
+    });
+    if (parsed.ok) {
+      try {
+        const r = await fetch("https://api.notion.com/v1/pages", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            "Notion-Version": "2022-06-28",
+          },
+          body: JSON.stringify({
+            parent: { database_id: dbId },
+            properties: leadToNotionProperties(parsed.lead),
+          }),
+        });
+        testInsert = r.ok
+          ? "OK — ligne de test créée dans Notion (pense à la supprimer)"
+          : `ERREUR ${r.status} — ${(await r.text()).slice(0, 500)}`;
+      } catch (e) {
+        testInsert = `EXCEPTION — ${String(e).slice(0, 200)}`;
+      }
+    }
+  }
+
+  return NextResponse.json({ env, dbRetrieve, testInsert });
+}
+
 // ── Email via l'API REST de Resend (aucune dépendance npm) ──
 async function sendEmail(lead: Lead) {
   const key = process.env.RESEND_API_KEY;
