@@ -127,6 +127,7 @@ export function leadToNotionProperties(lead: Lead): Record<string, unknown> {
     "Taille du groupe": text(lead.tailleGroupe),
     Message: text(lead.message),
     Source: select(lead.source),
+    Statut: { select: { name: "Nouveau" } },
     "Consentement RGPD": { checkbox: lead.rgpd },
     "Reçu le": { date: { start: lead.date } },
   };
