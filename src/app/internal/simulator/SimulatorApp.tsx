@@ -1,6 +1,6 @@
 "use client";
 import { useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { OPCOS, OPCO_BY_ID, programmeCostForNights, COST_DEFAULTS } from "@/lib/simulator/opco-config";
 import {
   computeSimulation,
@@ -8,19 +8,24 @@ import {
   resolveKeptTotal,
   type OptimizationMode,
 } from "@/lib/simulator/engine";
+import type { SimulationData } from "./SimulationDocument";
 
-// ── Thème sombre (outil interne, distinct du site public) ──
+// ── Thème : noir profond · blanc · gris clair · ORANGE AMI (accent). Bleu = accent graphique. ──
 const T = {
-  bg: "#07090F",
-  panel: "rgba(255,255,255,0.03)",
+  bg: "#08080B",
+  bg2: "#0E0E13",
+  panel: "rgba(255,255,255,0.025)",
   panel2: "rgba(255,255,255,0.05)",
-  border: "rgba(255,255,255,0.09)",
-  text: "#FFFFFF",
-  muted: "rgba(255,255,255,0.55)",
-  faint: "rgba(255,255,255,0.38)",
-  blue: "#4B76F0",
+  border: "rgba(255,255,255,0.08)",
+  borderStrong: "rgba(255,255,255,0.16)",
+  white: "#FFFFFF",
+  text: "#F4F5F7",
+  muted: "#A2A8B4",
+  faint: "#6B7280",
+  orange: "#E85835",
+  orangeSoft: "rgba(232,88,53,0.14)",
+  blue: "#5B8DEF",
   teal: "#2DD4BF",
-  coral: "#E85835",
   green: "#34D399",
 };
 
@@ -31,42 +36,48 @@ type ModeKind = "free" | "maxReduction" | "operationBlanche" | "targetRac";
 
 const MODES: { kind: ModeKind; label: string; desc: string }[] = [
   { kind: "free", label: "Optimisation libre", desc: "Vous fixez le montant conservé par accompagnant." },
-  { kind: "maxReduction", label: "RAC étudiant minimal", desc: "Réinjecte tout le financement référent." },
-  { kind: "operationBlanche", label: "Opération blanche école", desc: "L'école ne conserve rien : opération nette nulle." },
-  { kind: "targetRac", label: "RAC étudiant cible", desc: "Le moteur arbitre pour atteindre un RAC visé." },
+  { kind: "maxReduction", label: "Reste à charge minimal", desc: "Réinjecte tout le financement référent." },
+  { kind: "operationBlanche", label: "Opération blanche", desc: "L'établissement ne conserve rien." },
+  { kind: "targetRac", label: "Reste à charge cible", desc: "Le moteur arbitre pour atteindre un objectif." },
 ];
 
+const BENEFITS = ["Financements OPCO", "Référent mobilité", "Reste à charge étudiant", "Impact établissement"];
+
 export default function SimulatorApp() {
-  // Section 1 — contexte
-  const [ecole, setEcole] = useState("");
-  const [referent, setReferent] = useState("");
-  const [email, setEmail] = useState("");
-  const [telephone, setTelephone] = useState("");
+  const [view, setView] = useState<"hero" | "app">("hero");
+
+  // Étape 1 — le groupe
   const [destination, setDestination] = useState("Montréal");
-  const [dateSouhaitee, setDateSouhaitee] = useState("");
   const [nights, setNights] = useState(7);
   const [accompagnants, setAccompagnants] = useState(2);
-  const [transport, setTransport] = useState(COST_DEFAULTS.transportDefault);
-  const [programme, setProgramme] = useState(programmeCostForNights(7));
 
-  // Section 2 — répartition OPCO
+  // Étape 2 — répartition OPCO
   const [rows, setRows] = useState<RowState[]>([
     { id: "akto", count: 8 },
     { id: "atlas", count: 4 },
+    { id: "afdas", count: 6 },
   ]);
 
-  // Section 3 — hypothèses
+  // Étape 3 — paramètres avancés
+  const [transport, setTransport] = useState(COST_DEFAULTS.transportDefault);
+  const [programme, setProgramme] = useState(programmeCostForNights(7));
   const [mode, setMode] = useState<ModeKind>("free");
   const [keptPerAccompagnant, setKeptPerAccompagnant] = useState(COST_DEFAULTS.keptPerAccompagnant);
   const [atlasContractMode, setAtlasContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
   const [targetRac, setTargetRac] = useState(300);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
+
+  // Coordonnées (pour le document)
+  const [ecole, setEcole] = useState("");
+  const [referent, setReferent] = useState("");
+  const [email, setEmail] = useState("");
+  const [dateSouhaitee, setDateSouhaitee] = useState("");
+  const [pdfState, setPdfState] = useState<"idle" | "loading" | "err">("idle");
   const [saved, setSaved] = useState<"idle" | "saving" | "ok" | "err">("idle");
 
   const resultsRef = useRef<HTMLDivElement>(null);
-
   const suggestedProgramme = programmeCostForNights(nights);
 
-  // ── Calcul (live) ──
   const result = useMemo(() => {
     const rowsConfig = rows
       .filter((r) => OPCO_BY_ID[r.id])
@@ -84,42 +95,68 @@ export default function SimulatorApp() {
     return computeSimulation({ stay, rows: rowsConfig, keptTotal, selections });
   }, [rows, nights, programme, transport, atlasContractMode, mode, keptPerAccompagnant, accompagnants, targetRac]);
 
-  const totalAlternants = rows.reduce((s, r) => s + Math.max(0, r.count), 0);
+  const totalAlternants = result.totalStudents;
   const hasAtlas = rows.some((r) => r.id === "atlas");
   const available = OPCOS.filter((o) => !rows.some((r) => r.id === o.id));
+  const financementsMobilisables = result.apprentiTotal + result.reinjected;
 
-  const addRow = () => {
-    if (available.length) setRows((rs) => [...rs, { id: available[0].id, count: 1 }]);
-  };
+  const addRow = () => available.length && setRows((rs) => [...rs, { id: available[0].id, count: 1 }]);
   const removeRow = (id: string) => setRows((rs) => rs.filter((r) => r.id !== id));
-  const updateRow = (id: string, patch: Partial<RowState>) =>
-    setRows((rs) => rs.map((r) => (r.id === id ? { ...r, ...patch } : r)));
+  const setCount = (id: string, count: number) => setRows((rs) => rs.map((r) => (r.id === id ? { ...r, count: Math.max(0, count) } : r)));
 
-  const scrollToResults = () => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-
-  async function saveSimulation() {
-    setSaved("saving");
-    const payload = {
-      source: "simulateur financement",
-      ecole, referent, email, telephone, destination, dateSouhaitee,
-      nights, accompagnants, transport, programme,
-      opco: rows, atlasContractMode, mode, keptPerAccompagnant, targetRac,
-      result: {
-        totalStudents: result.totalStudents,
-        totalCostAll: result.totalCostAll,
+  function buildPdfData(): SimulationData {
+    return {
+      meta: {
+        etablissement: ecole || "Établissement",
+        referent, email, destination,
+        dateSouhaitee, generatedAt: new Date().toLocaleDateString("fr-FR"),
+        students: result.totalStudents, days: nights + 1,
+      },
+      kpis: {
+        racAvg: result.racAvg,
+        financementsMobilisables,
+        montantConserve: result.schoolImpact,
+        coutBrut: result.totalCostAll,
+        coutParEtudiant: result.totalCostPerStudent,
         apprentiTotal: result.apprentiTotal,
         referentTotal: result.referentTotal,
         reinjected: result.reinjected,
-        racAvg: result.racAvg,
-        schoolImpact: result.schoolImpact,
       },
-      date: new Date().toISOString(),
+      opco: result.perOpco.map((o) => ({
+        label: o.label, count: o.count, apprenti: o.apprentiAmount,
+        referent: o.referentAmount, trace: o.apprentiTrace, toConfirm: o.status === "to_confirm",
+      })),
     };
+  }
+
+  async function generatePdf() {
+    setPdfState("loading");
+    try {
+      const [{ pdf }, mod] = await Promise.all([
+        import("@react-pdf/renderer"),
+        import("./SimulationDocument"),
+      ]);
+      const blob = await pdf(<mod.SimulationDocument data={buildPdfData()} />).toBlob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `AMI-Panorama-Simulation-${(ecole || "etablissement").replace(/\s+/g, "-")}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+      setPdfState("idle");
+    } catch (e) {
+      console.error(e);
+      setPdfState("err");
+    }
+  }
+
+  async function saveSimulation() {
+    setSaved("saving");
     try {
       const res = await fetch("/api/simulation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ source: "simulateur financement", ...buildPdfData(), date: new Date().toISOString() }),
       });
       setSaved(res.ok ? "ok" : "err");
     } catch {
@@ -127,259 +164,281 @@ export default function SimulatorApp() {
     }
   }
 
+  // ════════════════════════ HERO ════════════════════════
+  if (view === "hero") {
+    return (
+      <div style={{ background: T.bg, color: T.text, minHeight: "100svh", fontFamily: "var(--font-manrope, system-ui, sans-serif)", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 70% 50% at 50% -10%, rgba(232,88,53,0.16), transparent 60%)" }} />
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 50% 40% at 80% 110%, rgba(91,141,239,0.10), transparent 60%)" }} />
+        <div style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "clamp(64px,12vh,140px) 24px 80px", textAlign: "center" }}>
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "6px 14px", borderRadius: 100, border: `1px solid ${T.border}`, background: T.panel, marginBottom: 32 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.orange, boxShadow: `0 0 10px ${T.orange}` }} />
+            <span style={{ fontSize: 11.5, letterSpacing: "0.12em", textTransform: "uppercase", color: T.muted }}>AMI Panorama · Simulateur de financement</span>
+          </motion.div>
+          <motion.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.05 }}
+            style={{ fontSize: "clamp(34px,6vw,68px)", fontWeight: 800, letterSpacing: "-0.045em", lineHeight: 1.04, color: T.white, margin: "0 0 22px" }}>
+            Découvrez le coût réel<br />de votre mobilité.
+          </motion.h1>
+          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.12 }}
+            style={{ fontSize: "clamp(16px,2vw,19px)", color: T.muted, maxWidth: 600, margin: "0 auto 40px", lineHeight: 1.6 }}>
+            Estimez instantanément les financements OPCO mobilisables, les aides référent mobilité et le reste à charge réel de vos étudiants.
+          </motion.p>
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.18 }}
+            style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10, marginBottom: 44 }}>
+            {BENEFITS.map((b) => (
+              <span key={b} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 16px", borderRadius: 100, background: T.panel, border: `1px solid ${T.border}`, fontSize: 13.5, color: T.text }}>
+                <span style={{ color: T.orange, fontWeight: 700 }}>✓</span> {b}
+              </span>
+            ))}
+          </motion.div>
+          <motion.button initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.24 }}
+            onClick={() => setView("app")} style={primaryBtn} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            Commencer une simulation →
+          </motion.button>
+        </div>
+      </div>
+    );
+  }
+
+  // ════════════════════════ APP ════════════════════════
   return (
     <div style={{ background: T.bg, color: T.text, minHeight: "100svh", fontFamily: "var(--font-manrope, system-ui, sans-serif)" }}>
-      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 60% 40% at 50% -5%, rgba(75,118,240,0.14), transparent 60%)" }} />
-      <div style={{ position: "relative", maxWidth: 1080, margin: "0 auto", padding: "48px 24px 96px" }}>
-
-        {/* Header */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-          <div style={{ width: 7, height: 7, borderRadius: "50%", background: T.blue, boxShadow: "0 0 12px rgba(75,118,240,0.8)" }} />
-          <span style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: T.faint }}>AMI Panorama · Internal</span>
+      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 60% 35% at 70% -5%, rgba(232,88,53,0.10), transparent 60%)" }} />
+      <div style={{ position: "relative", maxWidth: 1180, margin: "0 auto", padding: "28px 24px 96px" }}>
+        {/* Top bar */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28 }}>
+          <button onClick={() => setView("hero")} style={{ ...linkBtn, display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.orange }} /> AMI Panorama · Simulateur
+          </button>
         </div>
-        <h1 style={{ fontSize: "clamp(28px,4vw,40px)", fontWeight: 700, letterSpacing: "-0.04em", margin: "0 0 6px" }}>Simulateur de financement mobilité</h1>
-        <p style={{ color: T.muted, fontSize: 15, maxWidth: 620, margin: "0 0 40px", lineHeight: 1.6 }}>
-          Estimez le coût d&apos;une mobilité, les financements OPCO mobilisables et le reste à charge réel des étudiants — en quelques secondes.
-        </p>
 
-        {/* SECTION 1 */}
-        <Section n="01" title="Informations générales">
-          <Grid>
-            <Field label="Nom de l'école"><Input value={ecole} onChange={setEcole} placeholder="Ex. CFA Excellence" /></Field>
-            <Field label="Référent mobilité"><Input value={referent} onChange={setReferent} placeholder="Prénom Nom" /></Field>
-            <Field label="Email"><Input value={email} onChange={setEmail} placeholder="referent@ecole.fr" /></Field>
-            <Field label="Téléphone"><Input value={telephone} onChange={setTelephone} placeholder="Optionnel" /></Field>
-            <Field label="Destination"><Input value={destination} onChange={setDestination} placeholder="Montréal" /></Field>
-            <Field label="Date souhaitée"><Input value={dateSouhaitee} onChange={setDateSouhaitee} placeholder="Ex. Mars 2026" /></Field>
-            <Field label="Nuitées sur place" hint={`${nights + 1} jours calendaires`}><NumInput value={nights} onChange={(v) => setNights(v)} /></Field>
-            <Field label="Nombre d'accompagnants"><NumInput value={accompagnants} onChange={setAccompagnants} /></Field>
-            <Field label="Prix moyen billet (avion/train)"><NumInput value={transport} onChange={setTransport} suffix="€" /></Field>
-            <Field label="Coût programme / étudiant" hint={`suggéré : ${eur(suggestedProgramme)}`}>
-              <NumInput value={programme} onChange={setProgramme} suffix="€" />
-            </Field>
-          </Grid>
-        </Section>
-
-        {/* SECTION 2 */}
-        <Section n="02" title="Répartition OPCO" right={<span style={{ fontSize: 13, color: T.muted }}>Total : <b style={{ color: T.text }}>{totalAlternants}</b> alternants</span>}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {rows.map((r) => {
-              const cfg = OPCO_BY_ID[r.id];
-              return (
-                <div key={r.id} style={{ display: "grid", gridTemplateColumns: "1fr 120px 40px", gap: 10, alignItems: "center" }}>
-                  <select value={r.id} onChange={(e) => updateRow(r.id, { id: e.target.value })} style={selectStyle}>
-                    {OPCOS.map((o) => (
-                      <option key={o.id} value={o.id} disabled={o.id !== r.id && rows.some((x) => x.id === o.id)} style={{ background: "#12141C" }}>
-                        {o.label}{o.status === "to_confirm" ? " · à confirmer" : ""}
-                      </option>
-                    ))}
-                  </select>
-                  <input type="number" min={0} value={r.count}
-                    onChange={(e) => updateRow(r.id, { count: Number(e.target.value) || 0 })} style={{ ...inputStyle, textAlign: "center" }} />
-                  <button onClick={() => removeRow(r.id)} title="Retirer" style={iconBtn}>✕</button>
-                  {cfg?.status === "to_confirm" && <span style={{ gridColumn: "1 / -1", fontSize: 11, color: T.faint, marginTop: -2 }}>⚠︎ Règle estimée — à confirmer selon l&apos;OPCO, la durée et les justificatifs.</span>}
-                </div>
-              );
-            })}
-            <button onClick={addRow} disabled={!available.length} style={{ ...ghostBtn, alignSelf: "flex-start", marginTop: 4 }}>+ Ajouter un OPCO</button>
-          </div>
-        </Section>
-
-        {/* SECTION 3 */}
-        <Section n="03" title="Hypothèses financières">
-          {hasAtlas && (
-            <Field label="ATLAS — mode de contrat">
-              <Toggle
-                value={atlasContractMode}
-                onChange={(v) => setAtlasContractMode(v as "miseADisposition" | "miseEnVeille")}
-                options={[{ v: "miseADisposition", l: "Mise à disposition" }, { v: "miseEnVeille", l: "Mise en veille" }]}
-              />
-            </Field>
-          )}
-          <div style={{ marginTop: 18 }}>
-            <Label>Mode d&apos;optimisation</Label>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(210px,1fr))", gap: 8 }}>
-              {MODES.map((m) => (
-                <button key={m.kind} onClick={() => setMode(m.kind)} style={{
-                  textAlign: "left", padding: "12px 14px", borderRadius: 12, cursor: "pointer",
-                  border: `1px solid ${mode === m.kind ? T.blue : T.border}`,
-                  background: mode === m.kind ? "rgba(75,118,240,0.12)" : T.panel,
-                  transition: "all 0.18s",
-                }}>
-                  <div style={{ fontSize: 13.5, fontWeight: 600, color: T.text }}>{m.label}</div>
-                  <div style={{ fontSize: 12, color: T.muted, marginTop: 3, lineHeight: 1.4 }}>{m.desc}</div>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {mode === "free" && (
-            <div style={{ marginTop: 22 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                <Label>Montant conservé par accompagnant</Label>
-                <span style={{ fontSize: 14, fontWeight: 700, color: T.blue }}>{eur(keptPerAccompagnant)}</span>
+        <div style={{ display: "grid", gridTemplateColumns: "minmax(340px, 400px) 1fr", gap: 28, alignItems: "start" }} className="sim-layout">
+          {/* ── COLONNE PARAMÈTRES (niveau 3) ── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <Step n={1} title="Le groupe">
+              <Field label="Destination"><Input value={destination} onChange={setDestination} placeholder="Montréal" /></Field>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <Field label="Durée (nuitées)" hint={`${nights + 1} jours`}><Stepper value={nights} onChange={setNights} min={1} /></Field>
+                <Field label="Accompagnants"><Stepper value={accompagnants} onChange={setAccompagnants} min={0} /></Field>
               </div>
-              <input type="range" min={0} max={3000} step={50} value={keptPerAccompagnant}
-                onChange={(e) => setKeptPerAccompagnant(Number(e.target.value))} style={{ width: "100%", accentColor: T.blue }} />
-              <p style={{ fontSize: 12, color: T.faint, marginTop: 10, lineHeight: 1.6 }}>
-                Une partie des financements référent mobilité peut être conservée pour couvrir l&apos;accompagnement et la coordination ({accompagnants} accompagnant·s → {eur(keptPerAccompagnant * accompagnants)} conservés). Le reste est réinjecté pour réduire le reste à charge des étudiants.
-              </p>
-            </div>
-          )}
-          {mode === "targetRac" && (
-            <div style={{ marginTop: 22 }}>
-              <Field label="Reste à charge étudiant cible"><NumInput value={targetRac} onChange={setTargetRac} suffix="€" /></Field>
-            </div>
-          )}
+            </Step>
 
-          <button onClick={scrollToResults} style={{ ...primaryBtn, marginTop: 24 }}>Calculer ma simulation →</button>
-        </Section>
-
-        {/* RESULTS */}
-        <div ref={resultsRef} style={{ paddingTop: 8 }}>
-          <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
-            <h2 style={{ fontSize: "clamp(22px,3vw,32px)", fontWeight: 700, letterSpacing: "-0.035em", margin: "40px 0 6px" }}>Résultat de votre simulation</h2>
-            <p style={{ color: T.muted, fontSize: 14, margin: "0 0 24px" }}>{result.totalStudents} étudiants · {nights + 1} jours · {destination || "—"}</p>
-
-            {/* KPI hero */}
-            <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 14, marginBottom: 14 }} className="sim-hero">
-              <Card accent={T.coral} big>
-                <CardLabel>Reste à charge moyen / étudiant</CardLabel>
-                <div style={{ fontSize: "clamp(36px,6vw,56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1 }}>{eur(result.racAvg)}</div>
-                <div style={{ fontSize: 12.5, color: T.muted, marginTop: 8 }}>après financements OPCO et réinjection</div>
-              </Card>
-              <Card accent={result.schoolImpact >= 0 ? T.green : T.coral}>
-                <CardLabel>Impact école</CardLabel>
-                <div style={{ fontSize: "clamp(24px,4vw,34px)", fontWeight: 700, letterSpacing: "-0.03em" }}>
-                  {result.schoolImpact >= 0 ? "+ " : "− "}{eur(Math.abs(result.schoolImpact))}
-                </div>
-                <div style={{ fontSize: 12.5, color: T.muted, marginTop: 8 }}>{result.schoolImpact >= 0 ? "conservé par l'école (coordination)" : "reste à charge école"}</div>
-              </Card>
-            </div>
-
-            {/* Stat cards */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 14, marginBottom: 24 }}>
-              <MiniCard label="Coût total mobilité" value={eur(result.totalCostAll)} sub={`${eur(result.totalCostPerStudent)} / étudiant`} />
-              <MiniCard label="Financements OPCO apprentis" value={eur(result.apprentiTotal)} sub={`${eur(result.financementMoyen)} / étudiant`} color={T.blue} />
-              <MiniCard label="Financements référent mobilité" value={eur(result.referentTotal)} sub="prise en charge contrat" color={T.teal} />
-              <MiniCard label="Montants réinjectés" value={eur(result.reinjected)} sub="pour réduire le RAC" color={T.green} />
-            </div>
-
-            {/* Donut composition */}
-            <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 24, alignItems: "center", ...panelStyle, padding: 24, marginBottom: 14 }} className="sim-donut">
-              <Donut
-                segments={[
-                  { label: "Financements apprentis", value: result.apprentiTotal, color: T.blue },
-                  { label: "Référent réinjecté", value: result.reinjected, color: T.green },
-                  { label: "Reste à charge étudiant", value: Math.max(0, result.racFinalTotal), color: T.coral },
-                ]}
-                total={result.totalCostAll}
-              />
-              <div>
-                <CardLabel>Décomposition du coût total</CardLabel>
-                <div style={{ marginTop: 12, display: "flex", flexDirection: "column", gap: 10 }}>
-                  {[
-                    { label: "Financements apprentis", value: result.apprentiTotal, color: T.blue },
-                    { label: "Référent réinjecté", value: result.reinjected, color: T.green },
-                    { label: "Reste à charge étudiant", value: Math.max(0, result.racFinalTotal), color: T.coral },
-                  ].map((s) => (
-                    <div key={s.label} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13.5 }}>
-                      <span style={{ width: 10, height: 10, borderRadius: 3, background: s.color, flexShrink: 0 }} />
-                      <span style={{ color: T.muted, flex: 1 }}>{s.label}</span>
-                      <b>{eur(s.value)}</b>
-                      <span style={{ color: T.faint, width: 44, textAlign: "right" }}>{result.totalCostAll ? Math.round((s.value / result.totalCostAll) * 100) : 0}%</span>
+            <Step n={2} title="Répartition OPCO" right={<Pill>{totalAlternants} alternants</Pill>}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {rows.map((r) => {
+                  const cfg = OPCO_BY_ID[r.id];
+                  return (
+                    <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 12, background: T.panel, border: `1px solid ${T.border}` }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13.5, fontWeight: 600, color: T.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{cfg.label}</div>
+                        {cfg.status === "to_confirm" && <div style={{ fontSize: 10.5, color: T.faint, marginTop: 1 }}>règle estimée · à confirmer</div>}
+                      </div>
+                      <Stepper value={r.count} onChange={(v) => setCount(r.id, v)} min={0} compact />
+                      <button onClick={() => removeRow(r.id)} style={iconBtn} title="Retirer">✕</button>
                     </div>
-                  ))}
-                </div>
+                  );
+                })}
+                {available.length > 0 && (
+                  <select value="" onChange={(e) => e.target.value && setRows((rs) => [...rs, { id: e.target.value, count: 1 }])} style={{ ...selectStyle, marginTop: 2 }}>
+                    <option value="" style={{ background: T.bg2 }}>+ Ajouter un OPCO…</option>
+                    {available.map((o) => <option key={o.id} value={o.id} style={{ background: T.bg2 }}>{o.label}</option>)}
+                  </select>
+                )}
+              </div>
+            </Step>
+
+            {/* Étape 3 — accordéon */}
+            <div style={{ ...panelStyle, overflow: "hidden" }}>
+              <button onClick={() => setAdvancedOpen((o) => !o)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 18px", background: "transparent", border: "none", cursor: "pointer", color: T.text }}>
+                <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <StepBadge n={3} />
+                  <span style={{ fontSize: 15, fontWeight: 600 }}>Paramètres avancés</span>
+                </span>
+                <span style={{ color: T.muted, transform: advancedOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>⌄</span>
+              </button>
+              <AnimatePresence initial={false}>
+                {advancedOpen && (
+                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} style={{ overflow: "hidden" }}>
+                    <div style={{ padding: "4px 18px 20px", display: "flex", flexDirection: "column", gap: 16, borderTop: `1px solid ${T.border}` }}>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 14 }}>
+                        <Field label="Billet moyen"><NumInput value={transport} onChange={setTransport} suffix="€" /></Field>
+                        <Field label="Programme / étudiant" hint={`sugg. ${eur(suggestedProgramme)}`}><NumInput value={programme} onChange={setProgramme} suffix="€" /></Field>
+                      </div>
+                      {hasAtlas && (
+                        <Field label="ATLAS — mode de contrat">
+                          <Toggle value={atlasContractMode} onChange={(v) => setAtlasContractMode(v as "miseADisposition" | "miseEnVeille")}
+                            options={[{ v: "miseADisposition", l: "Mise à disposition" }, { v: "miseEnVeille", l: "Mise en veille" }]} />
+                        </Field>
+                      )}
+                      <div>
+                        <Label>Stratégie de réinjection</Label>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 8 }}>
+                          {MODES.map((m) => (
+                            <button key={m.kind} onClick={() => setMode(m.kind)} title={m.desc} style={{
+                              textAlign: "left", padding: "10px 12px", borderRadius: 10, cursor: "pointer",
+                              border: `1px solid ${mode === m.kind ? T.orange : T.border}`,
+                              background: mode === m.kind ? T.orangeSoft : T.panel, transition: "all 0.18s",
+                            }}>
+                              <div style={{ fontSize: 12.5, fontWeight: 600, color: T.text }}>{m.label}</div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      {mode === "free" && (
+                        <div>
+                          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                            <Label>Conservé / accompagnant</Label>
+                            <span style={{ fontSize: 13.5, fontWeight: 700, color: T.orange }}>{eur(keptPerAccompagnant)}</span>
+                          </div>
+                          <input type="range" min={0} max={3000} step={50} value={keptPerAccompagnant} onChange={(e) => setKeptPerAccompagnant(Number(e.target.value))} style={{ width: "100%", accentColor: T.orange }} />
+                          <p style={{ fontSize: 11.5, color: T.faint, marginTop: 8, lineHeight: 1.5 }}>
+                            {accompagnants} accompagnant·s → {eur(keptPerAccompagnant * accompagnants)} conservés. Le reste est réinjecté pour réduire le reste à charge étudiant.
+                          </p>
+                        </div>
+                      )}
+                      {mode === "targetRac" && (
+                        <Field label="Reste à charge étudiant visé"><NumInput value={targetRac} onChange={setTargetRac} suffix="€" /></Field>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* ── COLONNE RÉSULTATS (niveau 1) ── */}
+          <div ref={resultsRef} style={{ position: "sticky", top: 24, display: "flex", flexDirection: "column", gap: 14 }} className="sim-results">
+            {/* KPI principal */}
+            <motion.div key={Math.round(result.racAvg)} initial={{ opacity: 0.4, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
+              style={{ ...panelStyle, background: "linear-gradient(160deg, rgba(232,88,53,0.10), rgba(255,255,255,0.02))", border: `1px solid ${T.borderStrong}`, padding: "32px 30px", position: "relative", overflow: "hidden" }}>
+              <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 3, background: T.orange }} />
+              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: T.muted }}>Reste à charge moyen étudiant</div>
+              <div style={{ fontSize: "clamp(48px,8vw,84px)", fontWeight: 800, letterSpacing: "-0.05em", lineHeight: 1, color: T.white, margin: "6px 0 4px" }}>{eur(result.racAvg)}</div>
+              <div style={{ fontSize: 14, color: T.muted }}>{result.totalStudents} étudiants · {destination || "—"} · {nights + 1} jours</div>
+            </motion.div>
+
+            {/* KPI secondaires */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12 }} className="sim-kpis">
+              <Kpi label="Financements mobilisables" value={eur(financementsMobilisables)} accent={T.green} />
+              <Kpi label={result.schoolImpact >= 0 ? "Conservé par l'établissement" : "Reste à charge établissement"} value={`${result.schoolImpact >= 0 ? "+" : "−"} ${eur(Math.abs(result.schoolImpact))}`} accent={result.schoolImpact >= 0 ? T.teal : T.orange} />
+              <Kpi label="Coût brut" value={eur(result.totalCostAll)} sub={`${eur(result.totalCostPerStudent)} / étud.`} />
+            </div>
+
+            {/* Donut */}
+            <div style={{ ...panelStyle, padding: 22, display: "grid", gridTemplateColumns: "180px 1fr", gap: 20, alignItems: "center" }} className="sim-donut">
+              <Donut total={result.totalCostAll} segments={[
+                { label: "Financements apprentis", value: result.apprentiTotal, color: T.blue },
+                { label: "Réinjectés pour réduire le RAC", value: result.reinjected, color: T.green },
+                { label: "Reste à charge étudiant", value: Math.max(0, result.racFinalTotal), color: T.orange },
+              ]} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+                <CardLabel>Décomposition du coût</CardLabel>
+                {[
+                  { label: "Financements apprentis", value: result.apprentiTotal, color: T.blue },
+                  { label: "Réinjectés pour réduire le RAC", value: result.reinjected, color: T.green },
+                  { label: "Reste à charge étudiant", value: Math.max(0, result.racFinalTotal), color: T.orange },
+                ].map((s) => (
+                  <div key={s.label} style={{ display: "flex", alignItems: "center", gap: 9, fontSize: 12.5 }}>
+                    <span style={{ width: 9, height: 9, borderRadius: 3, background: s.color, flexShrink: 0 }} />
+                    <span style={{ color: T.muted, flex: 1 }}>{s.label}</span>
+                    <b style={{ color: T.text }}>{eur(s.value)}</b>
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* Waterfall */}
-            <div style={{ ...panelStyle, padding: 24, marginBottom: 14 }}>
-              <CardLabel>Du coût initial au reste à charge</CardLabel>
-              <Waterfall
-                steps={[
-                  { label: "Coût total", value: result.totalCostAll, kind: "total" },
-                  { label: "− Financements apprentis", value: -result.apprentiTotal, kind: "down" },
-                  { label: "− Réinjection référent", value: -result.reinjected, kind: "down" },
-                  { label: "RAC étudiant", value: Math.max(0, result.racFinalTotal), kind: "final" },
-                ]}
-              />
+            <div style={{ ...panelStyle, padding: 22 }}>
+              <CardLabel>Du coût brut au reste à charge</CardLabel>
+              <Waterfall steps={[
+                { label: "Coût brut", value: result.totalCostAll, kind: "total" },
+                { label: "− Financements apprentis", value: result.apprentiTotal, kind: "down" },
+                { label: "− Réinjection référent", value: result.reinjected, kind: "down" },
+                { label: "Reste à charge étudiant", value: Math.max(0, result.racFinalTotal), kind: "final" },
+              ]} />
             </div>
 
-            {/* Per-OPCO breakdown + traces */}
-            <div style={{ ...panelStyle, padding: 24, marginBottom: 20 }}>
-              <CardLabel>Détail par OPCO — « pourquoi ce montant ? »</CardLabel>
-              <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 10 }}>
+            {/* Détail OPCO */}
+            <div style={{ ...panelStyle, padding: 22 }}>
+              <CardLabel>Détail par OPCO · hypothèse de calcul</CardLabel>
+              <div style={{ marginTop: 12, display: "flex", flexDirection: "column" }}>
                 {result.perOpco.map((o) => {
                   const maxA = Math.max(...result.perOpco.map((x) => x.apprentiAmount), 1);
                   return (
-                    <div key={o.id} style={{ borderTop: `1px solid ${T.border}`, paddingTop: 10 }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13.5 }}>
-                        <span style={{ minWidth: 150, fontWeight: 600 }}>{o.label}</span>
-                        <span style={{ color: T.faint, minWidth: 78 }}>{o.count} apprenti·s</span>
-                        <div style={{ flex: 1, height: 6, background: "rgba(255,255,255,0.06)", borderRadius: 4, overflow: "hidden" }}>
+                    <div key={o.id} style={{ padding: "10px 0", borderTop: `1px solid ${T.border}` }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13 }}>
+                        <span style={{ minWidth: 132, fontWeight: 600 }}>{o.label}</span>
+                        <span style={{ color: T.faint, minWidth: 56, fontSize: 12 }}>{o.count} alt.</span>
+                        <div style={{ flex: 1, height: 5, background: "rgba(255,255,255,0.06)", borderRadius: 4 }}>
                           <div style={{ width: `${(o.apprentiAmount / maxA) * 100}%`, height: "100%", background: T.blue, borderRadius: 4 }} />
                         </div>
-                        <b style={{ minWidth: 78, textAlign: "right" }}>{eur(o.apprentiAmount)}</b>
+                        <b style={{ minWidth: 66, textAlign: "right" }}>{eur(o.apprentiAmount)}</b>
                       </div>
-                      <div style={{ fontSize: 11.5, color: T.faint, marginTop: 5, paddingLeft: 2 }}>
-                        Apprenti : {o.apprentiTrace} · Référent : {eur(o.referentAmount)}/contrat
-                        {o.status === "to_confirm" && " · ⚠︎ à confirmer"}
-                      </div>
+                      <div style={{ fontSize: 11, color: T.faint, marginTop: 4 }}>{o.apprentiTrace} · référent {eur(o.referentAmount)}/contrat{o.status === "to_confirm" ? " · à confirmer" : ""}</div>
                     </div>
                   );
                 })}
               </div>
             </div>
 
-            {/* Actions */}
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-              <button onClick={() => window.print()} style={primaryBtn}>Générer le PDF</button>
-              <button onClick={saveSimulation} disabled={saved === "saving"} style={ghostBtn}>
-                {saved === "saving" ? "Enregistrement…" : saved === "ok" ? "✓ Simulation enregistrée" : "Enregistrer la simulation"}
-              </button>
-              {saved === "err" && <span style={{ fontSize: 12.5, color: "#FF6B6B" }}>Échec de l&apos;enregistrement (réessayez).</span>}
+            {/* Document + enregistrement */}
+            <div style={{ ...panelStyle, padding: 22 }}>
+              <CardLabel>Générer le document</CardLabel>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, margin: "12px 0 14px" }}>
+                <Input value={ecole} onChange={setEcole} placeholder="Nom de l'établissement" />
+                <Input value={referent} onChange={setReferent} placeholder="Référent mobilité" />
+                <Input value={email} onChange={setEmail} placeholder="Email" />
+                <Input value={dateSouhaitee} onChange={setDateSouhaitee} placeholder="Date souhaitée" />
+              </div>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+                <button onClick={generatePdf} disabled={pdfState === "loading"} style={primaryBtn}>
+                  {pdfState === "loading" ? "Génération…" : "Télécharger le PDF premium"}
+                </button>
+                <button onClick={saveSimulation} disabled={saved === "saving"} style={ghostBtn}>
+                  {saved === "saving" ? "…" : saved === "ok" ? "✓ Enregistrée" : "Enregistrer"}
+                </button>
+              </div>
+              {pdfState === "err" && <p style={{ fontSize: 12, color: "#FF6B6B", marginTop: 10 }}>Erreur lors de la génération du PDF.</p>}
+              <p style={{ fontSize: 11, color: T.faint, marginTop: 14, lineHeight: 1.5 }}>
+                Certaines prises en charge sont estimées selon les règles actuellement utilisées par AMI Panorama et devront être confirmées selon l&apos;OPCO, la durée et les justificatifs.
+              </p>
             </div>
-
-            {/* Disclaimer */}
-            <p style={{ fontSize: 11.5, color: T.faint, marginTop: 24, lineHeight: 1.6, maxWidth: 720 }}>
-              Certaines prises en charge sont estimées selon les règles actuellement utilisées par AMI Panorama et devront être confirmées selon l&apos;OPCO, la durée et les justificatifs. Simulation indicative, non contractuelle, susceptible d&apos;évoluer selon les règles OPCO en vigueur.
-            </p>
-          </motion.div>
+          </div>
         </div>
       </div>
 
       <style>{`
-        @media (max-width: 720px) {
-          .sim-hero { grid-template-columns: 1fr !important; }
-          .sim-donut { grid-template-columns: 1fr !important; }
+        @media (max-width: 880px) {
+          .sim-layout { grid-template-columns: 1fr !important; }
+          .sim-results { position: static !important; }
         }
-        @media print {
-          body { background: #fff !important; }
+        @media (max-width: 520px) {
+          .sim-kpis { grid-template-columns: 1fr !important; }
+          .sim-donut { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>
   );
 }
 
-// ── Sous-composants UI ──
-function Section({ n, title, right, children }: { n: string; title: string; right?: React.ReactNode; children: React.ReactNode }) {
+// ── Sous-composants ──
+function Step({ n, title, right, children }: { n: number; title: string; right?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div style={{ ...panelStyle, padding: 24, marginBottom: 16 }}>
-      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 18 }}>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: T.faint, letterSpacing: "0.1em" }}>{n}</span>
-          <h2 style={{ fontSize: 17, fontWeight: 700, letterSpacing: "-0.02em", margin: 0 }}>{title}</h2>
+    <div style={{ ...panelStyle, padding: 18 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <StepBadge n={n} />
+          <span style={{ fontSize: 15, fontWeight: 600 }}>{title}</span>
         </div>
         {right}
       </div>
-      {children}
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{children}</div>
     </div>
   );
 }
-function Grid({ children }: { children: React.ReactNode }) {
-  return <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 14 }}>{children}</div>;
+function StepBadge({ n }: { n: number }) {
+  return <span style={{ width: 24, height: 24, borderRadius: 7, background: T.orangeSoft, border: `1px solid rgba(232,88,53,0.3)`, color: T.orange, fontSize: 12, fontWeight: 700, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>{n}</span>;
 }
 function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (
@@ -395,6 +454,9 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
 function Label({ children }: { children: React.ReactNode }) {
   return <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: T.muted }}>{children}</span>;
 }
+function Pill({ children }: { children: React.ReactNode }) {
+  return <span style={{ fontSize: 12, fontWeight: 600, color: T.text, background: T.panel2, border: `1px solid ${T.border}`, borderRadius: 100, padding: "4px 11px" }}>{children}</span>;
+}
 function Input({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
   return <input value={value} placeholder={placeholder} onChange={(e) => onChange(e.target.value)} style={inputStyle} />;
 }
@@ -406,77 +468,69 @@ function NumInput({ value, onChange, suffix }: { value: number; onChange: (v: nu
     </div>
   );
 }
+function Stepper({ value, onChange, min = 0, compact }: { value: number; onChange: (v: number) => void; min?: number; compact?: boolean }) {
+  const btn: React.CSSProperties = { width: compact ? 30 : 38, height: compact ? 30 : 40, border: `1px solid ${T.border}`, background: T.panel2, color: T.text, borderRadius: 8, cursor: "pointer", fontSize: 16, lineHeight: 1, display: "inline-flex", alignItems: "center", justifyContent: "center" };
+  return (
+    <div style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+      <button onClick={() => onChange(Math.max(min, value - 1))} style={btn}>−</button>
+      <span style={{ minWidth: compact ? 26 : 34, textAlign: "center", fontSize: 15, fontWeight: 700 }}>{value}</span>
+      <button onClick={() => onChange(value + 1)} style={btn}>+</button>
+    </div>
+  );
+}
 function Toggle({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: { v: string; l: string }[] }) {
   return (
     <div style={{ display: "inline-flex", background: T.panel2, border: `1px solid ${T.border}`, borderRadius: 10, padding: 3 }}>
       {options.map((o) => (
-        <button key={o.v} onClick={() => onChange(o.v)} style={{
-          border: "none", cursor: "pointer", padding: "8px 16px", borderRadius: 8, fontSize: 13, fontWeight: 600,
-          background: value === o.v ? T.blue : "transparent", color: value === o.v ? "#fff" : T.muted, transition: "all 0.18s",
-        }}>{o.l}</button>
+        <button key={o.v} onClick={() => onChange(o.v)} style={{ border: "none", cursor: "pointer", padding: "8px 14px", borderRadius: 8, fontSize: 12.5, fontWeight: 600, background: value === o.v ? T.orange : "transparent", color: value === o.v ? "#fff" : T.muted, transition: "all 0.18s" }}>{o.l}</button>
       ))}
     </div>
   );
 }
-function Card({ children, accent, big }: { children: React.ReactNode; accent: string; big?: boolean }) {
+function Kpi({ label, value, sub, accent }: { label: string; value: string; sub?: string; accent?: string }) {
   return (
-    <div style={{ ...panelStyle, padding: big ? 28 : 22, position: "relative", overflow: "hidden" }}>
-      <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 3, background: accent }} />
-      {children}
-    </div>
-  );
-}
-function MiniCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) {
-  return (
-    <div style={{ ...panelStyle, padding: 18 }}>
+    <div style={{ ...panelStyle, padding: 16 }}>
       <CardLabel>{label}</CardLabel>
-      <div style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.03em", marginTop: 6, color: color || T.text }}>{value}</div>
-      {sub && <div style={{ fontSize: 12, color: T.faint, marginTop: 3 }}>{sub}</div>}
+      <div style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.03em", marginTop: 6, color: accent || T.white }}>{value}</div>
+      {sub && <div style={{ fontSize: 11, color: T.faint, marginTop: 2 }}>{sub}</div>}
     </div>
   );
 }
 function CardLabel({ children }: { children: React.ReactNode }) {
   return <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: T.faint }}>{children}</div>;
 }
-
 function Donut({ segments, total }: { segments: { label: string; value: number; color: string }[]; total: number }) {
-  const r = 70, sw = 22, C = 2 * Math.PI * r;
+  const r = 64, sw = 20, C = 2 * Math.PI * r;
   const sum = Math.max(total, segments.reduce((s, x) => s + Math.max(0, x.value), 0), 1);
   let offset = 0;
   return (
-    <svg viewBox="0 0 180 180" style={{ width: "100%", maxWidth: 220, margin: "0 auto", display: "block" }}>
-      <g transform="rotate(-90 90 90)">
-        <circle cx="90" cy="90" r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={sw} />
+    <svg viewBox="0 0 160 160" style={{ width: "100%", maxWidth: 180, margin: "0 auto", display: "block" }}>
+      <g transform="rotate(-90 80 80)">
+        <circle cx="80" cy="80" r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={sw} />
         {segments.map((s, i) => {
-          const frac = Math.max(0, s.value) / sum;
-          const len = frac * C;
-          const el = (
-            <motion.circle key={i} cx="90" cy="90" r={r} fill="none" stroke={s.color} strokeWidth={sw}
-              strokeDasharray={`${len} ${C - len}`} strokeDashoffset={-offset} strokeLinecap="butt"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 + i * 0.1 }} />
-          );
+          const len = (Math.max(0, s.value) / sum) * C;
+          const el = <circle key={i} cx="80" cy="80" r={r} fill="none" stroke={s.color} strokeWidth={sw} strokeDasharray={`${len} ${C - len}`} strokeDashoffset={-offset} />;
           offset += len;
           return el;
         })}
       </g>
-      <text x="90" y="84" textAnchor="middle" fill="#fff" fontSize="13" fontWeight="700">{eur(total)}</text>
-      <text x="90" y="102" textAnchor="middle" fill="rgba(255,255,255,0.45)" fontSize="9">coût total</text>
+      <text x="80" y="76" textAnchor="middle" fill="#fff" fontSize="13" fontWeight="700">{eur(total)}</text>
+      <text x="80" y="92" textAnchor="middle" fill="rgba(255,255,255,0.45)" fontSize="8.5">coût brut</text>
     </svg>
   );
 }
-
 function Waterfall({ steps }: { steps: { label: string; value: number; kind: "total" | "down" | "final" }[] }) {
   const max = Math.max(...steps.map((s) => Math.abs(s.value)), 1);
-  const colors = { total: "rgba(255,255,255,0.35)", down: "#4B76F0", final: "#E85835" };
+  const colors: Record<string, string> = { total: "rgba(255,255,255,0.30)", down: T.blue, final: T.orange };
   return (
-    <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 10 }}>
+    <div style={{ marginTop: 12, display: "flex", flexDirection: "column", gap: 9 }}>
       {steps.map((s) => (
-        <div key={s.label} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 13 }}>
-          <span style={{ minWidth: 180, color: T.muted }}>{s.label}</span>
-          <div style={{ flex: 1, height: 14, position: "relative" }}>
+        <div key={s.label} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 12.5 }}>
+          <span style={{ minWidth: 162, color: T.muted }}>{s.label}</span>
+          <div style={{ flex: 1, height: 12 }}>
             <div style={{ width: `${(Math.abs(s.value) / max) * 100}%`, height: "100%", background: colors[s.kind], borderRadius: 4 }} />
           </div>
-          <b style={{ minWidth: 90, textAlign: "right", color: s.kind === "final" ? "#E85835" : T.text }}>{eur(Math.abs(s.value))}</b>
+          <b style={{ minWidth: 78, textAlign: "right", color: s.kind === "final" ? T.orange : T.text }}>{eur(Math.abs(s.value))}</b>
         </div>
       ))}
     </div>
@@ -484,21 +538,10 @@ function Waterfall({ steps }: { steps: { label: string; value: number; kind: "to
 }
 
 // ── styles ──
-const panelStyle: React.CSSProperties = { background: T.panel, border: `1px solid ${T.border}`, borderRadius: 18 };
-const inputStyle: React.CSSProperties = {
-  width: "100%", background: T.panel2, border: `1px solid ${T.border}`, borderRadius: 10,
-  padding: "11px 13px", fontSize: 14, color: T.text, outline: "none", fontFamily: "inherit",
-};
-const selectStyle: React.CSSProperties = { ...inputStyle, cursor: "pointer", appearance: "none" };
-const primaryBtn: React.CSSProperties = {
-  border: "none", borderRadius: 10, cursor: "pointer", padding: "13px 24px",
-  fontSize: 14, fontWeight: 600, color: "#fff", background: T.blue,
-};
-const ghostBtn: React.CSSProperties = {
-  border: `1px solid ${T.border}`, borderRadius: 10, cursor: "pointer", padding: "13px 20px",
-  fontSize: 14, fontWeight: 500, color: T.text, background: "transparent",
-};
-const iconBtn: React.CSSProperties = {
-  border: `1px solid ${T.border}`, borderRadius: 8, cursor: "pointer", height: 42,
-  color: T.muted, background: "transparent", fontSize: 13,
-};
+const panelStyle: React.CSSProperties = { background: T.panel, border: `1px solid ${T.border}`, borderRadius: 16 };
+const inputStyle: React.CSSProperties = { width: "100%", background: T.panel2, border: `1px solid ${T.border}`, borderRadius: 10, padding: "11px 13px", fontSize: 14, color: T.text, outline: "none", fontFamily: "inherit" };
+const selectStyle: React.CSSProperties = { ...inputStyle, cursor: "pointer" };
+const primaryBtn: React.CSSProperties = { border: "none", borderRadius: 10, cursor: "pointer", padding: "13px 22px", fontSize: 14, fontWeight: 600, color: "#fff", background: T.orange };
+const ghostBtn: React.CSSProperties = { border: `1px solid ${T.borderStrong}`, borderRadius: 10, cursor: "pointer", padding: "13px 18px", fontSize: 14, fontWeight: 500, color: T.text, background: "transparent" };
+const linkBtn: React.CSSProperties = { border: "none", background: "transparent", color: T.muted, cursor: "pointer", fontSize: 12.5, letterSpacing: "0.06em", textTransform: "uppercase" };
+const iconBtn: React.CSSProperties = { border: `1px solid ${T.border}`, borderRadius: 8, cursor: "pointer", width: 30, height: 30, color: T.faint, background: "transparent", fontSize: 12, flexShrink: 0 };
