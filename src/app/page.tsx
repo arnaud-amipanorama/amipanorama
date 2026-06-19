@@ -153,7 +153,7 @@ const testimonials = [
 ];
 
 const included = [
-  { num: "01", label: "Formation 16–20h",       sub: "Business English + ateliers sectoriels" },
+  { num: "01", label: "Formation 15–82h",       sub: "Business English + ateliers sectoriels" },
   { num: "02", label: "Visites d'entreprise",  sub: "Immersion professionnelle réelle" },
   { num: "03", label: "Activités culturelles", sub: "Programme saisonnier sur mesure" },
   { num: "04", label: "Hébergement encadré",   sub: "Logement sécurisé, testé sur place" },
@@ -481,8 +481,8 @@ export default function HomePage() {
                   fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
                   textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 6,
                 }}>Formation réelle</div>
-                <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.04em" }}>16–20h</div>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 2 }}>de formation structurée</div>
+                <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.04em" }}>15–82h</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 2 }}>de formation selon le format</div>
               </div>
               {/* Encadrement badge */}
               <div className="prog-float-badge" style={{

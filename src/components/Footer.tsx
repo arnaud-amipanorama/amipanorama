@@ -95,7 +95,7 @@ export default function Footer() {
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>info@amipanorama.com</p>
               <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>Canada · Timezone EST</p>
-              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>Réponse sous 24h ouvrables</p>
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>Réponse rapide et personnalisée</p>
             </div>
           </div>
         </div>

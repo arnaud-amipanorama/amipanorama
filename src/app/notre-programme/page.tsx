@@ -41,11 +41,11 @@ const faqItems = [
   },
   {
     q: "Combien de temps dure une mobilité ?",
-    a: "Nos séjours vont de 4 à 31 nuits. Nous sommes particulièrement spécialisés dans trois formats : une semaine, deux semaines et un mois. La durée se définit avec vous, selon les objectifs pédagogiques, le profil du groupe, la destination et le projet de l'établissement.",
+    a: "Notre format de référence reste le séjour de 8 jours / 7 nuits. Selon votre projet, nous proposons des formats plus courts ou plus longs — de 4–5 jours jusqu'à 31 jours — avec une expertise particulière sur les séjours d'une semaine, de deux semaines et d'un mois. La durée se définit avec vous, selon les objectifs pédagogiques, le profil du groupe et la destination.",
   },
   {
     q: "Que comprend concrètement le programme ?",
-    a: "Formation professionnelle (minimum 16 heures, généralement entre 16 et 20 heures selon la destination et le projet), visites d'entreprises sélectionnées pour leur pertinence sectorielle, programme d'activités culturelles, hébergement avec petit-déjeuner, ensemble des transports sur place, assurances complètes et accompagnement administratif de bout en bout.",
+    a: "Formation professionnelle (de 15h à 82h selon le format, la destination et les objectifs pédagogiques), visites d'entreprises sélectionnées pour leur pertinence sectorielle, programme d'activités culturelles, hébergement avec petit-déjeuner, ensemble des transports sur place, assurances complètes et accompagnement administratif de bout en bout.",
   },
   {
     q: "Quel est le rôle de l'établissement pendant le séjour ?",
@@ -81,9 +81,9 @@ const components = [
   {
     num: "01",
     title: "Formation professionnelle",
-    sub: "16 à 20+ heures selon le programme",
+    sub: "15 à 82h selon le format",
     accent: "#1E52D0",
-    desc: "Au cœur du programme, une formation structurée — minimum 16 heures, généralement entre 16 et 20 heures — conçue pour ouvrir vos apprentis au monde professionnel international. Panorama socio-économique du pays d'accueil, ateliers de Business English, workshops sectoriels et mises en situation professionnelle.",
+    desc: "Au cœur du programme, une formation structurée — de 15h à 82h selon le format, la destination et les objectifs pédagogiques — conçue pour ouvrir vos apprentis au monde professionnel international. Panorama socio-économique du pays d'accueil, ateliers de Business English, workshops sectoriels et mises en situation professionnelle.",
     details: [
       "Cours animés par des formateurs locaux et professionnels du secteur",
       "Contenu personnalisable selon le secteur d'activité de vos apprentis",
@@ -210,8 +210,8 @@ export default function NotreProgrammePage() {
             background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden",
           }}>
             {([
-              ["4 à 31 nuits", "selon le format du séjour"],
-              ["16–20h", "de formation structurée"],
+              ["8 j / 7 nuits", "format de référence · 4–5 j à 31 j"],
+              ["15 → 82h", "de formation selon le format"],
               ["10", "destinations actives"],
               ["Appui admin.", "inclus dans chaque programme"],
             ] as [string, string][]).map(([v, l], i, arr) => (

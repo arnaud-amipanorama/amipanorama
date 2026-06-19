@@ -89,8 +89,8 @@ export default function ContactPage() {
             <span className="gradient-text">votre prochain groupe.</span>
           </h1>
           <p style={{ fontSize: 18, color: "var(--text-secondary)", maxWidth: 560, lineHeight: 1.75 }}>
-            Décrivez votre projet en quelques lignes. Nous vous répondons sous 24h ouvrables
-            avec une proposition adaptée à votre contexte. Vous préférez en parler de vive voix ?{" "}
+            Décrivez votre projet en quelques lignes. Nous revenons vers vous rapidement
+            avec un premier cadrage adapté à votre projet. Vous préférez en parler de vive voix ?{" "}
             <Link href="/rendez-vous" style={{ color: "var(--blue)", fontWeight: 500 }}>Réservez un échange.</Link>
           </p>
         </div>
@@ -119,7 +119,7 @@ export default function ContactPage() {
                     Demande envoyée !
                   </h2>
                   <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 400, margin: "0 auto 28px" }}>
-                    Merci {form.prenom || ""}. Notre équipe revient vers vous dans les 24 heures ouvrables.
+                    Merci {form.prenom || ""}. Notre équipe revient vers vous rapidement avec un premier cadrage.
                     Pour gagner du temps, vous pouvez aussi réserver un créneau d&apos;échange dès maintenant.
                   </p>
                   <Link href="/rendez-vous" className="btn-primary" style={{ display: "inline-flex" }}>
@@ -303,7 +303,7 @@ export default function ContactPage() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                   {[
                     { label: "Email", value: "info@amipanorama.com" },
-                    { label: "Réponse sous", value: "24h ouvrables" },
+                    { label: "Réponse", value: "Rapide et personnalisée" },
                     { label: "Langues", value: "Français · Anglais" },
                   ].map(({ label, value }) => (
                     <div key={label}>
