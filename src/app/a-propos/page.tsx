@@ -269,8 +269,8 @@ export default function AProposPage() {
           }}>
             <div style={{
               position: "absolute", inset: 0,
-              backgroundImage: "url('/Assets/Groupe Seville .jpg')",
-              backgroundSize: "cover", backgroundPosition: "center 30%",
+              backgroundImage: "url('/Assets/groups/montreal-sunset.jpg')",
+              backgroundSize: "cover", backgroundPosition: "center 35%",
             }} />
             <div style={{
               position: "absolute", inset: 0,
@@ -280,7 +280,7 @@ export default function AProposPage() {
               <div style={{
                 fontSize: 11, fontWeight: 600, letterSpacing: "0.12em",
                 textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 10,
-              }}>Séville · Programme 2024</div>
+              }}>Montréal · Belvédère du Mont-Royal</div>
               <p style={{
                 fontSize: "clamp(18px, 2.5vw, 26px)", fontWeight: 500,
                 fontFamily: "var(--font-serif)", fontStyle: "italic",

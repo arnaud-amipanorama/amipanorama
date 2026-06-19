@@ -104,6 +104,15 @@ const stats = [
   { value: "10",     label: "destinations actives" },
 ];
 
+const railPhotos = [
+  { src: "/Assets/groups/montreal-sunset.jpg",  city: "Montréal", flag: "🇨🇦" },
+  { src: "/Assets/groups/newyork-dumbo.jpg",    city: "New York", flag: "🇺🇸" },
+  { src: "/Assets/groups/seville-park.jpg",     city: "Séville",  flag: "🇪🇸" },
+  { src: "/Assets/groups/montreal-night.jpg",   city: "Montréal", flag: "🇨🇦" },
+  { src: "/Assets/groups/newyork-bridge.jpg",   city: "New York", flag: "🇺🇸" },
+  { src: "/Assets/groups/seville-diplomas.jpg", city: "Séville",  flag: "🇪🇸" },
+];
+
 const partnerNames = [
   "CCI Grand Est",
   "Collège de Paris",
@@ -320,28 +329,28 @@ export default function HomePage() {
             <div className="hero-photo hero-photo-secondary">
               <div style={{
                 position: "absolute", inset: 0,
-                backgroundImage: "url('/Assets/Groupe Montreal.jpg')",
+                backgroundImage: "url('/Assets/groups/newyork-bridge.jpg')",
                 backgroundSize: "cover", backgroundPosition: "center top",
               }} />
               <div style={{
                 position: "absolute", inset: 0,
                 background: "linear-gradient(160deg, rgba(11,24,41,0.04) 0%, rgba(11,24,41,0.14) 100%)",
               }} />
-              <div className="hero-photo-label">🇨🇦 Montréal</div>
+              <div className="hero-photo-label">🇺🇸 New York</div>
             </div>
 
             {/* Primary photo: New York Brooklyn Bridge — front, larger */}
             <div className="hero-photo hero-photo-primary">
               <div style={{
                 position: "absolute", inset: 0,
-                backgroundImage: "url('/Assets/NEW YORK AMI Panorama.jpg')",
+                backgroundImage: "url('/Assets/groups/montreal-sunset.jpg')",
                 backgroundSize: "cover", backgroundPosition: "center",
               }} />
               <div style={{
                 position: "absolute", inset: 0,
                 background: "linear-gradient(160deg, rgba(11,24,41,0.04) 0%, rgba(11,24,41,0.28) 100%)",
               }} />
-              <div className="hero-photo-label">🇺🇸 New York</div>
+              <div className="hero-photo-label">🇨🇦 Montréal</div>
             </div>
 
             {/* Floating stat pill */}
@@ -355,6 +364,29 @@ export default function HomePage() {
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          PHOTO RAIL — vraies promotions (marquee lent)
+      ══════════════════════════════════════════════ */}
+      <section className="rail-section" style={{ background: "var(--bg)", padding: "24px 0 44px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", marginBottom: 18 }}>
+          <div className="section-label">Promotions 2024 — 2026</div>
+          <h2 style={{ fontSize: "clamp(18px, 2.4vw, 28px)", fontWeight: 700, letterSpacing: "-0.035em", maxWidth: 560 }}>
+            De vraies promotions, partout dans le monde.
+          </h2>
+        </div>
+        <div className="photo-rail" aria-hidden="true">
+          <div className="photo-rail-fade photo-rail-fade-l" />
+          <div className="photo-rail-fade photo-rail-fade-r" />
+          <div className="photo-rail-track">
+            {[...railPhotos, ...railPhotos].map((p, i) => (
+              <div key={i} className="photo-rail-item" style={{ backgroundImage: `url('${p.src}')` }}>
+                <span className="photo-rail-cap">{p.flag} {p.city}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -1002,6 +1034,40 @@ export default function HomePage() {
         }
         .trust-marquee:hover {
           animation-play-state: paused;
+        }
+
+        /* ── Photo rail (vraies promotions) ── */
+        .photo-rail { position: relative; overflow: hidden; }
+        .photo-rail-track {
+          display: flex; gap: 14px; width: max-content;
+          animation: railScroll 64s linear infinite;
+          will-change: transform;
+        }
+        .photo-rail:hover .photo-rail-track { animation-play-state: paused; }
+        .photo-rail-item {
+          position: relative; flex-shrink: 0;
+          width: 320px; height: 224px; border-radius: 16px;
+          background-size: cover; background-position: center;
+          box-shadow: 0 10px 30px rgba(11,24,41,0.12);
+        }
+        .photo-rail-item::after {
+          content: ""; position: absolute; inset: 0; border-radius: 16px;
+          background: linear-gradient(to top, rgba(11,24,41,0.55) 0%, transparent 46%);
+        }
+        .photo-rail-cap {
+          position: absolute; bottom: 12px; left: 12px; z-index: 1;
+          font-size: 12px; font-weight: 500; color: #fff;
+          background: rgba(11,24,41,0.42);
+          border: 1px solid rgba(255,255,255,0.18);
+          border-radius: 100px; padding: 4px 11px;
+          -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+        }
+        @keyframes railScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .photo-rail-fade { position: absolute; top: 0; bottom: 0; width: 72px; z-index: 2; pointer-events: none; }
+        .photo-rail-fade-l { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+        .photo-rail-fade-r { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+        @media (max-width: 640px) {
+          .photo-rail-item { width: 240px; height: 168px; }
         }
 
         /* Destination cards */

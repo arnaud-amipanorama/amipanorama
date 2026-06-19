@@ -23,11 +23,11 @@ export default function Footer() {
           <div>
             <div style={{ marginBottom: 20 }}>
               <Image
-                src="/Assets/AMI%20Panorama%20Logo%20Signature.png"
+                src="/Assets/Brand/ami-logo-white.png"
                 alt="AMI Panorama"
-                width={160}
-                height={48}
-                style={{ height: 38, width: "auto", objectFit: "contain", opacity: 0.9, filter: "brightness(0) invert(1)" }}
+                width={205}
+                height={100}
+                style={{ height: 32, width: "auto", objectFit: "contain", opacity: 0.95 }}
               />
             </div>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.75, maxWidth: 240 }}>
