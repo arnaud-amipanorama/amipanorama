@@ -14,7 +14,7 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: {
-    default: "AMI Panorama — Mobilité internationale des apprentis, clé en main",
+    default: "AMI Panorama — Mobilité internationale pour les établissements de formation",
     template: "%s | AMI Panorama",
   },
   description:

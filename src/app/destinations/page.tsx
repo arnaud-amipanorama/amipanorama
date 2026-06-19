@@ -18,7 +18,7 @@ const destinations = [
     phare: true,
     photo: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=900&q=80",
     headline: "L'Amérique du Nord, en français.",
-    desc: "Notre destination historique, et la plus maîtrisée. Métropole bilingue et cosmopolite, Montréal est la seule ville nord-américaine où les apprentis francophones peuvent découvrir un modèle économique radicalement différent sans barrière linguistique. Un cadre idéal pour élargir sa vision tout en restant ancré dans sa langue.",
+    desc: "Notre destination historique, et la plus maîtrisée. Métropole bilingue et cosmopolite, Montréal est la seule ville nord-américaine où les étudiants francophones peuvent découvrir un modèle économique radicalement différent sans barrière linguistique. Un cadre idéal pour élargir sa vision tout en restant ancré dans sa langue.",
     highlights: [
       "Formation sur le modèle économique et l'environnement professionnel nord-américain",
       "Visites d'entreprises innovantes : tech, commerce, services, secteur créatif",
@@ -121,7 +121,7 @@ const destinations = [
     accent: "#1E52D0",
     photo: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=900&q=80",
     headline: "La ville où l'ambition professionnelle prend une autre dimension.",
-    desc: "New York ne s'explique pas — elle se vit. Aucun autre environnement ne confronte aussi directement les apprentis à l'intensité d'un marché international. Business English de haut niveau, rencontres avec des professionnels en activité, énergie unique d'une ville qui ne ralentit jamais.",
+    desc: "New York ne s'explique pas — elle se vit. Aucun autre environnement ne confronte aussi directement les participants à l'intensité d'un marché international. Business English de haut niveau, rencontres avec des professionnels en activité, énergie unique d'une ville qui ne ralentit jamais.",
     highlights: [
       "Business English intensif avec des professeurs et professionnels natifs",
       "Visites d'entreprises dans l'écosystème business new-yorkais",
@@ -240,7 +240,7 @@ export default function DestinationsPage() {
             <span style={{
               fontFamily: "var(--font-serif)", fontStyle: "italic",
               fontWeight: 500, color: "rgba(232,88,53,0.9)",
-            }}>Une promesse différente à chaque fois.</span>
+            }}>Une même exigence.</span>
           </h1>
           <p className="anim-fade-up-3" style={{
             fontSize: 18, color: "rgba(255,255,255,0.65)",

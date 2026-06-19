@@ -30,7 +30,7 @@ const whyItems = [
     num: "04",
     title: "Valeur du parcours étudiant",
     accent: "#E85835",
-    desc: "Les apprentis qui vivent une expérience internationale en ressortent avec une vision plus large et une confiance renforcée. Ils valorisent mieux leur formation — et ils en parlent autour d'eux.",
+    desc: "Les participants qui vivent une expérience internationale en ressortent avec une vision plus large et une confiance renforcée. Ils valorisent mieux leur formation — et ils en parlent autour d'eux.",
   },
 ];
 
@@ -83,10 +83,10 @@ const components = [
     title: "Formation professionnelle",
     sub: "15 à 82h selon le format",
     accent: "#1E52D0",
-    desc: "Au cœur du programme, une formation structurée — de 15h à 82h selon le format, la destination et les objectifs pédagogiques — conçue pour ouvrir vos apprentis au monde professionnel international. Panorama socio-économique du pays d'accueil, ateliers de Business English, workshops sectoriels et mises en situation professionnelle.",
+    desc: "Au cœur du programme, une formation structurée — de 15h à 82h selon le format, la destination et les objectifs pédagogiques — conçue pour ouvrir vos participants au monde professionnel international. Panorama socio-économique du pays d'accueil, ateliers de Business English, ateliers sectoriels et mises en situation professionnelle.",
     details: [
       "Cours animés par des formateurs locaux et professionnels du secteur",
-      "Contenu personnalisable selon le secteur d'activité de vos apprentis",
+      "Contenu personnalisable selon le secteur d'activité de vos participants",
       "Business English pour les profils non-anglophones",
       "Attestation de formation remise à chaque participant",
     ],
@@ -148,7 +148,7 @@ const components = [
     title: "Assurances complètes",
     sub: "Couverture totale pendant le séjour",
     accent: "#E85835",
-    desc: "La sécurité de vos apprentis est une priorité absolue. Notre couverture assurance est parmi les plus complètes du marché, avec une assistance rapatriement disponible 24h/24.",
+    desc: "La sécurité de vos participants est une priorité absolue. Notre couverture assurance est parmi les plus complètes du marché, avec une assistance rapatriement disponible 24h/24.",
     details: [
       "Assistance-rapatriement disponible 24h/24, 7j/7",
       "Hospitalisation et soins médicaux couverts jusqu'à 200 000 €",
@@ -199,7 +199,7 @@ export default function NotreProgrammePage() {
             fontSize: 18, color: "var(--text-secondary)", maxWidth: 620, lineHeight: 1.75, marginBottom: 48,
           }}>
             Chaque programme AMI Panorama est un séjour immersif et professionnel,
-            pensé pour que vos apprentis vivent une expérience formative et humaine
+            pensé pour que vos participants vivent une expérience formative et humaine
             réelle. Formation, visites, encadrement, logistique, appui administratif —
             chaque composante est coordonnée par notre équipe. Vous restez le référent pédagogique de votre groupe.
           </p>
@@ -251,7 +251,7 @@ export default function NotreProgrammePage() {
                 letterSpacing: "-0.01em",
               }}>
                 « Ce n'est pas une semaine supplémentaire dans le calendrier.
-                C'est la semaine dont vos apprentis parleront encore dans dix ans. »
+                C'est la semaine dont vos participants parleront encore dans dix ans. »
               </p>
               <p style={{
                 fontSize: 14, color: "var(--text-muted)", lineHeight: 1.8, marginBottom: 28,

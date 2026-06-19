@@ -286,7 +286,7 @@ export default function AProposPage() {
                 fontFamily: "var(--font-serif)", fontStyle: "italic",
                 color: "#fff", lineHeight: 1.3, maxWidth: 420,
               }}>
-                Ce que ça ressemble,<br />quand ça fonctionne.
+                Le résultat,<br />sur le terrain.
               </p>
             </div>
           </div>

@@ -98,7 +98,7 @@ const destinations: {
 ];
 
 const stats = [
-  { value: "3 000+", label: "apprentis accompagnés" },
+  { value: "3 000+", label: "participants accompagnés" },
   { value: "100+",   label: "groupes coordonnés" },
   { value: "50",     label: "écoles partenaires" },
   { value: "10",     label: "destinations actives" },
@@ -259,7 +259,7 @@ export default function HomePage() {
               <span style={{
                 fontSize: 11, fontWeight: 600, letterSpacing: "0.14em",
                 textTransform: "uppercase", color: "var(--text-muted)",
-              }}>Opérateur de mobilité professionnelle · Depuis 2022</span>
+              }}>Opérateur de mobilité internationale · Depuis 2022</span>
             </div>
 
             {/* Main headline */}
@@ -289,7 +289,7 @@ export default function HomePage() {
                 WebkitTextFillColor: "transparent",
                 paddingBottom: 4,
               }}>
-                aux apprentis.
+                à vos groupes.
               </span>
             </h1>
 
@@ -303,11 +303,11 @@ export default function HomePage() {
                 color: "var(--text-secondary)",
                 lineHeight: 1.8, maxWidth: 420,
               }}>
-                AMI Panorama conçoit des programmes de mobilité internationale
-                pour les CFA et les établissements d'enseignement supérieur —
-                pour que leurs apprentis accèdent à l'expérience collective et
-                internationale qui construit les liens, les souvenirs et l'ambition
-                qui font une formation vraiment complète.
+                Depuis 2022, AMI Panorama conçoit et coordonne des programmes de
+                mobilité internationale pour les établissements d'enseignement
+                supérieur, les CFA et les organismes de formation. Plus de 3 000
+                participants y ont déjà découvert une autre culture, une autre
+                économie et une autre manière d'apprendre.
               </p>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap", paddingTop: 4 }}>
                 <Link href="/contact" className="btn-primary">
@@ -360,33 +360,10 @@ export default function HomePage() {
                 background: "var(--coral)", boxShadow: "0 0 8px rgba(232,88,53,0.7)",
                 flexShrink: 0,
               }} />
-              <span style={{ fontSize: 12, fontWeight: 500, color: "var(--text-primary)" }}>3 000+ apprentis accompagnés</span>
+              <span style={{ fontSize: 12, fontWeight: 500, color: "var(--text-primary)" }}>3 000+ participants accompagnés</span>
             </div>
           </div>
 
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════
-          PHOTO RAIL — vraies promotions (marquee lent)
-      ══════════════════════════════════════════════ */}
-      <section className="rail-section" style={{ background: "var(--bg)", padding: "24px 0 44px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", marginBottom: 18 }}>
-          <div className="section-label">Promotions 2024 — 2026</div>
-          <h2 style={{ fontSize: "clamp(18px, 2.4vw, 28px)", fontWeight: 700, letterSpacing: "-0.035em", maxWidth: 560 }}>
-            De vraies promotions, partout dans le monde.
-          </h2>
-        </div>
-        <div className="photo-rail" aria-hidden="true">
-          <div className="photo-rail-fade photo-rail-fade-l" />
-          <div className="photo-rail-fade photo-rail-fade-r" />
-          <div className="photo-rail-track">
-            {[...railPhotos, ...railPhotos].map((p, i) => (
-              <div key={i} className="photo-rail-item" style={{ backgroundImage: `url('${p.src}')` }}>
-                <span className="photo-rail-cap">{p.flag} {p.city}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -542,7 +519,7 @@ export default function HomePage() {
                 fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 36,
               }}>
                 AMI Panorama coordonne chaque dimension du programme pour que
-                vos apprentis vivent une expérience internationale structurée et
+                vos participants vivent une expérience internationale structurée et
                 professionnalisante. Vous restez le référent pédagogique de votre groupe.
                 Nous prenons en charge la logistique, l'encadrement terrain et l'appui administratif.
               </p>
@@ -595,7 +572,7 @@ export default function HomePage() {
                   fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700,
                   letterSpacing: "-0.04em", maxWidth: 480,
                 }}>
-                  Le monde,<br />à portée de groupe.
+                  Chaque destination répond<br />à un objectif pédagogique.
                 </h2>
               </div>
               <Link href="/destinations" style={{
@@ -650,7 +627,7 @@ export default function HomePage() {
                   fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 700,
                   letterSpacing: "-0.035em",
                 }}>
-                  Simple pour vous, complet pour vos apprentis.
+                  Simple pour vous, complet pour vos groupes.
                 </h2>
               </div>
               <div style={{
@@ -660,7 +637,7 @@ export default function HomePage() {
                   { num: "1", title: "Vous nous contactez", desc: "Premier échange pour comprendre votre groupe, votre filière, vos dates." },
                   { num: "2", title: "Nous proposons", desc: "Proposition adaptée à votre filière et à vos dates — destination, hébergement, planning indicatif." },
                   { num: "3", title: "Nous coordonnons", desc: "Logistique, formations, visites professionnelles, assurances et appui administratif — nous structurons chaque étape avec vous." },
-                  { num: "4", title: "Vos apprentis partent", desc: "Vous accompagnez votre groupe sur le plan pédagogique. Notre équipe terrain assure l'encadrement et la coordination sur place." },
+                  { num: "4", title: "Le groupe part", desc: "Vous accompagnez votre groupe sur le plan pédagogique. Notre équipe terrain assure l'encadrement et la coordination sur place." },
                 ].map(({ num, title, desc }) => (
                   <div key={num} style={{ position: "relative" }}>
                     {/* Connector line toward next step */}
@@ -690,6 +667,29 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
+          PHOTO RAIL — vraies promotions (preuve / vécu terrain)
+      ══════════════════════════════════════════════ */}
+      <section className="rail-section" style={{ background: "var(--bg)", padding: "0 0 56px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", marginBottom: 18 }}>
+          <div className="section-label">Sur le terrain</div>
+          <h2 style={{ fontSize: "clamp(18px, 2.4vw, 28px)", fontWeight: 700, letterSpacing: "-0.035em", maxWidth: 560 }}>
+            De vraies promotions, partout dans le monde.
+          </h2>
+        </div>
+        <div className="photo-rail" aria-hidden="true">
+          <div className="photo-rail-fade photo-rail-fade-l" />
+          <div className="photo-rail-fade photo-rail-fade-r" />
+          <div className="photo-rail-track">
+            {[...railPhotos, ...railPhotos].map((p, i) => (
+              <div key={i} className="photo-rail-item" style={{ backgroundImage: `url('${p.src}')` }}>
+                <span className="photo-rail-cap">{p.flag} {p.city}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
           STUDENT TESTIMONIALS — animated vertical scroll
       ══════════════════════════════════════════════ */}
       <section className="testi-section" style={{ padding: "0 24px 80px" }}>
@@ -701,7 +701,7 @@ export default function HomePage() {
                 fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 700,
                 letterSpacing: "-0.035em",
               }}>
-                La parole aux apprentis.
+                La parole aux participants.
               </h2>
             </div>
           </AnimateOnView>
@@ -810,7 +810,7 @@ export default function HomePage() {
               justifyContent: "center", gap: 32,
             }}>
               {[
-                { value: "3 000+", label: "apprentis accompagnés" },
+                { value: "3 000+", label: "participants accompagnés" },
                 { value: "96 %", label: "de satisfaction déclarée" },
                 { value: "50", label: "CFA partenaires actifs" },
               ].map(({ value, label }) => (
