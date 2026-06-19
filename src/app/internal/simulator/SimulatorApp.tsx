@@ -99,6 +99,15 @@ export default function SimulatorApp() {
   const hasAtlas = rows.some((r) => r.id === "atlas");
   const available = OPCOS.filter((o) => !rows.some((r) => r.id === o.id));
   const financementsMobilisables = result.apprentiTotal + result.reinjected;
+  const toConfirmApprenti = result.perOpco.filter((o) => o.status === "to_confirm").reduce((a, o) => a + o.apprentiTotal, 0);
+  const tcShare = result.apprentiTotal > 0 ? toConfirmApprenti / result.apprentiTotal : 0;
+  const confidence =
+    tcShare < 0.2
+      ? { level: "high" as const, label: "Confiance élevée", desc: "Calcul principalement fondé sur des règles OPCO documentées." }
+      : tcShare < 0.55
+      ? { level: "medium" as const, label: "Confiance modérée", desc: "Certaines hypothèses nécessitent validation." }
+      : { level: "low" as const, label: "Validation requise", desc: "Plusieurs financements doivent être confirmés." };
+  const confColor = ({ high: T.green, medium: "#E0A52E", low: "#E5484D" } as const)[confidence.level];
 
   const addRow = () => available.length && setRows((rs) => [...rs, { id: available[0].id, count: 1 }]);
   const removeRow = (id: string) => setRows((rs) => rs.filter((r) => r.id !== id));
@@ -121,6 +130,7 @@ export default function SimulatorApp() {
         apprentiTotal: result.apprentiTotal,
         referentTotal: result.referentTotal,
         reinjected: result.reinjected,
+        confidence,
       },
       opco: result.perOpco.map((o) => ({
         label: o.label, count: o.count, apprenti: o.apprentiAmount,
@@ -305,6 +315,17 @@ export default function SimulatorApp() {
                 )}
               </AnimatePresence>
             </div>
+
+            {/* Carte « À savoir » */}
+            <div style={{ ...panelStyle, background: T.orangeSoft, border: "1px solid rgba(232,88,53,0.22)", padding: 16, display: "flex", gap: 12 }}>
+              <span style={{ width: 22, height: 22, borderRadius: 6, background: "rgba(232,88,53,0.18)", color: T.orange, fontWeight: 700, fontSize: 13, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>i</span>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4 }}>À savoir</div>
+                <p style={{ fontSize: 12, color: T.muted, lineHeight: 1.55, margin: 0 }}>
+                  Les résultats fournis constituent des estimations indicatives basées sur les informations saisies et sur les règles de financement actuellement connues. Les décisions finales de prise en charge relèvent exclusivement des OPCO et organismes compétents. AMI Panorama ne garantit aucun montant de financement.
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* ── COLONNE RÉSULTATS (niveau 1) ── */}
@@ -323,6 +344,16 @@ export default function SimulatorApp() {
               <Kpi label="Financements mobilisables" value={eur(financementsMobilisables)} accent={T.green} />
               <Kpi label={result.schoolImpact >= 0 ? "Conservé par l'établissement" : "Reste à charge établissement"} value={`${result.schoolImpact >= 0 ? "+" : "−"} ${eur(Math.abs(result.schoolImpact))}`} accent={result.schoolImpact >= 0 ? T.teal : T.orange} />
               <Kpi label="Coût brut" value={eur(result.totalCostAll)} sub={`${eur(result.totalCostPerStudent)} / étud.`} />
+            </div>
+
+            {/* Indicateur de fiabilité */}
+            <div style={{ ...panelStyle, padding: "13px 16px", display: "flex", alignItems: "center", gap: 12 }}>
+              <span style={{ width: 10, height: 10, borderRadius: "50%", background: confColor, flexShrink: 0 }} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, fontWeight: 600 }}>{confidence.label}</div>
+                <div style={{ fontSize: 11.5, color: T.muted }}>{confidence.desc}</div>
+              </div>
+              <span style={{ fontSize: 10, color: T.faint }}>Fiabilité</span>
             </div>
 
             {/* Donut */}
