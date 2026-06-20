@@ -272,7 +272,7 @@ export default function HomePage() {
                 lineHeight: 1.0,
                 color: "var(--text-primary)",
               }}>
-                Ouvrir le monde
+                Ouvrir
               </span>
               <span className="anim-fade-up-3" style={{
                 display: "block",
@@ -289,7 +289,7 @@ export default function HomePage() {
                 WebkitTextFillColor: "transparent",
                 paddingBottom: 4,
               }}>
-                à vos groupes.
+                le monde.
               </span>
             </h1>
 
@@ -306,8 +306,9 @@ export default function HomePage() {
                 Depuis 2022, AMI Panorama conçoit et coordonne des programmes de
                 mobilité internationale pour les établissements d'enseignement
                 supérieur, les CFA et les organismes de formation. Plus de 3 000
-                participants y ont déjà découvert une autre culture, une autre
-                économie et une autre manière d'apprendre.
+                participants ont déjà découvert d'autres contextes économiques,
+                d'autres cultures et d'autres manières d'apprendre à travers nos
+                programmes.
               </p>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap", paddingTop: 4 }}>
                 <Link href="/contact" className="btn-primary">
@@ -572,7 +573,7 @@ export default function HomePage() {
                   fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700,
                   letterSpacing: "-0.04em", maxWidth: 480,
                 }}>
-                  Chaque destination répond<br />à un objectif pédagogique.
+                  Chaque destination répond<br />à un objectif pédagogique précis.
                 </h2>
               </div>
               <Link href="/destinations" style={{
