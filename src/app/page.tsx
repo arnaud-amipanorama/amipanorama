@@ -227,37 +227,41 @@ export default function HomePage() {
           Dark navy + animated orbs + real group photos
       ══════════════════════════════════════════════ */}
       <section className="hero-section" style={{
-        position: "relative",
-        minHeight: "min(84svh, 760px)",
-        display: "flex",
-        alignItems: "center",
-        overflow: "hidden",
-        background: "var(--bg)",
+        position: "relative", overflow: "hidden", background: "var(--bg)",
       }}>
-        {/* ── Hero content: image-led (texte gauche + image réelle droite) ── */}
-        <div style={{
-          maxWidth: 1200, margin: "0 auto", padding: "108px 24px 64px",
-          position: "relative", width: "100%",
-          display: "grid", gridTemplateColumns: "1.02fr 1.1fr",
-          alignItems: "center", gap: 56,
-        }} className="hero-grid">
+        {/* Image full-bleed (Séville) */}
+        <div aria-hidden="true" className="hero-bg" style={{
+          position: "absolute", inset: 0,
+          backgroundImage: "url('/Assets/hero/sevilla-hero.jpg')",
+          backgroundSize: "cover", backgroundPosition: "center right",
+        }} />
+        {/* Voiles : lisibilité du texte (gauche) + fondu vers le bas */}
+        <div aria-hidden="true" className="hero-veil-left" style={{ position: "absolute", inset: 0 }} />
+        <div aria-hidden="true" className="hero-veil-bottom" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "46%" }} />
 
-          {/* Left: text */}
-          <div className="hero-text-col">
+        {/* Contenu : texte (haut) + cartes flottantes (bas), une seule scène */}
+        <div className="hero-inner" style={{
+          position: "relative", maxWidth: 1200, margin: "0 auto", width: "100%",
+          minHeight: "min(90svh, 880px)",
+          display: "flex", flexDirection: "column", justifyContent: "space-between",
+          padding: "120px 24px 26px",
+        }}>
+          <div className="hero-text-col" style={{ maxWidth: 560 }}>
             <div className="anim-fade-up" style={{
               display: "inline-flex", alignItems: "center", gap: 8,
               padding: "7px 14px", borderRadius: 100,
-              border: "1px solid var(--border)", background: "var(--bg-1)",
+              border: "1px solid rgba(11,24,41,0.10)", background: "rgba(255,255,255,0.72)",
               boxShadow: "0 1px 3px rgba(11,24,41,0.04)", marginBottom: 26,
+              backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
             }}>
               <span style={{ fontSize: 13 }}>🌍</span>
               <span style={{ fontSize: 12.5, fontWeight: 500, color: "var(--text-secondary)" }}>Plus de 3 000 étudiants accompagnés</span>
             </div>
 
             <h1 className="anim-fade-up-2" style={{
-              fontSize: "clamp(32px, 4.3vw, 56px)", fontWeight: 800,
-              letterSpacing: "-0.04em", lineHeight: 1.06,
-              color: "var(--text-primary)", marginBottom: 22,
+              fontSize: "clamp(32px, 4.6vw, 60px)", fontWeight: 800,
+              letterSpacing: "-0.04em", lineHeight: 1.05,
+              color: "var(--text-primary)", marginBottom: 20,
             }}>
               Ouvrir le monde<br />
               à celles et ceux qui<br />
@@ -270,15 +274,15 @@ export default function HomePage() {
 
             <p className="anim-fade-up-3" style={{
               fontSize: "clamp(15px, 1.35vw, 17px)", color: "var(--text-secondary)",
-              lineHeight: 1.65, maxWidth: 480, marginBottom: 14,
+              lineHeight: 1.6, maxWidth: 460, marginBottom: 12,
             }}>
               AMI Panorama conçoit des programmes de mobilité internationale pour les
               CFA et les établissements d&apos;enseignement supérieur.
             </p>
 
             <p className="anim-fade-up-3" style={{
-              fontSize: "clamp(13px, 1.15vw, 14.5px)", color: "var(--text-muted)",
-              lineHeight: 1.65, maxWidth: 480, marginBottom: 30,
+              fontSize: "clamp(13px, 1.1vw, 14px)", color: "var(--text-muted)",
+              lineHeight: 1.6, maxWidth: 460, marginBottom: 28,
             }}>
               Formation, hébergement, logistique, accompagnement administratif et
               ingénierie financière : nous concevons, organisons et sécurisons vos
@@ -294,22 +298,11 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Right: real hero image */}
-          <div className="hero-img-col anim-fade-up-3" aria-hidden="true">
-            <div className="hero-img" style={{ backgroundImage: "url('/Assets/hero/sevilla-hero.jpg')" }} />
+          {/* Cartes destinations flottantes (bas du hero) */}
+          <div className="anim-fade-up-4" style={{ marginTop: 44 }}>
+            <PhotoRail photos={railPhotos} />
           </div>
-
         </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════
-          PHOTO RAIL — ouverture (continuité du hero)
-      ══════════════════════════════════════════════ */}
-      <section style={{ background: "var(--bg)", padding: "8px 0 52px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", marginBottom: 16 }}>
-          <div className="section-label">Sur le terrain · promotions réelles</div>
-        </div>
-        <PhotoRail photos={railPhotos} />
       </section>
 
       {/* ══════════════════════════════════════════════
@@ -872,6 +865,22 @@ export default function HomePage() {
           width: 100%; height: clamp(420px, 56vh, 560px);
           border-radius: 22px; background-size: cover; background-position: center;
           box-shadow: 0 30px 70px rgba(11,24,41,0.18), 0 8px 22px rgba(11,24,41,0.08);
+        }
+        /* Hero immersif — voiles image/texte */
+        .hero-veil-left {
+          background: linear-gradient(100deg,
+            var(--bg) 0%, var(--bg) 24%,
+            rgba(248,246,241,0.82) 40%, rgba(248,246,241,0.22) 56%, transparent 70%);
+        }
+        .hero-veil-bottom {
+          background: linear-gradient(to top, var(--bg) 0%, var(--bg) 14%, transparent 100%);
+        }
+        @media (max-width: 760px) {
+          .hero-veil-left {
+            background: linear-gradient(to bottom,
+              var(--bg) 0%, rgba(248,246,241,0.72) 28%, rgba(248,246,241,0.08) 58%, transparent 78%);
+          }
+          .hero-inner { min-height: 0 !important; padding-top: 104px !important; }
         }
         .hero-gradient-anim {
           background-size: 220% 220% !important;
