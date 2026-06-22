@@ -158,6 +158,13 @@ const testimonials = [
     dest: "Séville",
     flag: "🇪🇸",
   },
+  {
+    quote: "Cette expérience canadienne m'a permis de renforcer mes compétences et de découvrir une nouvelle culture professionnelle.",
+    name: "Anissa Guermoudi",
+    school: "Ancienne participante · Toronto",
+    dest: "Canada",
+    flag: "🇨🇦",
+  },
   // NOTE: emplacements prêts pour de vrais témoignages supplémentaires fournis par AMI Panorama.
 ];
 
@@ -573,7 +580,7 @@ export default function HomePage() {
                   fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700,
                   letterSpacing: "-0.04em", maxWidth: 480,
                 }}>
-                  Chaque destination répond<br />à un objectif pédagogique précis.
+                  Une sélection de destinations pour croiser<br />cultures, langues et mondes professionnels.
                 </h2>
               </div>
               <Link href="/destinations" style={{
@@ -710,7 +717,7 @@ export default function HomePage() {
             {/* Column 1 — real testimonials — scrolls slower */}
             <div className="testi-track">
               <div className="testi-col-1" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                {[...testimonials.slice(0, 3), ...testimonials.slice(0, 3)].map(({ quote, name, school, dest, flag }, i) => (
+                {[...testimonials, ...testimonials].map(({ quote, name, school, dest, flag }, i) => (
                   <div key={i} className="testi-card">
                     <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.85, whiteSpace: "pre-line", marginBottom: 20 }}>{quote}</p>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -735,7 +742,7 @@ export default function HomePage() {
             {/* Column 2 — additional testimonials — scrolls faster */}
             <div className="testi-track">
               <div className="testi-col-2" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                {[...[...testimonials].reverse(), ...[...testimonials].reverse()].map(({ quote, name, school, dest, flag }, i) => (
+                {[...testimonials.slice(2), ...testimonials.slice(0, 2), ...testimonials.slice(2), ...testimonials.slice(0, 2)].map(({ quote, name, school, dest, flag }, i) => (
                   <div key={i} className="testi-card">
                     <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.85, whiteSpace: "pre-line", marginBottom: 20 }}>{quote}</p>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

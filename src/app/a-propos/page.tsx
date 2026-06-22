@@ -100,11 +100,11 @@ export default function AProposPage() {
             letterSpacing: "-0.04em", lineHeight: 1.08, maxWidth: 780, marginBottom: 28,
             color: "#fff",
           }}>
-            La mobilité internationale{" "}
+            L&apos;ouverture internationale{" "}
             <span style={{
               fontFamily: "var(--font-serif)", fontStyle: "italic",
               fontWeight: 500, color: "rgba(232,88,53,0.9)",
-            }}>ne devrait pas dépendre de la filière.</span>
+            }}>ne devrait pas être réservée à certains parcours.</span>
           </h1>
           <p className="anim-fade-up-3" style={{
             fontSize: 18, color: "rgba(255,255,255,0.65)", maxWidth: 600, lineHeight: 1.75,
