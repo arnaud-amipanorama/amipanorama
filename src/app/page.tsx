@@ -237,7 +237,7 @@ export default function HomePage() {
         }} />
         {/* Voiles : lisibilité du texte (gauche) + fondu vers le bas */}
         <div aria-hidden="true" className="hero-veil-left" style={{ position: "absolute", inset: 0 }} />
-        <div aria-hidden="true" className="hero-veil-bottom" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "46%" }} />
+        <div aria-hidden="true" className="hero-veil-bottom" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "30%" }} />
 
         {/* Contenu : texte (haut) + cartes flottantes (bas), une seule scène */}
         <div className="hero-inner" style={{
@@ -868,12 +868,12 @@ export default function HomePage() {
         }
         /* Hero immersif — voiles image/texte */
         .hero-veil-left {
-          background: linear-gradient(100deg,
-            var(--bg) 0%, var(--bg) 24%,
-            rgba(248,246,241,0.82) 40%, rgba(248,246,241,0.22) 56%, transparent 70%);
+          background: linear-gradient(96deg,
+            var(--bg) 0%, var(--bg) 12%,
+            rgba(248,246,241,0.78) 28%, rgba(248,246,241,0.32) 45%, transparent 58%);
         }
         .hero-veil-bottom {
-          background: linear-gradient(to top, var(--bg) 0%, var(--bg) 14%, transparent 100%);
+          background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
         }
         @media (max-width: 760px) {
           .hero-veil-left {
