@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import AnimateOnView from "@/components/AnimateOnView";
+import PhotoRail from "./PhotoRail";
 
 export const metadata: Metadata = {
   title: "AMI Panorama — Opérateur de mobilité internationale pour les CFA et les établissements",
@@ -281,7 +282,7 @@ export default function HomePage() {
               }}>
                 Ouvrir
               </span>
-              <span className="anim-fade-up-3" style={{
+              <span className="anim-fade-up-3 hero-gradient-anim" style={{
                 display: "block",
                 fontSize: "clamp(36px, 10vw, 96px)",
                 fontWeight: 500,
@@ -310,12 +311,8 @@ export default function HomePage() {
                 color: "var(--text-secondary)",
                 lineHeight: 1.8, maxWidth: 420,
               }}>
-                Depuis 2022, AMI Panorama conçoit et coordonne des programmes de
-                mobilité internationale pour les établissements d'enseignement
-                supérieur, les CFA et les organismes de formation. Plus de 3 000
-                participants ont déjà découvert d'autres contextes économiques,
-                d'autres cultures et d'autres manières d'apprendre à travers nos
-                programmes.
+                AMI Panorama conçoit des programmes de mobilité internationale
+                pour les CFA et les établissements d'enseignement supérieur.
               </p>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap", paddingTop: 4 }}>
                 <Link href="/contact" className="btn-primary">
@@ -331,48 +328,17 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Right: floating photo stack */}
-          <div className="hero-photo-col" aria-hidden="true">
-            {/* Secondary photo: Montréal — top-left, behind */}
-            <div className="hero-photo hero-photo-secondary">
-              <div style={{
-                position: "absolute", inset: 0,
-                backgroundImage: "url('/Assets/groups/newyork-bridge.jpg')",
-                backgroundSize: "cover", backgroundPosition: "center top",
-              }} />
-              <div style={{
-                position: "absolute", inset: 0,
-                background: "linear-gradient(160deg, rgba(11,24,41,0.04) 0%, rgba(11,24,41,0.14) 100%)",
-              }} />
-              <div className="hero-photo-label">🇺🇸 New York</div>
-            </div>
-
-            {/* Primary photo: New York Brooklyn Bridge — front, larger */}
-            <div className="hero-photo hero-photo-primary">
-              <div style={{
-                position: "absolute", inset: 0,
-                backgroundImage: "url('/Assets/groups/montreal-sunset.jpg')",
-                backgroundSize: "cover", backgroundPosition: "center",
-              }} />
-              <div style={{
-                position: "absolute", inset: 0,
-                background: "linear-gradient(160deg, rgba(11,24,41,0.04) 0%, rgba(11,24,41,0.28) 100%)",
-              }} />
-              <div className="hero-photo-label">🇨🇦 Montréal</div>
-            </div>
-
-            {/* Floating stat pill */}
-            <div className="hero-stat-pill">
-              <div style={{
-                width: 8, height: 8, borderRadius: "50%",
-                background: "var(--coral)", boxShadow: "0 0 8px rgba(232,88,53,0.7)",
-                flexShrink: 0,
-              }} />
-              <span style={{ fontSize: 12, fontWeight: 500, color: "var(--text-primary)" }}>3 000+ participants accompagnés</span>
-            </div>
-          </div>
-
         </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          PHOTO RAIL — ouverture (continuité du hero)
+      ══════════════════════════════════════════════ */}
+      <section style={{ background: "var(--bg)", padding: "8px 0 52px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", marginBottom: 16 }}>
+          <div className="section-label">Sur le terrain · promotions réelles</div>
+        </div>
+        <PhotoRail photos={railPhotos} />
       </section>
 
       {/* ══════════════════════════════════════════════
@@ -675,29 +641,6 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          PHOTO RAIL — vraies promotions (preuve / vécu terrain)
-      ══════════════════════════════════════════════ */}
-      <section className="rail-section" style={{ background: "var(--bg)", padding: "0 0 56px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", marginBottom: 18 }}>
-          <div className="section-label">Sur le terrain</div>
-          <h2 style={{ fontSize: "clamp(18px, 2.4vw, 28px)", fontWeight: 700, letterSpacing: "-0.035em", maxWidth: 560 }}>
-            De vraies promotions, partout dans le monde.
-          </h2>
-        </div>
-        <div className="photo-rail" aria-hidden="true">
-          <div className="photo-rail-fade photo-rail-fade-l" />
-          <div className="photo-rail-fade photo-rail-fade-r" />
-          <div className="photo-rail-track">
-            {[...railPhotos, ...railPhotos].map((p, i) => (
-              <div key={i} className="photo-rail-item" style={{ backgroundImage: `url('${p.src}')` }}>
-                <span className="photo-rail-cap">{p.flag} {p.city}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════
           STUDENT TESTIMONIALS — animated vertical scroll
       ══════════════════════════════════════════════ */}
       <section className="testi-section" style={{ padding: "0 24px 80px" }}>
@@ -950,9 +893,17 @@ export default function HomePage() {
           50%       { opacity: 0.4; }
         }
 
-        /* Hero split layout */
-        .hero-grid { grid-template-columns: 1fr 420px !important; gap: 0 !important; }
-        .hero-text-col { padding-right: 48px; }
+        /* Hero layout (single column, editorial) */
+        .hero-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
+        .hero-text-col { padding-right: 0; }
+        .hero-gradient-anim {
+          background-size: 220% 220% !important;
+          animation: heroGradient 11s ease-in-out infinite;
+        }
+        @keyframes heroGradient {
+          0%, 100% { background-position: 0% 50%; }
+          50%      { background-position: 100% 50%; }
+        }
 
         /* Floating photo cards */
         .hero-photo-col {
