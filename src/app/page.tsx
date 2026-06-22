@@ -228,27 +228,18 @@ export default function HomePage() {
       ══════════════════════════════════════════════ */}
       <section className="hero-section" style={{
         position: "relative",
-        minHeight: "100svh",
+        minHeight: "min(84svh, 760px)",
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
         background: "var(--bg)",
       }}>
-        {/* ── Hero image (Séville) — full-bleed ── */}
-        <div aria-hidden="true" style={{
-          position: "absolute", inset: 0,
-          backgroundImage: "url('/Assets/hero/sevilla-hero.jpg')",
-          backgroundSize: "cover", backgroundPosition: "center right",
-        }} />
-        {/* Voile de lisibilité (gauche desktop / bas mobile) */}
-        <div aria-hidden="true" className="hero-veil" style={{ position: "absolute", inset: 0 }} />
-
-        {/* ── Hero content: SaaS (texte gauche + dashboard produit droite) ── */}
+        {/* ── Hero content: image-led (texte gauche + image réelle droite) ── */}
         <div style={{
-          maxWidth: 1200, margin: "0 auto", padding: "118px 24px 72px",
+          maxWidth: 1200, margin: "0 auto", padding: "108px 24px 64px",
           position: "relative", width: "100%",
-          display: "grid", gridTemplateColumns: "1.05fr 1fr",
-          alignItems: "center", gap: 48,
+          display: "grid", gridTemplateColumns: "1.02fr 1.1fr",
+          alignItems: "center", gap: 56,
         }} className="hero-grid">
 
           {/* Left: text */}
@@ -257,48 +248,55 @@ export default function HomePage() {
               display: "inline-flex", alignItems: "center", gap: 8,
               padding: "7px 14px", borderRadius: 100,
               border: "1px solid var(--border)", background: "var(--bg-1)",
-              boxShadow: "0 1px 3px rgba(11,24,41,0.04)", marginBottom: 28,
+              boxShadow: "0 1px 3px rgba(11,24,41,0.04)", marginBottom: 26,
             }}>
               <span style={{ fontSize: 13 }}>🌍</span>
               <span style={{ fontSize: 12.5, fontWeight: 500, color: "var(--text-secondary)" }}>Plus de 3 000 étudiants accompagnés</span>
             </div>
 
             <h1 className="anim-fade-up-2" style={{
-              fontSize: "clamp(36px, 5.2vw, 64px)", fontWeight: 800,
-              letterSpacing: "-0.045em", lineHeight: 1.04,
+              fontSize: "clamp(32px, 4.3vw, 56px)", fontWeight: 800,
+              letterSpacing: "-0.04em", lineHeight: 1.06,
               color: "var(--text-primary)", marginBottom: 22,
             }}>
-              La mobilité internationale,<br />
+              Ouvrir le monde<br />
+              à celles et ceux qui<br />
               <span className="hero-gradient-anim" style={{
                 color: "transparent",
                 background: "linear-gradient(120deg, #0B1829 0%, #E85835 100%)",
                 WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
-              }}>enfin simple pour les écoles.</span>
+              }}>le construiront demain.</span>
             </h1>
 
             <p className="anim-fade-up-3" style={{
-              fontSize: "clamp(15px, 1.4vw, 17.5px)", color: "var(--text-secondary)",
-              lineHeight: 1.7, maxWidth: 470, marginBottom: 32,
+              fontSize: "clamp(15px, 1.35vw, 17px)", color: "var(--text-secondary)",
+              lineHeight: 1.65, maxWidth: 480, marginBottom: 14,
             }}>
-              Formation, hébergement, financement OPCO, logistique et accompagnement
-              administratif : nous prenons en charge l&apos;intégralité de vos mobilités, de A à Z.
+              AMI Panorama conçoit des programmes de mobilité internationale pour les
+              CFA et les établissements d&apos;enseignement supérieur.
             </p>
 
-            <div className="anim-fade-up-4" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 26 }}>
+            <p className="anim-fade-up-3" style={{
+              fontSize: "clamp(13px, 1.15vw, 14.5px)", color: "var(--text-muted)",
+              lineHeight: 1.65, maxWidth: 480, marginBottom: 30,
+            }}>
+              Formation, hébergement, logistique, accompagnement administratif et
+              ingénierie financière : nous concevons, organisons et sécurisons vos
+              mobilités de bout en bout.
+            </p>
+
+            <div className="anim-fade-up-4" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link href="/rendez-vous" className="btn-primary">
                 Réserver un échange
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </Link>
               <Link href="/destinations" className="btn-ghost">Découvrir les destinations</Link>
             </div>
+          </div>
 
-            <div className="anim-fade-up-4" style={{ display: "flex", gap: 18, flexWrap: "wrap", fontSize: 12.5, color: "var(--text-muted)" }}>
-              {["Montréal", "Séville", "Londres", "New York", "Malte"].map((c) => (
-                <span key={c} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                  <span style={{ color: "var(--coral)", fontWeight: 700 }}>✓</span> {c}
-                </span>
-              ))}
-            </div>
+          {/* Right: real hero image */}
+          <div className="hero-img-col anim-fade-up-3" aria-hidden="true">
+            <div className="hero-img" style={{ backgroundImage: "url('/Assets/hero/sevilla-hero.jpg')" }} />
           </div>
 
         </div>
@@ -866,9 +864,15 @@ export default function HomePage() {
           50%       { opacity: 0.4; }
         }
 
-        /* Hero layout (SaaS : texte + dashboard) */
-        .hero-grid { grid-template-columns: 1.05fr 1fr !important; gap: 48px !important; }
+        /* Hero layout (image-led : texte + image) */
+        .hero-grid { grid-template-columns: 1.02fr 1.1fr !important; gap: 56px !important; }
         .hero-text-col { padding-right: 0; }
+        .hero-img-col { position: relative; }
+        .hero-img {
+          width: 100%; height: clamp(420px, 56vh, 560px);
+          border-radius: 22px; background-size: cover; background-position: center;
+          box-shadow: 0 30px 70px rgba(11,24,41,0.18), 0 8px 22px rgba(11,24,41,0.08);
+        }
         .hero-gradient-anim {
           background-size: 220% 220% !important;
           animation: heroGradient 11s ease-in-out infinite;
@@ -997,6 +1001,7 @@ export default function HomePage() {
           .hero-float { display: none !important; }
           .hero-dash-col { min-height: auto !important; }
           .hero-dash { transform: none !important; }
+          .hero-img { height: 300px !important; }
         }
 
         /* Trust marquee */
