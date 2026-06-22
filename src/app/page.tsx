@@ -242,90 +242,110 @@ export default function HomePage() {
         {/* ── Film grain texture ── */}
         <div className="hero-grain" aria-hidden="true" />
 
-        {/* ── Hero content: text left + photos right ── */}
+        {/* ── Hero content: SaaS (texte gauche + dashboard produit droite) ── */}
         <div style={{
-          maxWidth: 1200, margin: "0 auto", padding: "120px 24px 80px",
+          maxWidth: 1200, margin: "0 auto", padding: "118px 24px 72px",
           position: "relative", width: "100%",
-          display: "grid",
-          gridTemplateColumns: "1fr auto",
-          alignItems: "center",
-          gap: 0,
+          display: "grid", gridTemplateColumns: "1.05fr 1fr",
+          alignItems: "center", gap: 48,
         }} className="hero-grid">
 
           {/* Left: text */}
           <div className="hero-text-col">
-            {/* Eyebrow */}
             <div className="anim-fade-up" style={{
-              display: "inline-flex", alignItems: "center", gap: 10,
-              marginBottom: 36,
+              display: "inline-flex", alignItems: "center", gap: 8,
+              padding: "7px 14px", borderRadius: 100,
+              border: "1px solid var(--border)", background: "var(--bg-1)",
+              boxShadow: "0 1px 3px rgba(11,24,41,0.04)", marginBottom: 28,
             }}>
-              <div style={{
-                width: 7, height: 7, borderRadius: "50%",
-                background: "var(--coral)", boxShadow: "0 0 12px rgba(232,88,53,0.4)",
-                animation: "heroPulse 2.5s ease infinite",
-              }} />
-              <span style={{
-                fontSize: 11, fontWeight: 600, letterSpacing: "0.14em",
-                textTransform: "uppercase", color: "var(--text-muted)",
-              }}>Opérateur de mobilité internationale · Depuis 2022</span>
+              <span style={{ fontSize: 13 }}>🌍</span>
+              <span style={{ fontSize: 12.5, fontWeight: 500, color: "var(--text-secondary)" }}>Plus de 3 000 étudiants accompagnés</span>
             </div>
 
-            {/* Main headline */}
-            <h1 style={{ marginBottom: 28 }}>
-              <span className="anim-fade-up-2" style={{
-                display: "block",
-                fontSize: "clamp(36px, 10vw, 96px)",
-                fontWeight: 700,
-                letterSpacing: "-0.05em",
-                lineHeight: 1.0,
-                color: "var(--text-primary)",
-              }}>
-                Ouvrir
-              </span>
-              <span className="anim-fade-up-3 hero-gradient-anim" style={{
-                display: "block",
-                fontSize: "clamp(36px, 10vw, 96px)",
-                fontWeight: 500,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.0,
-                fontFamily: "var(--font-serif)",
-                fontStyle: "italic",
+            <h1 className="anim-fade-up-2" style={{
+              fontSize: "clamp(36px, 5.2vw, 64px)", fontWeight: 800,
+              letterSpacing: "-0.045em", lineHeight: 1.04,
+              color: "var(--text-primary)", marginBottom: 22,
+            }}>
+              La mobilité internationale,<br />
+              <span className="hero-gradient-anim" style={{
                 color: "transparent",
-                background: "linear-gradient(135deg, #0B1829 0%, #E85835 100%)",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                paddingBottom: 4,
-              }}>
-                le monde.
-              </span>
+                background: "linear-gradient(120deg, #0B1829 0%, #E85835 100%)",
+                WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
+              }}>enfin simple pour les écoles.</span>
             </h1>
 
-            {/* Description + CTAs */}
-            <div className="anim-fade-up-4 hero-cta-group" style={{
-              display: "flex", flexWrap: "wrap", gap: 48, alignItems: "flex-start",
-              marginBottom: 64,
+            <p className="anim-fade-up-3" style={{
+              fontSize: "clamp(15px, 1.4vw, 17.5px)", color: "var(--text-secondary)",
+              lineHeight: 1.7, maxWidth: 470, marginBottom: 32,
             }}>
-              <p style={{
-                fontSize: "clamp(15px, 1.5vw, 17px)",
-                color: "var(--text-secondary)",
-                lineHeight: 1.8, maxWidth: 420,
-              }}>
-                AMI Panorama conçoit des programmes de mobilité internationale
-                pour les CFA et les établissements d'enseignement supérieur.
-              </p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", paddingTop: 4 }}>
-                <Link href="/contact" className="btn-primary">
-                  Demander un programme
-                  <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
-                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </Link>
-                <Link href="/destinations" className="btn-ghost">
-                  Voir les destinations
-                </Link>
+              Formation, hébergement, financement OPCO, logistique et accompagnement
+              administratif : nous prenons en charge l&apos;intégralité de vos mobilités, de A à Z.
+            </p>
+
+            <div className="anim-fade-up-4" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 26 }}>
+              <Link href="/rendez-vous" className="btn-primary">
+                Réserver un échange
+                <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </Link>
+              <Link href="/destinations" className="btn-ghost">Découvrir les destinations</Link>
+            </div>
+
+            <div className="anim-fade-up-4" style={{ display: "flex", gap: 18, flexWrap: "wrap", fontSize: 12.5, color: "var(--text-muted)" }}>
+              {["Montréal", "Séville", "Londres", "New York", "Malte"].map((c) => (
+                <span key={c} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                  <span style={{ color: "var(--coral)", fontWeight: 700 }}>✓</span> {c}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: product dashboard mockup */}
+          <div className="hero-dash-col anim-fade-up-3" aria-hidden="true">
+            <div className="hero-dash-glow" />
+            <div className="hero-dash">
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
+                  <div style={{ width: 38, height: 38, borderRadius: 10, background: "linear-gradient(135deg,#3B68D6,#14B8A6)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 12 }}>MTL</div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>Groupe · Montréal</div>
+                    <div style={{ fontSize: 11.5, color: "var(--text-muted)" }}>Mobilité 2026 · 8 jours / 7 nuits</div>
+                  </div>
+                </div>
+                <span style={{ fontSize: 11, fontWeight: 600, color: "#0F9D58", background: "rgba(15,157,88,0.10)", border: "1px solid rgba(15,157,88,0.22)", borderRadius: 100, padding: "4px 10px" }}>Confirmé</span>
+              </div>
+
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--text-muted)", marginBottom: 6 }}>
+                  <span>Préparation du séjour</span><span style={{ color: "var(--text-primary)", fontWeight: 600 }}>100%</span>
+                </div>
+                <div style={{ height: 6, borderRadius: 4, background: "rgba(11,24,41,0.07)", overflow: "hidden" }}>
+                  <div style={{ width: "100%", height: "100%", background: "linear-gradient(90deg,#3B68D6,#14B8A6)", borderRadius: 4 }} />
+                </div>
+              </div>
+
+              <div>
+                {[
+                  { label: "Participants", value: "42", ok: false },
+                  { label: "Documents", value: "100 %", ok: true },
+                  { label: "Hébergement", value: "Réservé", ok: true },
+                  { label: "Financement OPCO", value: "Validé", ok: true },
+                  { label: "Vols", value: "Confirmés", ok: true },
+                ].map((r, ri) => (
+                  <div key={r.label} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 0", borderTop: ri === 0 ? "none" : "1px solid rgba(11,24,41,0.06)" }}>
+                    <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>{r.label}</span>
+                    <span style={{ fontSize: 12.5, fontWeight: 600, color: r.ok ? "#0F9D58" : "var(--text-primary)", display: "inline-flex", alignItems: "center", gap: 6 }}>
+                      {r.ok && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#0F9D58" }} />}
+                      {r.value}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
+
+            <div className="hero-float hero-float-1"><span style={{ width: 7, height: 7, borderRadius: "50%", background: "#0F9D58" }} /> OPCO validé</div>
+            <div className="hero-float hero-float-2"><span style={{ width: 7, height: 7, borderRadius: "50%", background: "#3B68D6" }} /> Conventions signées</div>
+            <div className="hero-float hero-float-3"><span style={{ width: 7, height: 7, borderRadius: "50%", background: "#14B8A6" }} /> Hébergement confirmé</div>
           </div>
 
         </div>
@@ -893,8 +913,8 @@ export default function HomePage() {
           50%       { opacity: 0.4; }
         }
 
-        /* Hero layout (single column, editorial) */
-        .hero-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
+        /* Hero layout (SaaS : texte + dashboard) */
+        .hero-grid { grid-template-columns: 1.05fr 1fr !important; gap: 48px !important; }
         .hero-text-col { padding-right: 0; }
         .hero-gradient-anim {
           background-size: 220% 220% !important;
@@ -904,6 +924,34 @@ export default function HomePage() {
           0%, 100% { background-position: 0% 50%; }
           50%      { background-position: 100% 50%; }
         }
+        /* Hero dashboard mockup */
+        .hero-dash-col { position: relative; display: flex; align-items: center; justify-content: center; min-height: 460px; }
+        .hero-dash {
+          position: relative; z-index: 2; width: 100%; max-width: 416px;
+          background: rgba(255,255,255,0.72); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+          border: 1px solid rgba(11,24,41,0.08); border-radius: 20px; padding: 20px;
+          box-shadow: 0 30px 70px rgba(11,24,41,0.16), 0 6px 18px rgba(11,24,41,0.06);
+        }
+        .hero-dash-glow {
+          position: absolute; inset: -30px; z-index: 1; pointer-events: none; filter: blur(8px);
+          background:
+            radial-gradient(closest-side, rgba(59,104,214,0.16), transparent 70%),
+            radial-gradient(closest-side, rgba(20,184,166,0.14), transparent 70%);
+          background-repeat: no-repeat; background-size: 62% 62%, 55% 55%;
+          background-position: 25% 25%, 80% 80%;
+        }
+        .hero-float {
+          position: absolute; z-index: 3; display: inline-flex; align-items: center; gap: 9px;
+          background: rgba(255,255,255,0.9); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+          border: 1px solid rgba(11,24,41,0.07); border-radius: 12px; padding: 10px 13px;
+          box-shadow: 0 12px 30px rgba(11,24,41,0.12);
+          font-size: 12.5px; font-weight: 500; color: var(--text-primary); white-space: nowrap;
+        }
+        .hero-float-1 { top: 4%; right: -2%; animation: heroFloatA 7s ease-in-out infinite; }
+        .hero-float-2 { bottom: 16%; left: -6%; animation: heroFloatB 8.5s ease-in-out infinite; }
+        .hero-float-3 { bottom: -2%; right: 8%; animation: heroFloatA 9s ease-in-out infinite 0.6s; }
+        @keyframes heroFloatA { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes heroFloatB { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
 
         /* Floating photo cards */
         .hero-photo-col {
@@ -977,9 +1025,12 @@ export default function HomePage() {
         }
 
         @media (max-width: 960px) {
-          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           .hero-photo-col { display: none !important; }
           .hero-text-col { padding-right: 0 !important; }
+          .hero-float { display: none !important; }
+          .hero-dash-col { min-height: auto !important; }
+          .hero-dash { transform: none !important; }
         }
 
         /* Trust marquee */
