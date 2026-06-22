@@ -234,13 +234,14 @@ export default function HomePage() {
         overflow: "hidden",
         background: "var(--bg)",
       }}>
-        {/* ── Atmospheric glow orbs ── */}
-        <div className="hero-orb hero-orb-1" />
-        <div className="hero-orb hero-orb-2" />
-        <div className="hero-orb hero-orb-3" />
-
-        {/* ── Film grain texture ── */}
-        <div className="hero-grain" aria-hidden="true" />
+        {/* ── Hero image (Séville) — full-bleed ── */}
+        <div aria-hidden="true" style={{
+          position: "absolute", inset: 0,
+          backgroundImage: "url('/Assets/hero/sevilla-hero.jpg')",
+          backgroundSize: "cover", backgroundPosition: "center right",
+        }} />
+        {/* Voile de lisibilité (gauche desktop / bas mobile) */}
+        <div aria-hidden="true" className="hero-veil" style={{ position: "absolute", inset: 0 }} />
 
         {/* ── Hero content: SaaS (texte gauche + dashboard produit droite) ── */}
         <div style={{
@@ -298,54 +299,6 @@ export default function HomePage() {
                 </span>
               ))}
             </div>
-          </div>
-
-          {/* Right: product dashboard mockup */}
-          <div className="hero-dash-col anim-fade-up-3" aria-hidden="true">
-            <div className="hero-dash-glow" />
-            <div className="hero-dash">
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
-                  <div style={{ width: 38, height: 38, borderRadius: 10, background: "linear-gradient(135deg,#3B68D6,#14B8A6)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 12 }}>MTL</div>
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>Groupe · Montréal</div>
-                    <div style={{ fontSize: 11.5, color: "var(--text-muted)" }}>Mobilité 2026 · 8 jours / 7 nuits</div>
-                  </div>
-                </div>
-                <span style={{ fontSize: 11, fontWeight: 600, color: "#0F9D58", background: "rgba(15,157,88,0.10)", border: "1px solid rgba(15,157,88,0.22)", borderRadius: 100, padding: "4px 10px" }}>Confirmé</span>
-              </div>
-
-              <div style={{ marginBottom: 16 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--text-muted)", marginBottom: 6 }}>
-                  <span>Préparation du séjour</span><span style={{ color: "var(--text-primary)", fontWeight: 600 }}>100%</span>
-                </div>
-                <div style={{ height: 6, borderRadius: 4, background: "rgba(11,24,41,0.07)", overflow: "hidden" }}>
-                  <div style={{ width: "100%", height: "100%", background: "linear-gradient(90deg,#3B68D6,#14B8A6)", borderRadius: 4 }} />
-                </div>
-              </div>
-
-              <div>
-                {[
-                  { label: "Participants", value: "42", ok: false },
-                  { label: "Documents", value: "100 %", ok: true },
-                  { label: "Hébergement", value: "Réservé", ok: true },
-                  { label: "Financement OPCO", value: "Validé", ok: true },
-                  { label: "Vols", value: "Confirmés", ok: true },
-                ].map((r, ri) => (
-                  <div key={r.label} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 0", borderTop: ri === 0 ? "none" : "1px solid rgba(11,24,41,0.06)" }}>
-                    <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>{r.label}</span>
-                    <span style={{ fontSize: 12.5, fontWeight: 600, color: r.ok ? "#0F9D58" : "var(--text-primary)", display: "inline-flex", alignItems: "center", gap: 6 }}>
-                      {r.ok && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#0F9D58" }} />}
-                      {r.value}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="hero-float hero-float-1"><span style={{ width: 7, height: 7, borderRadius: "50%", background: "#0F9D58" }} /> OPCO validé</div>
-            <div className="hero-float hero-float-2"><span style={{ width: 7, height: 7, borderRadius: "50%", background: "#3B68D6" }} /> Conventions signées</div>
-            <div className="hero-float hero-float-3"><span style={{ width: 7, height: 7, borderRadius: "50%", background: "#14B8A6" }} /> Hébergement confirmé</div>
           </div>
 
         </div>
@@ -924,7 +877,20 @@ export default function HomePage() {
           0%, 100% { background-position: 0% 50%; }
           50%      { background-position: 100% 50%; }
         }
-        /* Hero dashboard mockup */
+        /* Voile de lisibilité du hero image */
+        .hero-veil {
+          background: linear-gradient(100deg,
+            var(--bg) 0%, var(--bg) 20%,
+            rgba(248,246,241,0.86) 36%, rgba(248,246,241,0.30) 52%, transparent 66%);
+        }
+        @media (max-width: 760px) {
+          .hero-veil {
+            background: linear-gradient(to top,
+              var(--bg) 0%, rgba(248,246,241,0.74) 40%, rgba(248,246,241,0.12) 74%);
+          }
+          .hero-grid { align-items: flex-end !important; }
+        }
+        /* Hero dashboard mockup (legacy, inutilisé) */
         .hero-dash-col { position: relative; display: flex; align-items: center; justify-content: center; min-height: 460px; }
         .hero-dash {
           position: relative; z-index: 2; width: 100%; max-width: 416px;
