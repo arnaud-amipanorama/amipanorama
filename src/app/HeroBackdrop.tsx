@@ -1,43 +1,25 @@
 "use client";
-import { useEffect, useRef } from "react";
 
-// Fond du hero : image Séville full-bleed + voiles + parallax très léger réactif à la souris.
-export default function HeroBackdrop() {
-  const bgRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = bgRef.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let targetX = 0, targetY = 0, x = 0, y = 0, raf = 0;
-    const onMove = (e: MouseEvent) => {
-      targetX = (e.clientX / window.innerWidth - 0.5) * 16;  // amplitude ~8px
-      targetY = (e.clientY / window.innerHeight - 0.5) * 12;
-    };
-    const loop = () => {
-      x += (targetX - x) * 0.06; // easing → mouvement fluide, jamais brusque
-      y += (targetY - y) * 0.06;
-      el.style.transform = `scale(1.08) translate(${(-x).toFixed(2)}px, ${(-y).toFixed(2)}px)`;
-      raf = requestAnimationFrame(loop);
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    raf = requestAnimationFrame(loop);
-    return () => { window.removeEventListener("mousemove", onMove); cancelAnimationFrame(raf); };
-  }, []);
-
+// Fond du hero : image full-bleed + voiles + dérive d'ambiance très lente.
+// Pas de parallax souris (volontairement) — la vie passe par la typographie.
+// L'image est passée en prop pour rester facile à remplacer (cf. heroConfig.ts).
+export default function HeroBackdrop({ image }: { image: string }) {
   return (
     <>
-      <div ref={bgRef} aria-hidden="true" className="hb-bg" />
+      <div aria-hidden="true" className="hb-bg" style={{ backgroundImage: `url('${image}')` }} />
       <div aria-hidden="true" className="hb-veil-left" />
       <div aria-hidden="true" className="hb-veil-bottom" />
       <style>{`
         .hb-bg {
           position: absolute; inset: 0;
-          background-image: url('/Assets/Hero/sevilla-hero.jpg');
           background-size: cover; background-position: center center;
-          transform: scale(1.08); transform-origin: center;
-          will-change: transform; filter: saturate(1.08) contrast(1.04);
+          transform-origin: center; will-change: transform;
+          filter: saturate(1.06) contrast(1.03);
+          animation: hbDrift 28s ease-in-out infinite;
+        }
+        @keyframes hbDrift {
+          0%, 100% { transform: scale(1.06) translate(0, 0); }
+          50%      { transform: scale(1.10) translate(-1.1%, -0.7%); }
         }
         .hb-veil-left {
           position: absolute; inset: 0;
@@ -55,7 +37,10 @@ export default function HeroBackdrop() {
             background: linear-gradient(to bottom,
               var(--bg) 0%, rgba(248,246,241,0.66) 26%, rgba(248,246,241,0.06) 56%, transparent 76%);
           }
-          .hb-bg { transform: scale(1.04) !important; }
+          .hb-bg { animation: none; transform: scale(1.04); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hb-bg { animation: none; transform: scale(1.06); }
         }
       `}</style>
     </>

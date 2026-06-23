@@ -390,6 +390,49 @@ export default function NotreProgrammePage() {
         </div>
       </section>
 
+      {/* Visites professionnelles — photos réelles (générées par scripts/optimize-photos.sh) */}
+      <section style={{ padding: "0 24px 80px", background: "var(--bg)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ marginBottom: 28 }}>
+            <div className="section-label">Sur le terrain</div>
+            <h2 style={{
+              fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 700,
+              letterSpacing: "-0.035em", maxWidth: 600,
+            }}>
+              Les visites professionnelles, en images
+            </h2>
+          </div>
+          <div className="vp-grid">
+            {[
+              { src: "/Assets/program/visite-eleves.jpg", cap: "Visite d'entreprise" },
+              { src: "/Assets/program/visite-startup.jpg", cap: "Rencontre en entreprise" },
+              { src: "/Assets/program/visite-conference.jpg", cap: "Conférence professionnelle" },
+              { src: "/Assets/program/visite-pro.jpg", cap: "Échanges sur le terrain" },
+              { src: "/Assets/program/visite-startup-2.jpg", cap: "Écosystème startup" },
+            ].map((p) => (
+              <div key={p.src} className="vp-photo" style={{ backgroundImage: `url('${p.src}')` }}>
+                <span className="vp-cap">{p.cap}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <style>{`
+          .vp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+          .vp-photo {
+            position: relative; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden;
+            background-size: cover; background-position: center;
+            box-shadow: 0 10px 30px rgba(11,24,41,0.10);
+          }
+          .vp-photo::after { content: ""; position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(11,24,41,0.55), transparent 55%); }
+          .vp-cap {
+            position: absolute; left: 14px; bottom: 12px; z-index: 1; color: #fff;
+            font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+            text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+          }
+        `}</style>
+      </section>
+
       {/* FAQ */}
       <section style={{ padding: "0 24px 80px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>

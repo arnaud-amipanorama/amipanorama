@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import AnimateOnView from "@/components/AnimateOnView";
 import HeroGallery from "./HeroGallery";
 import HeroBackdrop from "./HeroBackdrop";
+import { HERO_IMAGE, HERO_PHOTOS } from "./heroConfig";
 
 export const metadata: Metadata = {
   title: "AMI Panorama — Opérateur de mobilité internationale pour les CFA et les établissements",
@@ -104,15 +105,6 @@ const stats = [
   { value: "100+",   label: "groupes coordonnés" },
   { value: "50",     label: "écoles partenaires" },
   { value: "10",     label: "destinations actives" },
-];
-
-const railPhotos = [
-  { src: "/Assets/groups/montreal-sunset.jpg",  city: "Montréal", flag: "🇨🇦" },
-  { src: "/Assets/groups/newyork-dumbo.jpg",    city: "New York", flag: "🇺🇸" },
-  { src: "/Assets/groups/seville-park.jpg",     city: "Séville",  flag: "🇪🇸" },
-  { src: "/Assets/groups/montreal-night.jpg",   city: "Montréal", flag: "🇨🇦" },
-  { src: "/Assets/groups/newyork-bridge.jpg",   city: "New York", flag: "🇺🇸" },
-  { src: "/Assets/groups/seville-diplomas.jpg", city: "Séville",  flag: "🇪🇸" },
 ];
 
 const partnerNames = [
@@ -230,8 +222,8 @@ export default function HomePage() {
       <section className="hero-section" style={{
         position: "relative", overflow: "hidden", background: "var(--bg)",
       }}>
-        {/* Image full-bleed + voiles + parallax léger (client) */}
-        <HeroBackdrop />
+        {/* Image full-bleed + voiles + dérive d'ambiance (client) */}
+        <HeroBackdrop image={HERO_IMAGE} />
 
         {/* Contenu : texte (haut) + cartes flottantes (bas), une seule scène */}
         <div className="hero-inner" style={{
@@ -252,17 +244,19 @@ export default function HomePage() {
             </div>
 
             <h1 className="anim-fade-up-2" style={{
-              fontSize: "clamp(32px, 4.6vw, 60px)", fontWeight: 800,
-              letterSpacing: "-0.04em", lineHeight: 1.05,
-              color: "var(--text-primary)", marginBottom: 20,
+              fontSize: "clamp(34px, 5vw, 66px)", fontWeight: 800,
+              letterSpacing: "-0.045em", lineHeight: 1.02,
+              color: "var(--text-primary)", marginBottom: 22,
             }}>
-              Ouvrir le monde<br />
-              à celles et ceux qui<br />
-              <span className="hero-gradient-anim" style={{
-                color: "transparent",
-                background: "linear-gradient(120deg, #0B1829 0%, #E85835 100%)",
-                WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
-              }}>le construiront demain.</span>
+              <span className="hero-breath">
+                Ouvrir le monde<br />
+                à celles et ceux qui<br />
+                <span className="hero-gradient-anim" style={{
+                  color: "transparent",
+                  background: "linear-gradient(120deg, #0B1829 0%, #E85835 100%)",
+                  WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
+                }}>le construiront demain.</span>
+              </span>
             </h1>
 
             <p className="anim-fade-up-3" style={{
@@ -301,7 +295,7 @@ export default function HomePage() {
               backdropFilter: "blur(3px)", WebkitBackdropFilter: "blur(3px)",
               pointerEvents: "none",
             }} />
-            <HeroGallery items={railPhotos} />
+            <HeroGallery items={HERO_PHOTOS} />
           </div>
         </div>
       </section>
@@ -885,11 +879,23 @@ export default function HomePage() {
         }
         .hero-gradient-anim {
           background-size: 220% 220% !important;
-          animation: heroGradient 11s ease-in-out infinite;
+          animation: heroGradient 13s ease-in-out infinite;
         }
         @keyframes heroGradient {
           0%, 100% { background-position: 0% 50%; }
           50%      { background-position: 100% 50%; }
+        }
+        /* Respiration très lente du titre — origine haut-gauche (zéro décalage de layout) */
+        .hero-breath {
+          display: inline-block; transform-origin: left top; will-change: transform;
+          animation: heroBreath 8.5s ease-in-out infinite;
+        }
+        @keyframes heroBreath {
+          0%, 100% { transform: scale(1); }
+          50%      { transform: scale(1.012); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-breath, .hero-gradient-anim { animation: none !important; }
         }
         /* Voile de lisibilité du hero image */
         .hero-veil {

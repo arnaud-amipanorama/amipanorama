@@ -1,52 +1,62 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type GalleryItem = { src: string; city: string; flag: string };
 
-const STEP = 232; // décalage horizontal entre cartes (chevauchement → profondeur)
+const STEP = 230;      // décalage horizontal entre cartes (chevauchement → profondeur)
+const SMOOTH = "transform 0.6s cubic-bezier(0.22,1,0.36,1), opacity 0.6s ease";
 
 export default function HeroGallery({ items }: { items: GalleryItem[] }) {
-  const [active, setActive] = useState(Math.floor(items.length / 2));
+  const n = items.length;
+  // `active` n'est PAS borné : il grandit/diminue à l'infini dans les deux sens.
+  const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const prev = useRef<number[]>([]);
 
   useEffect(() => {
-    if (paused) return;
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(() => setActive((a) => (a + 1) % items.length), 4800);
+    if (paused || n <= 1) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(() => setActive((a) => a + 1), 4600);
     return () => clearInterval(id);
-  }, [paused, items.length]);
+  }, [paused, n]);
 
-  const go = (dir: number) => setActive((a) => (a + dir + items.length) % items.length);
+  // distance circulaire signée (plus court chemin autour de l'anneau)
+  const circOf = (i: number) => {
+    const m = (((i - active) % n) + n) % n; // 0..n-1
+    return m > n / 2 ? m - n : m;
+  };
+  const circs = items.map((_, i) => circOf(i));
+  // une carte qui « boucle » d'un bord à l'autre fait un saut > 1 → on coupe sa
+  // transition (téléportation invisible) pour qu'aucune carte ne traverse l'écran.
+  const wrapped = circs.map((c, i) => prev.current[i] !== undefined && Math.abs(c - prev.current[i]) > 1.5);
+  useEffect(() => { prev.current = circs; });
 
   return (
-    <div
-      className="hg"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      <button className="hg-arrow hg-prev" onClick={() => go(-1)} aria-label="Destination précédente">
+    <div className="hg" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      <button className="hg-arrow hg-prev" onClick={() => setActive((a) => a - 1)} aria-label="Destination précédente">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3 5 8l5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </button>
 
       <div className="hg-stage">
         {items.map((it, i) => {
-          const d = i - active;
-          const ad = Math.abs(d);
-          const isActive = d === 0;
-          const scale = isActive ? 1.16 : ad === 1 ? 0.8 : 0.64;
-          const opacity = ad >= 3 ? 0 : isActive ? 1 : ad === 1 ? 0.92 : 0.5;
+          const c = circs[i];
+          const ac = Math.abs(c);
+          const isActive = c === 0;
+          const scale = isActive ? 1.16 : ac === 1 ? 0.8 : ac === 2 ? 0.64 : 0.5;
+          const opacity = ac >= 3 ? 0 : isActive ? 1 : ac === 1 ? 0.92 : 0.5;
           return (
             <button
               key={i}
               className={`hg-card${isActive ? " is-active" : ""}`}
-              onClick={() => setActive(i)}
+              onClick={() => setActive((a) => a + c)}
               aria-label={it.city}
-              tabIndex={ad >= 3 ? -1 : 0}
+              tabIndex={ac >= 3 ? -1 : 0}
               style={{
-                transform: `translate(calc(-50% + ${d * STEP}px), -50%) scale(${scale})`,
+                transform: `translate(calc(-50% + ${c * STEP}px), -50%) scale(${scale})`,
                 opacity,
-                zIndex: 30 - ad,
-                pointerEvents: ad >= 3 ? "none" : "auto",
+                zIndex: 30 - ac,
+                pointerEvents: ac >= 3 ? "none" : "auto",
+                transition: wrapped[i] ? "none" : SMOOTH,
                 backgroundImage: `url('${it.src}')`,
               }}
             >
@@ -58,7 +68,7 @@ export default function HeroGallery({ items }: { items: GalleryItem[] }) {
         })}
       </div>
 
-      <button className="hg-arrow hg-next" onClick={() => go(1)} aria-label="Destination suivante">
+      <button className="hg-arrow hg-next" onClick={() => setActive((a) => a + 1)} aria-label="Destination suivante">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </button>
 
@@ -69,7 +79,7 @@ export default function HeroGallery({ items }: { items: GalleryItem[] }) {
           position: absolute; left: 50%; top: 50%;
           width: 280px; height: 208px; padding: 0; border: none; cursor: pointer;
           border-radius: 16px; background-size: cover; background-position: center;
-          transform-origin: center; transition: transform 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.55s ease;
+          transform-origin: center;
           box-shadow: 0 18px 40px rgba(11,24,41,0.18);
           will-change: transform, opacity;
         }
@@ -77,9 +87,7 @@ export default function HeroGallery({ items }: { items: GalleryItem[] }) {
           content: ""; position: absolute; inset: 0; border-radius: 16px;
           background: linear-gradient(to top, rgba(11,24,41,0.5) 0%, rgba(11,24,41,0.04) 46%, transparent 62%);
         }
-        .hg-card.is-active {
-          box-shadow: 0 0 0 6px #fff, 0 34px 70px rgba(11,24,41,0.30);
-        }
+        .hg-card.is-active { box-shadow: 0 0 0 6px #fff, 0 34px 70px rgba(11,24,41,0.30); }
         .hg-cap {
           position: absolute; left: 16px; bottom: 14px; z-index: 1;
           display: inline-flex; align-items: center; gap: 8px;

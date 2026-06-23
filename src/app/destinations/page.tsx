@@ -17,7 +17,7 @@ const destinations = [
     flag: "🇨🇦",
     accent: "#1E52D0",
     phare: true,
-    photo: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=900&q=80",
+    photo: "/Assets/groups/montreal-group.jpg",
     headline: "L'Amérique du Nord, en français.",
     desc: "Notre destination historique, et la plus maîtrisée. Métropole bilingue et cosmopolite, Montréal est la seule ville nord-américaine où les étudiants francophones peuvent découvrir un modèle économique radicalement différent sans barrière linguistique. Un cadre idéal pour élargir sa vision tout en restant ancré dans sa langue.",
     highlights: [
@@ -35,7 +35,7 @@ const destinations = [
     flag: "🇪🇸",
     accent: "#E85835",
     phare: true,
-    photo: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
+    photo: "/Assets/groups/seville-garden.jpg",
     headline: "L'Andalousie comme terrain de formation.",
     desc: "Notre deuxième pilier. Séville offre un cadre exceptionnel pour une immersion totale : architecture baroque, économie tertiaire dynamique et chaleur humaine qui facilite naturellement l'ouverture interculturelle. Une destination idéale pour les filières orientées vers les services, le tourisme et le commerce.",
     highlights: [
@@ -52,7 +52,7 @@ const destinations = [
     tag: "Business English",
     flag: "🇬🇧",
     accent: "#1E52D0",
-    photo: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=900&q=80",
+    photo: "/Assets/groups/london-bridge.jpg",
     headline: "La capitale mondiale du Business English.",
     desc: "Londres reste la référence absolue pour l'apprentissage de l'anglais professionnel en contexte réel. Un séjour à Londres, c'est une immersion totale dans une ville qui concentre une densité unique d'entreprises internationales et où l'anglais professionnel est la langue de travail universelle.",
     highlights: [
@@ -69,7 +69,7 @@ const destinations = [
     tag: "English immersion",
     flag: "🇲🇹",
     accent: "#1E52D0",
-    photo: "/Assets/destinations/Malte Destination.png",
+    photo: "/Assets/groups/malta-main.jpg",
     headline: "L'anglais en immersion totale, sous le soleil méditerranéen.",
     desc: "Malte est l'une des rares destinations européennes entièrement anglophones — et l'une des plus accessibles. Son cadre méditerranéen, son histoire millénaire et sa taille humaine en font un environnement idéal pour une progression réelle en anglais professionnel, dans une atmosphère solaire et engageante.",
     highlights: [
@@ -103,7 +103,7 @@ const destinations = [
     tag: "Entrepreneuriat & innovation",
     flag: "🇩🇪",
     accent: "#E85835",
-    photo: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=900&q=80",
+    photo: "/Assets/groups/berlin-main.jpg",
     headline: "L'Europe de l'entrepreneuriat et des idées neuves.",
     desc: "Berlin pense autrement. Capitale européenne de la scène startup et de l'innovation ouverte, elle offre aux apprentis une immersion dans un écosystème professionnel non conventionnel. Un programme volontairement orienté terrain et rencontres — moins de salle de cours, plus de fondateurs, d'entreprises et d'idées.",
     highlights: [
@@ -120,7 +120,7 @@ const destinations = [
     tag: "Business & culture",
     flag: "🇺🇸",
     accent: "#1E52D0",
-    photo: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=900&q=80",
+    photo: "/Assets/groups/newyork-group.jpg",
     headline: "La ville où l'ambition professionnelle prend une autre dimension.",
     desc: "New York ne s'explique pas — elle se vit. Aucun autre environnement ne confronte aussi directement les participants à l'intensité d'un marché international. Business English de haut niveau, rencontres avec des professionnels en activité, énergie unique d'une ville qui ne ralentit jamais.",
     highlights: [
@@ -137,7 +137,7 @@ const destinations = [
     tag: "Culture & économie italienne",
     flag: "🇮🇹",
     accent: "#D4862A",
-    photo: "/Assets/destinations/Rome.jpg",
+    photo: "/Assets/groups/rome-square.jpg",
     headline: "L'Italie entre grandeur historique et réalité économique.",
     desc: "Rome offre un cadre de formation unique : une compréhension par l'immersion. Le programme s'appuie sur la richesse culturelle de la Ville éternelle pour ouvrir les apprentis à la réalité économique italienne — ses secteurs d'activité, ses entreprises, ses codes professionnels et son rapport singulier à la qualité.",
     highlights: [
