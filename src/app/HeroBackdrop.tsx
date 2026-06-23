@@ -41,9 +41,10 @@ export default function HeroBackdrop() {
         }
         .hb-veil-left {
           position: absolute; inset: 0;
-          background: linear-gradient(94deg,
-            var(--bg) 0%, var(--bg) 10%,
-            rgba(248,246,241,0.72) 26%, rgba(248,246,241,0.20) 42%, transparent 54%);
+          background: linear-gradient(96deg,
+            var(--bg) 0%, var(--bg) 8%,
+            rgba(248,246,241,0.82) 22%, rgba(248,246,241,0.44) 36%,
+            rgba(248,246,241,0.14) 47%, transparent 57%);
         }
         .hb-veil-bottom {
           position: absolute; left: 0; right: 0; bottom: 0; height: 28%;

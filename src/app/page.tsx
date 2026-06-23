@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import AnimateOnView from "@/components/AnimateOnView";
-import PhotoRail from "./PhotoRail";
+import HeroGallery from "./HeroGallery";
 import HeroBackdrop from "./HeroBackdrop";
 
 export const metadata: Metadata = {
@@ -238,18 +238,17 @@ export default function HomePage() {
           position: "relative", maxWidth: 1200, margin: "0 auto", width: "100%",
           minHeight: "min(90svh, 880px)",
           display: "flex", flexDirection: "column", justifyContent: "space-between",
-          padding: "120px 24px 26px",
+          padding: "134px 24px 34px",
         }}>
           <div className="hero-text-col" style={{ maxWidth: 560 }}>
             <div className="anim-fade-up" style={{
-              display: "inline-flex", alignItems: "center", gap: 8,
-              padding: "7px 14px", borderRadius: 100,
-              border: "1px solid rgba(11,24,41,0.10)", background: "rgba(255,255,255,0.72)",
-              boxShadow: "0 1px 3px rgba(11,24,41,0.04)", marginBottom: 26,
-              backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
+              display: "inline-flex", alignItems: "center", gap: 11, marginBottom: 24,
             }}>
-              <span style={{ fontSize: 13 }}>🌍</span>
-              <span style={{ fontSize: 12.5, fontWeight: 500, color: "var(--text-secondary)" }}>Plus de 3 000 étudiants accompagnés</span>
+              <span aria-hidden="true" style={{ width: 26, height: 1.5, background: "var(--coral)", borderRadius: 2, display: "inline-block" }} />
+              <span style={{
+                fontSize: 12, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase",
+                color: "var(--coral)",
+              }}>Opérateur de mobilité internationale · Depuis 2022</span>
             </div>
 
             <h1 className="anim-fade-up-2" style={{
@@ -292,9 +291,17 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Cartes destinations flottantes (bas du hero) */}
-          <div className="anim-fade-up-4" style={{ marginTop: 44 }}>
-            <PhotoRail photos={railPhotos} />
+          {/* Cartes destinations en coverflow, posées sur une plateforme douce */}
+          <div className="anim-fade-up-4" style={{ position: "relative", marginTop: 32 }}>
+            <div aria-hidden="true" style={{
+              position: "absolute", left: "50%", bottom: -22, transform: "translateX(-50%)",
+              width: "min(960px, 98%)", height: 184, borderRadius: 30,
+              background: "linear-gradient(to top, rgba(255,255,255,0.66), rgba(255,255,255,0.18))",
+              boxShadow: "0 30px 80px rgba(11,24,41,0.10)",
+              backdropFilter: "blur(3px)", WebkitBackdropFilter: "blur(3px)",
+              pointerEvents: "none",
+            }} />
+            <HeroGallery items={railPhotos} />
           </div>
         </div>
       </section>
