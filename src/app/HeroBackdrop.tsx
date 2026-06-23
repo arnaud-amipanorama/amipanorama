@@ -34,7 +34,7 @@ export default function HeroBackdrop() {
       <style>{`
         .hb-bg {
           position: absolute; inset: 0;
-          background-image: url('/Assets/hero/sevilla-hero.jpg');
+          background-image: url('/Assets/Hero/sevilla-hero.jpg');
           background-size: cover; background-position: center center;
           transform: scale(1.08); transform-origin: center;
           will-change: transform; filter: saturate(1.08) contrast(1.04);
