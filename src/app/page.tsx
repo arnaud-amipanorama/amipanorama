@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import AnimateOnView from "@/components/AnimateOnView";
 import PhotoRail from "./PhotoRail";
+import HeroBackdrop from "./HeroBackdrop";
 
 export const metadata: Metadata = {
   title: "AMI Panorama — Opérateur de mobilité internationale pour les CFA et les établissements",
@@ -229,15 +230,8 @@ export default function HomePage() {
       <section className="hero-section" style={{
         position: "relative", overflow: "hidden", background: "var(--bg)",
       }}>
-        {/* Image full-bleed (Séville) */}
-        <div aria-hidden="true" className="hero-bg" style={{
-          position: "absolute", inset: 0,
-          backgroundImage: "url('/Assets/hero/sevilla-hero.jpg')",
-          backgroundSize: "cover", backgroundPosition: "center right",
-        }} />
-        {/* Voiles : lisibilité du texte (gauche) + fondu vers le bas */}
-        <div aria-hidden="true" className="hero-veil-left" style={{ position: "absolute", inset: 0 }} />
-        <div aria-hidden="true" className="hero-veil-bottom" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "30%" }} />
+        {/* Image full-bleed + voiles + parallax léger (client) */}
+        <HeroBackdrop />
 
         {/* Contenu : texte (haut) + cartes flottantes (bas), une seule scène */}
         <div className="hero-inner" style={{
