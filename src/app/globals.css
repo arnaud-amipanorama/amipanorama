@@ -421,4 +421,73 @@ a { color: inherit; text-decoration: none; }
   .trust-marquee { animation: none !important; }
   /* Entrance animations already handled above; cover hero floats */
   * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   POLISH LAYER — typographic & interaction refinements (site-wide)
+   ════════════════════════════════════════════════════════════════ */
+
+/* Elegant text shaping — balanced headlines (no orphan words),
+   tidy body paragraphs. Ignored gracefully by older browsers. */
+h1, h2, h3, h4 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+/* Crisper type rendering + proper kerning/ligatures */
+body {
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+}
+
+/* Anchor jumps clear the fixed header */
+html { scroll-padding-top: 88px; }
+
+/* Premium, consistent keyboard focus (accessibility + polish) */
+a:focus-visible, button:focus-visible,
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* Native selects → custom chevron so they read as selects, not inputs.
+   (Pages that set an inline `background` shorthand override this — those
+   are handled locally with their own chevron.) */
+select {
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2.5 4.5L6 8l3.5-3.5' stroke='%238A9BB0' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+/* Card: add a subtle lift to the existing hover for more depth */
+.card {
+  transition: border-color 0.2s ease, background 0.2s ease,
+              box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.22,1,0.36,1);
+}
+.card:hover { transform: translateY(-3px); }
+
+/* Images never distort */
+img { max-width: 100%; height: auto; }
+
+/* ── Site-wide scroll reveal (JS-free, progressive enhancement) ──
+   Used to bring the editorial sub-pages to life like the homepage.
+   Safe fallback: if `animation-timeline` is unsupported, @supports
+   is false → elements stay fully visible (never hidden). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes revealUp {
+      from { opacity: 0; transform: translateY(26px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      animation: revealUp linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 42%;
+    }
+    @media (max-width: 640px) {
+      .reveal { animation-range: entry 0% entry 28%; }
+    }
+  }
 }

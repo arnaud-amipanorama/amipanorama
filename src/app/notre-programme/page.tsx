@@ -323,7 +323,7 @@ export default function NotreProgrammePage() {
 
       {/* Programme components */}
       <section style={{ padding: "64px 24px 80px", background: "var(--bg)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 40 }}>
             <div className="section-label">Les composantes du programme</div>
             <h2 style={{
@@ -392,7 +392,7 @@ export default function NotreProgrammePage() {
 
       {/* Visites professionnelles — photos réelles (générées par scripts/optimize-photos.sh) */}
       <section style={{ padding: "0 24px 80px", background: "var(--bg)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 28 }}>
             <div className="section-label">Sur le terrain</div>
             <h2 style={{
@@ -435,7 +435,7 @@ export default function NotreProgrammePage() {
 
       {/* FAQ */}
       <section style={{ padding: "0 24px 80px", background: "var(--bg)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 40 }}>
             <div className="section-label">Questions fréquentes</div>
             <h2 style={{
@@ -464,7 +464,7 @@ export default function NotreProgrammePage() {
 
       {/* CTA */}
       <section style={{ padding: "0 24px 96px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
             background: "var(--navy)", borderRadius: 20,
             padding: "72px 48px", textAlign: "center", position: "relative", overflow: "hidden",

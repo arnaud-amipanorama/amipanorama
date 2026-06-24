@@ -173,7 +173,7 @@ export default function ContactPage() {
                       <label style={lbl}>Vous êtes…</label>
                       <select value={form.profile}
                         onChange={e => set("profile", e.target.value)}
-                        style={{ ...inp, appearance: "none" as const, cursor: "pointer" }}
+                        style={sel}
                         onFocus={focus} onBlur={blur}>
                         <option value="">Votre profil…</option>
                         {profiles.map(p => <option key={p}>{p}</option>)}
@@ -193,7 +193,7 @@ export default function ContactPage() {
                       <label style={lbl}>Objet de votre demande</label>
                       <select value={form.topic}
                         onChange={e => set("topic", e.target.value)}
-                        style={{ ...inp, appearance: "none" as const, cursor: "pointer" }}
+                        style={sel}
                         onFocus={focus} onBlur={blur}>
                         <option value="">Choisir…</option>
                         {topics.map(t => <option key={t}>{t}</option>)}
@@ -203,7 +203,7 @@ export default function ContactPage() {
                       <label style={lbl}>Destination envisagée</label>
                       <select value={form.destination}
                         onChange={e => set("destination", e.target.value)}
-                        style={{ ...inp, appearance: "none" as const, cursor: "pointer" }}
+                        style={sel}
                         onFocus={focus} onBlur={blur}>
                         <option value="">Pas encore décidé</option>
                         {["Montréal", "Séville", "Londres", "Maroc", "New York", "Séoul", "Autre"].map(d => <option key={d}>{d}</option>)}
@@ -383,6 +383,19 @@ const inp: React.CSSProperties = {
   border: "1px solid var(--border)", borderRadius: 8,
   padding: "11px 14px", fontSize: 14, color: "var(--text-primary)",
   outline: "none", transition: "border-color 0.15s", fontFamily: "inherit",
+};
+
+// Select : même base que les inputs + chevron (pour qu'on les lise comme des selects)
+const sel: React.CSSProperties = {
+  ...inp,
+  appearance: "none",
+  WebkitAppearance: "none",
+  cursor: "pointer",
+  paddingRight: 38,
+  backgroundImage:
+    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2.5 4.5L6 8l3.5-3.5' stroke='%238A9BB0' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "right 14px center",
 };
 
 const focus = (e: React.FocusEvent<HTMLElement>) => (e.currentTarget.style.borderColor = "var(--accent)");

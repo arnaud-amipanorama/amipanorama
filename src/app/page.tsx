@@ -23,7 +23,7 @@ const destinations: {
     tag: "Destination historique · Amérique du Nord",
     phare: true,
     gradient: "linear-gradient(170deg,rgba(8,28,60,0.42),rgba(20,52,140,0.28))",
-    img: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=800&q=80",
+    img: "/Assets/groups/montreal-group.jpg",
   },
   {
     city: "Séville",
@@ -32,7 +32,7 @@ const destinations: {
     tag: "Deuxième pilier · Culture & immersion",
     phare: true,
     gradient: "linear-gradient(170deg,rgba(100,30,10,0.42),rgba(180,80,20,0.28))",
-    img: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
+    img: "/Assets/groups/seville-garden.jpg",
   },
   {
     city: "Londres",
@@ -40,7 +40,7 @@ const destinations: {
     flag: "🇬🇧",
     tag: "Business English",
     gradient: "linear-gradient(170deg,rgba(10,20,44,0.42),rgba(24,44,88,0.28))",
-    img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80",
+    img: "/Assets/groups/london-bridge.jpg",
   },
   {
     city: "Malte",
@@ -48,7 +48,7 @@ const destinations: {
     flag: "🇲🇹",
     tag: "English immersion",
     gradient: "linear-gradient(170deg,rgba(8,28,70,0.42),rgba(18,50,130,0.28))",
-    img: "/Assets/destinations/Malte Destination.png",
+    img: "/Assets/groups/malta-main.jpg",
   },
   {
     city: "Maroc",
@@ -64,7 +64,7 @@ const destinations: {
     flag: "🇩🇪",
     tag: "Entrepreneuriat & innovation",
     gradient: "linear-gradient(170deg,rgba(60,20,10,0.42),rgba(120,50,20,0.28))",
-    img: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=800&q=80",
+    img: "/Assets/groups/berlin-main.jpg",
   },
   {
     city: "New York",
@@ -72,7 +72,7 @@ const destinations: {
     flag: "🇺🇸",
     tag: "Business & culture",
     gradient: "linear-gradient(170deg,rgba(10,18,40,0.42),rgba(20,38,80,0.28))",
-    img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800&q=80",
+    img: "/Assets/groups/newyork-group.jpg",
   },
   {
     city: "Rome",
@@ -80,7 +80,7 @@ const destinations: {
     flag: "🇮🇹",
     tag: "Culture & économie italienne",
     gradient: "linear-gradient(170deg,rgba(90,35,8,0.42),rgba(160,70,18,0.28))",
-    img: "/Assets/destinations/Rome.jpg",
+    img: "/Assets/groups/rome-square.jpg",
   },
   {
     city: "Miami",

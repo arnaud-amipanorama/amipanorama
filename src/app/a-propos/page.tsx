@@ -142,7 +142,7 @@ export default function AProposPage() {
 
       {/* The gap we bridge — moved up to establish context first */}
       <section style={{ padding: "72px 24px 0" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 32 }}>
             <div className="section-label">Ce que nous cherchons à corriger</div>
           </div>
@@ -198,7 +198,7 @@ export default function AProposPage() {
 
       {/* Company story — rewritten around company history, not founder biographies */}
       <section style={{ padding: "72px 24px 0" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div className="section-label">Notre histoire</div>
           <div style={{
             display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64,
@@ -262,7 +262,7 @@ export default function AProposPage() {
 
       {/* Real photo */}
       <section style={{ padding: "56px 24px 56px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
             position: "relative", borderRadius: 20, overflow: "hidden",
             height: "clamp(280px, 38vw, 480px)",
@@ -295,7 +295,7 @@ export default function AProposPage() {
 
       {/* Values */}
       <section style={{ padding: "0 24px 72px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 56 }}>
             <div className="section-label">Nos engagements</div>
             <h2 style={{
@@ -333,7 +333,7 @@ export default function AProposPage() {
 
       {/* Founders — compact, secondary layer */}
       <section style={{ padding: "0 24px 72px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div className="section-label">Les fondateurs</div>
           <div style={{
             background: "var(--bg-1)", border: "1px solid var(--border)",
@@ -364,7 +364,7 @@ export default function AProposPage() {
 
       {/* Testimonial */}
       <section style={{ padding: "0 24px 72px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
             background: "var(--navy)", borderRadius: 20,
             padding: "60px 56px", position: "relative", overflow: "hidden",
@@ -418,7 +418,7 @@ export default function AProposPage() {
 
       {/* CTA */}
       <section style={{ padding: "0 24px 96px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{
             background: "var(--bg-1)", border: "1px solid var(--border)",
             borderRadius: 20, padding: "64px 48px", textAlign: "center",

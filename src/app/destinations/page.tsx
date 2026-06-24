@@ -218,12 +218,12 @@ export default function DestinationsPage() {
         position: "relative", paddingTop: 160, paddingBottom: 80,
         background: "var(--navy)", overflow: "hidden",
       }}>
-        {/* Background photo */}
+        {/* Background photo — vraie photo de groupe (cohérence visuelle) */}
         <div style={{
           position: "absolute", inset: 0,
-          backgroundImage: "url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80')",
+          backgroundImage: "url('/Assets/groups/montreal-sunset.jpg')",
           backgroundSize: "cover", backgroundPosition: "center",
-          opacity: 0.18,
+          opacity: 0.20,
         }} />
         {/* Gradient overlay */}
         <div style={{
