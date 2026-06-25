@@ -118,7 +118,7 @@ export default function Navbar() {
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </Link>
                 <div className="nav-foot-meta">
-                  <a href="mailto:contact@amipanorama.com">contact@amipanorama.com</a>
+                  <a href="mailto:info@amipanorama.com">info@amipanorama.com</a>
                   <span className="nav-foot-sep">Montréal · Séville · +8 destinations</span>
                 </div>
               </motion.div>

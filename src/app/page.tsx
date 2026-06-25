@@ -285,15 +285,13 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Cartes destinations en coverflow, posées sur une plateforme douce */}
-          <div className="anim-fade-up-4" style={{ position: "relative", marginTop: 32 }}>
+          {/* Cartes destinations en coverflow — profondeur par ombre diffuse, sans plateau géométrique */}
+          <div className="anim-fade-up-4" style={{ position: "relative", marginTop: 28 }}>
             <div aria-hidden="true" style={{
-              position: "absolute", left: "50%", bottom: -22, transform: "translateX(-50%)",
-              width: "min(960px, 98%)", height: 184, borderRadius: 30,
-              background: "linear-gradient(to top, rgba(255,255,255,0.66), rgba(255,255,255,0.18))",
-              boxShadow: "0 30px 80px rgba(11,24,41,0.10)",
-              backdropFilter: "blur(3px)", WebkitBackdropFilter: "blur(3px)",
-              pointerEvents: "none",
+              position: "absolute", left: "50%", bottom: 8, transform: "translateX(-50%)",
+              width: "min(860px, 94%)", height: 140,
+              background: "radial-gradient(58% 62% at 50% 64%, rgba(11,24,41,0.13) 0%, rgba(11,24,41,0.05) 44%, transparent 72%)",
+              filter: "blur(28px)", pointerEvents: "none",
             }} />
             <HeroGallery items={HERO_PHOTOS} />
           </div>
@@ -885,17 +883,19 @@ export default function HomePage() {
           0%, 100% { background-position: 0% 50%; }
           50%      { background-position: 100% 50%; }
         }
-        /* Respiration très lente du titre — origine haut-gauche (zéro décalage de layout) */
-        .hero-breath {
-          display: inline-block; transform-origin: left top; will-change: transform;
-          animation: heroBreath 8.5s ease-in-out infinite;
+        /* Respiration unifiée : tout le bloc texte (CTA inclus) bouge ENSEMBLE,
+           translation verticale quasi imperceptible — même philosophie que le fond et le carousel */
+        .hero-breath { display: inline-block; }
+        .hero-text-col {
+          animation: heroTextBreath 16s ease-in-out infinite;
+          will-change: transform;
         }
-        @keyframes heroBreath {
-          0%, 100% { transform: scale(1); }
-          50%      { transform: scale(1.012); }
+        @keyframes heroTextBreath {
+          0%, 100% { transform: translate3d(0, 0, 0); }
+          50%      { transform: translate3d(0, -4px, 0); }
         }
         @media (prefers-reduced-motion: reduce) {
-          .hero-breath, .hero-gradient-anim { animation: none !important; }
+          .hero-text-col, .hero-gradient-anim { animation: none !important; }
         }
         /* Voile de lisibilité du hero image */
         .hero-veil {

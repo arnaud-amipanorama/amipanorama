@@ -15,18 +15,24 @@ export default function HeroBackdrop({ image }: { image: string }) {
           background-size: cover; background-position: center center;
           transform-origin: center; will-change: transform;
           filter: saturate(1.06) contrast(1.03);
-          animation: hbDrift 28s ease-in-out infinite;
+          transform: scale(1.03);
+          animation: hbDrift 24s ease-in-out infinite;
         }
+        /* Dérive organique : scale léger + translations X/Y douces, jamais un simple zoom */
         @keyframes hbDrift {
-          0%, 100% { transform: scale(1.06) translate(0, 0); }
-          50%      { transform: scale(1.10) translate(-1.1%, -0.7%); }
+          0%   { transform: scale(1.03) translate3d(0px, 0px, 0); }
+          35%  { transform: scale(1.045) translate3d(-6px, -4px, 0); }
+          70%  { transform: scale(1.04) translate3d(5px, -7px, 0); }
+          100% { transform: scale(1.03) translate3d(0px, 0px, 0); }
         }
+        /* Voile gauche : grande toile beige chaude, très progressive — l'image
+           ne réapparaît que sur la droite, derrière/après le bloc texte */
         .hb-veil-left {
           position: absolute; inset: 0;
-          background: linear-gradient(96deg,
-            var(--bg) 0%, var(--bg) 8%,
-            rgba(248,246,241,0.82) 22%, rgba(248,246,241,0.44) 36%,
-            rgba(248,246,241,0.14) 47%, transparent 57%);
+          background: linear-gradient(93deg,
+            var(--bg) 0%, var(--bg) 28%,
+            rgba(248,246,241,0.94) 40%, rgba(248,246,241,0.68) 50%,
+            rgba(248,246,241,0.38) 60%, rgba(248,246,241,0.14) 70%, transparent 82%);
         }
         .hb-veil-bottom {
           position: absolute; left: 0; right: 0; bottom: 0; height: 28%;
@@ -40,7 +46,7 @@ export default function HeroBackdrop({ image }: { image: string }) {
           .hb-bg { animation: none; transform: scale(1.04); }
         }
         @media (prefers-reduced-motion: reduce) {
-          .hb-bg { animation: none; transform: scale(1.06); }
+          .hb-bg { animation: none; transform: scale(1.03); }
         }
       `}</style>
     </>
