@@ -23,7 +23,7 @@ const destinations: {
     tag: "Destination historique · Amérique du Nord",
     phare: true,
     gradient: "linear-gradient(170deg,rgba(8,28,60,0.42),rgba(20,52,140,0.28))",
-    img: "/Assets/groups/montreal-group.jpg",
+    img: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=800&q=80",
   },
   {
     city: "Séville",
@@ -32,7 +32,7 @@ const destinations: {
     tag: "Deuxième pilier · Culture & immersion",
     phare: true,
     gradient: "linear-gradient(170deg,rgba(100,30,10,0.42),rgba(180,80,20,0.28))",
-    img: "/Assets/groups/seville-garden.jpg",
+    img: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
   },
   {
     city: "Londres",
@@ -40,7 +40,7 @@ const destinations: {
     flag: "🇬🇧",
     tag: "Business English",
     gradient: "linear-gradient(170deg,rgba(10,20,44,0.42),rgba(24,44,88,0.28))",
-    img: "/Assets/groups/london-bridge.jpg",
+    img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80",
   },
   {
     city: "Malte",
@@ -48,7 +48,7 @@ const destinations: {
     flag: "🇲🇹",
     tag: "English immersion",
     gradient: "linear-gradient(170deg,rgba(8,28,70,0.42),rgba(18,50,130,0.28))",
-    img: "/Assets/groups/malta-main.jpg",
+    img: "/Assets/destinations/Malte Destination.png",
   },
   {
     city: "Maroc",
@@ -64,7 +64,7 @@ const destinations: {
     flag: "🇩🇪",
     tag: "Entrepreneuriat & innovation",
     gradient: "linear-gradient(170deg,rgba(60,20,10,0.42),rgba(120,50,20,0.28))",
-    img: "/Assets/groups/berlin-main.jpg",
+    img: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=800&q=80",
   },
   {
     city: "New York",
@@ -72,7 +72,7 @@ const destinations: {
     flag: "🇺🇸",
     tag: "Business & culture",
     gradient: "linear-gradient(170deg,rgba(10,18,40,0.42),rgba(20,38,80,0.28))",
-    img: "/Assets/groups/newyork-group.jpg",
+    img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800&q=80",
   },
   {
     city: "Rome",
@@ -80,7 +80,7 @@ const destinations: {
     flag: "🇮🇹",
     tag: "Culture & économie italienne",
     gradient: "linear-gradient(170deg,rgba(90,35,8,0.42),rgba(160,70,18,0.28))",
-    img: "/Assets/groups/rome-square.jpg",
+    img: "/Assets/destinations/Rome.jpg",
   },
   {
     city: "Miami",
@@ -281,7 +281,10 @@ export default function HomePage() {
                 Réserver un échange
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </Link>
-              <Link href="/destinations" className="btn-ghost">Découvrir les destinations</Link>
+              <Link href="/destinations" className="btn-ghost">
+                Découvrir les destinations
+                <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </Link>
             </div>
           </div>
 
@@ -887,12 +890,12 @@ export default function HomePage() {
            translation verticale quasi imperceptible — même philosophie que le fond et le carousel */
         .hero-breath { display: inline-block; }
         .hero-text-col {
-          animation: heroTextBreath 16s ease-in-out infinite;
-          will-change: transform;
+          animation: heroTextBreath 7s ease-in-out infinite;
+          will-change: transform, opacity;
         }
         @keyframes heroTextBreath {
-          0%, 100% { transform: translate3d(0, 0, 0); }
-          50%      { transform: translate3d(0, -4px, 0); }
+          0%, 100% { transform: translate3d(0, 0, 0); opacity: 1; }
+          50%      { transform: translate3d(0, -3px, 0); opacity: 0.985; }
         }
         @media (prefers-reduced-motion: reduce) {
           .hero-text-col, .hero-gradient-anim { animation: none !important; }

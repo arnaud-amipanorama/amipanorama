@@ -28,7 +28,7 @@ const EXTRA: Record<string, { facts: string[]; gallery: string[] }> = {
       "Plus grande métropole francophone d'Amérique du Nord.",
       "L'une des plus fortes densités étudiantes du continent.",
     ],
-    gallery: ["/Assets/groups/montreal-sunset.jpg", "/Assets/groups/montreal-night.jpg", "/Assets/groups/montreal-sign.jpg"],
+    gallery: ["/Assets/groups/montreal-group.jpg", "/Assets/groups/montreal-diner.jpg", "/Assets/groups/montreal-diploma.jpg", "/Assets/groups/montreal-night.jpg"],
   },
   "Séville": {
     facts: [
@@ -36,7 +36,7 @@ const EXTRA: Record<string, { facts: string[]; gallery: string[] }> = {
       "Capitale de l'Andalousie, économie tournée vers les services et le tourisme.",
       "Patrimoine mondial UNESCO : cathédrale, Alcázar, Giralda.",
     ],
-    gallery: ["/Assets/groups/seville-park.jpg", "/Assets/groups/seville-diplomas.jpg"],
+    gallery: ["/Assets/groups/seville-group.jpg", "/Assets/groups/seville-garden.jpg", "/Assets/groups/seville-boat.jpg", "/Assets/groups/seville-diplomas.jpg"],
   },
   "Londres": {
     facts: [
@@ -44,7 +44,7 @@ const EXTRA: Record<string, { facts: string[]; gallery: string[] }> = {
       "L'un des premiers centres financiers et d'affaires de la planète.",
       "Densité unique d'entreprises et d'institutions internationales.",
     ],
-    gallery: [],
+    gallery: ["/Assets/groups/london-group.jpg", "/Assets/groups/london-museum.jpg", "/Assets/groups/london-bridge.jpg"],
   },
   "Malte": {
     facts: [
@@ -52,7 +52,7 @@ const EXTRA: Record<string, { facts: string[]; gallery: string[] }> = {
       "Immersion linguistique dans un cadre méditerranéen accessible.",
       "La Valette, capitale classée au patrimoine mondial UNESCO.",
     ],
-    gallery: [],
+    gallery: ["/Assets/groups/malta-group.jpg", "/Assets/groups/malta-students.jpg", "/Assets/groups/malta-main.jpg"],
   },
   "Maroc": {
     facts: [
@@ -68,7 +68,7 @@ const EXTRA: Record<string, { facts: string[]; gallery: string[] }> = {
       "Écosystème d'innovation ouvert et non conventionnel.",
       "Forte densité d'entreprises créatives et technologiques.",
     ],
-    gallery: [],
+    gallery: ["/Assets/groups/berlin-main.jpg"],
   },
   "New York": {
     facts: [
@@ -76,7 +76,7 @@ const EXTRA: Record<string, { facts: string[]; gallery: string[] }> = {
       "Centre mondial de la finance, du commerce et de la création.",
       "Business English de haut niveau, en contexte réel.",
     ],
-    gallery: ["/Assets/groups/newyork-dumbo.jpg", "/Assets/groups/newyork-bridge.jpg"],
+    gallery: ["/Assets/groups/newyork-group.jpg", "/Assets/groups/newyork-students.jpg", "/Assets/groups/newyork-dumbo.jpg", "/Assets/groups/newyork-bridge.jpg"],
   },
   "Rome": {
     facts: [
@@ -84,7 +84,7 @@ const EXTRA: Record<string, { facts: string[]; gallery: string[] }> = {
       "Patrimoine exceptionnel : Colisée, Forum romain, Vatican.",
       "Carrefour historique de l'Europe méditerranéenne.",
     ],
-    gallery: [],
+    gallery: ["/Assets/groups/rome-group.jpg", "/Assets/groups/rome-diploma.jpg", "/Assets/groups/rome-square.jpg"],
   },
   "Miami": {
     facts: [
@@ -119,7 +119,10 @@ export default function DestinationExplorer({ destinations }: { destinations: De
 
   const open = (d: Dest) => { setActive(d); setImgIdx(0); };
 
-  const gallery = active ? (EXTRA[active.city]?.gallery?.length ? EXTRA[active.city].gallery : [active.photo]) : [];
+  const hasGroup = !!(active && EXTRA[active.city]?.gallery?.length);
+  // Détail = preuve terrain : on montre les vraies photos de groupe si elles existent,
+  // sinon on retombe sur le visuel ville de la carte.
+  const gallery = active ? (hasGroup ? EXTRA[active.city].gallery : [active.photo]) : [];
   const facts = active ? EXTRA[active.city]?.facts ?? [] : [];
 
   return (
@@ -246,6 +249,9 @@ export default function DestinationExplorer({ destinations }: { destinations: De
                 </div>
                 {active.phare && (
                   <div style={{ position: "absolute", top: 16, left: 18, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff", background: "rgba(232,88,53,0.92)", borderRadius: 100, padding: "4px 12px" }}>Destination phare</div>
+                )}
+                {hasGroup && (
+                  <div style={{ position: "absolute", bottom: 18, right: 18, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)", background: "rgba(11,24,41,0.42)", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 100, padding: "5px 12px", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)" }}>Photos du groupe</div>
                 )}
               </div>
 
