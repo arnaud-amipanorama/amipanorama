@@ -876,7 +876,8 @@ export default function HomePage() {
             background: linear-gradient(to bottom,
               var(--bg) 0%, rgba(248,246,241,0.72) 28%, rgba(248,246,241,0.08) 58%, transparent 78%);
           }
-          .hero-inner { min-height: 0 !important; padding-top: 104px !important; }
+          /* texte sous la bande photo mobile (38vh dans HeroBackdrop) → lisibilité garantie */
+          .hero-inner { min-height: 0 !important; padding-top: calc(38vh + 24px) !important; }
         }
         .hero-gradient-anim {
           background-size: 220% 220% !important;

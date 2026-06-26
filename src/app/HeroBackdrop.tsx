@@ -1,59 +1,44 @@
 "use client";
 
-// Fond du hero : image full-bleed + voiles + dérive d'ambiance très lente.
-// Pas de parallax souris (volontairement) — la vie passe par la typographie.
-// L'image est passée en prop pour rester facile à remplacer (cf. heroConfig.ts).
+// Fond du hero — direction éditoriale.
+// L'image n'est plus un fond plein : c'est une PHOTOGRAPHIE placée en haut à droite,
+// qui se dissout très progressivement dans le blanc (mask radial diffus) et s'arrête
+// visuellement au niveau du carousel. Beaucoup de respiration, image non dominante.
+// Image passée en prop (cf. heroConfig.ts). Mobile : bande haute dédiée.
 export default function HeroBackdrop({ image }: { image: string }) {
   return (
     <>
       <div aria-hidden="true" className="hb-bg" style={{ backgroundImage: `url('${image}')` }} />
-      <div aria-hidden="true" className="hb-wash" />
-      <div aria-hidden="true" className="hb-veil-left" />
-      <div aria-hidden="true" className="hb-veil-bottom" />
       <style>{`
         .hb-bg {
-          position: absolute; inset: 0;
-          background-size: cover; background-position: 76% center;
-          transform-origin: center; will-change: transform;
-          filter: saturate(1.04) brightness(1.03);
-          transform: scale(1.03);
-          animation: hbDrift 24s ease-in-out infinite;
+          position: absolute; top: 0; right: 0;
+          width: 58%; height: 64%;
+          background-size: cover;
+          background-position: 62% 16%;   /* remonte la Giralda + plus de ciel */
+          transform-origin: 75% 25%; will-change: transform;
+          filter: saturate(1.03) brightness(1.04);
+          /* fondu TRÈS diffus : opaque en haut à droite, dissous vers le bas/gauche → "sort du blanc" */
+          -webkit-mask-image: radial-gradient(125% 135% at 100% 4%, #000 24%, rgba(0,0,0,0.5) 50%, transparent 76%);
+          mask-image: radial-gradient(125% 135% at 100% 4%, #000 24%, rgba(0,0,0,0.5) 50%, transparent 76%);
+          animation: hbDrift 26s ease-in-out infinite;
         }
-        /* Wash crème global très léger : adoucit l'image et la rend moins dominante */
-        .hb-wash {
-          position: absolute; inset: 0; pointer-events: none;
-          background: rgba(248,246,241,0.12);
-        }
-        /* Dérive organique : scale léger + translations X/Y douces, jamais un simple zoom */
+        /* dérive extrêmement légère */
         @keyframes hbDrift {
-          0%   { transform: scale(1.03) translate3d(0px, 0px, 0); }
-          35%  { transform: scale(1.045) translate3d(-6px, -4px, 0); }
-          70%  { transform: scale(1.04) translate3d(5px, -7px, 0); }
-          100% { transform: scale(1.03) translate3d(0px, 0px, 0); }
+          0%, 100% { transform: scale(1.04) translate3d(0, 0, 0); }
+          50%      { transform: scale(1.06) translate3d(-7px, 4px, 0); }
         }
-        /* Voile gauche : grande toile beige chaude, très progressive — l'image
-           ne réapparaît que sur la droite, derrière/après le bloc texte */
-        .hb-veil-left {
-          position: absolute; inset: 0;
-          background: linear-gradient(93deg,
-            var(--bg) 0%, var(--bg) 32%,
-            rgba(248,246,241,0.96) 44%, rgba(248,246,241,0.74) 54%,
-            rgba(248,246,241,0.44) 64%, rgba(248,246,241,0.18) 74%,
-            rgba(248,246,241,0.06) 82%, transparent 92%);
-        }
-        .hb-veil-bottom {
-          position: absolute; left: 0; right: 0; bottom: 0; height: 28%;
-          background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
-        }
+        /* ── Mobile : bande photographique en haut, dissoute vers le blanc ── */
         @media (max-width: 760px) {
-          .hb-veil-left {
-            background: linear-gradient(to bottom,
-              var(--bg) 0%, rgba(248,246,241,0.66) 26%, rgba(248,246,241,0.06) 56%, transparent 76%);
+          .hb-bg {
+            top: 0; left: 0; right: 0; width: auto; height: 38vh;
+            background-position: 50% 14%;
+            -webkit-mask-image: linear-gradient(to bottom, #000 34%, rgba(0,0,0,0.42) 62%, transparent 90%);
+            mask-image: linear-gradient(to bottom, #000 34%, rgba(0,0,0,0.42) 62%, transparent 90%);
+            animation: none; transform: scale(1.02);
           }
-          .hb-bg { animation: none; transform: scale(1.04); }
         }
         @media (prefers-reduced-motion: reduce) {
-          .hb-bg { animation: none; transform: scale(1.03); }
+          .hb-bg { animation: none; transform: scale(1.04); }
         }
       `}</style>
     </>

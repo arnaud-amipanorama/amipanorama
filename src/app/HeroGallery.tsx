@@ -3,66 +3,57 @@ import { useEffect, useRef } from "react";
 
 export type GalleryItem = { src: string; city: string; flag: string };
 
-// ── Paramètres centralisés (durée, amplitude, easing) ──────────────────────
-const STEP_DESKTOP = 236;    // px entre deux cartes
-const STEP_MOBILE = 168;
-const STEP_MS_DESKTOP = 2600; // temps pour qu'une carte cède le centre à la suivante
-const STEP_MS_MOBILE = 3400;  // plus lent sur mobile
-const HOVER_SLOW = 0.12;      // au survol : ralentit fortement (ne fige jamais)
+// ── Paramètres centralisés (durée, amplitude, physique) ────────────────────
+const STEP_DESKTOP = 240;     // px entre deux cartes
+const STEP_MOBILE = 172;
+const SPEED_DESKTOP = 0.40;   // "pas" par seconde au point le plus rapide
+const SPEED_MOBILE = 0.30;    // plus lent sur mobile
+const SLOW = 0.16;            // vitesse minimale au centre (≠ 0 → ne s'arrête JAMAIS)
+const HOVER_SLOW = 0.18;      // au survol : ralentit encore, sans figer
 
-// easeInOutCubic → mouvement lent quand une carte est au centre, rapide entre deux
-const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 
 export default function HeroGallery({ items }: { items: GalleryItem[] }) {
   const n = items.length;
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const capRefs = useRef<(HTMLSpanElement | null)[]>([]);
-  const phase = useRef(0);          // position continue (en "pas")
-  const targetSpeed = useRef(1);    // 1 = normal, HOVER_SLOW au survol
-  const curSpeed = useRef(1);
+  const phase = useRef(0);         // position continue (en "pas"), jamais figée
+  const targetHover = useRef(1);   // 1 normal, HOVER_SLOW au survol
+  const curHover = useRef(1);
 
   useEffect(() => {
     if (n === 0) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     let step = STEP_DESKTOP;
-    let stepMs = STEP_MS_DESKTOP;
+    let speed = SPEED_DESKTOP;
     const setMetrics = () => {
       const m = window.innerWidth <= 640;
       step = m ? STEP_MOBILE : STEP_DESKTOP;
-      stepMs = m ? STEP_MS_MOBILE : STEP_MS_DESKTOP;
+      speed = m ? SPEED_MOBILE : SPEED_DESKTOP;
     };
     setMetrics();
     window.addEventListener("resize", setMetrics, { passive: true });
 
-    // Positionne chaque carte selon sa distance (flottante) au centre
+    // Place chaque carte selon sa distance circulaire au centre flottant.
+    // Hiérarchie GAUSSIENNE : tout (scale/opacity/blur/lumière) évolue en continu,
+    // changement quasi imperceptible — pas d'effet "coverflow".
     const render = () => {
-      const p = phase.current;
-      const fl = Math.floor(p);
-      const center = fl + easeInOut(p - fl); // ralentit près des positions entières
+      const center = phase.current;
       for (let i = 0; i < n; i++) {
         const el = cardRefs.current[i];
         if (!el) continue;
         let d = i - center;
         d = ((d % n) + n) % n;
-        if (d > n / 2) d -= n;       // distance circulaire signée → boucle infinie
+        if (d > n / 2) d -= n;
         const ad = Math.abs(d);
+        const g = Math.exp(-0.55 * ad * ad); // cloche douce centrée
 
-        // échelle / opacité / flou continus (hiérarchie : centre net & grand)
-        let scale: number;
-        if (ad <= 1) scale = 1.16 - 0.34 * ad;
-        else if (ad <= 2) scale = 0.82 - 0.16 * (ad - 1);
-        else scale = Math.max(0.5, 0.66 - 0.16 * (ad - 2));
-
-        let opacity: number;
-        if (ad <= 1) opacity = 1 - 0.08 * ad;
-        else if (ad <= 2) opacity = 0.92 - 0.42 * (ad - 1);
-        else opacity = clamp(0.5 - 0.5 * (ad - 2), 0, 0.5);
-
-        const blur = ad > 1.5 ? clamp((ad - 1.5) * 1.6, 0, 2.4) : 0;
-        const bri = 1.06 - clamp(ad, 0, 1) * 0.16;
-        const sat = 1.05 - clamp(ad, 0, 1) * 0.1;
+        const scale = 0.70 + 0.42 * g;                  // centre ≈1.12 → décroît en douceur
+        const opacity = clamp(Math.exp(-0.32 * ad * ad), 0, 1);
+        const blur = clamp((ad - 0.8) * 0.85, 0, 3);
+        const bri = 0.88 + 0.16 * g;
+        const sat = 0.93 + 0.09 * g;
 
         el.style.transform = `translate3d(calc(-50% + ${(d * step).toFixed(2)}px), -50%, 0) scale(${scale.toFixed(3)})`;
         el.style.opacity = opacity.toFixed(3);
@@ -87,10 +78,17 @@ export default function HeroGallery({ items }: { items: GalleryItem[] }) {
       if (last == null) last = ts;
       let dt = (ts - last) / 1000;
       last = ts;
-      if (dt > 0.05) dt = 0.05; // évite un saut si l'onglet a été inactif
-      curSpeed.current += (targetSpeed.current - curSpeed.current) * Math.min(1, dt * 4);
-      phase.current += dt * (1000 / stepMs) * curSpeed.current;
-      if (phase.current >= n) phase.current -= n; // wrap (anti-dérive float)
+      if (dt > 0.05) dt = 0.05; // onglet inactif → pas de saut
+
+      // Vitesse modulée : minimale (SLOW) quand une carte est au centre, maximale entre deux.
+      // sin(π·frac) ne s'annule qu'aux centres, mais on garde un plancher SLOW → glisse toujours.
+      const frac = phase.current - Math.floor(phase.current);
+      const vFactor = SLOW + (1 - SLOW) * Math.sin(Math.PI * frac);
+
+      curHover.current += (targetHover.current - curHover.current) * Math.min(1, dt * 3);
+      phase.current += dt * speed * vFactor * curHover.current;
+      if (phase.current >= n) phase.current -= n;
+
       render();
       raf = requestAnimationFrame(loop);
     };
@@ -104,8 +102,8 @@ export default function HeroGallery({ items }: { items: GalleryItem[] }) {
   return (
     <div
       className="hg"
-      onMouseEnter={() => { targetSpeed.current = HOVER_SLOW; }}
-      onMouseLeave={() => { targetSpeed.current = 1; }}
+      onMouseEnter={() => { targetHover.current = HOVER_SLOW; }}
+      onMouseLeave={() => { targetHover.current = 1; }}
     >
       <div className="hg-stage">
         {items.map((it, i) => (
@@ -131,9 +129,8 @@ export default function HeroGallery({ items }: { items: GalleryItem[] }) {
           width: 300px; height: 210px;
           border-radius: 18px; background-size: cover; background-position: center;
           transform-origin: center;
-          /* ombre diffuse + fine lumière sur les bords */
           box-shadow:
-            0 24px 50px -22px rgba(11,24,41,0.42),
+            0 24px 50px -22px rgba(11,24,41,0.40),
             0 6px 16px rgba(11,24,41,0.10),
             inset 0 1px 0 rgba(255,255,255,0.20),
             inset 0 0 0 1px rgba(255,255,255,0.06);
@@ -150,8 +147,8 @@ export default function HeroGallery({ items }: { items: GalleryItem[] }) {
           color: #fff; text-shadow: 0 1px 12px rgba(0,0,0,0.5);
         }
         @media (max-width: 640px) {
-          .hg { height: 268px; }
-          .hg-card { width: 232px; height: 164px; }
+          .hg { height: 250px; }
+          .hg-card { width: 236px; height: 166px; }
         }
       `}</style>
     </div>
