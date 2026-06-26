@@ -7,16 +7,22 @@ export default function HeroBackdrop({ image }: { image: string }) {
   return (
     <>
       <div aria-hidden="true" className="hb-bg" style={{ backgroundImage: `url('${image}')` }} />
+      <div aria-hidden="true" className="hb-wash" />
       <div aria-hidden="true" className="hb-veil-left" />
       <div aria-hidden="true" className="hb-veil-bottom" />
       <style>{`
         .hb-bg {
           position: absolute; inset: 0;
-          background-size: cover; background-position: center center;
+          background-size: cover; background-position: 76% center;
           transform-origin: center; will-change: transform;
-          filter: saturate(1.06) contrast(1.03);
+          filter: saturate(1.04) brightness(1.03);
           transform: scale(1.03);
           animation: hbDrift 24s ease-in-out infinite;
+        }
+        /* Wash crème global très léger : adoucit l'image et la rend moins dominante */
+        .hb-wash {
+          position: absolute; inset: 0; pointer-events: none;
+          background: rgba(248,246,241,0.12);
         }
         /* Dérive organique : scale léger + translations X/Y douces, jamais un simple zoom */
         @keyframes hbDrift {
@@ -30,9 +36,10 @@ export default function HeroBackdrop({ image }: { image: string }) {
         .hb-veil-left {
           position: absolute; inset: 0;
           background: linear-gradient(93deg,
-            var(--bg) 0%, var(--bg) 28%,
-            rgba(248,246,241,0.94) 40%, rgba(248,246,241,0.68) 50%,
-            rgba(248,246,241,0.38) 60%, rgba(248,246,241,0.14) 70%, transparent 82%);
+            var(--bg) 0%, var(--bg) 32%,
+            rgba(248,246,241,0.96) 44%, rgba(248,246,241,0.74) 54%,
+            rgba(248,246,241,0.44) 64%, rgba(248,246,241,0.18) 74%,
+            rgba(248,246,241,0.06) 82%, transparent 92%);
         }
         .hb-veil-bottom {
           position: absolute; left: 0; right: 0; bottom: 0; height: 28%;
