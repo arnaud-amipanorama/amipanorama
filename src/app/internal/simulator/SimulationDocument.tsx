@@ -1,4 +1,4 @@
-import { Document, Page, View, Text, StyleSheet, Svg, Path } from "@react-pdf/renderer";
+import { Document, Page, View, Text, Image, StyleSheet } from "@react-pdf/renderer";
 
 export type ConfidenceLevel = "high" | "medium" | "low";
 
@@ -49,10 +49,11 @@ function eur(n: number): string {
 }
 
 const s = StyleSheet.create({
-  page: { fontFamily: "Helvetica", fontSize: 10, color: C.ink, paddingTop: 50, paddingBottom: 60, paddingHorizontal: 50, lineHeight: 1.5 },
+  page: { fontFamily: "Helvetica", fontSize: 10, color: C.ink, paddingTop: 44, paddingBottom: 60, paddingHorizontal: 50, lineHeight: 1.5 },
   cover: { fontFamily: "Helvetica", color: "#FFFFFF", backgroundColor: C.ink, paddingVertical: 54, paddingHorizontal: 50, height: "100%", justifyContent: "space-between" },
-  wordmark: { fontSize: 15, fontFamily: "Helvetica-Bold", letterSpacing: 3 },
-  bar: { width: 38, height: 3, backgroundColor: C.orange, marginTop: 10 },
+  coverLogo: { width: 168, height: 82, objectFit: "contain" },
+  hdrLogo: { width: 96, height: 47, objectFit: "contain", marginBottom: 18 },
+  bar: { width: 38, height: 3, backgroundColor: C.orange, marginTop: 14 },
   coverTitle: { fontSize: 28, fontFamily: "Helvetica-Bold", letterSpacing: -1, lineHeight: 1.18 },
   coverSub: { fontSize: 11, color: "#A2A8B4", marginTop: 12 },
   discBox: { borderWidth: 1, borderColor: "rgba(255,255,255,0.22)", borderRadius: 8, padding: 16, marginTop: 22 },
@@ -83,6 +84,16 @@ const s = StyleSheet.create({
   legalP: { fontSize: 10, color: "#3A3A40", marginBottom: 10, lineHeight: 1.65 },
   bullet: { flexDirection: "row", marginBottom: 7 },
   badge: { alignSelf: "flex-start", fontSize: 8.5, letterSpacing: 1.5, color: C.orange, borderWidth: 1, borderColor: C.orange, borderRadius: 4, paddingVertical: 4, paddingHorizontal: 9 },
+  // Page pédagogique
+  infoCard: { borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 16, marginBottom: 12 },
+  infoHead: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
+  infoTitle: { fontSize: 11.5, fontFamily: "Helvetica-Bold", color: C.ink },
+  infoBody: { fontSize: 9.5, color: "#3A3A40", lineHeight: 1.62 },
+  infoStrong: { fontFamily: "Helvetica-Bold", color: C.ink },
+  // Barres de composition (remplace l'ancien donut)
+  compRow: { marginBottom: 14 },
+  compTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 6 },
+  compTrack: { height: 10, backgroundColor: C.soft, borderRadius: 3 },
 });
 
 function Footer({ p }: { p: string }) {
@@ -94,41 +105,21 @@ function Footer({ p }: { p: string }) {
   );
 }
 
-function polar(cx: number, cy: number, r: number, deg: number) {
-  const a = ((deg - 90) * Math.PI) / 180;
-  return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
-}
-function arc(cx: number, cy: number, r: number, start: number, end: number) {
-  const e = polar(cx, cy, r, end);
-  const st = polar(cx, cy, r, start);
-  const large = end - start <= 180 ? 0 : 1;
-  return `M ${st.x.toFixed(2)} ${st.y.toFixed(2)} A ${r} ${r} 0 ${large} 0 ${e.x.toFixed(2)} ${e.y.toFixed(2)}`;
-}
-function Donut({ segments }: { segments: { value: number; color: string }[] }) {
-  const total = Math.max(segments.reduce((a, b) => a + Math.max(0, b.value), 0), 1);
-  let acc = 0;
-  return (
-    <Svg width={132} height={132} viewBox="0 0 160 160">
-      <Path d={arc(80, 80, 60, 0.01, 359.99)} stroke={C.soft} strokeWidth={22} fill="none" />
-      {segments.map((seg, i) => {
-        const a0 = (acc / total) * 360;
-        acc += Math.max(0, seg.value);
-        const a1 = (acc / total) * 360;
-        if (a1 - a0 < 0.6) return null;
-        return <Path key={i} d={arc(80, 80, 60, a0, Math.min(a1, 359.9))} stroke={seg.color} strokeWidth={22} fill="none" />;
-      })}
-    </Svg>
-  );
-}
-
 export function SimulationDocument({ data }: { data: SimulationData }) {
   const { meta, kpis, opco } = data;
+
+  // URLs absolues même origine (robuste pour @react-pdf en navigateur)
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const LOGO_WHITE = `${origin}/Assets/Brand/ami-logo-white.png`;
+  const LOGO_BLACK = `${origin}/Assets/Brand/ami-logo-black.png`;
+
   const racFinalTotal = Math.max(0, kpis.coutBrut - kpis.financementsMobilisables);
   const comp = [
     { label: "Financements apprentis", value: kpis.apprentiTotal, color: C.blue },
     { label: "Réinjectés afin de réduire le reste à charge", value: kpis.reinjected, color: C.green },
     { label: "Reste à charge étudiant", value: racFinalTotal, color: C.orange },
   ];
+  const compTotal = Math.max(comp.reduce((a, b) => a + Math.max(0, b.value), 0), 1);
   const wfMax = Math.max(kpis.coutBrut, 1);
   const wf = [
     { label: "Coût brut", value: kpis.coutBrut, color: "#C9CCD3", final: false },
@@ -142,7 +133,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
       {/* PAGE 1 — COUVERTURE */}
       <Page size="A4" style={s.cover}>
         <View>
-          <Text style={s.wordmark}>AMI PANORAMA</Text>
+          <Image src={LOGO_WHITE} style={s.coverLogo} />
           <View style={s.bar} />
         </View>
         <View>
@@ -167,6 +158,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
 
       {/* PAGE 2 — RÉSUMÉ EXÉCUTIF */}
       <Page size="A4" style={s.page}>
+        <Image src={LOGO_BLACK} style={s.hdrLogo} />
         <Text style={s.eyebrow}>Résumé exécutif</Text>
         <Text style={s.h2}>L&apos;essentiel en un coup d&apos;œil</Text>
         <View style={s.kpiGrid}>
@@ -182,7 +174,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
           </View></View>
           <View style={s.kpiCard}><View style={s.kpiInner}>
             <Text style={s.kpiLabel}>{kpis.montantConserve >= 0 ? "Montant conservé par l'établissement" : "Reste à charge établissement"}</Text>
-            <Text style={[s.kpiValue, { color: kpis.montantConserve >= 0 ? C.ink : C.orange }]}>{kpis.montantConserve >= 0 ? eur(kpis.montantConserve) : eur(kpis.montantConserve)}</Text>
+            <Text style={[s.kpiValue, { color: kpis.montantConserve >= 0 ? C.ink : C.orange }]}>{eur(kpis.montantConserve)}</Text>
             <Text style={s.kpiSub}>financements référent conservés</Text>
           </View></View>
           <View style={s.kpiCard}><View style={s.kpiInner}>
@@ -203,24 +195,74 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Footer p="02" />
       </Page>
 
-      {/* PAGE 3 — ANALYSE FINANCIÈRE */}
+      {/* PAGE 3 — COMPRENDRE LA MOBILITÉ ET SES FINANCEMENTS */}
       <Page size="A4" style={s.page}>
-        <Text style={s.eyebrow}>Analyse financière</Text>
-        <Text style={s.h2}>Décomposition du coût</Text>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Donut segments={comp} />
-          <View style={{ flex: 1, paddingLeft: 28 }}>
-            {comp.map((c) => (
-              <View key={c.label} style={s.legendRow}>
-                <View style={[s.sw, { backgroundColor: c.color }]} />
-                <Text style={{ flex: 1, color: C.gray, fontSize: 9.5 }}>{c.label}</Text>
-                <Text style={{ fontFamily: "Helvetica-Bold" }}>{eur(c.value)}</Text>
-              </View>
-            ))}
+        <Image src={LOGO_BLACK} style={s.hdrLogo} />
+        <Text style={s.eyebrow}>Comprendre</Text>
+        <Text style={s.h2}>La mobilité et ses financements</Text>
+        <Text style={s.intro}>
+          La mobilité internationale des apprenti·e·s peut être largement financée par des dispositifs dédiés, versés par les OPCO. Deux leviers principaux sont mobilisés dans cette simulation.
+        </Text>
+
+        <View style={s.infoCard}>
+          <View style={s.infoHead}>
+            <View style={[s.sw, { backgroundColor: C.green, width: 10, height: 10, borderRadius: 3 }]} />
+            <Text style={s.infoTitle}>Prise en charge du référent mobilité</Text>
           </View>
+          <Text style={s.infoBody}>
+            Montant alloué par l&apos;OPCO au CFA (Centre de Formation d&apos;Apprentis) pour accompagner la mise en œuvre des mobilités étudiantes. Cette aide finance les actions d&apos;organisation, de coordination et de suivi des mobilités (temps de travail du référent, gestion administrative, préparation des élèves, etc.). <Text style={s.infoStrong}>Important :</Text> cette somme doit obligatoirement être utilisée par l&apos;école pour des dépenses directement liées à la mobilité internationale, et peut notamment servir à réduire le reste à charge pour les élèves (aide au logement, transports, accompagnement, etc.).
+          </Text>
         </View>
 
-        <Text style={[s.eyebrow, { marginTop: 30 }]}>Du coût brut au reste à charge</Text>
+        <View style={s.infoCard}>
+          <View style={s.infoHead}>
+            <View style={[s.sw, { backgroundColor: C.blue, width: 10, height: 10, borderRadius: 3 }]} />
+            <Text style={s.infoTitle}>Prise en charge de l&apos;apprenti·e</Text>
+          </View>
+          <Text style={s.infoBody}>
+            Montant pris en charge directement par l&apos;OPCO pour chaque apprenti·e dans le cadre d&apos;une mobilité à l&apos;étranger. Cette aide peut couvrir tout ou partie des frais liés au transport, à l&apos;hébergement, à l&apos;assurance, ou encore à la restauration pendant la mobilité. Elle est généralement versée au CFA, qui la redistribue ou l&apos;utilise pour organiser la mobilité. <Text style={s.infoStrong}>Objectif :</Text> limiter les coûts restant à la charge de l&apos;apprenti·e et favoriser son départ à l&apos;international.
+          </Text>
+        </View>
+
+        <View style={s.infoCard}>
+          <View style={s.infoHead}>
+            <View style={[s.sw, { backgroundColor: C.orange, width: 10, height: 10, borderRadius: 3 }]} />
+            <Text style={s.infoTitle}>Réinjection et reste à charge</Text>
+          </View>
+          <Text style={s.infoBody}>
+            Dans cette simulation, une partie des financements « référent » peut être <Text style={s.infoStrong}>réinjectée</Text> pour réduire le reste à charge des élèves, conformément à l&apos;obligation d&apos;utiliser ces fonds au bénéfice de la mobilité. Le <Text style={s.infoStrong}>reste à charge moyen étudiant</Text> correspond au coût restant pour chaque participant·e une fois l&apos;ensemble des financements mobilisés.
+          </Text>
+        </View>
+
+        <Footer p="03" />
+      </Page>
+
+      {/* PAGE 4 — ANALYSE FINANCIÈRE (barres, sans pie chart) */}
+      <Page size="A4" style={s.page}>
+        <Image src={LOGO_BLACK} style={s.hdrLogo} />
+        <Text style={s.eyebrow}>Analyse financière</Text>
+        <Text style={s.h2}>Décomposition du coût</Text>
+        <View style={{ marginTop: 4 }}>
+          {comp.map((c) => {
+            const pct = Math.max(2, (Math.max(0, c.value) / compTotal) * 100);
+            return (
+              <View key={c.label} style={s.compRow}>
+                <View style={s.compTop}>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <View style={[s.sw, { backgroundColor: c.color }]} />
+                    <Text style={{ color: C.gray, fontSize: 9.5 }}>{c.label}</Text>
+                  </View>
+                  <Text style={{ fontFamily: "Helvetica-Bold" }}>{eur(c.value)}</Text>
+                </View>
+                <View style={s.compTrack}>
+                  <View style={{ width: `${pct}%`, height: 10, backgroundColor: c.color, borderRadius: 3 }} />
+                </View>
+              </View>
+            );
+          })}
+        </View>
+
+        <Text style={[s.eyebrow, { marginTop: 26 }]}>Du coût brut au reste à charge</Text>
         <View style={{ marginTop: 16 }}>
           {wf.map((w) => (
             <View key={w.label} style={s.wfRow}>
@@ -232,11 +274,12 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
             </View>
           ))}
         </View>
-        <Footer p="03" />
+        <Footer p="04" />
       </Page>
 
-      {/* PAGE 4 — DÉTAIL OPCO */}
+      {/* PAGE 5 — DÉTAIL OPCO */}
       <Page size="A4" style={s.page}>
+        <Image src={LOGO_BLACK} style={s.hdrLogo} />
         <Text style={s.eyebrow}>Détail par OPCO</Text>
         <Text style={s.h2}>Hypothèses de prise en charge</Text>
         <View style={{ flexDirection: "row", paddingBottom: 4 }}>
@@ -259,11 +302,12 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
           </View>
         ))}
         <Text style={{ fontSize: 8, color: C.light, marginTop: 14 }}>* Règle estimée selon les pratiques AMI Panorama, à confirmer selon l&apos;OPCO, la durée et les justificatifs.</Text>
-        <Footer p="04" />
+        <Footer p="05" />
       </Page>
 
-      {/* PAGE 5 — MÉTHODOLOGIE */}
+      {/* PAGE 6 — MÉTHODOLOGIE */}
       <Page size="A4" style={s.page}>
+        <Image src={LOGO_BLACK} style={s.hdrLogo} />
         <Text style={s.eyebrow}>Méthodologie</Text>
         <Text style={s.h2}>Méthodologie de calcul</Text>
         <Text style={s.intro}>Cette simulation repose sur :</Text>
@@ -279,11 +323,12 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
           </View>
         ))}
         <Text style={[s.legalP, { marginTop: 14 }]}>Les financements définitifs demeurent soumis à validation par les organismes compétents.</Text>
-        <Footer p="05" />
+        <Footer p="06" />
       </Page>
 
-      {/* PAGE 6 — MENTIONS */}
+      {/* PAGE 7 — MENTIONS */}
       <Page size="A4" style={s.page}>
+        <Image src={LOGO_BLACK} style={s.hdrLogo} />
         <Text style={s.eyebrow}>Mentions importantes</Text>
         <Text style={s.h2}>Confidentialité et limites de la simulation</Text>
         <Text style={s.legalP}>Cette simulation a été préparée exclusivement pour l&apos;établissement concerné. Elle est strictement confidentielle et ne peut être diffusée sans l&apos;accord préalable d&apos;AMI Panorama.</Text>
@@ -292,7 +337,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Text style={s.legalP}>AMI Panorama ne garantit aucun montant de financement et ne peut être tenu responsable d&apos;une décision prise uniquement sur la base de cette simulation.</Text>
         <Text style={s.legalP}>Chaque établissement demeure responsable de réaliser ses propres vérifications, analyses et démarches de validation avant toute décision.</Text>
         <View style={{ marginTop: 22 }}><Text style={s.badge}>CONFIDENTIEL</Text></View>
-        <Footer p="06" />
+        <Footer p="07" />
       </Page>
     </Document>
   );
