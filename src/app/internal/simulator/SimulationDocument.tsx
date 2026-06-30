@@ -67,10 +67,10 @@ const s = StyleSheet.create({
   intro: { fontSize: 10.5, color: C.gray, marginBottom: 18, lineHeight: 1.6 },
   kpiGrid: { flexDirection: "row", flexWrap: "wrap", marginHorizontal: -6 },
   kpiCard: { width: "50%", paddingHorizontal: 6, marginBottom: 12 },
-  kpiInner: { borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 16, height: 96 },
+  kpiInner: { borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 18, height: 116 },
   kpiLabel: { fontSize: 8.5, letterSpacing: 0.6, color: C.gray, textTransform: "uppercase" },
-  kpiValue: { fontSize: 23, fontFamily: "Helvetica-Bold", letterSpacing: -0.8, marginTop: 8 },
-  kpiSub: { fontSize: 8.5, color: C.light, marginTop: 5 },
+  kpiValue: { fontSize: 23, fontFamily: "Helvetica-Bold", letterSpacing: -0.8, marginTop: 10 },
+  kpiSub: { fontSize: 8.5, color: C.light, marginTop: 12 },
   confCard: { flexDirection: "row", alignItems: "center", borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 14, marginTop: 4 },
   dot: { width: 10, height: 10, borderRadius: 5, marginRight: 12 },
   legendRow: { flexDirection: "row", alignItems: "center", marginBottom: 7 },
@@ -333,6 +333,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Text style={s.h2}>Confidentialité et limites de la simulation</Text>
         <Text style={s.legalP}>Cette simulation a été préparée exclusivement pour l&apos;établissement concerné. Elle est strictement confidentielle et ne peut être diffusée sans l&apos;accord préalable d&apos;AMI Panorama.</Text>
         <Text style={s.legalP}>Les montants présentés constituent des estimations fondées sur les informations communiquées et sur les règles de financement connues à la date de génération du document. Les prises en charge définitives relèvent exclusivement des OPCO et organismes compétents.</Text>
+        <Text style={s.legalP}>Ce document est généré automatiquement par un outil interne dont les barèmes et règles de financement sont mis à jour périodiquement. Ces mises à jour pouvant prendre du temps, certaines informations peuvent ne plus refléter les conditions ou montants les plus récents. Nous invitons chaque établissement à vérifier les conditions en vigueur auprès de son OPCO et à mener ses propres recherches avant toute décision.</Text>
         <Text style={s.legalP}>AMI Panorama agit comme accompagnateur et facilitateur de mobilité internationale. AMI Panorama ne fournit pas de conseil financier, fiscal ou juridique.</Text>
         <Text style={s.legalP}>AMI Panorama ne garantit aucun montant de financement et ne peut être tenu responsable d&apos;une décision prise uniquement sur la base de cette simulation.</Text>
         <Text style={s.legalP}>Chaque établissement demeure responsable de réaliser ses propres vérifications, analyses et démarches de validation avant toute décision.</Text>

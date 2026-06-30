@@ -5,6 +5,7 @@ import AnimateOnView from "@/components/AnimateOnView";
 import HeroGallery from "./HeroGallery";
 import HeroBackdrop from "./HeroBackdrop";
 import { HERO_IMAGE, HERO_PHOTOS } from "./heroConfig";
+import { testimonials } from "@/data/testimonials";
 
 export const metadata: Metadata = {
   title: "AMI Panorama — Opérateur de mobilité internationale pour les CFA et les établissements",
@@ -127,39 +128,6 @@ const partnerNames = [
   "ESGM",
   "CCI Vaucluse",
   "Les Charmilles",
-];
-
-const testimonials = [
-  // ── Real testimonials ──
-  {
-    quote: "Retour du Canada : Certaines expériences laissent une empreinte indélébile sur notre parcours professionnel et mon séjour au Canada en fait partie !",
-    name: "Ambre Spechier",
-    school: "My Business School",
-    dest: "Montréal",
-    flag: "🇨🇦",
-  },
-  {
-    quote: "Grâce à AMI Panorama et l'Institut Européen de Formation, j'ai eu la chance de me rendre à Montréal. Je ne qualifierais pas ce séjour de vacances, car même là-bas, nous avons continué à travailler.\nNous avons pris de nouveaux contacts et passé plusieurs heures à rédiger nos BP. Cependant, nous avons su joindre l'utile à l'agréable, en explorant bars, restaurants, gyms et parcs.",
-    name: "Hugo Zenner",
-    school: "Institut Européen de Formation",
-    dest: "Montréal",
-    flag: "🇨🇦",
-  },
-  {
-    quote: "Une expérience incroyable, qui nous a ouvert les yeux aux nouvelles cultures et architectures. Qui nous a aussi permis de faire des nouvelles rencontres et des très belles activités. Finalement on ne peut que garder des très beaux souvenirs de ce voyage à Séville.\n\nMerci Ami Panorama et les accompagnateurs pour ce beau voyage !",
-    name: "Aya Hazzaz",
-    school: "ECEMA",
-    dest: "Séville",
-    flag: "🇪🇸",
-  },
-  {
-    quote: "Cette expérience canadienne m'a permis de renforcer mes compétences et de découvrir une nouvelle culture professionnelle.",
-    name: "Anissa Guermoudi",
-    school: "Ancienne participante · Toronto",
-    dest: "Canada",
-    flag: "🇨🇦",
-  },
-  // NOTE: emplacements prêts pour de vrais témoignages supplémentaires fournis par AMI Panorama.
 ];
 
 const included = [

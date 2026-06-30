@@ -146,3 +146,47 @@ export function programmeCostForNights(nights: number): number {
     Math.max(0, nights - COST_DEFAULTS.referenceNights) * COST_DEFAULTS.programmePerExtraNight
   );
 }
+
+// ──────────────────────────────────────────────────────────────
+// Tarifs par destination — sélection auto du prix de vente (programme)
+// et du billet estimé. Restent modifiables manuellement côté UI.
+// `programme` = prix de vente AMI / étudiant (format de référence 8j/7n).
+// `billets`   = coût transport (billet) estimé / étudiant.
+// ──────────────────────────────────────────────────────────────
+export type DestinationTariff = { programme: number; billets: number };
+export const DESTINATION_TARIFFS: Record<string, DestinationTariff> = {
+  "Montréal": { programme: 1059, billets: 650 },
+  "Séville":  { programme: 989,  billets: 250 },
+  "Londres":  { programme: 1389, billets: 250 },
+  "Rome":     { programme: 989,  billets: 250 },
+  "New York": { programme: 1489, billets: 600 },
+  "Miami":    { programme: 1389, billets: 600 },
+  "Séoul":    { programme: 1489, billets: 700 },
+  "Malte":    { programme: 1189, billets: 300 },
+  "Maroc":    { programme: 1089, billets: 400 },
+  "Berlin":   { programme: 1389, billets: 200 },
+};
+export const DESTINATION_NAMES = Object.keys(DESTINATION_TARIFFS);
+
+// Prix de vente conseillé pour une destination + nuitées (au-delà de 7 nuits : +€/nuit).
+export function programmeForDestination(name: string, nights: number): number {
+  const base = DESTINATION_TARIFFS[name]?.programme ?? COST_DEFAULTS.programmeBase;
+  return base + Math.max(0, nights - COST_DEFAULTS.referenceNights) * COST_DEFAULTS.programmePerExtraNight;
+}
+
+// Contexte sectoriel des OPCO (faits publics stables) — pour expliquer chaque ligne.
+// Les montants/règles de mobilité restent ceux du moteur (estimations, à confirmer).
+export const OPCO_SECTORS: Record<string, string> = {
+  akto: "Services à forte intensité de main-d'œuvre (propreté, sécurité, restauration, intérim). Soutient activement la mobilité internationale des alternants.",
+  opco21: "Industrie (interindustriel). Frais annexes de mobilité pris en charge selon barème.",
+  atlas: "Assurance, banque, finance et conseil. Barème mobilité confirmé selon la durée et le mode de contrat.",
+  opcommerce: "Commerce et distribution.",
+  ep: "Entreprises de proximité (artisanat, professions libérales, services). Forfait référent + frais éligibles (transport, hébergement, repas, assurance).",
+  afdas: "Culture, médias, communication, loisirs et sport.",
+  constructys: "Bâtiment et travaux publics. Prise en charge au réel (transport, hébergement, repas) avec plafond.",
+  ocapiat: "Agriculture, agroalimentaire et pêche. Frais réels (repas, nuitées, transport) plafonnés.",
+  opco_mobilites: "Transport, logistique, services de l'automobile et tourisme.",
+  cnfpt: "Fonction publique territoriale.",
+  uniformation: "Cohésion sociale (associatif, sport, ESS, aide à domicile).",
+  opco_sante: "Secteur sanitaire, social et médico-social privé.",
+};

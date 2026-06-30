@@ -41,3 +41,17 @@ yarn-error.log*
 next-env.d.ts
 public/Assets/Belles photos groupes/
 public/Assets/Belles photos groupes/
+public/Assets/Belles photos groupes/
+public/Assets/Other images/
+*.HEIC
+*.heic
+*.DNG
+.DS_Store
+public/Assets/Groupe*.jpg
+public/Assets/Groupe*.png
+public/Assets/Grooupe*.jpg
+public/Assets/NEW YORK AMI Panorama.jpg
+public/Assets/Photo Avec Logo .jpg
+public/Assets/AMI Panorama LOGO*.jpg
+public/Assets/AMI Panorama Logo*.png
+public/Assets/Logo*.png

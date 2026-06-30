@@ -71,6 +71,29 @@ conv "Visites pro /Visite pro .png"                "$P/visite-pro.jpg"
 conv "Visites pro /Visite startup .png"            "$P/visite-startup-2.jpg"
 conv "Visites pro /Conference .heic"               "$P/visite-conference.jpg"
 
+echo "▶︎ Photos additionnelles (racine Assets) → $G"
+A="public/Assets"
+convA() { # $1 = source relative à public/Assets  $2 = nom de sortie
+  local s="$A/$1" o="$G/$2"
+  if [ ! -f "$s" ]; then echo "  ⚠️  manquant : $1"; miss=$((miss+1)); return; fi
+  if sips -s format jpeg -s formatOptions "$Q" -Z "$MAX" "$s" --out "$o" >/dev/null 2>&1; then
+    echo "  ✅ $2"; ok=$((ok+1))
+  else
+    echo "  ❌ échec : $1"; miss=$((miss+1))
+  fi
+}
+convA "Groupe Montreal.jpg"       "montreal-extra.jpg"
+convA "Groupe New York.jpg"       "newyork-extra.jpg"
+convA "NEW YORK AMI Panorama.jpg" "newyork-pano.jpg"
+convA "Groupe Seville .jpg"       "seville-extra.jpg"
+convA "Groupe Seville.jpg"        "seville-extra-2.jpg"
+convA "Groupe Seville.png"        "seville-extra-3.jpg"
+convA "Groupe seville2.jpg"       "seville-extra-4.jpg"
+convA "Grooupe Depart.jpg"        "groupe-depart.jpg"
+convA "Photo Avec Logo .jpg"      "groupe-logo.jpg"
+convA "IMG_6217.HEIC"             "extra-photo.jpg"
+convA "IMG_9419.DNG"              "extra-photo-2.jpg"
+
 echo
 echo "Terminé : $ok converties, $miss ignorées/manquantes."
 echo

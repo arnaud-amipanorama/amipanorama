@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { OPCOS, OPCO_BY_ID, programmeCostForNights, COST_DEFAULTS } from "@/lib/simulator/opco-config";
+import { OPCOS, OPCO_BY_ID, COST_DEFAULTS, DESTINATION_TARIFFS, DESTINATION_NAMES, programmeForDestination, OPCO_SECTORS } from "@/lib/simulator/opco-config";
 import {
   computeSimulation,
   baseTotals,
@@ -59,8 +59,8 @@ export default function SimulatorApp() {
   ]);
 
   // Étape 3 — paramètres avancés
-  const [transport, setTransport] = useState(COST_DEFAULTS.transportDefault);
-  const [programme, setProgramme] = useState(programmeCostForNights(7));
+  const [transport, setTransport] = useState(DESTINATION_TARIFFS["Montréal"].billets);
+  const [programme, setProgramme] = useState(programmeForDestination("Montréal", 7));
   const [mode, setMode] = useState<ModeKind>("free");
   const [keptPerAccompagnant, setKeptPerAccompagnant] = useState(COST_DEFAULTS.keptPerAccompagnant);
   const [atlasContractMode, setAtlasContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
@@ -75,8 +75,22 @@ export default function SimulatorApp() {
   const [pdfState, setPdfState] = useState<"idle" | "loading" | "err">("idle");
   const [saved, setSaved] = useState<"idle" | "saving" | "ok" | "err">("idle");
 
+  // Gating du téléchargement PDF + consentement
+  const [showConsent, setShowConsent] = useState(false);
+  const [consentChecked, setConsentChecked] = useState(false);
+  const [formError, setFormError] = useState(false);
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  const docFormValid = ecole.trim() !== "" && referent.trim() !== "" && emailValid && dateSouhaitee.trim() !== "";
+
   const resultsRef = useRef<HTMLDivElement>(null);
-  const suggestedProgramme = programmeCostForNights(nights);
+  const suggestedProgramme = programmeForDestination(destination, nights);
+
+  // Sélection d'une destination → prix de vente + billet auto (modifiables ensuite)
+  const selectDestination = (name: string) => {
+    setDestination(name);
+    const t = DESTINATION_TARIFFS[name];
+    if (t) { setProgramme(programmeForDestination(name, nights)); setTransport(t.billets); }
+  };
 
   const result = useMemo(() => {
     const rowsConfig = rows
@@ -181,6 +195,9 @@ export default function SimulatorApp() {
         <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 70% 50% at 50% -10%, rgba(232,88,53,0.16), transparent 60%)" }} />
         <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 50% 40% at 80% 110%, rgba(91,141,239,0.10), transparent 60%)" }} />
         <div style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "clamp(64px,12vh,140px) 24px 80px", textAlign: "center" }}>
+          <motion.img src="/Assets/Brand/ami-logo-white.png" alt="AMI Panorama"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+            style={{ height: 38, width: "auto", display: "block", margin: "0 auto 30px" }} />
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "6px 14px", borderRadius: 100, border: `1px solid ${T.border}`, background: T.panel, marginBottom: 32 }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.orange, boxShadow: `0 0 10px ${T.orange}` }} />
@@ -218,8 +235,9 @@ export default function SimulatorApp() {
       <div style={{ position: "relative", maxWidth: 1180, margin: "0 auto", padding: "28px 24px 96px" }}>
         {/* Top bar */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28 }}>
-          <button onClick={() => setView("hero")} style={{ ...linkBtn, display: "inline-flex", alignItems: "center", gap: 8 }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.orange }} /> AMI Panorama · Simulateur
+          <button onClick={() => setView("hero")} style={{ ...linkBtn, display: "inline-flex", alignItems: "center", gap: 11 }}>
+            <img src="/Assets/Brand/ami-logo-white.png" alt="AMI Panorama" style={{ height: 22, width: "auto" }} />
+            <span style={{ color: T.faint, textTransform: "none", letterSpacing: 0 }}>· Simulateur</span>
           </button>
         </div>
 
@@ -227,7 +245,7 @@ export default function SimulatorApp() {
           {/* ── COLONNE PARAMÈTRES (niveau 3) ── */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <Step n={1} title="Le groupe">
-              <Field label="Destination"><Input value={destination} onChange={setDestination} placeholder="Montréal" /></Field>
+              <Field label="Destination" hint="prix auto"><Select value={destination} onChange={selectDestination} options={DESTINATION_NAMES} /></Field>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                 <Field label="Durée (nuitées)" hint={`${nights + 1} jours`}><Stepper value={nights} onChange={setNights} min={1} /></Field>
                 <Field label="Accompagnants"><Stepper value={accompagnants} onChange={setAccompagnants} min={0} /></Field>
@@ -407,29 +425,40 @@ export default function SimulatorApp() {
                         <b style={{ minWidth: 66, textAlign: "right" }}>{eur(o.apprentiAmount)}</b>
                       </div>
                       <div style={{ fontSize: 11, color: T.faint, marginTop: 4 }}>{o.apprentiTrace} · référent {eur(o.referentAmount)}/contrat{o.status === "to_confirm" ? " · à confirmer" : ""}</div>
+                      {OPCO_SECTORS[o.id] && <div style={{ fontSize: 10.5, color: T.faint, marginTop: 3, fontStyle: "italic", lineHeight: 1.5 }}>{OPCO_SECTORS[o.id]}</div>}
                     </div>
                   );
                 })}
+              </div>
+              <div style={{ marginTop: 14, padding: "12px 14px", borderRadius: 10, background: T.panel2, border: `1px solid ${T.border}` }}>
+                <p style={{ fontSize: 11.5, color: T.muted, lineHeight: 1.6, margin: 0 }}>
+                  <b style={{ color: T.text }}>Comment lire ces montants.</b> Les OPCO financent la mobilité des alternants via un forfait <b>référent mobilité</b> (souvent 500 € par apprenti partant) et une prise en charge <b>apprenti</b> couvrant tout ou partie du transport, de l&apos;hébergement, des repas et de l&apos;assurance. Ces aides sont cumulables avec Erasmus+. Montants indicatifs, variables selon l&apos;OPCO, la durée et les justificatifs — à confirmer.
+                </p>
+                <p style={{ fontSize: 10, color: T.faint, margin: "8px 0 0" }}>Sources : Opco EP · Opco Atlas · Opco 2i · AKTO · Agence Erasmus+ France.</p>
               </div>
             </div>
 
             {/* Document + enregistrement */}
             <div style={{ ...panelStyle, padding: 22 }}>
               <CardLabel>Générer le document</CardLabel>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, margin: "12px 0 14px" }}>
-                <Input value={ecole} onChange={setEcole} placeholder="Nom de l'établissement" />
-                <Input value={referent} onChange={setReferent} placeholder="Référent mobilité" />
-                <Input value={email} onChange={setEmail} placeholder="Email" />
-                <Input value={dateSouhaitee} onChange={setDateSouhaitee} placeholder="Date souhaitée" />
+              <p style={{ fontSize: 11.5, color: T.faint, margin: "8px 0 12px", lineHeight: 1.5 }}>
+                Ces informations sont nécessaires pour générer le document (champs obligatoires).
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, margin: "0 0 14px" }}>
+                <Input value={ecole} onChange={setEcole} placeholder="Nom de l'établissement *" invalid={formError && !ecole.trim()} />
+                <Input value={referent} onChange={setReferent} placeholder="Référent / personne *" invalid={formError && !referent.trim()} />
+                <Input value={email} onChange={setEmail} placeholder="Email *" type="email" invalid={formError && !emailValid} />
+                <Input value={dateSouhaitee} onChange={setDateSouhaitee} placeholder="Période souhaitée *" invalid={formError && !dateSouhaitee.trim()} />
               </div>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-                <button onClick={generatePdf} disabled={pdfState === "loading"} style={primaryBtn}>
-                  {pdfState === "loading" ? "Génération…" : "Télécharger le PDF premium"}
+                <button onClick={() => { if (!docFormValid) { setFormError(true); } else { setFormError(false); setConsentChecked(false); setShowConsent(true); } }} disabled={pdfState === "loading"} style={primaryBtn}>
+                  {pdfState === "loading" ? "Génération…" : "Télécharger le PDF"}
                 </button>
                 <button onClick={saveSimulation} disabled={saved === "saving"} style={ghostBtn}>
                   {saved === "saving" ? "…" : saved === "ok" ? "✓ Enregistrée" : "Enregistrer"}
                 </button>
               </div>
+              {formError && !docFormValid && <p style={{ fontSize: 12, color: "#FF6B6B", marginTop: 10 }}>Merci de renseigner l&apos;établissement, la personne, un email valide et la période souhaitée.</p>}
               {pdfState === "err" && <p style={{ fontSize: 12, color: "#FF6B6B", marginTop: 10 }}>Erreur lors de la génération du PDF.</p>}
               <p style={{ fontSize: 11, color: T.faint, marginTop: 14, lineHeight: 1.5 }}>
                 Certaines prises en charge sont estimées selon les règles actuellement utilisées par AMI Panorama et devront être confirmées selon l&apos;OPCO, la durée et les justificatifs.
@@ -438,6 +467,40 @@ export default function SimulatorApp() {
           </div>
         </div>
       </div>
+
+      {/* ── Pop-up de consentement avant téléchargement ── */}
+      <AnimatePresence>
+        {showConsent && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
+            onClick={() => setShowConsent(false)}
+            style={{ position: "fixed", inset: 0, zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 20, background: "rgba(0,0,0,0.62)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 14, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 14, scale: 0.98 }} transition={{ duration: 0.22 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{ width: "100%", maxWidth: 460, background: T.bg2, border: `1px solid ${T.borderStrong}`, borderRadius: 16, padding: 26 }}
+            >
+              <img src="/Assets/Brand/ami-logo-white.png" alt="AMI Panorama" style={{ height: 20, width: "auto", marginBottom: 16, display: "block" }} />
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: T.white, margin: "0 0 10px", letterSpacing: "-0.02em" }}>Avant de télécharger</h3>
+              <p style={{ fontSize: 13, color: T.muted, lineHeight: 1.65, margin: "0 0 16px" }}>
+                Ce document est une <b style={{ color: T.text }}>estimation indicative</b>, <b style={{ color: T.text }}>non contractuelle</b> et <b style={{ color: T.text }}>confidentielle</b>. Les montants ne constituent pas un engagement : les prises en charge définitives relèvent des OPCO et organismes compétents. AMI Panorama ne garantit aucun financement.
+              </p>
+              <label style={{ display: "flex", gap: 10, alignItems: "flex-start", cursor: "pointer", marginBottom: 18 }}>
+                <input type="checkbox" checked={consentChecked} onChange={(e) => setConsentChecked(e.target.checked)} style={{ marginTop: 2, width: 16, height: 16, accentColor: T.orange, flexShrink: 0, cursor: "pointer" }} />
+                <span style={{ fontSize: 12.5, color: T.text, lineHeight: 1.55 }}>J&apos;ai compris qu&apos;il s&apos;agit d&apos;une estimation non contractuelle et confidentielle, qui n&apos;engage pas AMI Panorama.</span>
+              </label>
+              <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+                <button onClick={() => setShowConsent(false)} style={ghostBtn}>Annuler</button>
+                <button onClick={() => { setShowConsent(false); generatePdf(); }} disabled={!consentChecked}
+                  style={{ ...primaryBtn, opacity: consentChecked ? 1 : 0.5, cursor: consentChecked ? "pointer" : "not-allowed" }}>
+                  Confirmer et télécharger
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <style>{`
         @media (max-width: 880px) {
@@ -488,8 +551,15 @@ function Label({ children }: { children: React.ReactNode }) {
 function Pill({ children }: { children: React.ReactNode }) {
   return <span style={{ fontSize: 12, fontWeight: 600, color: T.text, background: T.panel2, border: `1px solid ${T.border}`, borderRadius: 100, padding: "4px 11px" }}>{children}</span>;
 }
-function Input({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
-  return <input value={value} placeholder={placeholder} onChange={(e) => onChange(e.target.value)} style={inputStyle} />;
+function Input({ value, onChange, placeholder, invalid, type }: { value: string; onChange: (v: string) => void; placeholder?: string; invalid?: boolean; type?: string }) {
+  return <input type={type || "text"} value={value} placeholder={placeholder} onChange={(e) => onChange(e.target.value)} style={{ ...inputStyle, ...(invalid ? { borderColor: "#FF6B6B" } : {}) }} />;
+}
+function Select({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: string[] }) {
+  return (
+    <select value={value} onChange={(e) => onChange(e.target.value)} style={selectStyle}>
+      {options.map((o) => <option key={o} value={o} style={{ background: T.bg2 }}>{o}</option>)}
+    </select>
+  );
 }
 function NumInput({ value, onChange, suffix }: { value: number; onChange: (v: number) => void; suffix?: string }) {
   return (

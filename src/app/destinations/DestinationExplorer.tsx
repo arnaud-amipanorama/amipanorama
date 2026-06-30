@@ -28,7 +28,7 @@ const EXTRA: Record<string, { facts: string[]; gallery: string[] }> = {
       "Plus grande métropole francophone d'Amérique du Nord.",
       "L'une des plus fortes densités étudiantes du continent.",
     ],
-    gallery: ["/Assets/groups/montreal-group.jpg", "/Assets/groups/montreal-diner.jpg", "/Assets/groups/montreal-diploma.jpg", "/Assets/groups/montreal-night.jpg"],
+    gallery: ["/Assets/groups/montreal-group.jpg", "/Assets/groups/montreal-extra.jpg", "/Assets/groups/montreal-diner.jpg", "/Assets/groups/montreal-diploma.jpg", "/Assets/groups/montreal-night.jpg"],
   },
   "Séville": {
     facts: [
@@ -36,7 +36,7 @@ const EXTRA: Record<string, { facts: string[]; gallery: string[] }> = {
       "Capitale de l'Andalousie, économie tournée vers les services et le tourisme.",
       "Patrimoine mondial UNESCO : cathédrale, Alcázar, Giralda.",
     ],
-    gallery: ["/Assets/groups/seville-group.jpg", "/Assets/groups/seville-garden.jpg", "/Assets/groups/seville-boat.jpg", "/Assets/groups/seville-diplomas.jpg"],
+    gallery: ["/Assets/groups/seville-group.jpg", "/Assets/groups/seville-garden.jpg", "/Assets/groups/seville-extra.jpg", "/Assets/groups/seville-extra-2.jpg", "/Assets/groups/seville-boat.jpg", "/Assets/groups/seville-diplomas.jpg"],
   },
   "Londres": {
     facts: [
@@ -76,7 +76,7 @@ const EXTRA: Record<string, { facts: string[]; gallery: string[] }> = {
       "Centre mondial de la finance, du commerce et de la création.",
       "Business English de haut niveau, en contexte réel.",
     ],
-    gallery: ["/Assets/groups/newyork-group.jpg", "/Assets/groups/newyork-students.jpg", "/Assets/groups/newyork-dumbo.jpg", "/Assets/groups/newyork-bridge.jpg"],
+    gallery: ["/Assets/groups/newyork-group.jpg", "/Assets/groups/newyork-pano.jpg", "/Assets/groups/newyork-extra.jpg", "/Assets/groups/newyork-students.jpg", "/Assets/groups/newyork-dumbo.jpg", "/Assets/groups/newyork-bridge.jpg"],
   },
   "Rome": {
     facts: [
