@@ -1,46 +1,54 @@
 "use client";
 
-// Fond du hero — direction éditoriale.
-// L'image n'est plus un fond plein : c'est une PHOTOGRAPHIE placée en haut à droite,
-// qui se dissout très progressivement dans le blanc (mask radial diffus) et s'arrête
-// visuellement au niveau du carousel. Beaucoup de respiration, image non dominante.
-// Image passée en prop (cf. heroConfig.ts). Mobile : bande haute dédiée.
+// Fond du hero.
+// Desktop : photographie éditoriale en haut à droite, dissoute dans le blanc.
+// Mobile  : image PLEIN CADRE (100vh), texte intégré par-dessus. Le voile blanc
+//           n'est présent qu'EN HAUT (derrière le texte) → la Giralda et les
+//           étudiants restent parfaitement visibles en bas. Une seule composition.
 export default function HeroBackdrop({ image }: { image: string }) {
   return (
     <>
       <div aria-hidden="true" className="hb-bg" style={{ backgroundImage: `url('${image}')` }} />
+      <div aria-hidden="true" className="hb-scrim" />
       <style>{`
         .hb-bg {
           position: absolute; top: 0; right: 0;
           width: 58%; height: 64%;
-          background-size: cover;
-          background-position: 62% 16%;   /* remonte la Giralda + plus de ciel */
+          background-size: cover; background-position: 62% 16%;
           transform-origin: 75% 25%; will-change: transform;
           filter: saturate(1.03) brightness(1.04);
-          /* fondu TRÈS diffus : opaque en haut à droite, dissous vers le bas/gauche → "sort du blanc" */
           -webkit-mask-image: radial-gradient(125% 135% at 100% 4%, #000 24%, rgba(0,0,0,0.5) 50%, transparent 76%);
           mask-image: radial-gradient(125% 135% at 100% 4%, #000 24%, rgba(0,0,0,0.5) 50%, transparent 76%);
           animation: hbDrift 26s ease-in-out infinite;
         }
-        /* dérive extrêmement légère */
+        .hb-scrim { display: none; }
         @keyframes hbDrift {
           0%, 100% { transform: scale(1.04) translate3d(0, 0, 0); }
           50%      { transform: scale(1.06) translate3d(-7px, 4px, 0); }
         }
-        /* ── Mobile : bande photographique en haut, dissoute vers le blanc ── */
+
+        /* ── Mobile : affiche plein écran ── */
         @media (max-width: 760px) {
-          /* Mobile : vraie bannière photo en haut, nette, avec un fondu doux vers le bas.
-             Le texte remonte sous elle (cf. .hero-inner) → pas de grand vide. */
           .hb-bg {
-            top: 0; left: 0; right: 0; width: auto; height: 56vh;
-            background-position: 50% 18%;   /* montre le sommet complet de la Giralda + le groupe */
-            -webkit-mask-image: linear-gradient(to bottom, #000 60%, rgba(0,0,0,0.42) 82%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 60%, rgba(0,0,0,0.42) 82%, transparent 100%);
-            animation: none; transform: scale(1.0);   /* pas de zoom → ne coupe pas la tour */
+            inset: 0; width: auto; height: auto;
+            background-position: 50% 26%;   /* ciel en haut, sommet complet de la Giralda, étudiants dessous */
+            -webkit-mask-image: none; mask-image: none;
+            filter: saturate(1.05) brightness(1.02);
+            animation: none; transform: scale(1.0);
+          }
+          /* Voile concentré en HAUT (lisibilité du texte) ; l'image reste vive dans le bas */
+          .hb-scrim {
+            display: block; position: absolute; inset: 0; pointer-events: none;
+            background: linear-gradient(to bottom,
+              #FAF8F5 0%,
+              rgba(250,248,245,0.92) 24%,
+              rgba(250,248,245,0.48) 40%,
+              rgba(250,248,245,0.12) 54%,
+              transparent 66%);
           }
         }
         @media (prefers-reduced-motion: reduce) {
-          .hb-bg { animation: none; transform: scale(1.04); }
+          .hb-bg { animation: none; }
         }
       `}</style>
     </>

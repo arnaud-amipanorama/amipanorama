@@ -248,7 +248,7 @@ export default function HomePage() {
               CFA et les établissements d&apos;enseignement supérieur.
             </p>
 
-            <p className="anim-fade-up-3" style={{
+            <p className="anim-fade-up-3 hero-op-line" style={{
               fontSize: "clamp(13px, 1.1vw, 14px)", color: "var(--text-muted)",
               lineHeight: 1.6, maxWidth: 460, marginBottom: 28,
             }}>
@@ -270,7 +270,7 @@ export default function HomePage() {
           </div>
 
           {/* Cartes destinations en coverflow — profondeur par ombre diffuse, sans plateau géométrique */}
-          <div className="anim-fade-up-4" style={{ position: "relative", marginTop: 28 }}>
+          <div className="anim-fade-up-4 hero-gallery-wrap" style={{ position: "relative", marginTop: 28 }}>
             <div aria-hidden="true" style={{
               position: "absolute", left: "50%", bottom: 8, transform: "translateX(-50%)",
               width: "min(860px, 94%)", height: 140,
@@ -859,7 +859,10 @@ export default function HomePage() {
               var(--bg) 0%, rgba(248,246,241,0.72) 28%, rgba(248,246,241,0.08) 58%, transparent 78%);
           }
           /* texte remonté sous la bannière photo mobile (56vh) → chevauche le fondu, pas de vide */
-          .hero-inner { min-height: 0 !important; padding-top: calc(51vh + 6px) !important; }
+          /* Hero mobile = affiche plein écran, texte intégré sur l'image (une seule composition) */
+          .hero-inner { min-height: 100svh !important; padding: 92px 22px 30px !important; justify-content: flex-start !important; }
+          .hero-gallery-wrap { display: none !important; }
+          .hero-op-line { display: none !important; }
         }
         .hero-gradient-anim {
           background-size: 220% 220% !important;
@@ -1115,7 +1118,7 @@ export default function HomePage() {
 
         /* ─── Mobile layout (≤640px) ─── */
         @media (max-width: 640px) {
-          .hero-section          { padding-top: 96px !important; padding-bottom: 40px !important; }
+          .hero-section          { padding: 0 !important; }
           .hero-cta-group        { gap: 28px !important; margin-bottom: 40px !important; }
           .trust-trailing        { display: none !important; }
           /* Bandeau écoles empilé : label sur sa ligne, puis le défilé pleine largeur */
