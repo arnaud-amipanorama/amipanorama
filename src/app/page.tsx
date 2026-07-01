@@ -257,7 +257,7 @@ export default function HomePage() {
               mobilités de bout en bout.
             </p>
 
-            <div className="anim-fade-up-4" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <div className="anim-fade-up-4 hero-ctas" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link href="/rendez-vous" className="btn-primary">
                 Réserver un échange
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -859,8 +859,11 @@ export default function HomePage() {
               var(--bg) 0%, rgba(248,246,241,0.72) 28%, rgba(248,246,241,0.08) 58%, transparent 78%);
           }
           /* texte remonté sous la bannière photo mobile (56vh) → chevauche le fondu, pas de vide */
-          /* Hero mobile = affiche plein écran, texte intégré sur l'image (une seule composition) */
-          .hero-inner { min-height: 100svh !important; padding: 92px 22px 30px !important; justify-content: flex-start !important; }
+          /* Hero mobile = SPLIT éditorial : texte à gauche (~54%), image en colonne droite (HeroBackdrop) */
+          .hero-inner { min-height: 100svh !important; padding: 90px 22px 28px !important; justify-content: flex-start !important; }
+          .hero-text-col { max-width: 54% !important; }
+          .hero-text-col h1 { font-size: 27px !important; line-height: 1.08 !important; letter-spacing: -0.03em !important; margin-bottom: 16px !important; }
+          .hero-ctas { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; }
           .hero-gallery-wrap { display: none !important; }
           .hero-op-line { display: none !important; }
         }

@@ -27,23 +27,23 @@ export default function HeroBackdrop({ image }: { image: string }) {
           50%      { transform: scale(1.06) translate3d(-7px, 4px, 0); }
         }
 
-        /* ── Mobile : affiche plein écran ── */
+        /* ── Mobile : SPLIT éditorial — image = colonne DROITE pleine hauteur ── */
         @media (max-width: 760px) {
           .hb-bg {
-            inset: 0; width: auto; height: auto;
-            background-position: 50% 26%;   /* ciel en haut, sommet complet de la Giralda, étudiants dessous */
+            top: 0; right: 0; bottom: 0; left: auto;
+            width: 46%; height: 100%;
+            background-position: 58% 20%;   /* sommet complet de la Giralda + étudiants en bas */
             -webkit-mask-image: none; mask-image: none;
             filter: saturate(1.05) brightness(1.02);
-            animation: none; transform: scale(1.0);
+            animation: none; transform: none;
           }
-          /* Voile concentré en HAUT (lisibilité du texte) ; l'image reste vive dans le bas */
+          /* Fondu HORIZONTAL sur le bord gauche de l'image → transition douce vers la zone texte */
           .hb-scrim {
             display: block; position: absolute; inset: 0; pointer-events: none;
-            background: linear-gradient(to bottom,
-              #FAF8F5 0%,
-              rgba(250,248,245,0.92) 24%,
-              rgba(250,248,245,0.48) 40%,
-              rgba(250,248,245,0.12) 54%,
+            background: linear-gradient(to right,
+              #FAF8F5 0%, #FAF8F5 44%,
+              rgba(250,248,245,0.70) 52%,
+              rgba(250,248,245,0.22) 60%,
               transparent 66%);
           }
         }
