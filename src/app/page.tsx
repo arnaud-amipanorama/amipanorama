@@ -214,11 +214,11 @@ export default function HomePage() {
           padding: "134px 24px 34px",
         }}>
           <div className="hero-text-col" style={{ maxWidth: 560 }}>
-            <div className="anim-fade-up" style={{
+            <div className="anim-fade-up hero-eyebrow" style={{
               display: "inline-flex", alignItems: "center", gap: 11, marginBottom: 24,
             }}>
-              <span aria-hidden="true" style={{ width: 26, height: 1.5, background: "var(--coral)", borderRadius: 2, display: "inline-block" }} />
-              <span style={{
+              <span aria-hidden="true" className="hero-eyebrow-dash" style={{ width: 26, height: 1.5, background: "var(--coral)", borderRadius: 2, display: "inline-block" }} />
+              <span className="hero-eyebrow-txt" style={{
                 fontSize: 12, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase",
                 color: "var(--coral)",
               }}>Opérateur de mobilité internationale · Depuis 2022</span>
@@ -859,10 +859,13 @@ export default function HomePage() {
               var(--bg) 0%, rgba(248,246,241,0.72) 28%, rgba(248,246,241,0.08) 58%, transparent 78%);
           }
           /* texte remonté sous la bannière photo mobile (56vh) → chevauche le fondu, pas de vide */
-          /* Hero mobile = SPLIT éditorial : texte à gauche (~54%), image en colonne droite (HeroBackdrop) */
-          .hero-inner { min-height: 100svh !important; padding: 90px 22px 28px !important; justify-content: flex-start !important; }
-          .hero-text-col { max-width: 54% !important; }
-          .hero-text-col h1 { font-size: 27px !important; line-height: 1.08 !important; letter-spacing: -0.03em !important; margin-bottom: 16px !important; }
+          /* Hero mobile = SPLIT éditorial : texte à gauche (~52%), panneau image à droite */
+          .hero-inner { min-height: 100svh !important; padding: 88px 22px 26px !important; justify-content: flex-start !important; }
+          .hero-text-col { max-width: 60% !important; }
+          .hero-eyebrow { display: block !important; margin-bottom: 18px !important; }
+          .hero-eyebrow-dash { display: none !important; }
+          .hero-eyebrow-txt { font-size: 10px !important; letter-spacing: 0.08em !important; line-height: 1.5 !important; }
+          .hero-text-col h1 { font-size: 32px !important; line-height: 1.06 !important; letter-spacing: -0.035em !important; margin-bottom: 16px !important; }
           .hero-ctas { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; }
           .hero-gallery-wrap { display: none !important; }
           .hero-op-line { display: none !important; }

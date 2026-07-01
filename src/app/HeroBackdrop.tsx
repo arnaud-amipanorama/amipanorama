@@ -27,25 +27,18 @@ export default function HeroBackdrop({ image }: { image: string }) {
           50%      { transform: scale(1.06) translate3d(-7px, 4px, 0); }
         }
 
-        /* ── Mobile : SPLIT éditorial — image = colonne DROITE pleine hauteur ── */
+        /* ── Mobile : image IMMERSIVE plein cadre, dissoute en DIAGONALE dans le crème à gauche ── */
         @media (max-width: 760px) {
           .hb-bg {
-            top: 0; right: 0; bottom: 0; left: auto;
-            width: 46%; height: 100%;
-            background-position: 58% 20%;   /* sommet complet de la Giralda + étudiants en bas */
-            -webkit-mask-image: none; mask-image: none;
-            filter: saturate(1.05) brightness(1.02);
+            inset: 0; width: auto; height: auto;
+            background-position: 52% 24%;   /* Giralda entière (haut-droite) + étudiants + rue */
+            border-radius: 0; box-shadow: none;
+            -webkit-mask-image: linear-gradient(102deg, transparent 22%, rgba(0,0,0,0.38) 44%, #000 60%);
+            mask-image: linear-gradient(102deg, transparent 22%, rgba(0,0,0,0.38) 44%, #000 60%);
+            filter: saturate(1.06) contrast(1.02);
             animation: none; transform: none;
           }
-          /* Fondu HORIZONTAL sur le bord gauche de l'image → transition douce vers la zone texte */
-          .hb-scrim {
-            display: block; position: absolute; inset: 0; pointer-events: none;
-            background: linear-gradient(to right,
-              #FAF8F5 0%, #FAF8F5 44%,
-              rgba(250,248,245,0.70) 52%,
-              rgba(250,248,245,0.22) 60%,
-              transparent 66%);
-          }
+          .hb-scrim { display: none; }
         }
         @media (prefers-reduced-motion: reduce) {
           .hb-bg { animation: none; }
