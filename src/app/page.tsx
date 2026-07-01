@@ -118,7 +118,7 @@ const partnerNames = [
   "Sully Business School",
   "Institut Européen de Formation",
   "Financia",
-  "ESA",
+  "École Supérieure d'Assurances",
   "CMA Normandie",
   "ESMP",
   "Médéric",
@@ -277,22 +277,22 @@ export default function HomePage() {
         background: "var(--bg)",
         overflow: "hidden",
       }}>
-        <div style={{
+        <div className="trust-inner" style={{
           maxWidth: 1200, margin: "0 auto", padding: "0 24px",
           display: "flex", alignItems: "center", gap: 0,
           height: 52,
         }}>
           {/* Label */}
-          <span style={{
+          <span className="trust-label" style={{
             fontSize: 10, fontWeight: 600, letterSpacing: "0.12em",
             textTransform: "uppercase", color: "var(--text-muted)",
             flexShrink: 0, paddingRight: 20,
           }}>
             Ils nous font confiance
           </span>
-          <div style={{ width: 1, height: 20, background: "var(--border)", flexShrink: 0 }} />
+          <div className="trust-divider" style={{ width: 1, height: 20, background: "var(--border)", flexShrink: 0 }} />
           {/* Scrolling names */}
-          <div style={{ flex: 1, overflow: "hidden", position: "relative", margin: "0 4px" }}>
+          <div className="trust-marquee-wrap" style={{ flex: 1, overflow: "hidden", position: "relative", margin: "0 4px" }}>
             {/* Fade masks */}
             <div style={{
               position: "absolute", left: 0, top: 0, bottom: 0, width: 48,
@@ -317,7 +317,7 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <div style={{ width: 1, height: 20, background: "var(--border)", flexShrink: 0 }} />
+          <div className="trust-divider" style={{ width: 1, height: 20, background: "var(--border)", flexShrink: 0 }} />
           {/* Trailing note */}
           <span style={{
             fontSize: 11, fontWeight: 400, color: "var(--text-muted)",
@@ -844,8 +844,8 @@ export default function HomePage() {
             background: linear-gradient(to bottom,
               var(--bg) 0%, rgba(248,246,241,0.72) 28%, rgba(248,246,241,0.08) 58%, transparent 78%);
           }
-          /* texte sous la bande photo mobile (38vh dans HeroBackdrop) → lisibilité garantie */
-          .hero-inner { min-height: 0 !important; padding-top: calc(38vh + 24px) !important; }
+          /* texte remonté sous la bannière photo mobile (46vh) → chevauche le fondu, pas de vide */
+          .hero-inner { min-height: 0 !important; padding-top: calc(41vh + 6px) !important; }
         }
         .hero-gradient-anim {
           background-size: 220% 220% !important;
@@ -1104,6 +1104,11 @@ export default function HomePage() {
           .hero-section          { padding-top: 96px !important; padding-bottom: 40px !important; }
           .hero-cta-group        { gap: 28px !important; margin-bottom: 40px !important; }
           .trust-trailing        { display: none !important; }
+          /* Bandeau écoles empilé : label sur sa ligne, puis le défilé pleine largeur */
+          .trust-inner           { flex-direction: column !important; align-items: stretch !important; height: auto !important; gap: 10px !important; padding-top: 16px !important; padding-bottom: 8px !important; }
+          .trust-divider         { display: none !important; }
+          .trust-label           { padding-right: 0 !important; }
+          .trust-marquee-wrap    { flex: none !important; width: 100% !important; margin: 0 !important; }
           .stats-cell            { padding: 24px 16px !important; }
           .prog-section          { padding-top: 56px !important; padding-bottom: 56px !important; }
           .prog-float-card       { display: none !important; }

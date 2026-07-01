@@ -29,12 +29,14 @@ export default function HeroBackdrop({ image }: { image: string }) {
         }
         /* ── Mobile : bande photographique en haut, dissoute vers le blanc ── */
         @media (max-width: 760px) {
+          /* Mobile : vraie bannière photo en haut, nette, avec un fondu doux vers le bas.
+             Le texte remonte sous elle (cf. .hero-inner) → pas de grand vide. */
           .hb-bg {
-            top: 0; left: 0; right: 0; width: auto; height: 38vh;
-            background-position: 50% 14%;
-            -webkit-mask-image: linear-gradient(to bottom, #000 34%, rgba(0,0,0,0.42) 62%, transparent 90%);
-            mask-image: linear-gradient(to bottom, #000 34%, rgba(0,0,0,0.42) 62%, transparent 90%);
-            animation: none; transform: scale(1.02);
+            top: 0; left: 0; right: 0; width: auto; height: 46vh;
+            background-position: 50% 32%;
+            -webkit-mask-image: linear-gradient(to bottom, #000 66%, rgba(0,0,0,0.5) 84%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 66%, rgba(0,0,0,0.5) 84%, transparent 100%);
+            animation: none; transform: scale(1.04);
           }
         }
         @media (prefers-reduced-motion: reduce) {
