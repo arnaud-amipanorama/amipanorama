@@ -26,6 +26,10 @@ if [ ! -d "$SRC" ]; then
 fi
 mkdir -p "$G" "$P"
 
+echo "▶︎ Image hero (V2, Giralda ciel bleu) → public/Assets/Hero/sevilla-hero-v2.jpg"
+sips -s format jpeg -s formatOptions 90 -Z 2400 "public/Assets/Hero/HERO V2 - Seville blue sky .png" --out "public/Assets/Hero/sevilla-hero-v2.jpg" >/dev/null 2>&1 \
+  && echo "  ✅ sevilla-hero-v2.jpg" || echo "  ❌ hero v2 (source manquante ?)"
+
 ok=0; miss=0
 conv() { # $1 = chemin source (relatif à $SRC)  $2 = chemin sortie complet
   local s="$SRC/$1" o="$2"

@@ -101,11 +101,24 @@ const destinations: {
   },
 ];
 
+const IconUsers = (
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+);
+const IconGroups = (
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.6" /><rect x="14" y="3" width="7" height="7" rx="1.6" /><rect x="3" y="14" width="7" height="7" rx="1.6" /><rect x="14" y="14" width="7" height="7" rx="1.6" /></svg>
+);
+const IconSchool = (
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z" /><path d="M6 12v5c0 1.2 2.7 2.6 6 2.6s6-1.4 6-2.6v-5" /></svg>
+);
+const IconGlobe = (
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="M3 12h18" /><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z" /></svg>
+);
+
 const stats = [
-  { value: "3 000+", label: "participants accompagnés" },
-  { value: "100+",   label: "groupes coordonnés" },
-  { value: "50",     label: "écoles partenaires" },
-  { value: "10",     label: "destinations actives" },
+  { value: "3 000+", label: "participants accompagnés", icon: IconUsers },
+  { value: "100+",   label: "groupes coordonnés",       icon: IconGroups },
+  { value: "50",     label: "écoles partenaires",       icon: IconSchool },
+  { value: "10",     label: "destinations actives",     icon: IconGlobe },
 ];
 
 const partnerNames = [
@@ -332,23 +345,24 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════
           STATS BAR
       ══════════════════════════════════════════════ */}
-      <section style={{ background: "var(--bg-1)", borderBottom: "1px solid var(--border)" }}>
-        <div style={{
-          maxWidth: 1200, margin: "0 auto", padding: "0 24px",
-          display: "grid", gridTemplateColumns: "repeat(4,1fr)",
-        }} className="stats-bar">
-          {stats.map(({ value, label }, i, arr) => (
-            <AnimateOnView key={label} delay={i * 0.07} className="stats-cell" style={{
-              padding: "32px 28px", textAlign: "center",
-              borderRight: i < arr.length - 1 ? "1px solid var(--border)" : "none",
-            }}>
-              <div style={{
-                fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 700,
-                letterSpacing: "-0.05em", color: "var(--text-primary)", lineHeight: 1, marginBottom: 6,
-              }}>{value}</div>
-              <div style={{ fontSize: 12, color: "var(--text-muted)", letterSpacing: "0.01em" }}>{label}</div>
-            </AnimateOnView>
-          ))}
+      <section className="stats-section" style={{ background: "var(--bg)", padding: "clamp(36px,7vw,64px) 24px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
+            {stats.map(({ value, label, icon }, i) => (
+              <AnimateOnView key={label} delay={i * 0.06} className="stat-card" style={{
+                background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 22,
+                padding: "30px 26px", boxShadow: "0 12px 34px rgba(11,24,41,0.05)",
+                display: "flex", flexDirection: "column", gap: 16,
+              }}>
+                <span style={{ color: "var(--coral)", display: "inline-flex" }}>{icon}</span>
+                <div style={{
+                  fontSize: "clamp(30px, 5vw, 44px)", fontWeight: 700,
+                  letterSpacing: "-0.05em", color: "var(--text-primary)", lineHeight: 1,
+                }}>{value}</div>
+                <div style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.4 }}>{label}</div>
+              </AnimateOnView>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -844,8 +858,8 @@ export default function HomePage() {
             background: linear-gradient(to bottom,
               var(--bg) 0%, rgba(248,246,241,0.72) 28%, rgba(248,246,241,0.08) 58%, transparent 78%);
           }
-          /* texte remonté sous la bannière photo mobile (46vh) → chevauche le fondu, pas de vide */
-          .hero-inner { min-height: 0 !important; padding-top: calc(41vh + 6px) !important; }
+          /* texte remonté sous la bannière photo mobile (56vh) → chevauche le fondu, pas de vide */
+          .hero-inner { min-height: 0 !important; padding-top: calc(51vh + 6px) !important; }
         }
         .hero-gradient-anim {
           background-size: 220% 220% !important;
@@ -1123,8 +1137,26 @@ export default function HomePage() {
           .testi-stat-panel      { padding: 32px 24px !important; border-left: none !important; border-top: 1px solid rgba(255,255,255,0.08) !important; }
           .cta-section           { padding-bottom: 52px !important; }
           .cta-inner             { padding: 44px 24px !important; }
-          .dest-grid             { grid-auto-rows: 200px !important; }
           .prog-photo-outer      { margin-bottom: 24px; }
+
+          /* ═══ Refonte mobile premium ═══ */
+          /* Stats en 4 cartes Apple (2×2) */
+          .stats-grid  { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+          .stat-card   { padding: 24px 20px !important; border-radius: 20px !important; gap: 12px !important; }
+          .stats-section { padding: 44px 20px 48px !important; }
+          /* Destinations : cartes plein écran en scroll horizontal, aperçu de la suivante */
+          .dest-grid-phares, .dest-grid {
+            display: flex !important; grid-template-columns: none !important; grid-auto-rows: unset !important;
+            overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px !important;
+            margin: 0 -24px !important; padding: 4px 24px 14px !important;
+            -webkit-overflow-scrolling: touch; scrollbar-width: none;
+          }
+          .dest-grid-phares::-webkit-scrollbar, .dest-grid::-webkit-scrollbar { display: none; }
+          .dest-grid-phares > a, .dest-grid > a {
+            min-width: 80vw !important; height: 340px !important;
+            scroll-snap-align: center; border-radius: 26px !important;
+          }
+          .dest-grid-phares { margin-bottom: 4px !important; }
         }
       `}</style>
     </>

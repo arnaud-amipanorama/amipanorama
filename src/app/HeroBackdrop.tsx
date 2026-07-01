@@ -32,11 +32,11 @@ export default function HeroBackdrop({ image }: { image: string }) {
           /* Mobile : vraie bannière photo en haut, nette, avec un fondu doux vers le bas.
              Le texte remonte sous elle (cf. .hero-inner) → pas de grand vide. */
           .hb-bg {
-            top: 0; left: 0; right: 0; width: auto; height: 46vh;
-            background-position: 50% 32%;
-            -webkit-mask-image: linear-gradient(to bottom, #000 66%, rgba(0,0,0,0.5) 84%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 66%, rgba(0,0,0,0.5) 84%, transparent 100%);
-            animation: none; transform: scale(1.04);
+            top: 0; left: 0; right: 0; width: auto; height: 56vh;
+            background-position: 50% 18%;   /* montre le sommet complet de la Giralda + le groupe */
+            -webkit-mask-image: linear-gradient(to bottom, #000 60%, rgba(0,0,0,0.42) 82%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 60%, rgba(0,0,0,0.42) 82%, transparent 100%);
+            animation: none; transform: scale(1.0);   /* pas de zoom → ne coupe pas la tour */
           }
         }
         @media (prefers-reduced-motion: reduce) {

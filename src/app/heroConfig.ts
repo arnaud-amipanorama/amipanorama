@@ -6,7 +6,7 @@
 //     minuscules sans espace, ex: /Assets/Hero/mon-image.jpg
 //     (Vercel/Linux est sensible à la casse → sinon 404.)
 // ─────────────────────────────────────────────────────────────
-export const HERO_IMAGE = "/Assets/Hero/sevilla-hero.png";
+export const HERO_IMAGE = "/Assets/Hero/sevilla-hero-v2.jpg";
 
 export type HeroPhoto = { src: string; city: string; flag: string };
 
