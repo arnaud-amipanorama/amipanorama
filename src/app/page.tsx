@@ -861,10 +861,10 @@ export default function HomePage() {
           /* texte remonté sous la bannière photo mobile (56vh) → chevauche le fondu, pas de vide */
           /* Hero mobile = SPLIT éditorial : texte à gauche (~52%), panneau image à droite */
           .hero-inner { min-height: 100svh !important; padding: 88px 22px 26px !important; justify-content: flex-start !important; }
-          .hero-text-col { max-width: 60% !important; }
-          .hero-eyebrow { display: block !important; margin-bottom: 18px !important; }
+          .hero-text-col { max-width: 56% !important; }
+          .hero-eyebrow { display: block !important; width: calc(100vw - 44px) !important; max-width: none !important; margin-bottom: 16px !important; }
           .hero-eyebrow-dash { display: none !important; }
-          .hero-eyebrow-txt { font-size: 10px !important; letter-spacing: 0.08em !important; line-height: 1.5 !important; }
+          .hero-eyebrow-txt { font-size: 11px !important; letter-spacing: 0.1em !important; line-height: 1.4 !important; }
           .hero-text-col h1 { font-size: 32px !important; line-height: 1.06 !important; letter-spacing: -0.035em !important; margin-bottom: 16px !important; }
           .hero-ctas { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; }
           .hero-gallery-wrap { display: none !important; }
