@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const LINKS = [
-  { href: "/global-weeks", label: "Global Weeks", tag: "Alternants · Cohortes" },
   { href: "/destinations", label: "Destinations", tag: "10 pays" },
   { href: "/notre-programme", label: "Notre programme", tag: "Méthode & inclusions" },
   { href: "/a-propos", label: "À propos", tag: "Notre mission · 2022" },
