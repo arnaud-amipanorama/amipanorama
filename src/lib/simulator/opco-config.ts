@@ -120,3 +120,52 @@ export function programmeForDestination(name: string, nights: number): number { 
 export const OPCO_SECTORS: Record<string, string> = {
   akto: "Services à forte intensité de main-d'œuvre (propreté, sécurité, restauration, intérim).", opco21: "Industrie (interindustriel).", atlas: "Assurance, banque, finance et conseil.", opcommerce: "Commerce et distribution.", ep: "Entreprises de proximité.", afdas: "Culture, médias, communication, loisirs et sport.", constructys: "Bâtiment et travaux publics.", ocapiat: "Agriculture, agroalimentaire et pêche.", opco_mobilites: "Transport, logistique, automobile et tourisme.", cnfpt: "Fonction publique territoriale.", uniformation: "Cohésion sociale, associatif et ESS.", opco_sante: "Sanitaire, social et médico-social privé.",
 };
+
+export type FundingExplanationInput = {
+  calendarDays: number;
+  destinationZone: "europe" | "international";
+  aktoContractMode: "miseADisposition" | "miseEnVeille";
+  aktoTrainingLevel: "postBac" | "bacOrBelow";
+  atlasContractMode: "miseADisposition" | "miseEnVeille";
+  epContractMode: "miseADisposition" | "miseEnVeille";
+  amount: number;
+};
+
+/** Texte destiné au CFA : jamais de formule interne ou de code de moteur. */
+export function explainFunding(id: string, input: FundingExplanationInput): { how: string; condition: string } {
+  const euro = input.destinationZone === "europe";
+  const modeLabel = input.aktoContractMode === "miseADisposition" ? "mise à disposition" : "mise en veille";
+  const atlasModeLabel = input.atlasContractMode === "miseADisposition" ? "mise à disposition" : "mise en veille";
+  const epModeLabel = input.epContractMode === "miseADisposition" ? "mise à disposition" : "mise en veille";
+  const amount = `${Math.round(input.amount).toLocaleString("fr-FR")} €`;
+
+  switch (id) {
+    case "akto":
+      return { how: `AKTO prévoit un forfait de ${amount} par alternant pour cette destination et une convention de ${modeLabel}.`, condition: `À vérifier : convention signée, mobilité effectivement réalisée et une mobilité maximum par alternant/contrat. Le forfait référent est de ${input.aktoTrainingLevel === "bacOrBelow" ? "600" : "500"} € par alternant.` };
+    case "opco21":
+      return { how: `OPCO 2i peut rembourser les frais de mobilité du CFA, dans la limite estimée de ${amount} par alternant.`, condition: input.calendarDays <= 28 ? "Ce plafond concerne les mobilités de 28 jours ou moins. Les dépenses et justificatifs restent déterminants." : "Ce plafond concerne les mobilités de 29 jours ou plus. Les dépenses et justificatifs restent déterminants." };
+    case "atlas":
+      if (input.calendarDays < 15) return { how: "ATLAS ne prévoit pas de financement apprenti pour ce format : la mobilité doit durer au minimum 15 jours calendaires.", condition: "Le forfait référent mobilité de 500 € par alternant reste à traiter selon le dossier. Une convention signée est nécessaire avant le départ." };
+      return { how: `ATLAS prévoit un forfait de ${amount} par alternant pour une mobilité de ${input.calendarDays} jours en ${atlasModeLabel}.`, condition: "Le contrat doit relever des règles applicables depuis le 1er avril 2026 ; convention de mobilité et justificatifs à conserver." };
+    case "opcommerce":
+      return { how: "Aucun financement apprenti n’est retenu dans cette simulation.", condition: "Le barème applicable doit être confirmé avec le conseiller OPCOMMERCE avant de compter sur une prise en charge." };
+    case "ep":
+      return { how: `OPCO EP fonctionne par forfait hebdomadaire : l’estimation est de ${amount} par alternant pour une ${epModeLabel}.`, condition: `Toute semaine commencée compte. Le plafond dépend de la convention : 2 000 € en mise à disposition, 3 000 € en mise en veille.` };
+    case "afdas":
+      return { how: `Une estimation provisoire de ${amount} par alternant est affichée.`, condition: "Ne la présentez pas comme acquise : le barème AFDAS, la destination, la durée et le dossier doivent être confirmés avant toute décision." };
+    case "constructys":
+      return { how: `Constructys rembourse les dépenses de mobilité réellement supportées par le CFA, jusqu’à ${amount} par alternant dans cette simulation.`, condition: "Le plafond est de 1 180 € et couvre notamment le voyage, l’hébergement et les repas, sous réserve d’un programme de formation et d’une convention spécifique." };
+    case "ocapiat":
+      return { how: `OCAPIAT rembourse les dépenses réellement supportées par le CFA ; l’estimation affichée est de ${amount} par alternant.`, condition: "Prévoir les dépenses dans la convention, conserver les factures et vérifier le transport autorisé. Le forfait référent est de 500 € par alternant." };
+    case "opco_mobilites":
+      return { how: `OPCO Mobilités rembourse les frais de transport, d’hébergement et de restauration supportés par le CFA, jusqu’à ${amount} par alternant.`, condition: `Plafond appliqué : ${euro ? "1 500 € HT en Europe" : "2 000 € HT à l’international"}. Une mobilité par alternant et par contrat ; convention signée requise.` };
+    case "cnfpt":
+      return { how: "Aucun financement n’est calculé : le CNFPT n’est pas un OPCO dans ce simulateur.", condition: "Le projet doit être étudié via les dispositifs propres à la fonction publique territoriale." };
+    case "uniformation":
+      return { how: `Uniformation peut prendre en charge les frais réellement supportés par le CFA ; l’estimation affichée est de ${amount} par alternant.`, condition: "Les dépenses doivent être chiffrées dès le départ et intégrées à la convention de formation. Le forfait référent est de 500 € par contrat." };
+    case "opco_sante":
+      return { how: `Une estimation de ${amount} par alternant est affichée selon les plafonds de repas et de nuitées connus.`, condition: "Le transport et le barème précis dépendent de la branche et du contrat : validation avec OPCO Santé indispensable avant de compter ce montant." };
+    default:
+      return { how: `Estimation affichée : ${amount} par alternant.`, condition: "Les modalités de prise en charge doivent être confirmées avec l’OPCO." };
+  }
+}

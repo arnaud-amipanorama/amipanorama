@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { OPCOS, OPCO_BY_ID, COST_DEFAULTS, DESTINATION_TARIFFS, DESTINATION_NAMES, programmeForDestination, OPCO_SECTORS } from "@/lib/simulator/opco-config";
+import { OPCOS, OPCO_BY_ID, COST_DEFAULTS, DESTINATION_TARIFFS, DESTINATION_NAMES, programmeForDestination, OPCO_SECTORS, explainFunding } from "@/lib/simulator/opco-config";
 import {
   computeSimulation,
   baseTotals,
@@ -128,6 +128,7 @@ export default function SimulatorApp() {
   }, [rows, nights, programme, transport, atlasContractMode, mode, keptPerAccompagnant, accompagnants, targetRac]);
 
   const totalAlternants = result.totalStudents;
+  const destinationZone = DESTINATION_TARIFFS[destination]?.zone ?? "international";
   const hasAtlas = rows.some((r) => r.id === "atlas");
   const hasAkto = rows.some((r) => r.id === "akto");
   const hasEp = rows.some((r) => r.id === "ep");
@@ -166,10 +167,10 @@ export default function SimulatorApp() {
         reinjected: result.reinjected,
         confidence,
       },
-      opco: result.perOpco.map((o) => ({
-        label: o.label, count: o.count, apprenti: o.apprentiAmount,
-        referent: o.referentAmount, trace: o.apprentiTrace, toConfirm: o.status === "to_confirm",
-      })),
+      opco: result.perOpco.map((o) => {
+        const explanation = explainFunding(o.id, { calendarDays: nights + 1, destinationZone, aktoContractMode, aktoTrainingLevel, atlasContractMode, epContractMode, amount: o.apprentiAmount });
+        return { label: o.label, count: o.count, apprenti: o.apprentiAmount, referent: o.referentAmount, how: explanation.how, condition: explanation.condition, toConfirm: o.status === "to_confirm" };
+      }),
     };
   }
 
@@ -448,7 +449,7 @@ export default function SimulatorApp() {
 
             {/* Détail OPCO */}
             <div style={{ ...panelStyle, padding: 22 }}>
-              <CardLabel>Détail par OPCO · hypothèse de calcul</CardLabel>
+              <CardLabel>Comprendre le financement, OPCO par OPCO</CardLabel>
               <div style={{ marginTop: 12, display: "flex", flexDirection: "column" }}>
                 {result.perOpco.map((o) => {
                   const maxA = Math.max(...result.perOpco.map((x) => x.apprentiAmount), 1);
@@ -462,7 +463,14 @@ export default function SimulatorApp() {
                         </div>
                         <b style={{ minWidth: 66, textAlign: "right" }}>{eur(o.apprentiAmount)}</b>
                       </div>
-                      <div style={{ fontSize: 11, color: T.faint, marginTop: 4 }}>{o.apprentiTrace} · référent {eur(o.referentAmount)}/contrat{o.status === "to_confirm" ? " · à confirmer" : ""}</div>
+                      {(() => {
+                        const explanation = explainFunding(o.id, { calendarDays: nights + 1, destinationZone, aktoContractMode, aktoTrainingLevel, atlasContractMode, epContractMode, amount: o.apprentiAmount });
+                        return <div style={{ display: "grid", gap: 5, marginTop: 8, padding: "10px 11px", borderRadius: 9, background: "rgba(255,255,255,0.025)" }}>
+                          <p style={{ fontSize: 11.5, color: T.text, lineHeight: 1.55, margin: 0 }}><b>Comment ça fonctionne :</b> {explanation.how}</p>
+                          <p style={{ fontSize: 10.5, color: o.status === "to_confirm" ? "#E0A52E" : T.muted, lineHeight: 1.5, margin: 0 }}><b>{o.status === "to_confirm" ? "À confirmer :" : "À prévoir :"}</b> {explanation.condition}</p>
+                          <p style={{ fontSize: 10.5, color: T.faint, margin: 0 }}>Référent mobilité : {eur(o.referentAmount)} par alternant, à affecter à la coordination et aux dépenses liées à la mobilité.</p>
+                        </div>;
+                      })()}
                       {OPCO_SECTORS[o.id] && <div style={{ fontSize: 10.5, color: T.faint, marginTop: 3, fontStyle: "italic", lineHeight: 1.5 }}>{OPCO_SECTORS[o.id]}</div>}
                       {OPCO_BY_ID[o.id].source && <a href={OPCO_BY_ID[o.id].source!.url} target="_blank" rel="noreferrer" style={{ display: "inline-block", marginTop: 4, fontSize: 10.5, color: T.blue }}>Source vérifiée · {OPCO_BY_ID[o.id].source!.checkedAt} ↗</a>}
                     </div>

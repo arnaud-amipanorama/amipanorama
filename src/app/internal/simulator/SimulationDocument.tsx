@@ -24,7 +24,7 @@ export interface SimulationData {
     reinjected: number;
     confidence: { level: ConfidenceLevel; label: string; desc: string };
   };
-  opco: { label: string; count: number; apprenti: number; referent: number; trace: string; toConfirm: boolean }[];
+  opco: { label: string; count: number; apprenti: number; referent: number; how: string; condition: string; toConfirm: boolean }[];
 }
 
 const C = {
@@ -90,6 +90,9 @@ const s = StyleSheet.create({
   infoTitle: { fontSize: 11.5, fontFamily: "Helvetica-Bold", color: C.ink },
   infoBody: { fontSize: 9.5, color: "#3A3A40", lineHeight: 1.62 },
   infoStrong: { fontFamily: "Helvetica-Bold", color: C.ink },
+  opcoCard: { borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 14, marginBottom: 11 },
+  opcoKicker: { fontSize: 8, color: C.gray, textTransform: "uppercase", letterSpacing: 0.7 },
+  opcoValue: { fontFamily: "Helvetica-Bold", fontSize: 18, color: C.blue, marginTop: 4 },
   // Barres de composition (remplace l'ancien donut)
   compRow: { marginBottom: 14 },
   compTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 6 },
@@ -127,6 +130,9 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
     { label: "Réinjection référent", value: kpis.reinjected, color: C.green, final: false },
     { label: "Reste à charge étudiant", value: racFinalTotal, color: C.orange, final: true },
   ];
+  const opcoChunks = Array.from({ length: Math.ceil(opco.length / 3) }, (_, index) => opco.slice(index * 3, index * 3 + 3));
+  const methodologyPage = 5 + opcoChunks.length;
+  const mentionsPage = methodologyPage + 1;
 
   return (
     <Document title={`AMI Panorama — Simulation ${meta.etablissement}`} author="AMI Panorama">
@@ -201,7 +207,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Text style={s.eyebrow}>Comprendre</Text>
         <Text style={s.h2}>La mobilité et ses financements</Text>
         <Text style={s.intro}>
-          La mobilité internationale des apprenti·e·s peut être largement financée par des dispositifs dédiés, versés par les OPCO. Deux leviers principaux sont mobilisés dans cette simulation.
+          La mobilité internationale peut ouvrir droit à des financements, mais aucun montant n&apos;est automatique. Cette simulation aide à préparer un dossier : elle sépare ce qui peut financer les alternants de ce qui accompagne le travail du CFA.
         </Text>
 
         <View style={s.infoCard}>
@@ -212,6 +218,11 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
           <Text style={s.infoBody}>
             Montant alloué par l&apos;OPCO au CFA (Centre de Formation d&apos;Apprentis) pour accompagner la mise en œuvre des mobilités étudiantes : organisation, coordination, suivi, préparation des élèves et dépenses liées au projet. <Text style={s.infoStrong}>Important :</Text> son affectation doit être cohérente avec les conditions de l&apos;OPCO, le dossier et les justificatifs à conserver ; elle ne constitue pas une marge libre.
           </Text>
+        </View>
+
+        <View style={[s.infoCard, { backgroundColor: C.soft }]}>
+          <Text style={s.infoTitle}>En pratique, comment un financement se confirme-t-il ?</Text>
+          <Text style={[s.infoBody, { marginTop: 8 }]}>1. Le CFA et AMI cadrent le séjour.  2. Les conditions applicables au contrat et à l&apos;OPCO sont vérifiées.  3. La convention de mobilité et les documents demandés sont préparés.  4. L&apos;OPCO instruit le dossier selon ses règles. Cette simulation intervient avant cette dernière validation.</Text>
         </View>
 
         <View style={s.infoCard}>
@@ -277,45 +288,51 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Footer p="04" />
       </Page>
 
-      {/* PAGE 5 — DÉTAIL OPCO */}
-      <Page size="A4" style={s.page}>
-        <Image src={LOGO_BLACK} style={s.hdrLogo} />
-        <Text style={s.eyebrow}>Détail par OPCO</Text>
-        <Text style={s.h2}>Hypothèses de prise en charge</Text>
-        <View style={{ flexDirection: "row", paddingBottom: 4 }}>
-          <Text style={[s.th, { width: "36%" }]}>OPCO</Text>
-          <Text style={[s.th, { width: "12%" }]}>Alt.</Text>
-          <Text style={[s.th, { width: "18%" }]}>Par apprenti</Text>
-          <Text style={[s.th, { width: "16%" }]}>Référent</Text>
-          <Text style={[s.th, { width: "18%", textAlign: "right" }]}>Total</Text>
-        </View>
-        {opco.map((o, i) => (
-          <View key={i} style={s.row} wrap={false}>
-            <View style={{ width: "36%", paddingRight: 8 }}>
-              <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 10 }}>{o.label}{o.toConfirm ? " *" : ""}</Text>
-              <Text style={{ fontSize: 7.5, color: C.light, marginTop: 2 }}>{o.trace.length > 96 ? o.trace.slice(0, 96) + "…" : o.trace}</Text>
+      {/* PAGE 5+ — OPCO EXPLIQUÉS */}
+      {opcoChunks.map((chunk, pageIndex) => (
+        <Page key={pageIndex} size="A4" style={s.page}>
+          <Image src={LOGO_BLACK} style={s.hdrLogo} />
+          <Text style={s.eyebrow}>OPCO par OPCO</Text>
+          <Text style={s.h2}>{pageIndex === 0 ? "Comprendre chaque financement" : "Suite des financements"}</Text>
+          <Text style={s.intro}>Chaque bloc explique simplement ce qui est estimé, la façon dont l&apos;OPCO peut intervenir et le point à vérifier avant de compter ce financement.</Text>
+          {chunk.map((o, i) => (
+            <View key={i} style={s.opcoCard} wrap={false}>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
+                <View style={{ flex: 1, paddingRight: 10 }}>
+                  <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 12 }}>{o.label}</Text>
+                  <Text style={{ fontSize: 8.5, color: C.gray, marginTop: 3 }}>{o.count} alternant{o.count > 1 ? "s" : ""} concerné{o.count > 1 ? "s" : ""}</Text>
+                </View>
+                <View style={{ alignItems: "flex-end" }}>
+                  <Text style={s.opcoKicker}>Estimation / alternant</Text>
+                  <Text style={s.opcoValue}>{eur(o.apprenti)}</Text>
+                </View>
+              </View>
+              <View style={{ marginTop: 10 }}>
+                <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9 }}>Comment cela fonctionne</Text>
+                <Text style={[s.infoBody, { fontSize: 9, marginTop: 3 }]}>{o.how}</Text>
+              </View>
+              <View style={{ marginTop: 8, padding: 9, borderRadius: 7, backgroundColor: o.toConfirm ? "#FFF6E8" : C.soft }}>
+                <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8.5, color: o.toConfirm ? C.amber : C.gray }}>{o.toConfirm ? "À CONFIRMER AVANT DE COMPTER CE MONTANT" : "À PRÉVOIR DANS LE DOSSIER"}</Text>
+                <Text style={{ fontSize: 8.7, color: "#3A3A40", lineHeight: 1.55, marginTop: 3 }}>{o.condition}</Text>
+              </View>
+              <Text style={{ fontSize: 8.5, color: C.gray, marginTop: 8 }}>Forfait référent mobilité : {eur(o.referent)} par alternant — pour la coordination et les dépenses liées au projet du CFA.</Text>
             </View>
-            <Text style={{ width: "12%" }}>{o.count}</Text>
-            <Text style={{ width: "18%" }}>{eur(o.apprenti)}</Text>
-            <Text style={{ width: "16%" }}>{eur(o.referent)}</Text>
-            <Text style={{ width: "18%", textAlign: "right", fontFamily: "Helvetica-Bold" }}>{eur(o.apprenti * o.count)}</Text>
-          </View>
-        ))}
-        <Text style={{ fontSize: 8, color: C.light, marginTop: 14 }}>* Règle estimée selon les pratiques AMI Panorama, à confirmer selon l&apos;OPCO, la durée et les justificatifs.</Text>
-        <Footer p="05" />
-      </Page>
+          ))}
+          <Footer p={`0${5 + pageIndex}`} />
+        </Page>
+      ))}
 
       {/* PAGE 6 — MÉTHODOLOGIE */}
       <Page size="A4" style={s.page}>
         <Image src={LOGO_BLACK} style={s.hdrLogo} />
         <Text style={s.eyebrow}>Méthodologie</Text>
-        <Text style={s.h2}>Méthodologie de calcul</Text>
+        <Text style={s.h2}>Ce que cette simulation fait — et ne fait pas</Text>
         <Text style={s.intro}>Cette simulation repose sur :</Text>
         {[
-          "les informations saisies par l'utilisateur ;",
-          "les règles de financement connues à la date de génération ;",
-          "les hypothèses de réinjection paramétrées dans le simulateur ;",
-          "les paramètres de mobilité sélectionnés.",
+          "elle estime les montants à partir du groupe, de la destination et des règles connues à la date de génération ;",
+          "elle montre distinctement le coût du séjour, l’aide potentielle des OPCO et le budget référent mobilité ;",
+          "elle aide le CFA à préparer son échange avec AMI Panorama, son OPCO et ses partenaires ;",
+          "elle ne vaut ni accord de prise en charge, ni confirmation de montant, ni convention de mobilité.",
         ].map((b, i) => (
           <View key={i} style={s.bullet}>
             <Text style={{ color: C.orange, marginRight: 8 }}>—</Text>
@@ -323,7 +340,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
           </View>
         ))}
         <Text style={[s.legalP, { marginTop: 14 }]}>Les financements définitifs demeurent soumis à validation par les organismes compétents.</Text>
-        <Footer p="06" />
+        <Footer p={String(methodologyPage).padStart(2, "0")} />
       </Page>
 
       {/* PAGE 7 — MENTIONS */}
@@ -338,7 +355,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Text style={s.legalP}>AMI Panorama ne garantit aucun montant de financement et ne peut être tenu responsable d&apos;une décision prise uniquement sur la base de cette simulation.</Text>
         <Text style={s.legalP}>Chaque établissement demeure responsable de réaliser ses propres vérifications, analyses et démarches de validation avant toute décision.</Text>
         <View style={{ marginTop: 22 }}><Text style={s.badge}>CONFIDENTIEL</Text></View>
-        <Footer p="07" />
+        <Footer p={String(mentionsPage).padStart(2, "0")} />
       </Page>
     </Document>
   );
