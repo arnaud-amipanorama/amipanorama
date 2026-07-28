@@ -386,9 +386,10 @@ export default function SimulatorApp() {
           </div>
 
           {/* ── COLONNE RÉSULTATS (niveau 1) ── */}
-          <div ref={resultsRef} data-sim-tour="results" style={{ position: "sticky", top: 24, display: "flex", flexDirection: "column", gap: 14 }} className="sim-results">
+          <div ref={resultsRef} style={{ position: "sticky", top: 24, display: "flex", flexDirection: "column", gap: 14 }} className="sim-results">
             {/* KPI principal */}
             <motion.div key={Math.round(result.racAvg)} initial={{ opacity: 0.4, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
+              data-sim-tour="results"
               style={{ ...panelStyle, background: "linear-gradient(160deg, rgba(232,88,53,0.10), rgba(255,255,255,0.02))", border: `1px solid ${T.borderStrong}`, padding: "32px 30px", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 3, background: T.orange }} />
               <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: T.muted }}>Reste à charge moyen étudiant</div>
@@ -437,7 +438,7 @@ export default function SimulatorApp() {
             </div>
 
             {/* Waterfall */}
-            <div data-sim-tour="document" style={{ ...panelStyle, padding: 22 }}>
+            <div style={{ ...panelStyle, padding: 22 }}>
               <CardLabel>Du coût brut au reste à charge</CardLabel>
               <Waterfall steps={[
                 { label: "Coût brut", value: result.totalCostAll, kind: "total" },
@@ -488,7 +489,7 @@ export default function SimulatorApp() {
             <FundingGuide />
 
             {/* Document + enregistrement */}
-            <div style={{ ...panelStyle, padding: 22 }}>
+            <div data-sim-tour="document" style={{ ...panelStyle, padding: 22 }}>
               <CardLabel>Générer le document</CardLabel>
               <p style={{ fontSize: 11.5, color: T.faint, margin: "8px 0 12px", lineHeight: 1.5 }}>
                 Ces informations sont nécessaires pour générer le document (champs obligatoires).

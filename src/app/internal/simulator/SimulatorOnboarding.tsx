@@ -29,7 +29,9 @@ export default function SimulatorOnboarding({ onComplete, onStepChange }: { onCo
     const placeSpotlight = () => {
       const rect = target.getBoundingClientRect();
       const pad = 10;
-      setSpotlight({ top: Math.max(8, rect.top - pad), left: Math.max(8, rect.left - pad), width: Math.min(window.innerWidth - 16, rect.width + pad * 2), height: Math.min(window.innerHeight - 16, rect.height + pad * 2) });
+      const width = Math.min(window.innerWidth - 16, rect.width + pad * 2);
+      const height = Math.min(window.innerHeight - 16, rect.height + pad * 2);
+      setSpotlight({ top: Math.max(8, Math.min(rect.top - pad, window.innerHeight - height - 8)), left: Math.max(8, Math.min(rect.left - pad, window.innerWidth - width - 8)), width, height });
     };
     const timer = window.setTimeout(placeSpotlight, 360);
     window.addEventListener("resize", placeSpotlight);
@@ -38,9 +40,14 @@ export default function SimulatorOnboarding({ onComplete, onStepChange }: { onCo
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 2000, pointerEvents: "none" }}>
-      <div style={{ position: "absolute", inset: 0, background: "rgba(4,4,7,0.62)", backdropFilter: "blur(3px)" }} />
+      {spotlight ? <>
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: spotlight.top, background: "rgba(4,4,7,0.64)", backdropFilter: "blur(5px)" }} />
+        <div style={{ position: "fixed", top: spotlight.top, left: 0, width: spotlight.left, height: spotlight.height, background: "rgba(4,4,7,0.64)", backdropFilter: "blur(5px)" }} />
+        <div style={{ position: "fixed", top: spotlight.top, left: spotlight.left + spotlight.width, right: 0, height: spotlight.height, background: "rgba(4,4,7,0.64)", backdropFilter: "blur(5px)" }} />
+        <div style={{ position: "fixed", top: spotlight.top + spotlight.height, left: 0, right: 0, bottom: 0, background: "rgba(4,4,7,0.64)", backdropFilter: "blur(5px)" }} />
+      </> : <div style={{ position: "absolute", inset: 0, background: "rgba(4,4,7,0.64)", backdropFilter: "blur(5px)" }} />}
       {spotlight && <motion.div initial={false} animate={spotlight} transition={{ type: "spring", stiffness: 280, damping: 30 }}
-        style={{ position: "fixed", borderRadius: 17, border: "2px solid #E85835", boxShadow: "0 0 0 9999px rgba(4,4,7,0.62), 0 0 0 6px rgba(232,88,53,0.18), 0 0 32px rgba(232,88,53,0.42)", pointerEvents: "none" }} />}
+        style={{ position: "fixed", borderRadius: 17, border: "2px solid #E85835", boxShadow: "0 0 0 6px rgba(232,88,53,0.18), 0 0 32px rgba(232,88,53,0.42)", pointerEvents: "none" }} />}
       <motion.section initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }}
         role="dialog" aria-modal="true" aria-labelledby="sim-onboarding-title"
         style={{ position: "fixed", pointerEvents: "auto", right: "clamp(16px, 4vw, 42px)", bottom: "clamp(16px, 4vw, 42px)", width: "min(calc(100% - 32px), 430px)", padding: "24px", borderRadius: 18, background: "#101015", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 24px 80px rgba(0,0,0,0.55)", color: "#F4F5F7" }}>
