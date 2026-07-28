@@ -10,6 +10,7 @@ import {
 } from "@/lib/simulator/engine";
 import type { SimulationData } from "./SimulationDocument";
 import FundingGuide from "./FundingGuide";
+import SimulatorOnboarding from "./SimulatorOnboarding";
 
 // ── Thème : noir profond · blanc · gris clair · ORANGE AMI (accent). Bleu = accent graphique. ──
 const T = {
@@ -45,7 +46,8 @@ const MODES: { kind: ModeKind; label: string; desc: string }[] = [
 const BENEFITS = ["Financements OPCO", "Référent mobilité", "Reste à charge étudiant", "Impact établissement"];
 
 export default function SimulatorApp() {
-  const [view, setView] = useState<"hero" | "app">("hero");
+  const [view, setView] = useState<"hero" | "app">("app");
+  const [showOnboarding, setShowOnboarding] = useState(true);
 
   // Étape 1 — le groupe
   const [destination, setDestination] = useState("Montréal");
@@ -96,6 +98,13 @@ export default function SimulatorApp() {
     setDestination(name);
     const t = DESTINATION_TARIFFS[name];
     if (t) { setProgramme(programmeForDestination(name, nights)); setTransport(t.billets); }
+  };
+
+  const updateNights = (value: number) => {
+    setNights(value);
+    // Estimation interne basée sur les plafonds : AMI fournit la ventilation réelle si le dossier l'exige.
+    setEligibleAccommodation(value * 6);
+    setEligibleMeals((value + 1) * 2 * 3);
   };
 
   const result = useMemo(() => {
@@ -258,7 +267,7 @@ export default function SimulatorApp() {
             <Step n={1} title="Le groupe">
               <Field label="Destination" hint="prix auto"><Select value={destination} onChange={selectDestination} options={DESTINATION_NAMES} /></Field>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                <Field label="Durée (nuitées)" hint={`${nights + 1} jours`}><Stepper value={nights} onChange={setNights} min={1} /></Field>
+                <Field label="Durée (nuitées)" hint={`${nights + 1} jours`}><Stepper value={nights} onChange={updateNights} min={1} /></Field>
                 <Field label="Accompagnants"><Stepper value={accompagnants} onChange={setAccompagnants} min={0} /></Field>
               </div>
             </Step>
@@ -303,14 +312,6 @@ export default function SimulatorApp() {
                       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 14 }}>
                         <Field label="Billet moyen"><NumInput value={transport} onChange={setTransport} suffix="€" /></Field>
                         <Field label="Programme / étudiant" hint={`sugg. ${eur(suggestedProgramme)}`}><NumInput value={programme} onChange={setProgramme} suffix="€" /></Field>
-                      </div>
-                      <div style={{ padding: "12px", borderRadius: 10, background: T.panel, border: `1px solid ${T.border}` }}>
-                        <Label>Dépenses éligibles supportées par le CFA</Label>
-                        <p style={{ fontSize: 11, color: T.faint, lineHeight: 1.5, margin: "5px 0 10px" }}>À renseigner au réel : le prix du package AMI n&apos;est pas automatiquement une dépense finançable par l&apos;OPCO.</p>
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-                          <Field label="Hébergement"><NumInput value={eligibleAccommodation} onChange={setEligibleAccommodation} suffix="€" /></Field>
-                          <Field label="Repas"><NumInput value={eligibleMeals} onChange={setEligibleMeals} suffix="€" /></Field>
-                        </div>
                       </div>
                       {hasAtlas && (
                         <Field label="ATLAS — mode de contrat">
@@ -470,7 +471,7 @@ export default function SimulatorApp() {
               </div>
               <div style={{ marginTop: 14, padding: "12px 14px", borderRadius: 10, background: T.panel2, border: `1px solid ${T.border}` }}>
                 <p style={{ fontSize: 11.5, color: T.muted, lineHeight: 1.6, margin: 0 }}>
-                  <b style={{ color: T.text }}>Comment lire ces montants.</b> Le <b>forfait référent mobilité</b> finance le travail et les dépenses de coordination du CFA ; il ne constitue pas une marge libre. La prise en charge <b>apprenti</b> dépend de l&apos;OPCO, de la durée, de la convention et des dépenses réellement supportées par le CFA. Le moteur isole donc le prix commercial AMI des dépenses déclarées éligibles.
+                  <b style={{ color: T.text }}>Comment lire ces montants.</b> Le <b>forfait référent mobilité</b> finance le travail et les dépenses de coordination du CFA ; il ne constitue pas une marge libre. Pour les OPCO au réel, le simulateur applique une estimation selon les plafonds connus. AMI Panorama fournit ensuite la ventilation utile au dossier, lorsque le séjour est défini.
                 </p>
                 <p style={{ fontSize: 10, color: T.faint, margin: "8px 0 0" }}>Sources officielles consultées le 28/07/2026. Une source et la date de contrôle sont disponibles par ligne.</p>
               </div>
@@ -541,6 +542,7 @@ export default function SimulatorApp() {
           </motion.div>
         )}
       </AnimatePresence>
+      {showOnboarding && <SimulatorOnboarding onComplete={() => { setShowOnboarding(false); setView("app"); }} />}
 
       <style>{`
         @media (max-width: 880px) {
