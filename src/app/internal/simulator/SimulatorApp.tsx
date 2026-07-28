@@ -264,15 +264,15 @@ export default function SimulatorApp() {
         <div style={{ display: "grid", gridTemplateColumns: "minmax(340px, 400px) 1fr", gap: 28, alignItems: "start" }} className="sim-layout">
           {/* ── COLONNE PARAMÈTRES (niveau 3) ── */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <Step n={1} title="Le groupe">
+            <div data-sim-tour="group"><Step n={1} title="Le groupe">
               <Field label="Destination" hint="prix auto"><Select value={destination} onChange={selectDestination} options={DESTINATION_NAMES} /></Field>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                 <Field label="Durée (nuitées)" hint={`${nights + 1} jours`}><Stepper value={nights} onChange={updateNights} min={1} /></Field>
                 <Field label="Accompagnants"><Stepper value={accompagnants} onChange={setAccompagnants} min={0} /></Field>
               </div>
-            </Step>
+            </Step></div>
 
-            <Step n={2} title="Répartition OPCO" right={<Pill>{totalAlternants} alternants</Pill>}>
+            <div data-sim-tour="opcos"><Step n={2} title="Répartition OPCO" right={<Pill>{totalAlternants} alternants</Pill>}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {rows.map((r) => {
                   const cfg = OPCO_BY_ID[r.id];
@@ -294,10 +294,10 @@ export default function SimulatorApp() {
                   </select>
                 )}
               </div>
-            </Step>
+            </Step></div>
 
             {/* Étape 3 — accordéon */}
-            <div style={{ ...panelStyle, overflow: "hidden" }}>
+            <div data-sim-tour="advanced" style={{ ...panelStyle, overflow: "hidden" }}>
               <button onClick={() => setAdvancedOpen((o) => !o)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 18px", background: "transparent", border: "none", cursor: "pointer", color: T.text }}>
                 <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <StepBadge n={3} />
@@ -385,7 +385,7 @@ export default function SimulatorApp() {
           </div>
 
           {/* ── COLONNE RÉSULTATS (niveau 1) ── */}
-          <div ref={resultsRef} style={{ position: "sticky", top: 24, display: "flex", flexDirection: "column", gap: 14 }} className="sim-results">
+          <div ref={resultsRef} data-sim-tour="results" style={{ position: "sticky", top: 24, display: "flex", flexDirection: "column", gap: 14 }} className="sim-results">
             {/* KPI principal */}
             <motion.div key={Math.round(result.racAvg)} initial={{ opacity: 0.4, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
               style={{ ...panelStyle, background: "linear-gradient(160deg, rgba(232,88,53,0.10), rgba(255,255,255,0.02))", border: `1px solid ${T.borderStrong}`, padding: "32px 30px", position: "relative", overflow: "hidden" }}>
@@ -436,7 +436,7 @@ export default function SimulatorApp() {
             </div>
 
             {/* Waterfall */}
-            <div style={{ ...panelStyle, padding: 22 }}>
+            <div data-sim-tour="document" style={{ ...panelStyle, padding: 22 }}>
               <CardLabel>Du coût brut au reste à charge</CardLabel>
               <Waterfall steps={[
                 { label: "Coût brut", value: result.totalCostAll, kind: "total" },
@@ -542,7 +542,7 @@ export default function SimulatorApp() {
           </motion.div>
         )}
       </AnimatePresence>
-      {showOnboarding && <SimulatorOnboarding onComplete={() => { setShowOnboarding(false); setView("app"); }} />}
+      {showOnboarding && <SimulatorOnboarding onStepChange={(step) => { if (step === 3) setAdvancedOpen(true); }} onComplete={() => { setShowOnboarding(false); setView("app"); }} />}
 
       <style>{`
         @media (max-width: 880px) {
