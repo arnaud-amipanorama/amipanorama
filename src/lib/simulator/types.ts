@@ -13,15 +13,18 @@ export interface RuleContext {
   calendarDays: number; // jours calendaires (= nuitées + 1 par défaut)
   programmeCost: number; // coût programme AMI / étudiant
   transportCost: number; // billet avion/train / étudiant
-  totalCost: number; // programme + transport
+  accommodationCost: number; // part hébergement réellement supportée par le CFA
+  mealsCost: number; // part restauration réellement supportée par le CFA
+  totalCost: number; // programme + transport (reste à charge commercial)
+  eligibleMobilityCost: number; // transport + hébergement + repas déclarés au réel
   selections: Record<string, string>; // ex. { atlasContractMode: "miseADisposition" }
 }
 
 /** Une règle de financement. Plusieurs mécanismes, combinables via "composite". */
 export type FundingRule =
   | { type: "fixed"; amount: number }
-  | { type: "realCostCapped"; cap: number; covers?: Coverage[] }
-  | { type: "weeklyAllowance"; perWeek: number; basis: "daysStarted" }
+  | { type: "realCostCapped"; cap: number | Record<string, number>; covers?: Coverage[]; select?: { param: string; default: string; options: string[] } }
+  | { type: "weeklyAllowance"; perWeek: number | Record<string, number>; basis: "daysStarted"; cap?: number | Record<string, number>; select?: { param: string; default: string; options: string[] } }
   | { type: "dailyAllowance"; perDay: number; maxDays?: number }
   | { type: "mealAllowance"; perMeal: number; mealsPerDay: number }
   | { type: "accommodationAllowance"; perNight: number }
@@ -38,17 +41,20 @@ export type FundingRule =
 export interface OpcoConfig {
   id: string;
   label: string;
-  referentAmount: number; // financement référent mobilité / contrat
+  referent: FundingRule; // financement référent mobilité / contrat
   apprenti: FundingRule; // financement apprenti
   minNights?: number; // condition d'éligibilité éventuelle (sinon 0)
   status: "validated" | "to_confirm";
   notes?: string;
+  source?: { label: string; url: string; checkedAt: string };
 }
 
 export interface StayParams {
   nights: number;
   programmeCost: number;
   transportCost: number;
+  accommodationCost: number;
+  mealsCost: number;
 }
 
 export interface OpcoRow {

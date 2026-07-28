@@ -22,14 +22,20 @@ export function evaluateRule(rule: FundingRule, ctx: RuleContext): RuleResult {
       return { amount: rule.amount, trace: `Forfait fixe : ${eur(rule.amount)}` };
 
     case "realCostCapped": {
-      const a = Math.min(rule.cap, ctx.totalCost);
-      return { amount: a, trace: `Au réel plafonné : min(${eur(rule.cap)} ; coût ${eur(ctx.totalCost)}) = ${eur(a)}` };
+      const variant = rule.select ? ctx.selections[rule.select.param] ?? rule.select.default : "default";
+      const cap = typeof rule.cap === "number" ? rule.cap : rule.cap[variant] ?? rule.cap.default ?? 0;
+      const a = Math.min(cap, ctx.eligibleMobilityCost);
+      return { amount: a, trace: `Au réel plafonné : min(${eur(cap)} ; dépenses éligibles ${eur(ctx.eligibleMobilityCost)}) = ${eur(a)}` };
     }
 
     case "weeklyAllowance": {
       const weeks = Math.ceil(ctx.calendarDays / 7); // semaine entamée
-      const a = weeks * rule.perWeek;
-      return { amount: a, trace: `${weeks} semaine(s) entamée(s) × ${eur(rule.perWeek)} = ${eur(a)} (${ctx.calendarDays} j)` };
+      const variant = rule.select ? ctx.selections[rule.select.param] ?? rule.select.default : "default";
+      const perWeek = typeof rule.perWeek === "number" ? rule.perWeek : rule.perWeek[variant] ?? rule.perWeek.default ?? 0;
+      const cap = rule.cap === undefined ? undefined : typeof rule.cap === "number" ? rule.cap : rule.cap[variant] ?? rule.cap.default ?? 0;
+      const raw = weeks * perWeek;
+      const a = cap === undefined ? raw : Math.min(raw, cap);
+      return { amount: a, trace: `${weeks} semaine(s) entamée(s) × ${eur(perWeek)}${cap !== undefined ? `, plafond ${eur(cap)}` : ""} = ${eur(a)} (${ctx.calendarDays} j)` };
     }
 
     case "dailyAllowance": {
@@ -39,13 +45,15 @@ export function evaluateRule(rule: FundingRule, ctx: RuleContext): RuleResult {
     }
 
     case "mealAllowance": {
-      const a = ctx.calendarDays * rule.mealsPerDay * rule.perMeal;
-      return { amount: a, trace: `${ctx.calendarDays} j × ${rule.mealsPerDay} repas × ${eur(rule.perMeal)} = ${eur(a)}` };
+      const ceiling = ctx.calendarDays * rule.mealsPerDay * rule.perMeal;
+      const a = Math.min(ceiling, ctx.mealsCost);
+      return { amount: a, trace: `Repas : min(${eur(ceiling)} ; dépenses déclarées ${eur(ctx.mealsCost)}) = ${eur(a)}` };
     }
 
     case "accommodationAllowance": {
-      const a = ctx.nights * rule.perNight;
-      return { amount: a, trace: `${ctx.nights} nuit(s) × ${eur(rule.perNight)} = ${eur(a)}` };
+      const ceiling = ctx.nights * rule.perNight;
+      const a = Math.min(ceiling, ctx.accommodationCost);
+      return { amount: a, trace: `Hébergement : min(${eur(ceiling)} ; dépenses déclarées ${eur(ctx.accommodationCost)}) = ${eur(a)}` };
     }
 
     case "transportCoverage": {
@@ -107,6 +115,7 @@ export interface SimResult {
   referentTotal: number; // financements référent mobilité
   keptTotal: number; // conservé par l'école
   reinjected: number; // réinjecté pour réduire le RAC
+  unusedReferent: number; // reliquat référent non affecté au RAC dans cette simulation
   racBeforeTotal: number; // RAC total avant réinjection
   racFinalTotal: number; // RAC total final
   racAvg: number; // KPI : RAC moyen / étudiant
@@ -122,12 +131,16 @@ export function computeSimulation(input: SimInput): SimResult {
     calendarDays: stay.nights + 1,
     programmeCost: stay.programmeCost,
     transportCost: stay.transportCost,
+    accommodationCost: stay.accommodationCost,
+    mealsCost: stay.mealsCost,
     totalCost,
+    eligibleMobilityCost: stay.transportCost + stay.accommodationCost + stay.mealsCost,
     selections: input.selections ?? {},
   };
 
   const perOpco: OpcoLine[] = rows.map(({ config, count }) => {
     const f = apprentiFunding(config, ctx);
+    const referent = evaluateRule(config.referent, ctx).amount;
     const racStudent = totalCost - f.amount;
     return {
       id: config.id,
@@ -136,10 +149,10 @@ export function computeSimulation(input: SimInput): SimResult {
       status: config.status,
       apprentiAmount: f.amount,
       apprentiTrace: f.trace,
-      referentAmount: config.referentAmount,
+      referentAmount: referent,
       racStudent,
       apprentiTotal: f.amount * count,
-      referentTotal: config.referentAmount * count,
+      referentTotal: referent * count,
       racTotal: racStudent * count,
     };
   });
@@ -151,8 +164,10 @@ export function computeSimulation(input: SimInput): SimResult {
 
   // L'école ne peut pas conserver plus que le total référent perçu.
   const keptTotal = Math.max(0, Math.min(input.keptTotal, referentTotal));
-  const reinjected = referentTotal - keptTotal;
-  const racFinalTotal = racBeforeTotal - reinjected;
+  const plannedReinjection = referentTotal - keptTotal;
+  const reinjected = Math.min(plannedReinjection, racBeforeTotal);
+  const unusedReferent = plannedReinjection - reinjected;
+  const racFinalTotal = Math.max(0, racBeforeTotal - reinjected);
   const racAvg = totalStudents ? racFinalTotal / totalStudents : 0;
   const financementMoyen = totalStudents ? apprentiTotal / totalStudents : 0;
 
@@ -165,6 +180,7 @@ export function computeSimulation(input: SimInput): SimResult {
     referentTotal,
     keptTotal,
     reinjected,
+    unusedReferent,
     racBeforeTotal,
     racFinalTotal,
     racAvg,
@@ -177,7 +193,7 @@ export function computeSimulation(input: SimInput): SimResult {
 export type OptimizationMode =
   | { kind: "free"; keptPerAccompagnant: number; accompagnants: number }
   | { kind: "maxReduction" }
-  | { kind: "operationBlanche" }
+  | { kind: "coverSupport"; supportBudget: number }
   | { kind: "targetRac"; targetPerStudent: number };
 
 export interface BaseTotals {
@@ -203,8 +219,8 @@ export function resolveKeptTotal(mode: OptimizationMode, b: BaseTotals): number 
       return Math.max(0, mode.keptPerAccompagnant * mode.accompagnants);
     case "maxReduction":
       return 0; // réinjecte tout le référent → RAC étudiant minimal
-    case "operationBlanche":
-      return 0; // l'école ne conserve rien : opération nette nulle pour elle
+    case "coverSupport":
+      return Math.max(0, Math.min(b.referentTotal, mode.supportBudget));
     case "targetRac": {
       const reinjectNeeded = b.racBeforeTotal - mode.targetPerStudent * b.totalStudents;
       const kept = b.referentTotal - reinjectNeeded;

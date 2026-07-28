@@ -1,192 +1,122 @@
 // ──────────────────────────────────────────────────────────────
 // Simulateur de financement mobilité — CONFIG OPCO (source unique)
-// V1 EUROPE. Modifier les montants/règles UNIQUEMENT ici.
-// status: "validated" = confirmé ; "to_confirm" = à valider avec Arnaud.
-// Seed = logique de l'Excel opérationnel + corrections documentées.
+// Les montants reflètent les sources listées sous chaque OPCO et leur
+// date de contrôle. « À confirmer » = ne pas présenter comme acquis.
+// Le moteur ne doit jamais assimiler le prix AMI à une dépense éligible.
 // ──────────────────────────────────────────────────────────────
 import type { FundingRule, OpcoConfig } from "./types";
 
-// Famille "au réel" de l'Excel : transport réel + 6 €/nuitée.
-// NB : la règle réelle de plusieurs de ces OPCO est plus riche
-// (repas 3 €×2/j, assurances, plafond ~1 180 €). À granulariser après validation.
-const realTransportPlusNight: FundingRule = {
+const checkedAt = "28/07/2026";
+const realMobilityCosts: FundingRule = {
   type: "composite",
   rules: [
     { type: "transportCoverage", mode: "real" },
     { type: "accommodationAllowance", perNight: 6 },
+    { type: "mealAllowance", perMeal: 3, mealsPerDay: 2 },
   ],
 };
 
 export const OPCOS: OpcoConfig[] = [
   {
-    id: "akto",
-    label: "AKTO",
-    referentAmount: 500,
-    apprenti: { type: "fixed", amount: 1000 },
-    status: "to_confirm",
-  },
-  {
-    id: "opco21",
-    label: "OPCO 2i",
-    referentAmount: 500,
-    apprenti: { type: "fixed", amount: 800 },
-    status: "to_confirm",
-  },
-  {
-    id: "atlas",
-    label: "ATLAS",
-    referentAmount: 500,
+    id: "akto", label: "AKTO",
+    referent: { type: "tieredByDays", dayBasis: "calendar", select: { param: "aktoTrainingLevel", default: "postBac", options: ["postBac", "bacOrBelow"] }, bands: [{ minDays: 0, maxDays: null, amounts: { postBac: 500, bacOrBelow: 600 } }] },
+    apprenti: { type: "tieredByDays", dayBasis: "calendar", select: { param: "aktoFunding", default: "international_miseADisposition", options: ["euro_miseADisposition", "international_miseADisposition", "euro_miseEnVeille", "international_miseEnVeille"] }, bands: [{ minDays: 0, maxDays: null, amounts: { euro_miseADisposition: 1000, international_miseADisposition: 1500, euro_miseEnVeille: 1500, international_miseEnVeille: 2500 } }] },
     status: "validated",
-    notes:
-      "Barème confirmé par ATLAS (J. Schrader) — contrats signés à partir du 01/04/2026. Jours calendaires. < 15 j : non pris en charge. Mode de contrat : mise à disposition (maintien) ou mise en veille.",
-    apprenti: {
-      type: "tieredByDays",
-      dayBasis: "calendar",
-      select: {
-        param: "atlasContractMode",
-        default: "miseADisposition",
-        options: ["miseADisposition", "miseEnVeille"],
-      },
-      bands: [
-        { minDays: 0, maxDays: 14, amounts: { miseADisposition: 0, miseEnVeille: 0 } },
-        { minDays: 15, maxDays: 30, amounts: { miseADisposition: 1000, miseEnVeille: 1500 } },
-        { minDays: 31, maxDays: null, amounts: { miseADisposition: 1800, miseEnVeille: 2300 } },
-      ],
-    },
+    notes: "Une mobilité par alternant et par contrat ; convention signée et mobilité effective requises.",
+    source: { label: "AKTO — mobilité internationale", url: "https://www.akto.fr/akto-soutient-la-mobilite-internationale-des-alternants/", checkedAt },
   },
   {
-    id: "opcommerce",
-    label: "OPCOMMERCE",
-    referentAmount: 500,
-    apprenti: { type: "fixed", amount: 0 },
-    status: "to_confirm",
-    notes: "Excel : 0 € apprenti. À confirmer (absence de prise en charge apprenti ?).",
+    id: "opco21", label: "OPCO 2i",
+    referent: { type: "fixed", amount: 500 },
+    apprenti: { type: "tieredByDays", dayBasis: "calendar", bands: [{ minDays: 0, maxDays: 28, amounts: { default: 800 } }, { minDays: 29, maxDays: null, amounts: { default: 1600 } }] },
+    status: "validated",
+    notes: "Au réel, plafonné par alternant et contrat ; cas particulier IEG à gérer hors simulateur.",
+    source: { label: "OPCO 2i — fiche pratique CFA", url: "https://www.opco2i.fr/la-mobilite-internationale-un-levier-dattractivite-pour-les-formations-industrielles/", checkedAt },
   },
   {
-    id: "ep",
-    label: "OPCO EP (Entreprises de Proximité)",
-    referentAmount: 500,
-    status: "to_confirm",
-    notes: "Forfait par semaine entamée (jours calendaires). Montant 500 €/semaine à confirmer.",
-    apprenti: { type: "weeklyAllowance", perWeek: 500, basis: "daysStarted" },
+    id: "atlas", label: "ATLAS",
+    referent: { type: "fixed", amount: 500 },
+    status: "validated",
+    notes: "Contrats conclus dès le 01/04/2026. Minimum 15 jours calendaires ; convention de mobilité à transmettre avant le départ.",
+    source: { label: "Atlas — mobilité internationale", url: "https://www.opco-atlas.fr/mobilite-europeenne-internationale-alternants.html", checkedAt },
+    apprenti: { type: "tieredByDays", dayBasis: "calendar", select: { param: "atlasContractMode", default: "miseADisposition", options: ["miseADisposition", "miseEnVeille"] }, bands: [
+      { minDays: 0, maxDays: 14, amounts: { miseADisposition: 0, miseEnVeille: 0 } },
+      { minDays: 15, maxDays: 30, amounts: { miseADisposition: 1000, miseEnVeille: 1500 } },
+      { minDays: 31, maxDays: null, amounts: { miseADisposition: 1800, miseEnVeille: 2500 } },
+    ] },
   },
   {
-    id: "afdas",
-    label: "AFDAS",
-    referentAmount: 400,
-    apprenti: { type: "fixed", amount: 1000 },
-    status: "to_confirm",
-    notes: "Référent à 400 € dans l'Excel (vs 500 € standard) — à confirmer.",
+    id: "opcommerce", label: "OPCOMMERCE",
+    referent: { type: "fixed", amount: 500 }, apprenti: { type: "fixed", amount: 0 }, status: "to_confirm",
+    notes: "Financement apprenti volontairement neutralisé : barème 2026 spécifique à confirmer avec le conseiller OPCO.",
   },
   {
-    id: "constructys",
-    label: "CONSTRUCTYS",
-    referentAmount: 500,
-    apprenti: realTransportPlusNight,
-    status: "to_confirm",
-    notes:
-      "Règle réelle plus riche : forfait 500 + jusqu'à ~1 180 € (assurances + 6 €/nuitée + 3 €/repas) + 1 A/R éco. Seed = version simplifiée Excel.",
+    id: "ep", label: "OPCO EP (Entreprises de Proximité)",
+    referent: { type: "fixed", amount: 500 },
+    apprenti: { type: "weeklyAllowance", basis: "daysStarted", select: { param: "epContractMode", default: "miseADisposition", options: ["miseADisposition", "miseEnVeille"] }, perWeek: { miseADisposition: 500, miseEnVeille: 300 }, cap: { miseADisposition: 2000, miseEnVeille: 3000 } },
+    status: "validated",
+    notes: "Forfait par semaine entamée, appliqué par le moteur selon le mode de convention : 500 €/semaine plafonné 2 000 € (mise à disposition) ; 300 €/semaine plafonné 3 000 € (mise en veille).",
+    source: { label: "OPCO EP — fiche mobilité, mars 2026", url: "https://www.opcoep.fr/ressources/centre-ressources/fiche/Fiche-mobilite-europeenne-internationale-opcoep.pdf", checkedAt },
   },
   {
-    id: "ocapiat",
-    label: "OCAPIAT",
-    referentAmount: 500,
-    apprenti: realTransportPlusNight,
-    status: "to_confirm",
-    notes: "Règle réelle : repas (3 €×2/j) + nuitée (6 €) + transport, avec plafonds. Seed = version simplifiée Excel.",
+    id: "afdas", label: "AFDAS",
+    referent: { type: "fixed", amount: 400 }, apprenti: { type: "fixed", amount: 1000 }, status: "to_confirm",
+    notes: "Le montant et les conditions de durée/zone doivent être confirmés sur le barème applicable au contrat avant utilisation commerciale.",
   },
   {
-    id: "opco_mobilites",
-    label: "OPCO MOBILITÉS",
-    referentAmount: 500,
-    apprenti: realTransportPlusNight,
-    status: "to_confirm",
+    id: "constructys", label: "CONSTRUCTYS",
+    referent: { type: "fixed", amount: 500 }, apprenti: { type: "composite", rules: realMobilityCosts.type === "composite" ? realMobilityCosts.rules : [], cap: 1180 }, status: "validated",
+    notes: "Plafond 1 180 € : dépenses exposées par le CFA, programme de formation et convention spécifique requis.",
+    source: { label: "Constructys — critères CFA", url: "https://www.constructys.fr/cfa-informations-criteres-de-prise-en-charge-financiere-et-modalites-de-facturation-des-contrats-dapprentissage/", checkedAt },
   },
   {
-    id: "cnfpt",
-    label: "CNFPT",
-    referentAmount: 0,
-    apprenti: { type: "fixed", amount: 0 },
-    status: "to_confirm",
-    notes: "Aucun financement dans l'Excel.",
+    id: "ocapiat", label: "OCAPIAT",
+    referent: { type: "fixed", amount: 500 }, apprenti: realMobilityCosts, status: "validated",
+    notes: "Au réel sur dépenses supportées par le CFA ; un A/R par stagiaire. Prévision à inscrire dans la convention, justificatifs à conserver.",
+    source: { label: "OCAPIAT — FAQ organisme", url: "https://capverslalternance.ocapiat.fr/faq-organisme/", checkedAt },
   },
   {
-    id: "uniformation",
-    label: "UNIFORMATION",
-    referentAmount: 500,
-    apprenti: realTransportPlusNight,
-    status: "to_confirm",
+    id: "opco_mobilites", label: "OPCO MOBILITÉS",
+    referent: { type: "fixed", amount: 500 },
+    apprenti: { type: "realCostCapped", cap: { europe: 1500, international: 2000 }, select: { param: "destinationZone", default: "international", options: ["europe", "international"] } }, status: "validated",
+    notes: "Le plafond dépend de la zone : Europe 1 500 € HT, international 2 000 € HT. Le sélecteur de zone est appliqué dans le moteur.",
+    source: { label: "OPCO Mobilités — modalités 2026", url: "https://www.opcomobilites.fr/financer-un-contrat-dapprentissage-autres-conventions-collectives-ou-sans-convention-collective-drom/", checkedAt },
   },
   {
-    id: "opco_sante",
-    label: "OPCO SANTÉ",
-    referentAmount: 500,
-    apprenti: realTransportPlusNight,
-    status: "to_confirm",
-    notes: "Prix au réel.",
+    id: "cnfpt", label: "CNFPT",
+    referent: { type: "fixed", amount: 0 }, apprenti: { type: "fixed", amount: 0 }, status: "to_confirm",
+    notes: "Hors périmètre OPCO : pas de règle de financement modélisée.",
+  },
+  {
+    id: "uniformation", label: "UNIFORMATION",
+    referent: { type: "fixed", amount: 500 }, apprenti: realMobilityCosts, status: "validated",
+    notes: "Dépenses supportées par le CFA, chiffrées au démarrage et intégrées à la convention initiale.",
+    source: { label: "Uniformation — frais annexes 2026", url: "https://www.uniformation.fr/entreprise/financements/frais-annexes-et-couts-pedagogiques", checkedAt },
+  },
+  {
+    id: "opco_sante", label: "OPCO SANTÉ",
+    referent: { type: "fixed", amount: 500 }, apprenti: realMobilityCosts, status: "to_confirm",
+    notes: "Référent, repas, nuitées et vaccins sont documentés. Le transport doit être confirmé selon la branche/contrat concerné.",
+    source: { label: "OPCO Santé — synthèse hors branche", url: "https://www.opco-sante.fr/app/uploads/2025/11/opco0226_synthese-des-prise-en-charge-hors-branche_pdf_site.pdf", checkedAt },
   },
 ];
 
-export const OPCO_BY_ID: Record<string, OpcoConfig> = Object.fromEntries(
-  OPCOS.map((o) => [o.id, o])
-);
+export const OPCO_BY_ID: Record<string, OpcoConfig> = Object.fromEntries(OPCOS.map((o) => [o.id, o]));
 
-// Hypothèses de coût par défaut (issues de l'Excel ; éditables côté UI).
-export const COST_DEFAULTS = {
-  programmeBase: 989, // coût programme AMI pour le format de référence 7 nuits
-  programmePerExtraNight: 60, // + €/nuit au-delà de 7
-  referenceNights: 7,
-  transportDefault: 250, // billet avion/train estimé
-  keptPerAccompagnant: 1750, // somme conservée par accompagnant (slider, 0–3000)
-};
+export const COST_DEFAULTS = { programmeBase: 989, programmePerExtraNight: 60, referenceNights: 7, transportDefault: 250, keptPerAccompagnant: 1750 };
+export function programmeCostForNights(nights: number): number { return COST_DEFAULTS.programmeBase + Math.max(0, nights - COST_DEFAULTS.referenceNights) * COST_DEFAULTS.programmePerExtraNight; }
 
-export function programmeCostForNights(nights: number): number {
-  return (
-    COST_DEFAULTS.programmeBase +
-    Math.max(0, nights - COST_DEFAULTS.referenceNights) * COST_DEFAULTS.programmePerExtraNight
-  );
-}
-
-// ──────────────────────────────────────────────────────────────
-// Tarifs par destination — sélection auto du prix de vente (programme)
-// et du billet estimé. Restent modifiables manuellement côté UI.
-// `programme` = prix de vente AMI / étudiant (format de référence 8j/7n).
-// `billets`   = coût transport (billet) estimé / étudiant.
-// ──────────────────────────────────────────────────────────────
-export type DestinationTariff = { programme: number; billets: number };
+export type DestinationTariff = { programme: number; billets: number; zone: "europe" | "international" };
 export const DESTINATION_TARIFFS: Record<string, DestinationTariff> = {
-  "Montréal": { programme: 1059, billets: 650 },
-  "Séville":  { programme: 989,  billets: 250 },
-  "Londres":  { programme: 1389, billets: 250 },
-  "Rome":     { programme: 989,  billets: 250 },
-  "New York": { programme: 1489, billets: 600 },
-  "Miami":    { programme: 1389, billets: 600 },
-  "Séoul":    { programme: 1489, billets: 700 },
-  "Malte":    { programme: 1189, billets: 300 },
-  "Maroc":    { programme: 1089, billets: 400 },
-  "Berlin":   { programme: 1389, billets: 200 },
+  "Montréal": { programme: 1059, billets: 650, zone: "international" }, "Séville": { programme: 989, billets: 250, zone: "europe" },
+  "Londres": { programme: 1389, billets: 250, zone: "europe" }, "Rome": { programme: 989, billets: 250, zone: "europe" },
+  "New York": { programme: 1489, billets: 600, zone: "international" }, "Miami": { programme: 1389, billets: 600, zone: "international" },
+  "Séoul": { programme: 1489, billets: 700, zone: "international" }, "Malte": { programme: 1189, billets: 300, zone: "europe" },
+  "Maroc": { programme: 1089, billets: 400, zone: "international" }, "Berlin": { programme: 1389, billets: 200, zone: "europe" },
 };
 export const DESTINATION_NAMES = Object.keys(DESTINATION_TARIFFS);
+export function programmeForDestination(name: string, nights: number): number { const base = DESTINATION_TARIFFS[name]?.programme ?? COST_DEFAULTS.programmeBase; return base + Math.max(0, nights - COST_DEFAULTS.referenceNights) * COST_DEFAULTS.programmePerExtraNight; }
 
-// Prix de vente conseillé pour une destination + nuitées (au-delà de 7 nuits : +€/nuit).
-export function programmeForDestination(name: string, nights: number): number {
-  const base = DESTINATION_TARIFFS[name]?.programme ?? COST_DEFAULTS.programmeBase;
-  return base + Math.max(0, nights - COST_DEFAULTS.referenceNights) * COST_DEFAULTS.programmePerExtraNight;
-}
-
-// Contexte sectoriel des OPCO (faits publics stables) — pour expliquer chaque ligne.
-// Les montants/règles de mobilité restent ceux du moteur (estimations, à confirmer).
 export const OPCO_SECTORS: Record<string, string> = {
-  akto: "Services à forte intensité de main-d'œuvre (propreté, sécurité, restauration, intérim). Soutient activement la mobilité internationale des alternants.",
-  opco21: "Industrie (interindustriel). Frais annexes de mobilité pris en charge selon barème.",
-  atlas: "Assurance, banque, finance et conseil. Barème mobilité confirmé selon la durée et le mode de contrat.",
-  opcommerce: "Commerce et distribution.",
-  ep: "Entreprises de proximité (artisanat, professions libérales, services). Forfait référent + frais éligibles (transport, hébergement, repas, assurance).",
-  afdas: "Culture, médias, communication, loisirs et sport.",
-  constructys: "Bâtiment et travaux publics. Prise en charge au réel (transport, hébergement, repas) avec plafond.",
-  ocapiat: "Agriculture, agroalimentaire et pêche. Frais réels (repas, nuitées, transport) plafonnés.",
-  opco_mobilites: "Transport, logistique, services de l'automobile et tourisme.",
-  cnfpt: "Fonction publique territoriale.",
-  uniformation: "Cohésion sociale (associatif, sport, ESS, aide à domicile).",
-  opco_sante: "Secteur sanitaire, social et médico-social privé.",
+  akto: "Services à forte intensité de main-d'œuvre (propreté, sécurité, restauration, intérim).", opco21: "Industrie (interindustriel).", atlas: "Assurance, banque, finance et conseil.", opcommerce: "Commerce et distribution.", ep: "Entreprises de proximité.", afdas: "Culture, médias, communication, loisirs et sport.", constructys: "Bâtiment et travaux publics.", ocapiat: "Agriculture, agroalimentaire et pêche.", opco_mobilites: "Transport, logistique, automobile et tourisme.", cnfpt: "Fonction publique territoriale.", uniformation: "Cohésion sociale, associatif et ESS.", opco_sante: "Sanitaire, social et médico-social privé.",
 };

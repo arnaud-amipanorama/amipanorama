@@ -173,9 +173,9 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
             <Text style={s.kpiSub}>OPCO apprentis et réinjection</Text>
           </View></View>
           <View style={s.kpiCard}><View style={s.kpiInner}>
-            <Text style={s.kpiLabel}>{kpis.montantConserve >= 0 ? "Montant conservé par l'établissement" : "Reste à charge établissement"}</Text>
+            <Text style={s.kpiLabel}>Budget référent affecté au CFA</Text>
             <Text style={[s.kpiValue, { color: kpis.montantConserve >= 0 ? C.ink : C.orange }]}>{eur(kpis.montantConserve)}</Text>
-            <Text style={s.kpiSub}>financements référent conservés</Text>
+            <Text style={s.kpiSub}>coordination et accompagnement à justifier</Text>
           </View></View>
           <View style={s.kpiCard}><View style={s.kpiInner}>
             <Text style={s.kpiLabel}>Coût brut total</Text>
@@ -210,7 +210,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
             <Text style={s.infoTitle}>Prise en charge du référent mobilité</Text>
           </View>
           <Text style={s.infoBody}>
-            Montant alloué par l&apos;OPCO au CFA (Centre de Formation d&apos;Apprentis) pour accompagner la mise en œuvre des mobilités étudiantes. Cette aide finance les actions d&apos;organisation, de coordination et de suivi des mobilités (temps de travail du référent, gestion administrative, préparation des élèves, etc.). <Text style={s.infoStrong}>Important :</Text> cette somme doit obligatoirement être utilisée par l&apos;école pour des dépenses directement liées à la mobilité internationale, et peut notamment servir à réduire le reste à charge pour les élèves (aide au logement, transports, accompagnement, etc.).
+            Montant alloué par l&apos;OPCO au CFA (Centre de Formation d&apos;Apprentis) pour accompagner la mise en œuvre des mobilités étudiantes : organisation, coordination, suivi, préparation des élèves et dépenses liées au projet. <Text style={s.infoStrong}>Important :</Text> son affectation doit être cohérente avec les conditions de l&apos;OPCO, le dossier et les justificatifs à conserver ; elle ne constitue pas une marge libre.
           </Text>
         </View>
 
@@ -230,7 +230,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
             <Text style={s.infoTitle}>Réinjection et reste à charge</Text>
           </View>
           <Text style={s.infoBody}>
-            Dans cette simulation, une partie des financements « référent » peut être <Text style={s.infoStrong}>réinjectée</Text> pour réduire le reste à charge des élèves, conformément à l&apos;obligation d&apos;utiliser ces fonds au bénéfice de la mobilité. Le <Text style={s.infoStrong}>reste à charge moyen étudiant</Text> correspond au coût restant pour chaque participant·e une fois l&apos;ensemble des financements mobilisés.
+            Dans cette simulation, le CFA peut tester l&apos;affectation d&apos;une part du budget référent à la réduction du reste à charge, sans dépasser le coût restant. Le <Text style={s.infoStrong}>reste à charge moyen étudiant</Text> correspond au coût estimé après les financements modélisés ; il demeure conditionnel à l&apos;accord de l&apos;OPCO et au dossier.
           </Text>
         </View>
 

@@ -9,6 +9,7 @@ import {
   type OptimizationMode,
 } from "@/lib/simulator/engine";
 import type { SimulationData } from "./SimulationDocument";
+import FundingGuide from "./FundingGuide";
 
 // ── Thème : noir profond · blanc · gris clair · ORANGE AMI (accent). Bleu = accent graphique. ──
 const T = {
@@ -32,12 +33,12 @@ const T = {
 const eur = (n: number) => `${Math.round(n).toLocaleString("fr-FR")} €`;
 
 type RowState = { id: string; count: number };
-type ModeKind = "free" | "maxReduction" | "operationBlanche" | "targetRac";
+type ModeKind = "free" | "maxReduction" | "coverSupport" | "targetRac";
 
 const MODES: { kind: ModeKind; label: string; desc: string }[] = [
   { kind: "free", label: "Optimisation libre", desc: "Vous fixez le montant conservé par accompagnant." },
-  { kind: "maxReduction", label: "Reste à charge minimal", desc: "Réinjecte tout le financement référent." },
-  { kind: "operationBlanche", label: "Opération blanche", desc: "L'établissement ne conserve rien." },
+  { kind: "maxReduction", label: "Reste à charge minimal", desc: "Affecte le budget référent au reste à charge, dans la limite des dépenses." },
+  { kind: "coverSupport", label: "Couvrir l'accompagnement", desc: "Affecte le budget référent au coût estimé des accompagnants." },
   { kind: "targetRac", label: "Reste à charge cible", desc: "Le moteur arbitre pour atteindre un objectif." },
 ];
 
@@ -61,9 +62,14 @@ export default function SimulatorApp() {
   // Étape 3 — paramètres avancés
   const [transport, setTransport] = useState(DESTINATION_TARIFFS["Montréal"].billets);
   const [programme, setProgramme] = useState(programmeForDestination("Montréal", 7));
+  const [eligibleAccommodation, setEligibleAccommodation] = useState(7 * 6);
+  const [eligibleMeals, setEligibleMeals] = useState(8 * 2 * 3);
   const [mode, setMode] = useState<ModeKind>("free");
   const [keptPerAccompagnant, setKeptPerAccompagnant] = useState(COST_DEFAULTS.keptPerAccompagnant);
   const [atlasContractMode, setAtlasContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
+  const [aktoContractMode, setAktoContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
+  const [aktoTrainingLevel, setAktoTrainingLevel] = useState<"postBac" | "bacOrBelow">("postBac");
+  const [epContractMode, setEpContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
   const [targetRac, setTargetRac] = useState(300);
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
@@ -96,14 +102,17 @@ export default function SimulatorApp() {
     const rowsConfig = rows
       .filter((r) => OPCO_BY_ID[r.id])
       .map((r) => ({ config: OPCO_BY_ID[r.id], count: Math.max(0, r.count) }));
-    const stay = { nights, programmeCost: programme, transportCost: transport };
-    const selections = { atlasContractMode };
+    const stay = { nights, programmeCost: programme, transportCost: transport, accommodationCost: eligibleAccommodation, mealsCost: eligibleMeals };
+    const destinationZone = DESTINATION_TARIFFS[destination]?.zone ?? "international";
+    const selections = { atlasContractMode, epContractMode, aktoTrainingLevel, aktoFunding: `${destinationZone}_${aktoContractMode}`, destinationZone };
     const base = baseTotals({ stay, rows: rowsConfig, selections });
     const modeObj: OptimizationMode =
       mode === "free"
         ? { kind: "free", keptPerAccompagnant, accompagnants }
         : mode === "targetRac"
         ? { kind: "targetRac", targetPerStudent: targetRac }
+        : mode === "coverSupport"
+        ? { kind: "coverSupport", supportBudget: keptPerAccompagnant * accompagnants }
         : { kind: mode };
     const keptTotal = resolveKeptTotal(modeObj, base);
     return computeSimulation({ stay, rows: rowsConfig, keptTotal, selections });
@@ -111,6 +120,8 @@ export default function SimulatorApp() {
 
   const totalAlternants = result.totalStudents;
   const hasAtlas = rows.some((r) => r.id === "atlas");
+  const hasAkto = rows.some((r) => r.id === "akto");
+  const hasEp = rows.some((r) => r.id === "ep");
   const available = OPCOS.filter((o) => !rows.some((r) => r.id === o.id));
   const financementsMobilisables = result.apprentiTotal + result.reinjected;
   const toConfirmApprenti = result.perOpco.filter((o) => o.status === "to_confirm").reduce((a, o) => a + o.apprentiTotal, 0);
@@ -293,9 +304,35 @@ export default function SimulatorApp() {
                         <Field label="Billet moyen"><NumInput value={transport} onChange={setTransport} suffix="€" /></Field>
                         <Field label="Programme / étudiant" hint={`sugg. ${eur(suggestedProgramme)}`}><NumInput value={programme} onChange={setProgramme} suffix="€" /></Field>
                       </div>
+                      <div style={{ padding: "12px", borderRadius: 10, background: T.panel, border: `1px solid ${T.border}` }}>
+                        <Label>Dépenses éligibles supportées par le CFA</Label>
+                        <p style={{ fontSize: 11, color: T.faint, lineHeight: 1.5, margin: "5px 0 10px" }}>À renseigner au réel : le prix du package AMI n&apos;est pas automatiquement une dépense finançable par l&apos;OPCO.</p>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                          <Field label="Hébergement"><NumInput value={eligibleAccommodation} onChange={setEligibleAccommodation} suffix="€" /></Field>
+                          <Field label="Repas"><NumInput value={eligibleMeals} onChange={setEligibleMeals} suffix="€" /></Field>
+                        </div>
+                      </div>
                       {hasAtlas && (
                         <Field label="ATLAS — mode de contrat">
                           <Toggle value={atlasContractMode} onChange={(v) => setAtlasContractMode(v as "miseADisposition" | "miseEnVeille")}
+                            options={[{ v: "miseADisposition", l: "Mise à disposition" }, { v: "miseEnVeille", l: "Mise en veille" }]} />
+                        </Field>
+                      )}
+                      {hasAkto && (
+                        <>
+                          <Field label="AKTO — type de convention">
+                            <Toggle value={aktoContractMode} onChange={(v) => setAktoContractMode(v as "miseADisposition" | "miseEnVeille")}
+                              options={[{ v: "miseADisposition", l: "Mise à disposition" }, { v: "miseEnVeille", l: "Mise en veille" }]} />
+                          </Field>
+                          <Field label="AKTO — niveau de formation">
+                            <Toggle value={aktoTrainingLevel} onChange={(v) => setAktoTrainingLevel(v as "postBac" | "bacOrBelow")}
+                              options={[{ v: "postBac", l: "Supérieur au bac" }, { v: "bacOrBelow", l: "Bac ou infra" }]} />
+                          </Field>
+                        </>
+                      )}
+                      {hasEp && (
+                        <Field label="OPCO EP — type de convention">
+                          <Toggle value={epContractMode} onChange={(v) => setEpContractMode(v as "miseADisposition" | "miseEnVeille")}
                             options={[{ v: "miseADisposition", l: "Mise à disposition" }, { v: "miseEnVeille", l: "Mise en veille" }]} />
                         </Field>
                       )}
@@ -313,15 +350,15 @@ export default function SimulatorApp() {
                           ))}
                         </div>
                       </div>
-                      {mode === "free" && (
+                      {(mode === "free" || mode === "coverSupport") && (
                         <div>
                           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                            <Label>Conservé / accompagnant</Label>
+                            <Label>{mode === "coverSupport" ? "Budget / accompagnant" : "Budget référent affecté / accompagnant"}</Label>
                             <span style={{ fontSize: 13.5, fontWeight: 700, color: T.orange }}>{eur(keptPerAccompagnant)}</span>
                           </div>
                           <input type="range" min={0} max={3000} step={50} value={keptPerAccompagnant} onChange={(e) => setKeptPerAccompagnant(Number(e.target.value))} style={{ width: "100%", accentColor: T.orange }} />
                           <p style={{ fontSize: 11.5, color: T.faint, marginTop: 8, lineHeight: 1.5 }}>
-                            {accompagnants} accompagnant·s → {eur(keptPerAccompagnant * accompagnants)} conservés. Le reste est réinjecté pour réduire le reste à charge étudiant.
+                            {accompagnants} accompagnant·s → budget estimé {eur(keptPerAccompagnant * accompagnants)}. Il est plafonné au forfait référent réellement disponible ; le reliquat peut réduire le reste à charge étudiant.
                           </p>
                         </div>
                       )}
@@ -359,8 +396,8 @@ export default function SimulatorApp() {
 
             {/* KPI secondaires */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12 }} className="sim-kpis">
-              <Kpi label="Financements mobilisables" value={eur(financementsMobilisables)} accent={T.green} />
-              <Kpi label={result.schoolImpact >= 0 ? "Conservé par l'établissement" : "Reste à charge établissement"} value={`${result.schoolImpact >= 0 ? "+" : "−"} ${eur(Math.abs(result.schoolImpact))}`} accent={result.schoolImpact >= 0 ? T.teal : T.orange} />
+              <Kpi label="Réduction estimée du reste à charge" value={eur(financementsMobilisables)} accent={T.green} />
+              <Kpi label="Budget référent affecté" value={eur(result.schoolImpact)} accent={T.teal} />
               <Kpi label="Coût brut" value={eur(result.totalCostAll)} sub={`${eur(result.totalCostPerStudent)} / étud.`} />
             </div>
 
@@ -426,17 +463,20 @@ export default function SimulatorApp() {
                       </div>
                       <div style={{ fontSize: 11, color: T.faint, marginTop: 4 }}>{o.apprentiTrace} · référent {eur(o.referentAmount)}/contrat{o.status === "to_confirm" ? " · à confirmer" : ""}</div>
                       {OPCO_SECTORS[o.id] && <div style={{ fontSize: 10.5, color: T.faint, marginTop: 3, fontStyle: "italic", lineHeight: 1.5 }}>{OPCO_SECTORS[o.id]}</div>}
+                      {OPCO_BY_ID[o.id].source && <a href={OPCO_BY_ID[o.id].source!.url} target="_blank" rel="noreferrer" style={{ display: "inline-block", marginTop: 4, fontSize: 10.5, color: T.blue }}>Source vérifiée · {OPCO_BY_ID[o.id].source!.checkedAt} ↗</a>}
                     </div>
                   );
                 })}
               </div>
               <div style={{ marginTop: 14, padding: "12px 14px", borderRadius: 10, background: T.panel2, border: `1px solid ${T.border}` }}>
                 <p style={{ fontSize: 11.5, color: T.muted, lineHeight: 1.6, margin: 0 }}>
-                  <b style={{ color: T.text }}>Comment lire ces montants.</b> Les OPCO financent la mobilité des alternants via un forfait <b>référent mobilité</b> (souvent 500 € par apprenti partant) et une prise en charge <b>apprenti</b> couvrant tout ou partie du transport, de l&apos;hébergement, des repas et de l&apos;assurance. Ces aides sont cumulables avec Erasmus+. Montants indicatifs, variables selon l&apos;OPCO, la durée et les justificatifs — à confirmer.
+                  <b style={{ color: T.text }}>Comment lire ces montants.</b> Le <b>forfait référent mobilité</b> finance le travail et les dépenses de coordination du CFA ; il ne constitue pas une marge libre. La prise en charge <b>apprenti</b> dépend de l&apos;OPCO, de la durée, de la convention et des dépenses réellement supportées par le CFA. Le moteur isole donc le prix commercial AMI des dépenses déclarées éligibles.
                 </p>
-                <p style={{ fontSize: 10, color: T.faint, margin: "8px 0 0" }}>Sources : Opco EP · Opco Atlas · Opco 2i · AKTO · Agence Erasmus+ France.</p>
+                <p style={{ fontSize: 10, color: T.faint, margin: "8px 0 0" }}>Sources officielles consultées le 28/07/2026. Une source et la date de contrôle sont disponibles par ligne.</p>
               </div>
             </div>
+
+            <FundingGuide />
 
             {/* Document + enregistrement */}
             <div style={{ ...panelStyle, padding: 22 }}>
