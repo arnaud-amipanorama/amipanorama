@@ -177,7 +177,7 @@ export default function GlobalWeeksExperience() {
           objet: "Demande de programme",
           destination: form.destination,
           message: [
-            "GLOBAL WEEKS — manifestation d’intérêt (pas une inscription définitive).",
+            "GLOBAL WEEKS, manifestation d’intérêt (pas une inscription définitive).",
             `Alternance : ${form.alternance}; niveau : ${form.niveau}; mobilité collective cette année : ${form.classeMobility}; mobilité précédente : ${form.previousMobility}.`,
             `OPCO connu : ${form.opcoKnown}; OPCO : ${form.opco || "non renseigné"}.`,
             `Disponibilités : ${availability}.`,

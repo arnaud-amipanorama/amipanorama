@@ -4,7 +4,7 @@ import UnlockForm from "./UnlockForm";
 import SimulatorApp from "./SimulatorApp";
 
 export const metadata: Metadata = {
-  title: "AMI Panorama — Financial Simulator",
+  title: "AMI Panorama, Financial Simulator",
   robots: { index: false, follow: false, nocache: true },
 };
 

@@ -33,7 +33,7 @@ const C = {
   light: "#9AA0AA",
   line: "#E6E7EB",
   soft: "#F6F6F8",
-  orange: "#E85835",
+  orange: "#0F6B6D",
   blue: "#3B68D6",
   green: "#1FA97A",
   amber: "#E0A52E",
@@ -102,7 +102,7 @@ const s = StyleSheet.create({
 function Footer({ p }: { p: string }) {
   return (
     <View style={s.footer} fixed>
-      <Text>AMI Panorama — Simulation financière mobilité internationale</Text>
+      <Text>AMI Panorama, Simulation financière mobilité internationale</Text>
       <Text>{p} · Confidentiel</Text>
     </View>
   );
@@ -135,8 +135,8 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
   const mentionsPage = methodologyPage + 1;
 
   return (
-    <Document title={`AMI Panorama — Simulation ${meta.etablissement}`} author="AMI Panorama">
-      {/* PAGE 1 — COUVERTURE */}
+    <Document title={`AMI Panorama, Simulation ${meta.etablissement}`} author="AMI Panorama">
+      {/* PAGE 1, COUVERTURE */}
       <Page size="A4" style={s.cover}>
         <View>
           <Image src={LOGO_WHITE} style={s.coverLogo} />
@@ -155,14 +155,14 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         </View>
         <View>
           <View style={s.metaRow}><Text style={s.metaK}>Établissement</Text><Text style={s.metaV}>{meta.etablissement}</Text></View>
-          <View style={s.metaRow}><Text style={s.metaK}>Destination</Text><Text style={s.metaV}>{meta.destination || "—"}</Text></View>
+          <View style={s.metaRow}><Text style={s.metaK}>Destination</Text><Text style={s.metaV}>{meta.destination || "Non renseignée"}</Text></View>
           <View style={s.metaRow}><Text style={s.metaK}>Format</Text><Text style={s.metaV}>{meta.students} étudiants · {meta.days} jours</Text></View>
-          <View style={s.metaRow}><Text style={s.metaK}>Date souhaitée</Text><Text style={s.metaV}>{meta.dateSouhaitee || "—"}</Text></View>
+          <View style={s.metaRow}><Text style={s.metaK}>Date souhaitée</Text><Text style={s.metaV}>{meta.dateSouhaitee || "Non renseignée"}</Text></View>
           <View style={s.metaRow}><Text style={s.metaK}>Généré le</Text><Text style={s.metaV}>{meta.generatedAt}</Text></View>
         </View>
       </Page>
 
-      {/* PAGE 2 — RÉSUMÉ EXÉCUTIF */}
+      {/* PAGE 2, RÉSUMÉ EXÉCUTIF */}
       <Page size="A4" style={s.page}>
         <Image src={LOGO_BLACK} style={s.hdrLogo} />
         <Text style={s.eyebrow}>Résumé exécutif</Text>
@@ -201,7 +201,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Footer p="02" />
       </Page>
 
-      {/* PAGE 3 — COMPRENDRE LA MOBILITÉ ET SES FINANCEMENTS */}
+      {/* PAGE 3, COMPRENDRE LA MOBILITÉ ET SES FINANCEMENTS */}
       <Page size="A4" style={s.page}>
         <Image src={LOGO_BLACK} style={s.hdrLogo} />
         <Text style={s.eyebrow}>Comprendre</Text>
@@ -248,7 +248,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Footer p="03" />
       </Page>
 
-      {/* PAGE 4 — ANALYSE FINANCIÈRE (barres, sans pie chart) */}
+      {/* PAGE 4, ANALYSE FINANCIÈRE (barres, sans pie chart) */}
       <Page size="A4" style={s.page}>
         <Image src={LOGO_BLACK} style={s.hdrLogo} />
         <Text style={s.eyebrow}>Analyse financière</Text>
@@ -288,7 +288,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Footer p="04" />
       </Page>
 
-      {/* PAGE 5+ — OPCO EXPLIQUÉS */}
+      {/* PAGE 5+, OPCO EXPLIQUÉS */}
       {opcoChunks.map((chunk, pageIndex) => (
         <Page key={pageIndex} size="A4" style={s.page}>
           <Image src={LOGO_BLACK} style={s.hdrLogo} />
@@ -315,18 +315,18 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
                 <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8.5, color: o.toConfirm ? C.amber : C.gray }}>{o.toConfirm ? "À CONFIRMER AVANT DE COMPTER CE MONTANT" : "À PRÉVOIR DANS LE DOSSIER"}</Text>
                 <Text style={{ fontSize: 8.7, color: "#3A3A40", lineHeight: 1.55, marginTop: 3 }}>{o.condition}</Text>
               </View>
-              <Text style={{ fontSize: 8.5, color: C.gray, marginTop: 8 }}>Forfait référent mobilité : {eur(o.referent)} par alternant — pour la coordination et les dépenses liées au projet du CFA.</Text>
+              <Text style={{ fontSize: 8.5, color: C.gray, marginTop: 8 }}>Forfait référent mobilité : {eur(o.referent)} par alternant, pour la coordination et les dépenses liées au projet du CFA.</Text>
             </View>
           ))}
           <Footer p={`0${5 + pageIndex}`} />
         </Page>
       ))}
 
-      {/* PAGE 6 — MÉTHODOLOGIE */}
+      {/* PAGE 6, MÉTHODOLOGIE */}
       <Page size="A4" style={s.page}>
         <Image src={LOGO_BLACK} style={s.hdrLogo} />
         <Text style={s.eyebrow}>Méthodologie</Text>
-        <Text style={s.h2}>Ce que cette simulation fait — et ne fait pas</Text>
+        <Text style={s.h2}>Ce que cette simulation fait, et ne fait pas</Text>
         <Text style={s.intro}>Cette simulation repose sur :</Text>
         {[
           "elle estime les montants à partir du groupe, de la destination et des règles connues à la date de génération ;",
@@ -335,7 +335,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
           "elle ne vaut ni accord de prise en charge, ni confirmation de montant, ni convention de mobilité.",
         ].map((b, i) => (
           <View key={i} style={s.bullet}>
-            <Text style={{ color: C.orange, marginRight: 8 }}>—</Text>
+            <Text style={{ color: C.orange, marginRight: 8 }}>•</Text>
             <Text style={{ flex: 1, fontSize: 10.5, color: "#3A3A40" }}>{b}</Text>
           </View>
         ))}
@@ -343,7 +343,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Footer p={String(methodologyPage).padStart(2, "0")} />
       </Page>
 
-      {/* PAGE 7 — MENTIONS */}
+      {/* PAGE 7, MENTIONS */}
       <Page size="A4" style={s.page}>
         <Image src={LOGO_BLACK} style={s.hdrLogo} />
         <Text style={s.eyebrow}>Mentions importantes</Text>

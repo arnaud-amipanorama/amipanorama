@@ -42,12 +42,12 @@ export default function Navbar() {
         backdropFilter: open ? "none" : "blur(16px)", WebkitBackdropFilter: open ? "none" : "blur(16px)",
       }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-          <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
-            <Link href="/" style={{ display: "flex", alignItems: "center" }} aria-label="AMI Panorama — accueil">
+          <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 86 }}>
+            <Link href="/" style={{ display: "flex", alignItems: "center" }} aria-label="AMI Panorama, accueil">
               <Image
                 src={open ? "/Assets/Brand/ami-logo-white.png" : "/Assets/Brand/ami-logo-black.png"}
                 alt="AMI Panorama" width={205} height={100} priority
-                style={{ height: 27, width: "auto", objectFit: "contain" }}
+                style={{ height: 48, width: "auto", objectFit: "contain" }}
               />
             </Link>
 
@@ -83,7 +83,7 @@ export default function Navbar() {
                 transition={{ delay: 0.08, duration: 0.4 }}
               >
                 <span>Navigation</span>
-                <span className="nav-eyebrow-r">AMI Panorama — Mobilité internationale</span>
+                <span className="nav-eyebrow-r">AMI Panorama, mobilité internationale</span>
               </motion.div>
 
               <nav className="nav-list">
@@ -119,7 +119,7 @@ export default function Navbar() {
                 </Link>
                 <div className="nav-foot-meta">
                   <a href="mailto:info@amipanorama.com">info@amipanorama.com</a>
-                  <span className="nav-foot-sep">Montréal · Séville · +8 destinations</span>
+                  <span className="nav-foot-sep">Montréal, New York et plus de huit destinations</span>
                 </div>
               </motion.div>
             </div>
@@ -145,7 +145,7 @@ export default function Navbar() {
           position: fixed; inset: 0; z-index: 100; overflow-y: auto;
           background:
             radial-gradient(120% 90% at 82% -10%, rgba(30,82,208,0.20) 0%, transparent 55%),
-            radial-gradient(90% 80% at -10% 110%, rgba(232,88,53,0.12) 0%, transparent 52%),
+            radial-gradient(90% 80% at -10% 110%, rgba(15,107,109,0.12) 0%, transparent 52%),
             #0B1829;
         }
         .nav-overlay-inner {
@@ -203,7 +203,7 @@ export default function Navbar() {
         .nav-row:hover .nav-arrow { opacity: 1; transform: translateX(0); }
         /* État actif */
         .nav-row.is-active .nav-idx { color: var(--coral); }
-        .nav-row.is-active .nav-tag { color: rgba(232,88,53,0.85); }
+        .nav-row.is-active .nav-tag { color: rgba(15,107,109,0.85); }
 
         /* Footer */
         .nav-foot {
@@ -220,6 +220,8 @@ export default function Navbar() {
         .nav-foot-sep { color: rgba(255,255,255,0.34); text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; }
 
         @media (max-width: 640px) {
+          header nav { height: 76px !important; }
+          header nav img { height: 40px !important; }
           .nav-cta { display: none !important; }
           .nav-eyebrow-r { display: none; }
           .nav-meta { display: none; }

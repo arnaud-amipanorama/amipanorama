@@ -6,7 +6,7 @@ import DestinationExplorer from "./DestinationExplorer";
 export const metadata: Metadata = {
   title: "Destinations",
   description:
-    "10 destinations de mobilité professionnelle internationale — Séville, Montréal, Londres, Malte, Berlin, Rome, New York, Miami, Maroc, Séoul. Chaque programme est structuré pour sa valeur pédagogique et professionnelle, adapté à votre filière.",
+    "10 destinations de mobilité professionnelle internationale, Montréal, Séville, New York, Londres, Malte, Berlin, Rome, Miami, Maroc, Séoul. Chaque programme est structuré pour sa valeur pédagogique et professionnelle, adapté à votre filière.",
 };
 
 const destinations = [
@@ -33,7 +33,7 @@ const destinations = [
     country: "Espagne",
     tag: "Deuxième pilier · Culture & immersion",
     flag: "🇪🇸",
-    accent: "#E85835",
+    accent: "#0F6B6D",
     phare: true,
     photo: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
     headline: "L'Andalousie comme terrain de formation.",
@@ -45,6 +45,26 @@ const destinations = [
       "Activités culturelles : flamenco, Cathédrale de Séville, Alcazar",
     ],
     ideal: "Tourisme · Commerce · RH · Services",
+  },
+  // New York vient juste après les deux piliers : très forte force d'attraction
+  // auprès des alternants, donc placée haut dans la page, mais SANS `phare`,
+  // qui reste réservé à Montréal et Séville.
+  {
+    city: "New York",
+    country: "États-Unis",
+    tag: "Destination iconique · Business & culture",
+    flag: "🇺🇸",
+    accent: "#1E52D0",
+    photo: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=900&q=80",
+    headline: "La ville où l'ambition professionnelle prend une autre dimension.",
+    desc: "New York ne s'explique pas, elle se vit. Aucun autre environnement ne confronte aussi directement les participants à l'intensité d'un marché international. Business English de haut niveau, rencontres avec des professionnels en activité, énergie unique d'une ville qui ne ralentit jamais.",
+    highlights: [
+      "Business English intensif avec des professeurs et professionnels natifs",
+      "Visites d'entreprises dans l'écosystème business new-yorkais",
+      "Découverte de la ville : Manhattan, Brooklyn Bridge, musées emblématiques",
+      "Rencontres avec des professionnels et expatriés français en activité",
+    ],
+    ideal: "Commerce international · Finance · Communication · Tourisme",
   },
   {
     city: "Londres",
@@ -71,7 +91,7 @@ const destinations = [
     accent: "#1E52D0",
     photo: "/Assets/destinations/Malte Destination.png",
     headline: "L'anglais en immersion totale, sous le soleil méditerranéen.",
-    desc: "Malte est l'une des rares destinations européennes entièrement anglophones — et l'une des plus accessibles. Son cadre méditerranéen, son histoire millénaire et sa taille humaine en font un environnement idéal pour une progression réelle en anglais professionnel, dans une atmosphère solaire et engageante.",
+    desc: "Malte est l'une des rares destinations européennes entièrement anglophones, et l'une des plus accessibles. Son cadre méditerranéen, son histoire millénaire et sa taille humaine en font un environnement idéal pour une progression réelle en anglais professionnel, dans une atmosphère solaire et engageante.",
     highlights: [
       "Cours d'anglais professionnel animés par des formateurs natifs certifiés",
       "Visites culturelles : Valletta (capitale UNESCO), Blue Grotto, Mdina",
@@ -88,7 +108,7 @@ const destinations = [
     accent: "#D4862A",
     photo: "/Assets/destinations/Maroc.jpg",
     headline: "L'Afrique du Nord, entre tradition et dynamisme contemporain.",
-    desc: "Le Maroc — principalement Marrakech et Casablanca — propose un programme ancré dans les réalités économiques et culturelles du pays. Une destination qui confronte les apprentis à un environnement professionnel différent, entre héritage fort et ambitions de modernisation.",
+    desc: "Le Maroc, principalement Marrakech et Casablanca, propose un programme ancré dans les réalités économiques et culturelles du pays. Une destination qui confronte les apprentis à un environnement professionnel différent, entre héritage fort et ambitions de modernisation.",
     highlights: [
       "Formation sur le tissu économique marocain et les échanges franco-marocains",
       "Visites d'entreprises : industrie, services, secteur numérique en développement",
@@ -102,10 +122,10 @@ const destinations = [
     country: "Allemagne",
     tag: "Entrepreneuriat & innovation",
     flag: "🇩🇪",
-    accent: "#E85835",
+    accent: "#0F6B6D",
     photo: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=900&q=80",
     headline: "L'Europe de l'entrepreneuriat et des idées neuves.",
-    desc: "Berlin pense autrement. Capitale européenne de la scène startup et de l'innovation ouverte, elle offre aux apprentis une immersion dans un écosystème professionnel non conventionnel. Un programme volontairement orienté terrain et rencontres — moins de salle de cours, plus de fondateurs, d'entreprises et d'idées.",
+    desc: "Berlin pense autrement. Capitale européenne de la scène startup et de l'innovation ouverte, elle offre aux apprentis une immersion dans un écosystème professionnel non conventionnel. Un programme volontairement orienté terrain et rencontres, moins de salle de cours, plus de fondateurs, d'entreprises et d'idées.",
     highlights: [
       "Immersion dans l'écosystème startup et entrepreneurial berlinois",
       "Visites d'entreprises innovantes : tech, digital, créatif, industrie",
@@ -115,23 +135,6 @@ const destinations = [
     ideal: "Numérique · Innovation · Commerce · Management",
   },
   {
-    city: "New York",
-    country: "États-Unis",
-    tag: "Business & culture",
-    flag: "🇺🇸",
-    accent: "#1E52D0",
-    photo: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=900&q=80",
-    headline: "La ville où l'ambition professionnelle prend une autre dimension.",
-    desc: "New York ne s'explique pas — elle se vit. Aucun autre environnement ne confronte aussi directement les participants à l'intensité d'un marché international. Business English de haut niveau, rencontres avec des professionnels en activité, énergie unique d'une ville qui ne ralentit jamais.",
-    highlights: [
-      "Business English intensif avec des professeurs et professionnels natifs",
-      "Visites d'entreprises dans l'écosystème business new-yorkais",
-      "Découverte de la ville : Manhattan, Brooklyn Bridge, musées emblématiques",
-      "Rencontres avec des professionnels et expatriés français en activité",
-    ],
-    ideal: "Commerce international · Finance · Communication · Tourisme",
-  },
-  {
     city: "Rome",
     country: "Italie",
     tag: "Culture & économie italienne",
@@ -139,7 +142,7 @@ const destinations = [
     accent: "#D4862A",
     photo: "/Assets/destinations/Rome.jpg",
     headline: "L'Italie entre grandeur historique et réalité économique.",
-    desc: "Rome offre un cadre de formation unique : une compréhension par l'immersion. Le programme s'appuie sur la richesse culturelle de la Ville éternelle pour ouvrir les apprentis à la réalité économique italienne — ses secteurs d'activité, ses entreprises, ses codes professionnels et son rapport singulier à la qualité.",
+    desc: "Rome offre un cadre de formation unique : une compréhension par l'immersion. Le programme s'appuie sur la richesse culturelle de la Ville éternelle pour ouvrir les apprentis à la réalité économique italienne, ses secteurs d'activité, ses entreprises, ses codes professionnels et son rapport singulier à la qualité.",
     highlights: [
       "Panorama socio-économique de l'Italie et de ses grands secteurs d'activité",
       "Visites d'entreprises locales sélectionnées selon la filière du groupe",
@@ -156,7 +159,7 @@ const destinations = [
     accent: "#1E52D0",
     photo: "/Assets/destinations/Miami-unsplash.jpg",
     headline: "L'Amérique dans sa version la plus internationale.",
-    desc: "Miami n'est pas New York — et c'est précisément son atout. Carrefour des Amériques, ville internationale par nature, elle offre aux apprentis une lecture concrète du modèle économique américain dans un environnement cosmopolite, accessible et tourné vers l'Atlantique.",
+    desc: "Miami n'est pas New York, et c'est précisément son atout. Carrefour des Amériques, ville internationale par nature, elle offre aux apprentis une lecture concrète du modèle économique américain dans un environnement cosmopolite, accessible et tourné vers l'Atlantique.",
     highlights: [
       "Panorama socio-économique des États-Unis et de la région Miami",
       "Visites de campus américains et d'entreprises locales ou françaises implantées",
@@ -170,7 +173,7 @@ const destinations = [
     country: "Corée du Sud",
     tag: "Tech & monde asiatique",
     flag: "🇰🇷",
-    accent: "#E85835",
+    accent: "#0F6B6D",
     photo: "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=900&q=80",
     headline: "Une fenêtre directe sur l'Asie du XXIe siècle.",
     desc: "Séoul est l'une des métropoles les plus innovantes de la planète. Un séjour en Corée du Sud expose les apprentis à une culture professionnelle radicalement différente : exigence, culture de l'innovation, technologies de rupture. Un programme pour ceux qui veulent comprendre où se construit l'avenir.",
@@ -218,7 +221,7 @@ export default function DestinationsPage() {
         position: "relative", paddingTop: 160, paddingBottom: 80,
         background: "var(--navy)", overflow: "hidden",
       }}>
-        {/* Background photo — visuel d'atmosphère (city-led) */}
+        {/* Background photo, visuel d'atmosphère (city-led) */}
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: "url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80')",
@@ -240,7 +243,7 @@ export default function DestinationsPage() {
             10 destinations.{" "}
             <span style={{
               fontFamily: "var(--font-serif)", fontStyle: "italic",
-              fontWeight: 500, color: "rgba(232,88,53,0.9)",
+              fontWeight: 500, color: "rgba(15,107,109,0.9)",
             }}>Une même exigence.</span>
           </h1>
           <p className="anim-fade-up-3" style={{
@@ -249,7 +252,7 @@ export default function DestinationsPage() {
           }}>
             Chaque destination est sélectionnée pour sa valeur pédagogique,
             professionnelle et humaine. Le même niveau d'exigence, la même
-            structure de programme — adapté au contexte et à la filière de votre groupe.
+            structure de programme, adapté au contexte et à la filière de votre groupe.
           </p>
 
           {/* Flag strip */}
@@ -302,7 +305,7 @@ export default function DestinationsPage() {
             <div style={{
               position: "absolute", bottom: "-40px", right: "20%",
               width: 300, height: 250,
-              background: "radial-gradient(ellipse, rgba(232,88,53,0.2) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse, rgba(15,107,109,0.2) 0%, transparent 70%)",
               pointerEvents: "none",
             }} />
             <div className="section-label-light" style={{ justifyContent: "center" }}>Une destination vous intéresse ?</div>
@@ -317,7 +320,7 @@ export default function DestinationsPage() {
               fontSize: 16, color: "rgba(255,255,255,0.55)",
               maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.75, position: "relative",
             }}>
-              Destination envisagée, filière, taille du groupe, dates — partagez votre projet.
+              Destination envisagée, filière, taille du groupe, dates, partagez votre projet.
               Nous vous revenons rapidement avec une première proposition adaptée à votre filière.
             </p>
             <Link href="/contact" className="btn-primary" style={{ position: "relative" }}>

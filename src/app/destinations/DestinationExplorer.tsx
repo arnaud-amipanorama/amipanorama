@@ -19,12 +19,12 @@ export interface Dest {
   phare?: boolean;
 }
 
-// Contenu additionnel du modal — faits qualitatifs et vérifiables.
+// Contenu additionnel du modal, faits qualitatifs et vérifiables.
 // Aucune statistique AMI Panorama inventée, aucun volume par destination.
 const EXTRA: Record<string, { facts: string[]; gallery: string[] }> = {
   "Montréal": {
     facts: [
-      "Notre destination historique — la première ouverte et la plus maîtrisée.",
+      "Notre destination historique, la première ouverte et la plus maîtrisée.",
       "Plus grande métropole francophone d'Amérique du Nord.",
       "L'une des plus fortes densités étudiantes du continent.",
     ],
@@ -150,7 +150,7 @@ export default function DestinationExplorer({ destinations }: { destinations: De
                   <div style={{ padding: "40px 44px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                     <p style={{ fontSize: 14, fontStyle: "italic", color: "var(--text-muted)", marginBottom: 16, fontFamily: "var(--font-serif)" }}>{headline}</p>
                     <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.8 }}>{desc}</p>
-                    <div style={{ marginTop: 24, fontSize: 12, color: "var(--text-muted)", fontStyle: "italic" }}>Programme en cours de construction — disponible prochainement.</div>
+                    <div style={{ marginTop: 24, fontSize: 12, color: "var(--text-muted)", fontStyle: "italic" }}>Programme en cours de construction, disponible prochainement.</div>
                   </div>
                 </div>
               </AnimateOnView>
@@ -176,7 +176,7 @@ export default function DestinationExplorer({ destinations }: { destinations: De
                   </div>
                   <div style={{ position: "absolute", top: 20, right: 20, fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", color: "rgba(255,255,255,0.35)" }}>0{i + 1}</div>
                   {phare && (
-                    <div style={{ position: "absolute", top: 18, left: 28, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff", background: "rgba(232,88,53,0.92)", borderRadius: 100, padding: "4px 12px" }}>Destination phare</div>
+                    <div style={{ position: "absolute", top: 18, left: 28, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff", background: "rgba(15,107,109,0.92)", borderRadius: 100, padding: "4px 12px" }}>Destination phare</div>
                   )}
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }} className="dest-card-body">
@@ -248,7 +248,7 @@ export default function DestinationExplorer({ destinations }: { destinations: De
                   <div style={{ fontSize: 30, fontWeight: 700, letterSpacing: "-0.04em", color: "#fff", lineHeight: 1 }}>{active.city}</div>
                 </div>
                 {active.phare && (
-                  <div style={{ position: "absolute", top: 16, left: 18, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff", background: "rgba(232,88,53,0.92)", borderRadius: 100, padding: "4px 12px" }}>Destination phare</div>
+                  <div style={{ position: "absolute", top: 16, left: 18, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff", background: "rgba(15,107,109,0.92)", borderRadius: 100, padding: "4px 12px" }}>Destination phare</div>
                 )}
                 {hasGroup && (
                   <div style={{ position: "absolute", bottom: 18, right: 18, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)", background: "rgba(11,24,41,0.42)", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 100, padding: "5px 12px", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)" }}>Photos du groupe</div>

@@ -11,7 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/a-propos", priority: 0.7, freq: "monthly" },
     { path: "/contact", priority: 0.8, freq: "monthly" },
     { path: "/rendez-vous", priority: 0.6, freq: "monthly" },
-    { path: "/services", priority: 0.5, freq: "monthly" },
+    // /services n'est plus une page : elle redirige (308) vers /notre-programme.
+    // La déclarer ici revenait à proposer une redirection à l'indexation.
     { path: "/mentions-legales", priority: 0.2, freq: "yearly" },
     { path: "/politique-de-confidentialite", priority: 0.2, freq: "yearly" },
     { path: "/politique-cookies", priority: 0.2, freq: "yearly" },

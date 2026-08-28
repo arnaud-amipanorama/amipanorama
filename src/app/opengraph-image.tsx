@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 // Image de partage (réseaux sociaux, aperçus de liens, certains agents IA)
-export const alt = "AMI Panorama — Mobilité internationale pour les CFA et établissements de formation";
+export const alt = "AMI Panorama, Mobilité internationale pour les CFA et établissements de formation";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -21,7 +21,7 @@ export default function OpengraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <div style={{ width: 46, height: 4, background: "#E85835" }} />
+          <div style={{ width: 46, height: 4, background: "#0F6B6D" }} />
           <div style={{ color: "#A2A8B4", fontSize: 26, letterSpacing: 6, textTransform: "uppercase" }}>
             AMI Panorama
           </div>
@@ -30,7 +30,7 @@ export default function OpengraphImage() {
           <div style={{ color: "#ffffff", fontSize: 64, fontWeight: 800, lineHeight: 1.1, letterSpacing: -2 }}>
             Ouvrir le monde à celles et ceux
           </div>
-          <div style={{ color: "#E85835", fontSize: 64, fontWeight: 800, lineHeight: 1.1, letterSpacing: -2 }}>
+          <div style={{ color: "#0F6B6D", fontSize: 64, fontWeight: 800, lineHeight: 1.1, letterSpacing: -2 }}>
             qui le construiront demain.
           </div>
         </div>

@@ -2,9 +2,33 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   parseLead,
   leadToEmailHtml,
+  leadToConfirmationHtml,
   leadToNotionProperties,
   type Lead,
 } from "@/lib/lead";
+
+/**
+ * Diagnostic de configuration. Ne renvoie que des booléens, jamais une clé,
+ * jamais une valeur. Sert à vérifier, depuis n'importe où, quels canaux de
+ * notification sont réellement branchés sur l'environnement en cours.
+ *   curl https://amipanorama.com/api/lead
+ */
+export async function GET() {
+  return NextResponse.json({
+    canaux: {
+      emailInterne: Boolean(
+        process.env.RESEND_API_KEY &&
+          process.env.LEAD_NOTIFICATION_TO &&
+          process.env.LEAD_NOTIFICATION_FROM
+      ),
+      accuseReception: Boolean(
+        process.env.RESEND_API_KEY && process.env.LEAD_NOTIFICATION_FROM
+      ),
+      notion: Boolean(process.env.NOTION_TOKEN && process.env.NOTION_LEADS_DB),
+      webhook: Boolean(process.env.WEBHOOK_URL),
+    },
+  });
+}
 
 export async function POST(request: NextRequest) {
   let raw: Record<string, unknown>;
@@ -31,22 +55,44 @@ export async function POST(request: NextRequest) {
   }
   const lead = parsed.lead;
 
-  // Trace serveur — toujours active (visible dans les logs Vercel)
+  // Trace serveur, toujours active (visible dans les logs Vercel)
   console.log("[AMI Lead]", JSON.stringify(lead));
 
   // Les canaux de notification tournent en parallèle, en best-effort :
   // un échec n'empêche jamais la confirmation à l'utilisateur.
-  await Promise.allSettled([sendEmail(lead), pushToNotion(lead), pushToWebhook(lead)]);
+  // L'accusé de réception au prospect est volontairement dans le même lot :
+  // s'il échoue, la demande est quand même enregistrée côté AMI.
+  const results = await Promise.allSettled([
+    sendEmail(lead),
+    sendConfirmation(lead),
+    pushToNotion(lead),
+    pushToWebhook(lead),
+  ]);
+
+  // Filet de sécurité : si AUCUN canal de persistance n'a fonctionné, le lead
+  // n'existe plus que dans cette ligne de log. On la rend repérable pour qu'une
+  // alerte Vercel puisse s'y accrocher.
+  const [interne, , notion, webhook] = results;
+  const persiste = [interne, notion, webhook].some(
+    (r) => r.status === "fulfilled" && r.value === "sent"
+  );
+  if (!persiste) {
+    console.error("[AMI Lead] AUCUN_CANAL_OK, lead uniquement en logs :", JSON.stringify(lead));
+  }
 
   return NextResponse.json({ success: true });
 }
 
-// ── Email via l'API REST de Resend (aucune dépendance npm) ──
-async function sendEmail(lead: Lead) {
+/** "sent" si le canal a réellement transmis, "skipped" s'il n'est pas configuré. */
+type ChannelResult = "sent" | "skipped";
+
+// ── Envoi via l'API REST de Resend (aucune dépendance npm) ──
+async function resendSend(
+  payload: Record<string, unknown>,
+  label: string
+): Promise<ChannelResult> {
   const key = process.env.RESEND_API_KEY;
-  const to = process.env.LEAD_NOTIFICATION_TO;
-  const from = process.env.LEAD_NOTIFICATION_FROM;
-  if (!key || !to || !from) return; // non configuré → on saute proprement
+  if (!key) return "skipped";
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -54,24 +100,59 @@ async function sendEmail(lead: Lead) {
       Authorization: `Bearer ${key}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    console.error(`[AMI Lead] Resend ${label} error:`, res.status, await res.text().catch(() => ""));
+    return "skipped";
+  }
+  return "sent";
+}
+
+// ── Notification interne (vers la boîte AMI) ──
+async function sendEmail(lead: Lead): Promise<ChannelResult> {
+  const to = process.env.LEAD_NOTIFICATION_TO;
+  const from = process.env.LEAD_NOTIFICATION_FROM;
+  if (!to || !from) return "skipped"; // non configuré → on saute proprement
+
+  return resendSend(
+    {
       from,
       to: [to],
       reply_to: lead.email,
-      subject: `Nouveau lead — ${lead.prenom} ${lead.nom}${lead.etablissement ? ` (${lead.etablissement})` : ""}`,
+      subject: `Nouveau lead, ${lead.prenom} ${lead.nom}${lead.etablissement ? ` (${lead.etablissement})` : ""}`,
       html: leadToEmailHtml(lead),
-    }),
-  });
-  if (!res.ok) {
-    console.error("[AMI Lead] Resend error:", res.status, await res.text().catch(() => ""));
-  }
+    },
+    "notification"
+  );
+}
+
+// ── Accusé de réception (vers le prospect) ──
+async function sendConfirmation(lead: Lead): Promise<ChannelResult> {
+  const from = process.env.LEAD_CONFIRMATION_FROM || process.env.LEAD_NOTIFICATION_FROM;
+  if (!from) return "skipped";
+
+  const replyTo = process.env.LEAD_NOTIFICATION_TO || undefined;
+  const bookingUrl =
+    process.env.NEXT_PUBLIC_BOOKING_URL || "https://calendar.app.google/sLYXj9s7nDiMwzYu8";
+
+  return resendSend(
+    {
+      from,
+      to: [lead.email],
+      ...(replyTo ? { reply_to: replyTo } : {}),
+      subject: "Votre demande a bien été reçue, AMI Panorama",
+      html: leadToConfirmationHtml(lead, bookingUrl),
+    },
+    "confirmation"
+  );
 }
 
 // ── Miroir Notion via l'API REST (aucune dépendance npm) ──
-async function pushToNotion(lead: Lead) {
+async function pushToNotion(lead: Lead): Promise<ChannelResult> {
   const token = process.env.NOTION_TOKEN;
   const dbId = process.env.NOTION_LEADS_DB;
-  if (!token || !dbId) return; // non configuré → on saute proprement
+  if (!token || !dbId) return "skipped"; // non configuré → on saute proprement
 
   const res = await fetch("https://api.notion.com/v1/pages", {
     method: "POST",
@@ -87,13 +168,15 @@ async function pushToNotion(lead: Lead) {
   });
   if (!res.ok) {
     console.error("[AMI Lead] Notion error:", res.status, await res.text().catch(() => ""));
+    return "skipped";
   }
+  return "sent";
 }
 
-// ── Webhook générique optionnel (Zapier, Make, Airtable…) ──
-async function pushToWebhook(lead: Lead) {
+// ── Webhook générique optionnel (Zapier, Make, Airtable, Google Apps Script…) ──
+async function pushToWebhook(lead: Lead): Promise<ChannelResult> {
   const url = process.env.WEBHOOK_URL;
-  if (!url) return;
+  if (!url) return "skipped";
 
   const res = await fetch(url, {
     method: "POST",
@@ -102,5 +185,7 @@ async function pushToWebhook(lead: Lead) {
   });
   if (!res.ok) {
     console.error("[AMI Lead] Webhook error:", res.status);
+    return "skipped";
   }
+  return "sent";
 }

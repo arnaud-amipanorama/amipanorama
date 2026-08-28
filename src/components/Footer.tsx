@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { socialLinks } from "@/data/social";
 
 export default function Footer() {
   return (
@@ -12,7 +13,7 @@ export default function Footer() {
       {/* Subtle top accent line */}
       <div style={{
         position: "absolute", top: 0, left: 24, right: 24, height: 1,
-        background: "linear-gradient(90deg, transparent, rgba(30,82,208,0.5), rgba(232,88,53,0.4), transparent)",
+        background: "linear-gradient(90deg, transparent, rgba(30,82,208,0.5), rgba(15,107,109,0.4), transparent)",
       }} />
 
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -34,11 +35,7 @@ export default function Footer() {
               Programmes de mobilité internationale clé en main pour les CFA, les écoles et les établissements de formation.
             </p>
             <div style={{ display: "flex", gap: 10, marginTop: 24 }}>
-              {[
-                { label: "Instagram", href: "https://instagram.com/ami.panorama" },
-                { label: "LinkedIn", href: "https://linkedin.com" },
-                { label: "WhatsApp", href: "https://wa.me" },
-              ].map(({ label, href }) => (
+              {socialLinks.map(({ label, href }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                   className="footer-link"
                   style={{
@@ -72,10 +69,10 @@ export default function Footer() {
             <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 18 }}>Destinations</p>
             {[
               { label: "Montréal", flag: "🇨🇦" },
+              { label: "New York", flag: "🇺🇸" },
               { label: "Séville", flag: "🇪🇸" },
               { label: "Londres", flag: "🇬🇧" },
               { label: "Maroc", flag: "🇲🇦" },
-              { label: "New York", flag: "🇺🇸" },
               { label: "Séoul", flag: "🇰🇷" },
             ].map(({ label, flag }) => (
               <div key={label} style={{ marginBottom: 11 }}>

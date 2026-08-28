@@ -1,5 +1,5 @@
 // ──────────────────────────────────────────────────────────────
-// Simulateur de financement mobilité — CONFIG OPCO (source unique)
+// Simulateur de financement mobilité, CONFIG OPCO (source unique)
 // Les montants reflètent les sources listées sous chaque OPCO et leur
 // date de contrôle. « À confirmer » = ne pas présenter comme acquis.
 // Le moteur ne doit jamais assimiler le prix AMI à une dépense éligible.
@@ -23,7 +23,7 @@ export const OPCOS: OpcoConfig[] = [
     apprenti: { type: "tieredByDays", dayBasis: "calendar", select: { param: "aktoFunding", default: "international_miseADisposition", options: ["euro_miseADisposition", "international_miseADisposition", "euro_miseEnVeille", "international_miseEnVeille"] }, bands: [{ minDays: 0, maxDays: null, amounts: { euro_miseADisposition: 1000, international_miseADisposition: 1500, euro_miseEnVeille: 1500, international_miseEnVeille: 2500 } }] },
     status: "validated",
     notes: "Une mobilité par alternant et par contrat ; convention signée et mobilité effective requises.",
-    source: { label: "AKTO — mobilité internationale", url: "https://www.akto.fr/akto-soutient-la-mobilite-internationale-des-alternants/", checkedAt },
+    source: { label: "AKTO, mobilité internationale", url: "https://www.akto.fr/akto-soutient-la-mobilite-internationale-des-alternants/", checkedAt },
   },
   {
     id: "opco21", label: "OPCO 2i",
@@ -31,14 +31,14 @@ export const OPCOS: OpcoConfig[] = [
     apprenti: { type: "tieredByDays", dayBasis: "calendar", bands: [{ minDays: 0, maxDays: 28, amounts: { default: 800 } }, { minDays: 29, maxDays: null, amounts: { default: 1600 } }] },
     status: "validated",
     notes: "Au réel, plafonné par alternant et contrat ; cas particulier IEG à gérer hors simulateur.",
-    source: { label: "OPCO 2i — fiche pratique CFA", url: "https://www.opco2i.fr/la-mobilite-internationale-un-levier-dattractivite-pour-les-formations-industrielles/", checkedAt },
+    source: { label: "OPCO 2i, fiche pratique CFA", url: "https://www.opco2i.fr/la-mobilite-internationale-un-levier-dattractivite-pour-les-formations-industrielles/", checkedAt },
   },
   {
     id: "atlas", label: "ATLAS",
     referent: { type: "fixed", amount: 500 },
     status: "validated",
     notes: "Contrats conclus dès le 01/04/2026. Minimum 15 jours calendaires ; convention de mobilité à transmettre avant le départ.",
-    source: { label: "Atlas — mobilité internationale", url: "https://www.opco-atlas.fr/mobilite-europeenne-internationale-alternants.html", checkedAt },
+    source: { label: "Atlas, mobilité internationale", url: "https://www.opco-atlas.fr/mobilite-europeenne-internationale-alternants.html", checkedAt },
     apprenti: { type: "tieredByDays", dayBasis: "calendar", select: { param: "atlasContractMode", default: "miseADisposition", options: ["miseADisposition", "miseEnVeille"] }, bands: [
       { minDays: 0, maxDays: 14, amounts: { miseADisposition: 0, miseEnVeille: 0 } },
       { minDays: 15, maxDays: 30, amounts: { miseADisposition: 1000, miseEnVeille: 1500 } },
@@ -56,7 +56,7 @@ export const OPCOS: OpcoConfig[] = [
     apprenti: { type: "weeklyAllowance", basis: "daysStarted", select: { param: "epContractMode", default: "miseADisposition", options: ["miseADisposition", "miseEnVeille"] }, perWeek: { miseADisposition: 500, miseEnVeille: 300 }, cap: { miseADisposition: 2000, miseEnVeille: 3000 } },
     status: "validated",
     notes: "Forfait par semaine entamée, appliqué par le moteur selon le mode de convention : 500 €/semaine plafonné 2 000 € (mise à disposition) ; 300 €/semaine plafonné 3 000 € (mise en veille).",
-    source: { label: "OPCO EP — fiche mobilité, mars 2026", url: "https://www.opcoep.fr/ressources/centre-ressources/fiche/Fiche-mobilite-europeenne-internationale-opcoep.pdf", checkedAt },
+    source: { label: "OPCO EP, fiche mobilité, mars 2026", url: "https://www.opcoep.fr/ressources/centre-ressources/fiche/Fiche-mobilite-europeenne-internationale-opcoep.pdf", checkedAt },
   },
   {
     id: "afdas", label: "AFDAS",
@@ -67,20 +67,20 @@ export const OPCOS: OpcoConfig[] = [
     id: "constructys", label: "CONSTRUCTYS",
     referent: { type: "fixed", amount: 500 }, apprenti: { type: "composite", rules: realMobilityCosts.type === "composite" ? realMobilityCosts.rules : [], cap: 1180 }, status: "validated",
     notes: "Plafond 1 180 € : dépenses exposées par le CFA, programme de formation et convention spécifique requis.",
-    source: { label: "Constructys — critères CFA", url: "https://www.constructys.fr/cfa-informations-criteres-de-prise-en-charge-financiere-et-modalites-de-facturation-des-contrats-dapprentissage/", checkedAt },
+    source: { label: "Constructys, critères CFA", url: "https://www.constructys.fr/cfa-informations-criteres-de-prise-en-charge-financiere-et-modalites-de-facturation-des-contrats-dapprentissage/", checkedAt },
   },
   {
     id: "ocapiat", label: "OCAPIAT",
     referent: { type: "fixed", amount: 500 }, apprenti: realMobilityCosts, status: "validated",
     notes: "Au réel sur dépenses supportées par le CFA ; un A/R par stagiaire. Prévision à inscrire dans la convention, justificatifs à conserver.",
-    source: { label: "OCAPIAT — FAQ organisme", url: "https://capverslalternance.ocapiat.fr/faq-organisme/", checkedAt },
+    source: { label: "OCAPIAT, FAQ organisme", url: "https://capverslalternance.ocapiat.fr/faq-organisme/", checkedAt },
   },
   {
     id: "opco_mobilites", label: "OPCO MOBILITÉS",
     referent: { type: "fixed", amount: 500 },
     apprenti: { type: "realCostCapped", cap: { europe: 1500, international: 2000 }, select: { param: "destinationZone", default: "international", options: ["europe", "international"] } }, status: "validated",
     notes: "Le plafond dépend de la zone : Europe 1 500 € HT, international 2 000 € HT. Le sélecteur de zone est appliqué dans le moteur.",
-    source: { label: "OPCO Mobilités — modalités 2026", url: "https://www.opcomobilites.fr/financer-un-contrat-dapprentissage-autres-conventions-collectives-ou-sans-convention-collective-drom/", checkedAt },
+    source: { label: "OPCO Mobilités, modalités 2026", url: "https://www.opcomobilites.fr/financer-un-contrat-dapprentissage-autres-conventions-collectives-ou-sans-convention-collective-drom/", checkedAt },
   },
   {
     id: "cnfpt", label: "CNFPT",
@@ -91,13 +91,13 @@ export const OPCOS: OpcoConfig[] = [
     id: "uniformation", label: "UNIFORMATION",
     referent: { type: "fixed", amount: 500 }, apprenti: realMobilityCosts, status: "validated",
     notes: "Dépenses supportées par le CFA, chiffrées au démarrage et intégrées à la convention initiale.",
-    source: { label: "Uniformation — frais annexes 2026", url: "https://www.uniformation.fr/entreprise/financements/frais-annexes-et-couts-pedagogiques", checkedAt },
+    source: { label: "Uniformation, frais annexes 2026", url: "https://www.uniformation.fr/entreprise/financements/frais-annexes-et-couts-pedagogiques", checkedAt },
   },
   {
     id: "opco_sante", label: "OPCO SANTÉ",
     referent: { type: "fixed", amount: 500 }, apprenti: realMobilityCosts, status: "to_confirm",
     notes: "Référent, repas, nuitées et vaccins sont documentés. Le transport doit être confirmé selon la branche/contrat concerné.",
-    source: { label: "OPCO Santé — synthèse hors branche", url: "https://www.opco-sante.fr/app/uploads/2025/11/opco0226_synthese-des-prise-en-charge-hors-branche_pdf_site.pdf", checkedAt },
+    source: { label: "OPCO Santé, synthèse hors branche", url: "https://www.opco-sante.fr/app/uploads/2025/11/opco0226_synthese-des-prise-en-charge-hors-branche_pdf_site.pdf", checkedAt },
   },
 ];
 

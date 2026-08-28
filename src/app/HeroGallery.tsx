@@ -37,7 +37,7 @@ export default function HeroGallery({ items }: { items: GalleryItem[] }) {
 
     // Place chaque carte selon sa distance circulaire au centre flottant.
     // Hiérarchie GAUSSIENNE : tout (scale/opacity/blur/lumière) évolue en continu,
-    // changement quasi imperceptible — pas d'effet "coverflow".
+    // changement quasi imperceptible, pas d'effet "coverflow".
     const render = () => {
       const center = phase.current;
       for (let i = 0; i < n; i++) {

@@ -1,8 +1,8 @@
 // ──────────────────────────────────────────────────────────────
-// Simulateur de financement mobilité — types du moteur (V1 Europe)
+// Simulateur de financement mobilité, types du moteur (V1 Europe)
 // Moteur "config-driven" : chaque OPCO décrit ses mécanismes de
 // financement via des règles composables. Aucune valeur en dur
-// dans le moteur — tout vit dans opco-config.ts (DB-ready).
+// dans le moteur, tout vit dans opco-config.ts (DB-ready).
 // ──────────────────────────────────────────────────────────────
 
 export type Coverage = "transport" | "hebergement" | "repas" | "assurance";

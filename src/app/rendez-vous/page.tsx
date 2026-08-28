@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Prendre rendez-vous",
   description:
-    "Réservez un échange de 20 minutes avec l'équipe AMI Panorama pour parler de votre projet de mobilité internationale — sans engagement.",
+    "Réservez un échange de 20 minutes avec l'équipe AMI Panorama pour parler de votre projet de mobilité internationale, sans engagement.",
 };
 
 // Lien de réservation Google Calendar (lien de partage public).
@@ -37,7 +37,7 @@ export default function RendezVousPage() {
         }} />
         <div style={{
           position: "absolute", bottom: -60, left: "10%", width: 420, height: 320,
-          background: "radial-gradient(ellipse, rgba(232,88,53,0.16) 0%, transparent 65%)",
+          background: "radial-gradient(ellipse, rgba(15,107,109,0.16) 0%, transparent 65%)",
           pointerEvents: "none",
         }} />
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative" }}>
@@ -47,13 +47,13 @@ export default function RendezVousPage() {
             letterSpacing: "-0.045em", lineHeight: 1.08, maxWidth: 680, marginBottom: 24, color: "#fff",
           }}>
             Parlons de votre projet,{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 500, color: "rgba(232,88,53,0.9)" }}>
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 500, color: "rgba(15,107,109,0.9)" }}>
               de vive voix.
             </span>
           </h1>
           <p style={{ fontSize: 18, color: "rgba(255,255,255,0.65)", maxWidth: 560, lineHeight: 1.75, marginBottom: 36 }}>
-            Choisissez un créneau qui vous convient. On comprend votre contexte — filière, groupe,
-            objectifs, dates — et on vous propose une première direction concrète.
+            Choisissez un créneau qui vous convient. On comprend votre contexte, filière, groupe,
+            objectifs, dates, et on vous propose une première direction concrète.
           </p>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
             {reassurance.map(({ t, d }) => (
@@ -98,12 +98,12 @@ export default function RendezVousPage() {
               }} />
               <div style={{
                 width: 56, height: 56, borderRadius: 16, margin: "0 auto 24px",
-                background: "rgba(232,88,53,0.10)", border: "1px solid rgba(232,88,53,0.22)",
+                background: "rgba(15,107,109,0.10)", border: "1px solid rgba(15,107,109,0.22)",
                 display: "flex", alignItems: "center", justifyContent: "center", position: "relative",
               }}>
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                  <rect x="3" y="4.5" width="18" height="16" rx="2.5" stroke="#E85835" strokeWidth="1.6"/>
-                  <path d="M3 9h18M8 2.5v4M16 2.5v4" stroke="#E85835" strokeWidth="1.6" strokeLinecap="round"/>
+                  <rect x="3" y="4.5" width="18" height="16" rx="2.5" stroke="#0F6B6D" strokeWidth="1.6"/>
+                  <path d="M3 9h18M8 2.5v4M16 2.5v4" stroke="#0F6B6D" strokeWidth="1.6" strokeLinecap="round"/>
                 </svg>
               </div>
               <h2 style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 12, position: "relative" }}>

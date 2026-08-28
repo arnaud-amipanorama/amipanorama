@@ -4,11 +4,11 @@ import type { Metadata } from "next";
 import AnimateOnView from "@/components/AnimateOnView";
 import HeroGallery from "./HeroGallery";
 import HeroBackdrop from "./HeroBackdrop";
-import { HERO_IMAGE, HERO_PHOTOS } from "./heroConfig";
+import { HERO_IMAGE, HERO_FOCUS, HERO_PHOTOS } from "./heroConfig";
 import { testimonials } from "@/data/testimonials";
 
 export const metadata: Metadata = {
-  title: "AMI Panorama — Opérateur de mobilité internationale pour les CFA et les établissements",
+  title: "AMI Panorama, Opérateur de mobilité internationale pour les CFA et les établissements",
   description:
     "AMI Panorama conçoit des programmes de mobilité internationale structurés pour les CFA, les écoles et les établissements d'enseignement supérieur. Formation professionnelle, visites d'entreprise, encadrement terrain et accompagnement administratif de A à Z.",
 };
@@ -17,14 +17,24 @@ const destinations: {
   city: string; country: string; flag: string; tag: string;
   gradient: string; img: string; phare?: boolean;
 }[] = [
+  // HIÉRARCHIE, ne pas réordonner sans arbitrage éditorial :
+  //   1. Montréal = destination historique et principale  → carte phare
+  //   2. Séville  = deuxième pilier, grande dest. européenne → carte phare
+  //   3. New York = destination iconique et aspirationnelle → 1re carte secondaire,
+  //      volontairement mise en lumière (vraie photo de groupe) MAIS sans badge
+  //      "phare" : elle fait rêver, elle n'est pas l'un des deux piliers.
+  //
+  // Les cartes phares portent de VRAIES photos de groupe : à ce format, la preuve
+  // terrain vaut mieux qu'un visuel de banque d'images. Les autres cartes restent
+  // city-led (visuel de ville), cf. DestinationExplorer.
   {
     city: "Montréal",
     country: "Canada",
     flag: "🇨🇦",
     tag: "Destination historique · Amérique du Nord",
     phare: true,
-    gradient: "linear-gradient(170deg,rgba(8,28,60,0.42),rgba(20,52,140,0.28))",
-    img: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=800&q=80",
+    gradient: "linear-gradient(170deg,rgba(8,28,60,0.30),rgba(20,52,140,0.18))",
+    img: "/Assets/groups/montreal-sunset.jpg",
   },
   {
     city: "Séville",
@@ -32,8 +42,16 @@ const destinations: {
     flag: "🇪🇸",
     tag: "Deuxième pilier · Culture & immersion",
     phare: true,
-    gradient: "linear-gradient(170deg,rgba(100,30,10,0.42),rgba(180,80,20,0.28))",
-    img: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
+    gradient: "linear-gradient(170deg,rgba(90,34,10,0.30),rgba(170,76,20,0.18))",
+    img: "/Assets/groups/seville-garden.jpg",
+  },
+  {
+    city: "New York",
+    country: "États-Unis",
+    flag: "🇺🇸",
+    tag: "Destination iconique · Business & culture",
+    gradient: "linear-gradient(170deg,rgba(10,18,40,0.34),rgba(20,38,80,0.20))",
+    img: "/Assets/groups/newyork-pano.jpg",
   },
   {
     city: "Londres",
@@ -66,14 +84,6 @@ const destinations: {
     tag: "Entrepreneuriat & innovation",
     gradient: "linear-gradient(170deg,rgba(60,20,10,0.42),rgba(120,50,20,0.28))",
     img: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=800&q=80",
-  },
-  {
-    city: "New York",
-    country: "États-Unis",
-    flag: "🇺🇸",
-    tag: "Business & culture",
-    gradient: "linear-gradient(170deg,rgba(10,18,40,0.42),rgba(20,38,80,0.28))",
-    img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800&q=80",
   },
   {
     city: "Rome",
@@ -144,7 +154,7 @@ const partnerNames = [
 ];
 
 const included = [
-  { num: "01", label: "Formation 15–82h",       sub: "Business English + ateliers sectoriels" },
+  { num: "01", label: "Formation de 15 à 82 h", sub: "Business English et ateliers sectoriels" },
   { num: "02", label: "Visites d'entreprise",  sub: "Immersion professionnelle réelle" },
   { num: "03", label: "Activités culturelles", sub: "Programme saisonnier sur mesure" },
   { num: "04", label: "Hébergement encadré",   sub: "Logement sécurisé, testé sur place" },
@@ -175,7 +185,7 @@ export default function HomePage() {
           position: "absolute", top: 12, left: 12, zIndex: 2,
           fontSize: 9, fontWeight: 600, letterSpacing: "0.1em",
           textTransform: "uppercase", color: "#fff",
-          background: "rgba(232,88,53,0.92)", borderRadius: 100,
+          background: "rgba(15,107,109,0.92)", borderRadius: 100,
           padding: "4px 10px",
         }}>Destination phare</div>
       )}
@@ -197,14 +207,14 @@ export default function HomePage() {
   return (
     <>
       {/* ══════════════════════════════════════════════
-          HERO — cinematic split layout
+          HERO, cinematic split layout
           Dark navy + animated orbs + real group photos
       ══════════════════════════════════════════════ */}
       <section className="hero-section" style={{
         position: "relative", overflow: "hidden", background: "var(--bg)",
       }}>
         {/* Image full-bleed + voiles + dérive d'ambiance (client) */}
-        <HeroBackdrop image={HERO_IMAGE} />
+        <HeroBackdrop image={HERO_IMAGE} focus={HERO_FOCUS} />
 
         {/* Contenu : texte (haut) + cartes flottantes (bas), une seule scène */}
         <div className="hero-inner" style={{
@@ -234,7 +244,7 @@ export default function HomePage() {
                 à celles et ceux qui<br />
                 <span className="hero-gradient-anim" style={{
                   color: "transparent",
-                  background: "linear-gradient(120deg, #0B1829 0%, #E85835 100%)",
+                  background: "linear-gradient(120deg, #0B1829 0%, #0F6B6D 100%)",
                   WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
                 }}>le construiront demain.</span>
               </span>
@@ -269,7 +279,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Cartes destinations en coverflow — profondeur par ombre diffuse, sans plateau géométrique */}
+          {/* Cartes destinations en coverflow, profondeur par ombre diffuse, sans plateau géométrique */}
           <div className="anim-fade-up-4 hero-gallery-wrap" style={{ position: "relative", marginTop: 28 }}>
             <div aria-hidden="true" style={{
               position: "absolute", left: "50%", bottom: 8, transform: "translateX(-50%)",
@@ -367,7 +377,7 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          PROGRAMME — real photo + included list
+          PROGRAMME, real photo + included list
       ══════════════════════════════════════════════ */}
       <section className="prog-section" style={{ padding: "96px 24px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -383,10 +393,10 @@ export default function HomePage() {
                 position: "relative",
               }}>
                 <Image
-                  src="/formation-seville.jpg"
-                  alt="Session de formation professionnelle AMI Panorama à Séville"
+                  src="/Assets/program/visite-conference.jpg"
+                  alt="Conférence professionnelle suivie par un groupe AMI Panorama lors d'une visite d'entreprise"
                   fill
-                  style={{ objectFit: "cover", objectPosition: "center 30%" }}
+                  style={{ objectFit: "cover", objectPosition: "center 45%" }}
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 {/* Overlay tint */}
@@ -406,7 +416,7 @@ export default function HomePage() {
                   fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
                   textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 6,
                 }}>Formation réelle</div>
-                <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.04em" }}>15–82h</div>
+                <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.04em" }}>15 à 82 h</div>
                 <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 2 }}>de formation selon le format</div>
               </div>
               {/* Encadrement badge */}
@@ -414,7 +424,7 @@ export default function HomePage() {
                 position: "absolute", top: -16, left: -16,
                 background: "var(--coral)", borderRadius: 10,
                 padding: "12px 18px",
-                boxShadow: "0 4px 20px rgba(232,88,53,0.35)",
+                boxShadow: "0 4px 20px rgba(15,107,109,0.35)",
               }}>
                 <div style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", letterSpacing: "0.06em" }}>Encadrement</div>
                 <div style={{ fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: "-0.02em" }}>24h / 7j</div>
@@ -528,7 +538,7 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          HOW IT WORKS — process steps (no photo needed)
+          HOW IT WORKS, process steps (no photo needed)
       ══════════════════════════════════════════════ */}
       <section className="process-section" style={{ padding: "0 24px 96px", background: "var(--bg)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -551,8 +561,8 @@ export default function HomePage() {
               }} className="process-grid">
                 {[
                   { num: "1", title: "Vous nous contactez", desc: "Premier échange pour comprendre votre groupe, votre filière, vos dates." },
-                  { num: "2", title: "Nous proposons", desc: "Proposition adaptée à votre filière et à vos dates — destination, hébergement, planning indicatif." },
-                  { num: "3", title: "Nous coordonnons", desc: "Logistique, formations, visites professionnelles, assurances et appui administratif — nous structurons chaque étape avec vous." },
+                  { num: "2", title: "Nous proposons", desc: "Proposition adaptée à votre filière et à vos dates, destination, hébergement, planning indicatif." },
+                  { num: "3", title: "Nous coordonnons", desc: "Logistique, formations, visites professionnelles, assurances et appui administratif, nous structurons chaque étape avec vous." },
                   { num: "4", title: "Le groupe part", desc: "Vous accompagnez votre groupe sur le plan pédagogique. Notre équipe terrain assure l'encadrement et la coordination sur place." },
                 ].map(({ num, title, desc }) => (
                   <div key={num} style={{ position: "relative" }}>
@@ -583,7 +593,7 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          STUDENT TESTIMONIALS — animated vertical scroll
+          STUDENT TESTIMONIALS, animated vertical scroll
       ══════════════════════════════════════════════ */}
       <section className="testi-section" style={{ padding: "0 24px 80px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -599,7 +609,7 @@ export default function HomePage() {
             </div>
           </AnimateOnView>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="testi-grid">
-            {/* Column 1 — real testimonials — scrolls slower */}
+            {/* Column 1, real testimonials, scrolls slower */}
             <div className="testi-track">
               <div className="testi-col-1" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {[...testimonials, ...testimonials].map(({ quote, name, school, dest, flag }, i) => (
@@ -624,7 +634,7 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
-            {/* Column 2 — additional testimonials — scrolls faster */}
+            {/* Column 2, additional testimonials, scrolls faster */}
             <div className="testi-track">
               <div className="testi-col-2" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {[...testimonials.slice(2), ...testimonials.slice(0, 2), ...testimonials.slice(2), ...testimonials.slice(0, 2)].map(({ quote, name, school, dest, flag }, i) => (
@@ -671,7 +681,7 @@ export default function HomePage() {
               }} />
               <div style={{
                 fontSize: 56, lineHeight: 0.8, marginBottom: 28,
-                fontFamily: "Georgia, serif", color: "rgba(232,88,53,0.4)",
+                fontFamily: "Georgia, serif", color: "rgba(15,107,109,0.4)",
                 position: "relative",
               }}>&ldquo;</div>
               <blockquote style={{
@@ -692,7 +702,7 @@ export default function HomePage() {
                 }}>F</div>
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 600, color: "#fff" }}>Florian Riocreux</div>
-                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)" }}>Référent Mobilité — ECEMA</div>
+                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)" }}>Référent Mobilité, ECEMA</div>
                 </div>
               </div>
             </div>
@@ -739,7 +749,7 @@ export default function HomePage() {
             <div style={{
               position: "absolute", bottom: "-60px", right: "10%",
               width: 380, height: 300,
-              background: "radial-gradient(ellipse, rgba(232,88,53,0.22) 0%, transparent 65%)",
+              background: "radial-gradient(ellipse, rgba(15,107,109,0.22) 0%, transparent 65%)",
               pointerEvents: "none",
             }} />
             <div className="section-label-light" style={{ justifyContent: "center" }}>
@@ -757,7 +767,7 @@ export default function HomePage() {
               fontSize: 16, color: "rgba(255,255,255,0.5)", maxWidth: 480,
               margin: "0 auto 44px", lineHeight: 1.75, position: "relative",
             }}>
-              Partagez votre projet avec nous — destination envisagée, filière, dates,
+              Partagez votre projet avec nous, destination envisagée, filière, dates,
               taille du groupe. Nous revenons vers vous avec une première proposition adaptée.
             </p>
             <div style={{
@@ -779,87 +789,11 @@ export default function HomePage() {
 
       {/* ══ Hero & animation styles ══ */}
       <style>{`
-        /* Hero grain texture */
-        .hero-grain {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          z-index: 0;
-          opacity: 0.018;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");
-          background-size: 180px 180px;
-        }
-
-        /* Hero glow orbs — slow, large, organic */
-        .hero-orb {
-          position: absolute;
-          border-radius: 50%;
-          pointer-events: none;
-          filter: blur(110px);
-        }
-        .hero-orb-1 {
-          width: 820px; height: 720px;
-          background: radial-gradient(ellipse, rgba(30,82,208,0.07) 0%, transparent 70%);
-          bottom: -180px; left: -120px;
-          animation: orbFloat1 36s ease-in-out infinite;
-        }
-        .hero-orb-2 {
-          width: 640px; height: 580px;
-          background: radial-gradient(ellipse, rgba(232,88,53,0.06) 0%, transparent 70%);
-          top: -80px; right: -80px;
-          animation: orbFloat2 44s ease-in-out infinite;
-        }
-        .hero-orb-3 {
-          width: 400px; height: 380px;
-          background: radial-gradient(ellipse, rgba(30,82,208,0.05) 0%, transparent 70%);
-          top: 38%; left: 48%;
-          animation: orbFloat3 26s ease-in-out infinite;
-        }
-
-        @keyframes orbFloat1 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          33%       { transform: translate(60px, -50px) scale(1.06); }
-          66%       { transform: translate(-30px, 35px) scale(0.96); }
-        }
-        @keyframes orbFloat2 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          40%       { transform: translate(-55px, 40px) scale(1.08); }
-          70%       { transform: translate(40px, -25px) scale(0.94); }
-        }
-        @keyframes orbFloat3 {
-          0%, 100% { transform: translate(-50%, -50%) scale(1); }
-          50%       { transform: translate(-50%, -50%) scale(1.3); opacity: 0.75; }
-        }
-        @keyframes heroPulse {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0.4; }
-        }
-
-        /* Hero layout (image-led : texte + image) */
-        .hero-grid { grid-template-columns: 1.02fr 1.1fr !important; gap: 56px !important; }
         .hero-text-col { padding-right: 0; }
-        .hero-img-col { position: relative; }
-        .hero-img {
-          width: 100%; height: clamp(420px, 56vh, 560px);
-          border-radius: 22px; background-size: cover; background-position: center;
-          box-shadow: 0 30px 70px rgba(11,24,41,0.18), 0 8px 22px rgba(11,24,41,0.08);
-        }
-        /* Hero immersif — voiles image/texte */
-        .hero-veil-left {
-          background: linear-gradient(96deg,
-            var(--bg) 0%, var(--bg) 12%,
-            rgba(248,246,241,0.78) 28%, rgba(248,246,241,0.32) 45%, transparent 58%);
-        }
-        .hero-veil-bottom {
-          background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
-        }
+
         @media (max-width: 760px) {
-          .hero-veil-left {
-            background: linear-gradient(to bottom,
-              var(--bg) 0%, rgba(248,246,241,0.72) 28%, rgba(248,246,241,0.08) 58%, transparent 78%);
-          }
-          /* texte remonté sous la bannière photo mobile (56vh) → chevauche le fondu, pas de vide */
-          /* Hero mobile = SPLIT éditorial : texte à gauche (~52%), panneau image à droite */
+          /* Hero mobile = SPLIT éditorial : texte à gauche (~56%), photo à droite.
+             Le voile de lisibilité est géré par HeroBackdrop (.hb-scrim). */
           .hero-inner { min-height: 100svh !important; padding: 88px 22px 26px !important; justify-content: flex-start !important; }
           .hero-text-col { max-width: 56% !important; }
           .hero-eyebrow { display: block !important; width: calc(100vw - 44px) !important; max-width: none !important; margin-bottom: 16px !important; }
@@ -879,7 +813,7 @@ export default function HomePage() {
           50%      { background-position: 100% 50%; }
         }
         /* Respiration unifiée : tout le bloc texte (CTA inclus) bouge ENSEMBLE,
-           translation verticale quasi imperceptible — même philosophie que le fond et le carousel */
+           translation verticale quasi imperceptible, même philosophie que le fond et le carousel */
         .hero-breath { display: inline-block; }
         .hero-text-col {
           animation: heroTextBreath 7s ease-in-out infinite;
@@ -892,128 +826,12 @@ export default function HomePage() {
         @media (prefers-reduced-motion: reduce) {
           .hero-text-col, .hero-gradient-anim { animation: none !important; }
         }
-        /* Voile de lisibilité du hero image */
-        .hero-veil {
-          background: linear-gradient(100deg,
-            var(--bg) 0%, var(--bg) 20%,
-            rgba(248,246,241,0.86) 36%, rgba(248,246,241,0.30) 52%, transparent 66%);
-        }
-        @media (max-width: 760px) {
-          .hero-veil {
-            background: linear-gradient(to top,
-              var(--bg) 0%, rgba(248,246,241,0.74) 40%, rgba(248,246,241,0.12) 74%);
-          }
-          .hero-grid { align-items: flex-end !important; }
-        }
-        /* Hero dashboard mockup (legacy, inutilisé) */
-        .hero-dash-col { position: relative; display: flex; align-items: center; justify-content: center; min-height: 460px; }
-        .hero-dash {
-          position: relative; z-index: 2; width: 100%; max-width: 416px;
-          background: rgba(255,255,255,0.72); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
-          border: 1px solid rgba(11,24,41,0.08); border-radius: 20px; padding: 20px;
-          box-shadow: 0 30px 70px rgba(11,24,41,0.16), 0 6px 18px rgba(11,24,41,0.06);
-        }
-        .hero-dash-glow {
-          position: absolute; inset: -30px; z-index: 1; pointer-events: none; filter: blur(8px);
-          background:
-            radial-gradient(closest-side, rgba(59,104,214,0.16), transparent 70%),
-            radial-gradient(closest-side, rgba(20,184,166,0.14), transparent 70%);
-          background-repeat: no-repeat; background-size: 62% 62%, 55% 55%;
-          background-position: 25% 25%, 80% 80%;
-        }
-        .hero-float {
-          position: absolute; z-index: 3; display: inline-flex; align-items: center; gap: 9px;
-          background: rgba(255,255,255,0.9); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-          border: 1px solid rgba(11,24,41,0.07); border-radius: 12px; padding: 10px 13px;
-          box-shadow: 0 12px 30px rgba(11,24,41,0.12);
-          font-size: 12.5px; font-weight: 500; color: var(--text-primary); white-space: nowrap;
-        }
-        .hero-float-1 { top: 4%; right: -2%; animation: heroFloatA 7s ease-in-out infinite; }
-        .hero-float-2 { bottom: 16%; left: -6%; animation: heroFloatB 8.5s ease-in-out infinite; }
-        .hero-float-3 { bottom: -2%; right: 8%; animation: heroFloatA 9s ease-in-out infinite 0.6s; }
-        @keyframes heroFloatA { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes heroFloatB { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
-
-        /* Floating photo cards */
-        .hero-photo-col {
-          position: relative;
-          width: 420px;
-          height: 520px;
-          flex-shrink: 0;
-          pointer-events: none;
-        }
-        .hero-photo {
-          position: absolute;
-          overflow: hidden;
-          border-radius: 14px;
-          border: 1px solid rgba(11,24,41,0.10);
-          box-shadow: 0 24px 64px rgba(11,24,41,0.18), 0 4px 16px rgba(11,24,41,0.08);
-        }
-        .hero-photo-secondary {
-          width: 240px; height: 300px;
-          top: 0; left: 0;
-          animation:
-            heroPhotoReveal 1.1s cubic-bezier(0.2,0,0,1) both 0.3s,
-            heroFloat2 8s ease-in-out infinite 1.4s;
-          z-index: 1;
-        }
-        .hero-photo-primary {
-          width: 310px; height: 400px;
-          bottom: 0; right: 0;
-          animation:
-            heroPhotoReveal 1.1s cubic-bezier(0.2,0,0,1) both 0.65s,
-            heroFloat1 10s ease-in-out infinite 1.75s;
-          z-index: 2;
-        }
-        .hero-photo-label {
-          position: absolute;
-          bottom: 14px; left: 14px;
-          font-size: 11px; font-weight: 500;
-          color: var(--text-primary);
-          letter-spacing: 0.04em;
-          background: rgba(255,255,255,0.88);
-          backdrop-filter: blur(8px);
-          border: 1px solid rgba(11,24,41,0.10);
-          border-radius: 100px;
-          padding: 5px 12px;
-        }
-        .hero-stat-pill {
-          position: absolute;
-          bottom: -20px; left: -10px;
-          display: flex; align-items: center; gap: 8px;
-          background: rgba(255,255,255,0.92);
-          backdrop-filter: blur(16px);
-          border: 1px solid rgba(11,24,41,0.10);
-          border-radius: 100px;
-          padding: 9px 16px;
-          animation: heroPhotoReveal 1.1s cubic-bezier(0.2,0,0,1) both 1s;
-          z-index: 3;
-          white-space: nowrap;
-          box-shadow: 0 4px 20px rgba(11,24,41,0.10);
-        }
-
-        @keyframes heroPhotoReveal {
-          from { opacity: 0; transform: translateY(28px) scale(0.96); }
-          to   { opacity: 1; transform: translateY(0)   scale(1); }
-        }
-        @keyframes heroFloat1 {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(-14px); }
-        }
-        @keyframes heroFloat2 {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(-9px); }
-        }
-
-        @media (max-width: 960px) {
-          .hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
-          .hero-photo-col { display: none !important; }
-          .hero-text-col { padding-right: 0 !important; }
-          .hero-float { display: none !important; }
-          .hero-dash-col { min-height: auto !important; }
-          .hero-dash { transform: none !important; }
-          .hero-img { height: 300px !important; }
-        }
+        /* ⚠️ Bloc supprimé : maquette "dashboard", cartes photo flottantes et
+           voiles .hero-veil / .hero-grid / .hero-img. Ces règles n'étaient plus
+           rattachées à aucun élément du JSX depuis la refonte du hero
+           (art-direction image pleine + carousel). Vérifié classe par classe.
+           Si tu réintroduis une de ces mises en page, repars de l'historique git. */
+        /* --- ancien bloc legacy retiré ici --- */
 
         /* Trust marquee */
         @keyframes marquee {
@@ -1092,7 +910,7 @@ export default function HomePage() {
           .process-grid { grid-template-columns: 1fr !important; }
         }
 
-        /* ── Animated testimonials — vertical infinite scroll ── */
+        /* ── Animated testimonials, vertical infinite scroll ── */
         @keyframes testiScrollUp {
           from { transform: translateY(0); }
           to   { transform: translateY(-50%); }

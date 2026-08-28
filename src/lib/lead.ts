@@ -1,5 +1,5 @@
 // ──────────────────────────────────────────────────────────────
-// Schéma de lead unique — partagé par le formulaire de contact,
+// Schéma de lead unique, partagé par le formulaire de contact,
 // le ChatWidget et la route API. Source de vérité unique.
 // Aucune dépendance externe : validation maison, simple et robuste.
 // ──────────────────────────────────────────────────────────────
@@ -83,7 +83,7 @@ export function leadToEmailHtml(lead: Lead): string {
 
   return `<!doctype html><html><body style="margin:0;background:#F8F6F1;font-family:Arial,Helvetica,sans-serif">
     <div style="max-width:560px;margin:0 auto;padding:32px 24px">
-      <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#E85835;font-weight:700;margin-bottom:6px">Nouveau lead · AMI Panorama</div>
+      <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#0F6B6D;font-weight:700;margin-bottom:6px">Nouveau lead · AMI Panorama</div>
       <h1 style="font-size:20px;color:#0B1829;margin:0 0 4px">${escapeHtml(lead.prenom)} ${escapeHtml(lead.nom)}</h1>
       <div style="font-size:13px;color:#8A9BB0;margin-bottom:20px">${escapeHtml(lead.source)} · ${new Date(lead.date).toLocaleString("fr-FR")}</div>
       <div style="background:#fff;border:1px solid rgba(11,24,41,0.09);border-radius:12px;padding:20px 22px">
@@ -106,6 +106,57 @@ export function leadToEmailHtml(lead: Lead): string {
         }
       </div>
       <div style="margin-top:16px;font-size:13px;color:#8A9BB0">Répondre directement à cet email contacte ${escapeHtml(lead.email)}.</div>
+    </div>
+  </body></html>`;
+}
+
+/**
+ * Accusé de réception envoyé AU PROSPECT.
+ * Objectif : confirmer que la demande est bien arrivée, rappeler ce qui a été
+ * transmis, et donner la prochaine étape (le lien de réservation). Sans cet
+ * email, un référent qui remplit le formulaire n'a aucune trace de sa démarche.
+ */
+export function leadToConfirmationHtml(lead: Lead, bookingUrl: string): string {
+  const recap = (label: string, value?: string) =>
+    value
+      ? `<tr><td style="padding:5px 14px 5px 0;color:#8A9BB0;font-size:13px;white-space:nowrap;vertical-align:top">${label}</td><td style="padding:5px 0;color:#0B1829;font-size:14px">${escapeHtml(
+          value
+        )}</td></tr>`
+      : "";
+
+  return `<!doctype html><html lang="fr"><body style="margin:0;background:#F8F6F1;font-family:Arial,Helvetica,sans-serif">
+    <div style="max-width:560px;margin:0 auto;padding:32px 24px">
+      <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#0F6B6D;font-weight:700;margin-bottom:18px">AMI Panorama</div>
+
+      <h1 style="font-size:22px;line-height:1.3;color:#0B1829;margin:0 0 16px">Bonjour ${escapeHtml(lead.prenom)}, votre demande est bien arrivée.</h1>
+
+      <p style="font-size:15px;line-height:1.75;color:#4A5870;margin:0 0 24px">
+        Merci de nous avoir contactés. Notre équipe revient vers vous rapidement
+        avec un premier cadrage adapté à votre contexte, destination, filière,
+        dates et format du séjour.
+      </p>
+
+      <div style="background:#fff;border:1px solid rgba(11,24,41,0.09);border-radius:12px;padding:20px 22px;margin-bottom:24px">
+        <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#8A9BB0;margin-bottom:12px">Ce que nous avons reçu</div>
+        <table style="width:100%;border-collapse:collapse">
+          ${recap("Établissement", lead.etablissement)}
+          ${recap("Objet", lead.objet)}
+          ${recap("Destination", lead.destination)}
+          ${recap("Taille du groupe", lead.tailleGroupe)}
+        </table>
+      </div>
+
+      <p style="font-size:15px;line-height:1.75;color:#4A5870;margin:0 0 20px">
+        Vous préférez en parler de vive voix ? Réservez un créneau de 20 minutes,
+        sans engagement.
+      </p>
+
+      <a href="${escapeHtml(bookingUrl)}" style="display:inline-block;background:#0F6B6D;color:#fff;text-decoration:none;font-size:15px;font-weight:bold;padding:14px 28px;border-radius:8px">Réserver un échange</a>
+
+      <div style="margin-top:32px;padding-top:20px;border-top:1px solid rgba(11,24,41,0.09);font-size:13px;line-height:1.7;color:#8A9BB0">
+        AMI Panorama, opérateur de mobilité internationale pour les CFA et les établissements de formation.<br />
+        Une question d'ici là ? Répondez simplement à cet email.
+      </div>
     </div>
   </body></html>`;
 }

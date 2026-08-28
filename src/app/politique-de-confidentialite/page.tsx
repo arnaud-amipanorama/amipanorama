@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
-  description: "Politique de confidentialité d'AMI Panorama — traitement des données personnelles, droits des utilisateurs, RGPD.",
+  description: "Politique de confidentialité d'AMI Panorama, traitement des données personnelles, droits des utilisateurs, RGPD.",
   robots: { index: false, follow: false },
 };
 
@@ -12,7 +12,7 @@ const sections = [
     title: "1. Responsable du traitement",
     paras: [
       "Le responsable du traitement des données personnelles collectées via le site amipanorama.com est :",
-      "AMI PANORAMA — SAS, 2 rue Wimpheling, 67000 Strasbourg, France",
+      "AMI PANORAMA, SAS, 2 rue Wimpheling, 67000 Strasbourg, France",
       "Contact : info@amipanorama.com",
     ],
   },
@@ -20,10 +20,10 @@ const sections = [
     title: "2. Données collectées",
     paras: [
       "Dans le cadre de l'utilisation du site et de ses formulaires de contact, AMI Panorama est susceptible de collecter les données suivantes :",
-      "– Nom, prénom et qualité (directeur pédagogique, référent mobilité, etc.),",
-      "– Coordonnées professionnelles : adresse e-mail, numéro de téléphone,",
-      "– Nom de l'établissement, type de formation, effectif envisagé, destination ou dates souhaitées,",
-      "– Données de navigation (adresse IP, pages consultées, durée de visite) via des outils d'analyse d'audience.",
+      "Nom, prénom et qualité (directeur pédagogique, référent mobilité, etc.),",
+      "Coordonnées professionnelles : adresse e-mail, numéro de téléphone,",
+      "Nom de l'établissement, type de formation, effectif envisagé, destination ou dates souhaitées,",
+      "Données de navigation (adresse IP, pages consultées, durée de visite) via des outils d'analyse d'audience.",
       "Aucune donnée sensible au sens de l'article 9 du RGPD n'est collectée.",
     ],
   },
@@ -31,19 +31,19 @@ const sections = [
     title: "3. Finalités et base légale du traitement",
     paras: [
       "Les données collectées sont traitées pour les finalités suivantes :",
-      "– Répondre aux demandes de renseignements et de programmes (base légale : intérêt légitime ou exécution de mesures précontractuelles),",
-      "– Établir et suivre les relations contractuelles avec les établissements partenaires (base légale : exécution du contrat),",
-      "– Améliorer le site et analyser son audience de manière agrégée (base légale : intérêt légitime),",
-      "– Respecter les obligations légales applicables à l'activité (base légale : obligation légale).",
+      "Répondre aux demandes de renseignements et de programmes (base légale : intérêt légitime ou exécution de mesures précontractuelles),",
+      "Établir et suivre les relations contractuelles avec les établissements partenaires (base légale : exécution du contrat),",
+      "Améliorer le site et analyser son audience de manière agrégée (base légale : intérêt légitime),",
+      "Respecter les obligations légales applicables à l'activité (base légale : obligation légale).",
     ],
   },
   {
     title: "4. Durée de conservation",
     paras: [
       "Les données à caractère personnel sont conservées pour la durée strictement nécessaire aux finalités pour lesquelles elles ont été collectées :",
-      "– Données de prospection et de contact : 3 ans à compter du dernier contact,",
-      "– Données contractuelles : 10 ans à compter de la fin du contrat, conformément aux obligations légales en matière comptable et commerciale,",
-      "– Données de navigation : 13 mois maximum.",
+      "Données de prospection et de contact : 3 ans à compter du dernier contact,",
+      "Données contractuelles : 10 ans à compter de la fin du contrat, conformément aux obligations légales en matière comptable et commerciale,",
+      "Données de navigation : 13 mois maximum.",
     ],
   },
   {
@@ -58,12 +58,12 @@ const sections = [
     title: "6. Droits des personnes concernées",
     paras: [
       "Conformément au RGPD et à la loi « Informatique et Libertés », vous disposez des droits suivants sur vos données personnelles :",
-      "– Droit d'accès : obtenir la confirmation du traitement de vos données et en recevoir une copie,",
-      "– Droit de rectification : corriger des données inexactes ou incomplètes,",
-      "– Droit à l'effacement : demander la suppression de vos données dans les cas prévus par la loi,",
-      "– Droit à la limitation : restreindre le traitement dans certains cas,",
-      "– Droit d'opposition : vous opposer à un traitement fondé sur l'intérêt légitime,",
-      "– Droit à la portabilité : recevoir vos données dans un format structuré et lisible par machine.",
+      "Droit d'accès : obtenir la confirmation du traitement de vos données et en recevoir une copie,",
+      "Droit de rectification : corriger des données inexactes ou incomplètes,",
+      "Droit à l'effacement : demander la suppression de vos données dans les cas prévus par la loi,",
+      "Droit à la limitation : restreindre le traitement dans certains cas,",
+      "Droit d'opposition : vous opposer à un traitement fondé sur l'intérêt légitime,",
+      "Droit à la portabilité : recevoir vos données dans un format structuré et lisible par machine.",
       "Ces droits peuvent être exercés en contactant AMI Panorama à l'adresse : info@amipanorama.com.",
       "En cas de réponse insatisfaisante, vous disposez du droit d'introduire une réclamation auprès de la CNIL (www.cnil.fr).",
     ],
@@ -106,7 +106,7 @@ export default function PolitiqueConfidentialitePage() {
           <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.7 }}>
             AMI Panorama s'engage à protéger la vie privée des utilisateurs de son site
             et à traiter leurs données personnelles dans le respect du Règlement général
-            sur la protection des données (RGPD — Règlement UE 2016/679) et de la loi
+            sur la protection des données (RGPD, Règlement UE 2016/679) et de la loi
             française « Informatique et Libertés ».
           </p>
         </div>
@@ -131,7 +131,7 @@ export default function PolitiqueConfidentialitePage() {
                   {paras.map((p, j) => (
                     <p key={j} style={{
                       fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.8, margin: 0,
-                      paddingLeft: p.startsWith("–") ? 12 : 0,
+                      paddingLeft: 0,
                     }}>{p}</p>
                   ))}
                 </div>

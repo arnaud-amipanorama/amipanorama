@@ -1,5 +1,5 @@
 // ──────────────────────────────────────────────────────────────
-// Simulateur de financement mobilité — moteur de calcul (pur)
+// Simulateur de financement mobilité, moteur de calcul (pur)
 // Aucune dépendance, aucune valeur métier en dur : tout vient de
 // la config OPCO. Chaque montant est accompagné d'une "trace"
 // pour alimenter les explications « Pourquoi ce montant ? ».
@@ -66,7 +66,7 @@ export function evaluateRule(rule: FundingRule, ctx: RuleContext): RuleResult {
       const band = rule.bands.find((b) => d >= b.minDays && (b.maxDays === null || d <= b.maxDays));
       const variant = rule.select ? ctx.selections[rule.select.param] ?? rule.select.default : "default";
       const a = band ? band.amounts[variant] ?? band.amounts["default"] ?? 0 : 0;
-      const label = band ? `${band.minDays}–${band.maxDays ?? "∞"} j` : "hors barème";
+      const label = band ? `de ${band.minDays} à ${band.maxDays ?? "∞"} jours` : "hors barème";
       const basis = rule.dayBasis === "nights" ? "nuits" : "jours calendaires";
       return { amount: a, trace: `Barème ${basis} (${d} j) → ${label}${rule.select ? ` · ${variant}` : ""} = ${eur(a)}` };
     }

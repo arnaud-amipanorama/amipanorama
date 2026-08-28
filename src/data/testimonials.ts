@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────
-//  TÉMOIGNAGES — source unique (affichés sur l'accueil)
+//  TÉMOIGNAGES, source unique (affichés sur l'accueil)
 //
 //  Règle : UNIQUEMENT des témoignages RÉELS (posts/commentaires LinkedIn qui
 //  mentionnent AMI Panorama). Citations = extraits fidèles, jamais inventés.
@@ -119,7 +119,7 @@ export const testimonials: Testimonial[] = [
     kind: "referent",
   },
   {
-    quote: "Une semaine d'immersion intensive en anglais, co-organisée avec notre partenaire AMI Panorama. Merci pour la qualité de cet accompagnement — un format qui incarne ce que nous défendons : former des managers ouverts sur le monde.",
+    quote: "Une semaine d'immersion intensive en anglais, co-organisée avec notre partenaire AMI Panorama. Merci pour la qualité de cet accompagnement, un format qui incarne ce que nous défendons : former des managers ouverts sur le monde.",
     name: "Nathalie Clair",
     school: "Responsable Pédagogique · Sully Business School",
     dest: "Londres",
@@ -127,7 +127,7 @@ export const testimonials: Testimonial[] = [
     kind: "referent",
   },
   {
-    quote: "Clap de fin pour notre séjour à Séville avec 41 étudiants : une expérience riche en découvertes, en échanges et en souvenirs. Merci à AMI Panorama — une véritable ouverture sur le monde pour nos étudiants.",
+    quote: "Clap de fin pour notre séjour à Séville avec 41 étudiants : une expérience riche en découvertes, en échanges et en souvenirs. Merci à AMI Panorama, une véritable ouverture sur le monde pour nos étudiants.",
     name: "Cindy Cailloux",
     school: "Référente Pédagogique · ESMP / ECORIS",
     dest: "Séville",
@@ -145,7 +145,7 @@ export const testimonials: Testimonial[] = [
     kind: "ecole",
   },
   {
-    quote: "Une immersion internationale au cœur de New York pour nos étudiants DSCG. Grâce au programme organisé par AMI Panorama, ils ont exploré les lieux emblématiques de la ville et rencontré des professionnels — une expérience aussi enrichissante qu'inoubliable.",
+    quote: "Une immersion internationale au cœur de New York pour nos étudiants DSCG. Grâce au programme organisé par AMI Panorama, ils ont exploré les lieux emblématiques de la ville et rencontré des professionnels, une expérience aussi enrichissante qu'inoubliable.",
     name: "CCI Campus Alsace",
     school: "Établissement partenaire",
     dest: "New York",
@@ -162,7 +162,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote: "L'aventure montréalaise se poursuit pour nos étudiants : immersion culturelle et découverte de l'écosystème professionnel. Une étape qui permet à nos talents d'élargir leurs horizons dans un environnement multiculturel.",
-    name: "ESA — École Supérieure d'Assurances",
+    name: "ESA, École Supérieure d'Assurances",
     school: "Établissement partenaire",
     dest: "Montréal",
     flag: "🇨🇦",

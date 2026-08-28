@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { socialLinks } from "@/data/social";
 
 const topics = [
   "Demande de programme",
@@ -135,7 +136,7 @@ export default function ContactPage() {
                     Votre demande
                   </h2>
 
-                  {/* Row 1 — prénom / nom */}
+                  {/* Row 1, prénom / nom */}
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }} className="form-row">
                     <div>
                       <label style={lbl}>Prénom *</label>
@@ -151,7 +152,7 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  {/* Row 2 — organisation / email */}
+                  {/* Row 2, organisation / email */}
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }} className="form-row">
                     <div>
                       <label style={lbl}>Organisation</label>
@@ -167,7 +168,7 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  {/* Row 3 — profil / téléphone */}
+                  {/* Row 3, profil / téléphone */}
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }} className="form-row">
                     <div>
                       <label style={lbl}>Vous êtes…</label>
@@ -187,7 +188,7 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  {/* Row 4 — objet / destination */}
+                  {/* Row 4, objet / destination */}
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }} className="form-row">
                     <div>
                       <label style={lbl}>Objet de votre demande</label>
@@ -206,7 +207,7 @@ export default function ContactPage() {
                         style={sel}
                         onFocus={focus} onBlur={blur}>
                         <option value="">Pas encore décidé</option>
-                        {["Montréal", "Séville", "Londres", "Maroc", "New York", "Séoul", "Autre"].map(d => <option key={d}>{d}</option>)}
+                        {["Montréal", "New York", "Séville", "Londres", "Malte", "Berlin", "Rome", "Miami", "Maroc", "Séoul", "Autre"].map(d => <option key={d}>{d}</option>)}
                       </select>
                     </div>
                   </div>
@@ -230,7 +231,7 @@ export default function ContactPage() {
                       onFocus={focus} onBlur={blur} />
                   </div>
 
-                  {/* Honeypot — caché aux humains, piège à bots */}
+                  {/* Honeypot, caché aux humains, piège à bots */}
                   <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
                     <label>Ne pas remplir
                       <input tabIndex={-1} autoComplete="off" value={form.company}
@@ -280,7 +281,7 @@ export default function ContactPage() {
               }}>
                 <div style={{
                   position: "absolute", inset: 0, pointerEvents: "none",
-                  background: "radial-gradient(ellipse at top right, rgba(232,88,53,0.18) 0%, transparent 65%)",
+                  background: "radial-gradient(ellipse at top right, rgba(15,107,109,0.18) 0%, transparent 65%)",
                 }} />
                 <h3 style={{ fontSize: 15, fontWeight: 600, color: "#fff", marginBottom: 8, position: "relative" }}>
                   Préférez un échange direct ?
@@ -319,11 +320,7 @@ export default function ContactPage() {
               }}>
                 <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 16 }}>Retrouvez-nous</h3>
                 <div style={{ display: "flex", gap: 10 }}>
-                  {[
-                    { label: "Instagram", href: "https://instagram.com/ami.panorama" },
-                    { label: "LinkedIn", href: "https://linkedin.com" },
-                    { label: "WhatsApp", href: "https://wa.me" },
-                  ].map(({ label, href }) => (
+                  {socialLinks.map(({ label, href }) => (
                     <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                       style={{
                         fontSize: 12, fontWeight: 500,
@@ -344,7 +341,7 @@ export default function ContactPage() {
               </div>
 
               <div style={{
-                background: "rgba(232,88,53,0.06)", border: "1px solid rgba(232,88,53,0.18)",
+                background: "rgba(15,107,109,0.06)", border: "1px solid rgba(15,107,109,0.18)",
                 borderRadius: 16, padding: "28px",
               }}>
                 <div style={{ fontSize: 20, marginBottom: 12 }}>✦</div>

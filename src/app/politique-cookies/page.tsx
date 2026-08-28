@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Politique de cookies",
-  description: "Politique de cookies du site AMI Panorama — types de cookies utilisés, durée de conservation et gestion des préférences.",
+  description: "Politique de cookies du site AMI Panorama, types de cookies utilisés, durée de conservation et gestion des préférences.",
   robots: { index: false, follow: false },
 };
 

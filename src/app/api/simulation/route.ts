@@ -10,10 +10,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Corps invalide" }, { status: 400 });
   }
 
-  // Trace serveur — toujours active (logs Vercel)
+  // Trace serveur, toujours active (logs Vercel)
   console.log("[AMI Simulation]", JSON.stringify(data));
 
-  // Webhook optionnel dédié (Make/n8n/HubSpot…) — non bloquant
+  // Webhook optionnel dédié (Make/n8n/HubSpot…), non bloquant
   const url = process.env.SIMULATION_WEBHOOK_URL;
   if (url) {
     try {

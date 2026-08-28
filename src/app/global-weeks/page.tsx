@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import GlobalWeeksExperience from "./GlobalWeeksExperience";
+import GlobalWeeksAccessGate from "./GlobalWeeksAccessGate";
+import { hasGlobalWeeksAccess } from "./actions";
 
 export const metadata: Metadata = {
-  title: "Global Weeks — mobilité internationale pour alternants",
+  title: "Global Weeks, mobilité internationale pour alternants",
   description:
     "Global Weeks by AMI Panorama permet aux alternants de manifester leur intérêt pour une mobilité internationale encadrée, avec leur CFA et leur employeur.",
-  alternates: { canonical: "/global-weeks" },
+  robots: { index: false, follow: false },
   openGraph: {
     title: "Global Weeks by AMI Panorama",
     description:
@@ -14,6 +16,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function GlobalWeeksPage() {
+export default async function GlobalWeeksPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ access?: string }>;
+}) {
+  const [hasAccess, params] = await Promise.all([hasGlobalWeeksAccess(), searchParams]);
+  if (!hasAccess) return <GlobalWeeksAccessGate denied={params.access === "denied"} />;
   return <GlobalWeeksExperience />;
 }

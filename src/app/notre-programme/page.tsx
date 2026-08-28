@@ -17,20 +17,20 @@ const whyItems = [
   {
     num: "02",
     title: "Cohésion de promotion",
-    accent: "#E85835",
+    accent: "#0F6B6D",
     desc: "Un séjour à l'étranger crée des liens entre étudiants que plusieurs années de cours ne recréent pas. Ces liens renforcent l'engagement, réduisent l'abandon et construisent un sentiment d'appartenance durable.",
   },
   {
     num: "03",
     title: "Image et positionnement",
     accent: "#1E52D0",
-    desc: "Proposer une mobilité internationale signale un standard d'ambition et d'exigence. C'est un investissement dans la perception de qualité de votre formation — et dans la fierté de vos étudiants.",
+    desc: "Proposer une mobilité internationale signale un standard d'ambition et d'exigence. C'est un investissement dans la perception de qualité de votre formation, et dans la fierté de vos étudiants.",
   },
   {
     num: "04",
     title: "Valeur du parcours étudiant",
-    accent: "#E85835",
-    desc: "Les participants qui vivent une expérience internationale en ressortent avec une vision plus large et une confiance renforcée. Ils valorisent mieux leur formation — et ils en parlent autour d'eux.",
+    accent: "#0F6B6D",
+    desc: "Les participants qui vivent une expérience internationale en ressortent avec une vision plus large et une confiance renforcée. Ils valorisent mieux leur formation, et ils en parlent autour d'eux.",
   },
 ];
 
@@ -41,7 +41,7 @@ const faqItems = [
   },
   {
     q: "Combien de temps dure une mobilité ?",
-    a: "Notre format de référence reste le séjour de 8 jours / 7 nuits. Selon votre projet, nous proposons des formats plus courts ou plus longs — de 4–5 jours jusqu'à 31 jours — avec une expertise particulière sur les séjours d'une semaine, de deux semaines et d'un mois. La durée se définit avec vous, selon les objectifs pédagogiques, le profil du groupe et la destination.",
+    a: "Notre format de référence reste le séjour de 8 jours / 7 nuits. Selon votre projet, nous proposons des formats plus courts ou plus longs, de 4 à 5 jours jusqu'à 31 jours, avec une expertise particulière sur les séjours d'une semaine, de deux semaines et d'un mois. La durée se définit avec vous, selon les objectifs pédagogiques, le profil du groupe et la destination.",
   },
   {
     q: "Que comprend concrètement le programme ?",
@@ -61,7 +61,7 @@ const faqItems = [
   },
   {
     q: "Comment abordez-vous la structuration financière ?",
-    a: "Nous accompagnons chaque établissement dans l'identification des dispositifs pertinents selon sa situation — fonds propres, branches professionnelles, collectivités, fonds européens. Nous ne garantissons pas de financement, mais nous structurons le projet pour qu'il soit éligible aux dispositifs existants et coordonnons les démarches.",
+    a: "Nous accompagnons chaque établissement dans l'identification des dispositifs pertinents selon sa situation, fonds propres, branches professionnelles, collectivités, fonds européens. Nous ne garantissons pas de financement, mais nous structurons le projet pour qu'il soit éligible aux dispositifs existants et coordonnons les démarches.",
   },
   {
     q: "Les programmes sont-ils personnalisables ?",
@@ -73,7 +73,7 @@ const faqItems = [
   },
   {
     q: "Quel est le niveau d'accompagnement avant, pendant et après ?",
-    a: "Avant : coordination complète — programme, logistique, assurances, documents. Pendant : encadrement terrain 24h/24. Après : bilan de séjour, attestations de formation, comptes-rendus de visite et accompagnement pour la clôture administrative du projet.",
+    a: "Avant : coordination complète, programme, logistique, assurances, documents. Pendant : encadrement terrain 24h/24. Après : bilan de séjour, attestations de formation, comptes-rendus de visite et accompagnement pour la clôture administrative du projet.",
   },
 ];
 
@@ -83,7 +83,7 @@ const components = [
     title: "Formation professionnelle",
     sub: "15 à 82h selon le format",
     accent: "#1E52D0",
-    desc: "Au cœur du programme, une formation structurée — de 15h à 82h selon le format, la destination et les objectifs pédagogiques — conçue pour ouvrir vos participants au monde professionnel international. Panorama socio-économique du pays d'accueil, ateliers de Business English, ateliers sectoriels et mises en situation professionnelle.",
+    desc: "Au cœur du programme, une formation structurée, de 15h à 82h selon le format, la destination et les objectifs pédagogiques, conçue pour ouvrir vos participants au monde professionnel international. Panorama socio-économique du pays d'accueil, ateliers de Business English, ateliers sectoriels et mises en situation professionnelle.",
     details: [
       "Cours animés par des formateurs locaux et professionnels du secteur",
       "Contenu personnalisable selon le secteur d'activité de vos participants",
@@ -95,8 +95,8 @@ const components = [
     num: "02",
     title: "Visites d'entreprise",
     sub: "Immersion professionnelle réelle",
-    accent: "#E85835",
-    desc: "Vos apprentis ne visitent pas des vitrines — ils entrent dans les coulisses d'entreprises locales sélectionnées pour leur pertinence sectorielle. Échanges avec des professionnels, découverte des pratiques de travail locales, comparaison avec le marché français.",
+    accent: "#0F6B6D",
+    desc: "Vos apprentis ne visitent pas des vitrines, ils entrent dans les coulisses d'entreprises locales sélectionnées pour leur pertinence sectorielle. Échanges avec des professionnels, découverte des pratiques de travail locales, comparaison avec le marché français.",
     details: [
       "Sélection d'entreprises alignées avec les filières de votre CFA",
       "Format : visite + échanges + questions/réponses",
@@ -121,7 +121,7 @@ const components = [
     num: "04",
     title: "Hébergement encadré",
     sub: "Logement sécurisé, durée selon le format",
-    accent: "#E85835",
+    accent: "#0F6B6D",
     desc: "Nous sélectionnons des établissements qui combinent confort, sécurité et cadre propice à la vie de groupe. Chaque hébergement est testé et validé par notre équipe terrain avant d'être intégré à nos programmes.",
     details: [
       "Petits-déjeuners complets inclus chaque matin",
@@ -135,7 +135,7 @@ const components = [
     title: "Transports inclus",
     sub: "Zéro logistique de déplacement",
     accent: "#1E52D0",
-    desc: "De l'arrivée à l'aéroport jusqu'au retour, tous les transports sont coordonnés par notre équipe. Vos apprentis n'ont pas à gérer les trajets — ils se concentrent sur l'expérience.",
+    desc: "De l'arrivée à l'aéroport jusqu'au retour, tous les transports sont coordonnés par notre équipe. Vos apprentis n'ont pas à gérer les trajets, ils se concentrent sur l'expérience.",
     details: [
       "Transferts aéroport aller et retour organisés",
       "Navettes quotidiennes aller-retour vers le lieu de formation",
@@ -147,7 +147,7 @@ const components = [
     num: "06",
     title: "Assurances complètes",
     sub: "Couverture totale pendant le séjour",
-    accent: "#E85835",
+    accent: "#0F6B6D",
     desc: "La sécurité de vos participants est une priorité absolue. Notre couverture assurance est parmi les plus complètes du marché, avec une assistance rapatriement disponible 24h/24.",
     details: [
       "Assistance-rapatriement disponible 24h/24, 7j/7",
@@ -161,7 +161,7 @@ const components = [
     title: "Ingénierie administrative & financière",
     sub: "Accompagnement de A à Z",
     accent: "#1E52D0",
-    desc: "La complexité administrative est souvent ce qui freine un premier projet de mobilité. AMI Panorama vous accompagne sur l'ensemble de cette dimension — structuration, démarches documentaires, identification des dispositifs mobilisables et coordination des étapes clés — en travaillant avec vous à chaque étape.",
+    desc: "La complexité administrative est souvent ce qui freine un premier projet de mobilité. AMI Panorama vous accompagne sur l'ensemble de cette dimension, structuration, démarches documentaires, identification des dispositifs mobilisables et coordination des étapes clés, en travaillant avec vous à chaque étape.",
     details: [
       "Structuration du projet de mobilité et calendrier réglementaire",
       "Identification des cadres de financement mobilisables selon votre situation",
@@ -200,7 +200,7 @@ export default function NotreProgrammePage() {
           }}>
             Chaque programme AMI Panorama est un séjour immersif et professionnel,
             pensé pour que vos participants vivent une expérience formative et humaine
-            réelle. Formation, visites, encadrement, logistique, appui administratif —
+            réelle. Formation, visites, encadrement, logistique, appui administratif,
             chaque composante est coordonnée par notre équipe. Vous restez le référent pédagogique de votre groupe.
           </p>
 
@@ -210,7 +210,7 @@ export default function NotreProgrammePage() {
             background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden",
           }}>
             {([
-              ["8 j / 7 nuits", "format de référence · 4–5 j à 31 j"],
+              ["8 j / 7 nuits", "format de référence, de 4 à 5 j jusqu'à 31 j"],
               ["15 → 82h", "de formation selon le format"],
               ["10", "destinations actives"],
               ["Appui admin.", "inclus dans chaque programme"],
@@ -241,7 +241,7 @@ export default function NotreProgrammePage() {
                 fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 700,
                 letterSpacing: "-0.035em", marginBottom: 40,
               }}>
-                Ce que la mobilité change — vraiment.
+                Ce que la mobilité change, vraiment.
               </h2>
               <p style={{
                 fontSize: "clamp(17px, 2vw, 22px)",
@@ -256,7 +256,7 @@ export default function NotreProgrammePage() {
               <p style={{
                 fontSize: 14, color: "var(--text-muted)", lineHeight: 1.8, marginBottom: 28,
               }}>
-                La mobilité ne complète pas une formation. Elle en change la valeur perçue —
+                La mobilité ne complète pas une formation. Elle en change la valeur perçue,
                 pour les candidats qui choisissent votre filière, pour les apprentis qui la vivent,
                 et pour l'établissement qui a su la rendre possible.
               </p>
@@ -293,8 +293,11 @@ export default function NotreProgrammePage() {
       {/* Photo editorial break */}
       <section style={{
         position: "relative", height: 340, overflow: "hidden",
-        backgroundImage: "url('/formation-seville.jpg')",
-        backgroundSize: "cover", backgroundPosition: "center 40%",
+        // La citation parle de "coulisses d'entreprises" : le visuel doit montrer
+        // une vraie visite pro, pas une rue. Cadrage à droite car le texte occupe
+        // la moitié gauche sous le dégradé sombre.
+        backgroundImage: "url('/Assets/program/visite-startup.jpg')",
+        backgroundSize: "cover", backgroundPosition: "72% 42%",
       }}>
         <div style={{
           position: "absolute", inset: 0,
@@ -311,11 +314,11 @@ export default function NotreProgrammePage() {
               fontWeight: 500, color: "#fff", lineHeight: 1.4,
               letterSpacing: "-0.01em",
             }}>
-              « Vos apprentis ne visitent pas des vitrines — ils entrent dans les coulisses
+              « Vos apprentis ne visitent pas des vitrines, ils entrent dans les coulisses
               d'entreprises qui façonnent leur secteur. »
             </p>
             <div style={{ marginTop: 20, fontSize: 13, color: "rgba(255,255,255,0.5)" }}>
-              AMI Panorama — Philosophie du programme
+              AMI Panorama, Philosophie du programme
             </div>
           </div>
         </div>
@@ -390,7 +393,7 @@ export default function NotreProgrammePage() {
         </div>
       </section>
 
-      {/* Visites professionnelles — photos réelles (générées par scripts/optimize-photos.sh) */}
+      {/* Visites professionnelles, photos réelles (générées par scripts/optimize-photos.sh) */}
       <section style={{ padding: "0 24px 80px", background: "var(--bg)" }}>
         <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 28 }}>
@@ -494,7 +497,7 @@ export default function NotreProgrammePage() {
             <div style={{
               position: "absolute", bottom: "-40px", right: "20%",
               width: 350, height: 250,
-              background: "radial-gradient(ellipse, rgba(232,88,53,0.22) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse, rgba(15,107,109,0.22) 0%, transparent 70%)",
               pointerEvents: "none",
             }} />
             <div className="section-label-light" style={{ justifyContent: "center" }}>Construisons votre programme</div>

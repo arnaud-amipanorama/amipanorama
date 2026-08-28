@@ -1,24 +1,23 @@
 "use client";
 import { useEffect } from "react";
 import ChatWidget from "./ChatWidget";
+import { crispConfigured, loadCrisp } from "@/lib/crisp";
 
-// Chat live Crisp — activé dès que NEXT_PUBLIC_CRISP_WEBSITE_ID est défini.
-// Tant qu'il ne l'est pas, on garde le widget actuel (capture par email/Notion).
-const CRISP_ID = process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID;
-
+/**
+ * Point d'entrée du chat.
+ *
+ * Le widget de qualification maison est TOUJOURS affiché : c'est lui qui
+ * collecte le lead structuré (profil, besoin, destination, taille) et
+ * l'envoie vers Resend / Notion. Crisp, s'il est configuré, est chargé en
+ * arrière-plan avec son lanceur masqué et sert d'échappatoire « parler à
+ * quelqu'un maintenant » depuis l'intérieur du widget.
+ *
+ * Conséquence : activer NEXT_PUBLIC_CRISP_WEBSITE_ID n'enlève plus rien.
+ */
 export default function CrispChat() {
   useEffect(() => {
-    if (!CRISP_ID || typeof window === "undefined") return;
-    const w = window as unknown as { $crisp?: unknown[]; CRISP_WEBSITE_ID?: string };
-    if (w.$crisp) return; // déjà chargé
-    w.$crisp = [];
-    w.CRISP_WEBSITE_ID = CRISP_ID;
-    const sc = document.createElement("script");
-    sc.src = "https://client.crisp.chat/l.js";
-    sc.async = true;
-    document.head.appendChild(sc);
+    if (crispConfigured) loadCrisp();
   }, []);
 
-  if (!CRISP_ID) return <ChatWidget />;
-  return null;
+  return <ChatWidget />;
 }

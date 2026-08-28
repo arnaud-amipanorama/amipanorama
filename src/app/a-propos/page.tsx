@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "À propos",
   description:
-    "L'histoire d'AMI Panorama — un constat sur l'accès inégal à la mobilité internationale selon les filières, et la mission construite pour y répondre.",
+    "L'histoire d'AMI Panorama, un constat sur l'accès inégal à la mobilité internationale selon les filières, et la mission construite pour y répondre.",
 };
 
 const values = [
@@ -17,8 +17,8 @@ const values = [
   {
     num: "02",
     title: "Simplicité pour vous",
-    accent: "#E85835",
-    desc: "Votre rôle est de rester le référent pédagogique de votre groupe. Le nôtre est d'organiser ce qui entoure le séjour — logistique, encadrement terrain, démarches administratives et structuration du projet de financement.",
+    accent: "#0F6B6D",
+    desc: "Votre rôle est de rester le référent pédagogique de votre groupe. Le nôtre est d'organiser ce qui entoure le séjour, logistique, encadrement terrain, démarches administratives et structuration du projet de financement.",
   },
   {
     num: "03",
@@ -29,8 +29,8 @@ const values = [
   {
     num: "04",
     title: "Partenariat durable",
-    accent: "#E85835",
-    desc: "Nous construisons des relations à long terme avec les établissements qui nous font confiance. 50 organismes travaillent avec nous depuis plusieurs années — et la majorité repart chaque saison.",
+    accent: "#0F6B6D",
+    desc: "Nous construisons des relations à long terme avec les établissements qui nous font confiance. 50 organismes travaillent avec nous depuis plusieurs années, et la majorité repart chaque saison.",
   },
 ];
 
@@ -60,7 +60,7 @@ const milestones = [
   {
     year: "2025",
     title: "Accélération et diversification",
-    desc: "Ouverture et consolidation de nouvelles destinations — Londres, Berlin, New York, Maroc. Environ 2 000 participants accompagnés sur l'année.",
+    desc: "Ouverture et consolidation de nouvelles destinations, Londres, Berlin, New York, Maroc. Environ 2 000 participants accompagnés sur l'année.",
   },
   {
     year: "2026",
@@ -79,8 +79,10 @@ export default function AProposPage() {
       }}>
         <div style={{
           position: "absolute", inset: 0,
-          backgroundImage: "url('/formation-seville.jpg')",
-          backgroundSize: "cover", backgroundPosition: "center 30%",
+          // Montréal : la page raconte une entreprise fondée à Montréal en 2022,
+          // le visuel doit dire la même chose que le texte.
+          backgroundImage: "url('/Assets/groups/montreal-sunset.jpg')",
+          backgroundSize: "cover", backgroundPosition: "center 35%",
           opacity: 0.15,
         }} />
         <div style={{
@@ -103,14 +105,14 @@ export default function AProposPage() {
             L&apos;ouverture internationale{" "}
             <span style={{
               fontFamily: "var(--font-serif)", fontStyle: "italic",
-              fontWeight: 500, color: "rgba(232,88,53,0.9)",
+              fontWeight: 500, color: "rgba(15,107,109,0.9)",
             }}>ne devrait pas être réservée à certains parcours.</span>
           </h1>
           <p className="anim-fade-up-3" style={{
             fontSize: 18, color: "rgba(255,255,255,0.65)", maxWidth: 600, lineHeight: 1.75,
           }}>
             AMI Panorama est née d'une observation simple : dans le parcours d'un étudiant,
-            certaines expériences — collectives, internationales, mémorables — ne sont pas
+            certaines expériences, collectives, internationales, mémorables, ne sont pas
             accessibles de la même façon selon la filière choisie. Nous existons pour changer ça.
           </p>
         </div>
@@ -140,7 +142,7 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* The gap we bridge — moved up to establish context first */}
+      {/* The gap we bridge, moved up to establish context first */}
       <section style={{ padding: "72px 24px 0" }}>
         <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 32 }}>
@@ -161,7 +163,7 @@ export default function AProposPage() {
                 Dans les grandes écoles et les campus traditionnels, les étudiants bénéficient
                 d'une vie collective structurée : voyages de promotion, séjours internationaux,
                 associations, cohortes soudées, réseaux alumni actifs. Ces expériences ne sont
-                pas accessoires — elles construisent une identité, des liens durables et un fort
+                pas accessoires, elles construisent une identité, des liens durables et un fort
                 attachement à l'établissement. Elles contribuent directement à son attractivité.
               </p>
             </div>
@@ -172,10 +174,10 @@ export default function AProposPage() {
             }}>
               <div style={{
                 position: "absolute", inset: 0,
-                background: "radial-gradient(ellipse at top right, rgba(232,88,53,0.14) 0%, transparent 65%)",
+                background: "radial-gradient(ellipse at top right, rgba(15,107,109,0.14) 0%, transparent 65%)",
                 pointerEvents: "none",
               }} />
-              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(232,88,53,0.8)", marginBottom: 16, position: "relative" }}>CFA · Formations en alternance</div>
+              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(15,107,109,0.8)", marginBottom: 16, position: "relative" }}>CFA · Formations en alternance</div>
               <h3 style={{
                 fontSize: "clamp(16px, 2vw, 21px)", fontWeight: 700,
                 letterSpacing: "-0.03em", lineHeight: 1.3, marginBottom: 20,
@@ -188,7 +190,7 @@ export default function AProposPage() {
                 ont moins accès, structurellement, aux expériences qui marquent durablement une
                 formation : l'international collectif, les souvenirs partagés hors contexte
                 professionnel, les moments qui lient une promotion. AMI Panorama existe pour que
-                cette dimension soit accessible à eux aussi — sans renoncer à l'exigence
+                cette dimension soit accessible à eux aussi, sans renoncer à l'exigence
                 pédagogique qui les caractérise.
               </p>
             </div>
@@ -196,7 +198,7 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Company story — rewritten around company history, not founder biographies */}
+      {/* Company story, rewritten around company history, not founder biographies */}
       <section style={{ padding: "72px 24px 0" }}>
         <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div className="section-label">Notre histoire</div>
@@ -218,8 +220,8 @@ export default function AProposPage() {
                 En France, l'accès à la mobilité internationale collective reste structurellement
                 inégal selon les filières. Les grandes écoles et les universités disposent d'une
                 infrastructure bien établie pour les voyages de groupe et les cohortes soudées.
-                La formation en apprentissage — plus exigeante professionnellement, plus contrainte
-                administrativement — en bénéficie beaucoup moins.
+                La formation en apprentissage, plus exigeante professionnellement, plus contrainte
+                administrativement, en bénéficie beaucoup moins.
               </p>
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: 18 }}>
                 Cette inégalité n'est pas une fatalité. Elle est le résultat d'un manque
@@ -231,7 +233,7 @@ export default function AProposPage() {
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85 }}>
                 Depuis 2022, nous construisons des programmes qui permettent à des groupes
                 d'apprentis de vivre des expériences collectives et internationales de la même
-                qualité que celles proposées dans les cursus traditionnels — sans que l'établissement
+                qualité que celles proposées dans les cursus traditionnels, sans que l'établissement
                 ait à porter seul la complexité que cela représente.
               </p>
             </div>
@@ -331,7 +333,7 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Founders — compact, secondary layer */}
+      {/* Founders, compact, secondary layer */}
       <section style={{ padding: "0 24px 72px" }}>
         <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div className="section-label">Les fondateurs</div>
@@ -380,7 +382,7 @@ export default function AProposPage() {
             <div style={{ position: "relative" }}>
               <div style={{
                 fontSize: 60, lineHeight: 0.8, marginBottom: 24,
-                fontFamily: "Georgia, serif", color: "rgba(232,88,53,0.5)",
+                fontFamily: "Georgia, serif", color: "rgba(15,107,109,0.5)",
               }}>&ldquo;</div>
               <blockquote style={{
                 fontSize: "clamp(17px, 2.2vw, 22px)", fontWeight: 500,
@@ -398,7 +400,7 @@ export default function AProposPage() {
                 }}>F</div>
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 600, color: "#fff" }}>Florian Riocreux</div>
-                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)" }}>Référent Mobilité — ECEMA</div>
+                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)" }}>Référent Mobilité, ECEMA</div>
                 </div>
               </div>
             </div>

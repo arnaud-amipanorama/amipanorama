@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Mentions légales",
-  description: "Mentions légales du site AMI Panorama — informations légales, hébergeur, propriété intellectuelle et données personnelles.",
+  description: "Mentions légales du site AMI Panorama, informations légales, hébergeur, propriété intellectuelle et données personnelles.",
   robots: { index: false, follow: false },
 };
 
@@ -15,9 +15,9 @@ const sections = [
       "Forme juridique : Société par actions simplifiée (SAS)",
       "Capital social : 5 000 €",
       "Siège social : 2 rue Wimpheling, 67000 Strasbourg, France",
-      "Immatriculation : RCS Strasbourg – n° 978 133 528",
+      "Immatriculation : RCS Strasbourg, n° 978 133 528",
       "SIRET : 978 133 528 00015",
-      "Code APE/NAF : 79.12Z – Activités des voyagistes",
+      "Code APE/NAF : 79.12Z, activités des voyagistes",
       "Numéro de TVA intracommunautaire : FR52 978 133 528",
       "Directeur de la publication : Directeur général",
       "Contact : info@amipanorama.com",
@@ -45,7 +45,7 @@ const sections = [
   {
     title: "4. Données personnelles et cookies",
     content: [
-      "Conformément au Règlement général sur la protection des données (RGPD – Règlement UE 2016/679) et à la loi « Informatique et Libertés » modifiée, AMI Panorama s'engage à assurer la protection, la confidentialité et la sécurité des données personnelles de ses utilisateurs.",
+      "Conformément au Règlement général sur la protection des données (RGPD, Règlement UE 2016/679) et à la loi « Informatique et Libertés » modifiée, AMI Panorama s'engage à assurer la protection, la confidentialité et la sécurité des données personnelles de ses utilisateurs.",
       "Les données collectées sur le site sont utilisées uniquement dans le cadre des services proposés.",
       "Les utilisateurs disposent d'un droit d'accès, de rectification, de suppression et d'opposition relatif à leurs données. Ces droits peuvent être exercés à l'adresse de contact indiquée ci-dessus.",
       "Le site peut utiliser des cookies destinés à faciliter la navigation et mesurer l'audience. L'utilisateur conserve la possibilité de refuser l'installation de cookies en configurant son navigateur.",
@@ -56,9 +56,9 @@ const sections = [
     title: "5. Responsabilité",
     content: [
       "AMI Panorama met tout en œuvre pour assurer l'exactitude et la mise à jour des informations publiées. Toutefois, l'éditeur ne saurait être tenu responsable :",
-      "– des erreurs ou omissions dans le contenu,",
-      "– d'éventuelles interruptions ou dysfonctionnements du site,",
-      "– de tout dommage direct ou indirect résultant de l'utilisation du site ou de l'impossibilité d'y accéder.",
+      "des erreurs ou omissions dans le contenu,",
+      "d'éventuelles interruptions ou dysfonctionnements du site,",
+      "de tout dommage direct ou indirect résultant de l'utilisation du site ou de l'impossibilité d'y accéder.",
       "Les utilisateurs du site s'engagent à accéder au site avec un matériel récent, ne contenant pas de virus, et avec un navigateur mis à jour.",
     ],
     type: "paragraphs" as const,
