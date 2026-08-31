@@ -80,7 +80,7 @@ export default function ContactPage() {
         <div style={{
           position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
           width: 600, height: 400,
-          background: "radial-gradient(ellipse, rgba(30,82,208,0.10) 0%, transparent 68%)",
+          background: "radial-gradient(ellipse, rgba(36,71,143,0.10) 0%, transparent 68%)",
           pointerEvents: "none",
         }} />
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative" }}>
@@ -112,7 +112,7 @@ export default function ContactPage() {
                 <div style={{ textAlign: "center", padding: "48px 0" }}>
                   <div style={{
                     width: 56, height: 56, borderRadius: 14,
-                    background: "rgba(30,82,208,0.10)", border: "1px solid rgba(30,82,208,0.25)",
+                    background: "rgba(36,71,143,0.10)", border: "1px solid rgba(36,71,143,0.25)",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     fontSize: 22, color: "var(--blue)", margin: "0 auto 24px",
                   }}>✓</div>
@@ -281,7 +281,7 @@ export default function ContactPage() {
               }}>
                 <div style={{
                   position: "absolute", inset: 0, pointerEvents: "none",
-                  background: "radial-gradient(ellipse at top right, rgba(37,71,199,0.18) 0%, transparent 65%)",
+                  background: "radial-gradient(ellipse at top right, rgba(27,61,136,0.18) 0%, transparent 65%)",
                 }} />
                 <h3 style={{ fontSize: 15, fontWeight: 600, color: "#fff", marginBottom: 8, position: "relative" }}>
                   Préférez un échange direct ?
@@ -341,7 +341,7 @@ export default function ContactPage() {
               </div>
 
               <div style={{
-                background: "rgba(37,71,199,0.06)", border: "1px solid rgba(37,71,199,0.18)",
+                background: "rgba(27,61,136,0.06)", border: "1px solid rgba(27,61,136,0.18)",
                 borderRadius: 16, padding: "28px",
               }}>
                 <div style={{ fontSize: 20, marginBottom: 12 }}>✦</div>

@@ -13,7 +13,7 @@ export default function Footer() {
       {/* Subtle top accent line */}
       <div style={{
         position: "absolute", top: 0, left: 24, right: 24, height: 1,
-        background: "linear-gradient(90deg, transparent, rgba(30,82,208,0.5), rgba(37,71,199,0.4), transparent)",
+        background: "linear-gradient(90deg, transparent, rgba(36,71,143,0.5), rgba(27,61,136,0.4), transparent)",
       }} />
 
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>

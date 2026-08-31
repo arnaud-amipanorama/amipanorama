@@ -144,8 +144,8 @@ export default function Navbar() {
         .nav-overlay {
           position: fixed; inset: 0; z-index: 100; overflow-y: auto;
           background:
-            radial-gradient(120% 90% at 82% -10%, rgba(30,82,208,0.20) 0%, transparent 55%),
-            radial-gradient(90% 80% at -10% 110%, rgba(37,71,199,0.12) 0%, transparent 52%),
+            radial-gradient(120% 90% at 82% -10%, rgba(36,71,143,0.20) 0%, transparent 55%),
+            radial-gradient(90% 80% at -10% 110%, rgba(27,61,136,0.12) 0%, transparent 52%),
             #0B1829;
         }
         .nav-overlay-inner {
@@ -203,7 +203,7 @@ export default function Navbar() {
         .nav-row:hover .nav-arrow { opacity: 1; transform: translateX(0); }
         /* État actif */
         .nav-row.is-active .nav-idx { color: var(--coral); }
-        .nav-row.is-active .nav-tag { color: rgba(37,71,199,0.85); }
+        .nav-row.is-active .nav-tag { color: rgba(27,61,136,0.85); }
 
         /* Footer */
         .nav-foot {

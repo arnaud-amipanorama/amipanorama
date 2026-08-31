@@ -17,14 +17,14 @@
   --navy-3:        #1A3060;
 
   /* ── Modern blue accent ── */
-  --blue:          #1E52D0;
-  --blue-light:    #4B76F0;
-  --blue-glow:     rgba(30,82,208,0.18);
+  --blue:          #24478F;
+  --blue-light:    #3A5FAB;
+  --blue-glow:     rgba(36,71,143,0.18);
 
   /* ── Teal accent (CTA, highlights) ── */
-  --coral:         #2547C7;
-  --coral-light:   #3F67E6;
-  --coral-glow:    rgba(37,71,199,0.18);
+  --coral:         #1B3D88;
+  --coral-light:   #294E9F;
+  --coral-glow:    rgba(27,61,136,0.18);
 
   /* ── Text (on light bg) ── */
   /* Contrastes vérifiés, seuil WCAG AA = 4.5:1.
@@ -368,7 +368,7 @@ a { color: inherit; text-decoration: none; }
   left: 38px;
   right: -12px;
   height: 1px;
-  background: linear-gradient(90deg, rgba(30,82,208,0.18), transparent);
+  background: linear-gradient(90deg, rgba(36,71,143,0.18), transparent);
   pointer-events: none;
 }
 

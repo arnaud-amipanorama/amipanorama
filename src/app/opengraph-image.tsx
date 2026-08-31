@@ -21,7 +21,7 @@ export default function OpengraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <div style={{ width: 46, height: 4, background: "#2547C7" }} />
+          <div style={{ width: 46, height: 4, background: "#1B3D88" }} />
           <div style={{ color: "#A2A8B4", fontSize: 26, letterSpacing: 6, textTransform: "uppercase" }}>
             AMI Panorama
           </div>
@@ -30,7 +30,7 @@ export default function OpengraphImage() {
           <div style={{ color: "#ffffff", fontSize: 64, fontWeight: 800, lineHeight: 1.1, letterSpacing: -2 }}>
             Ouvrir le monde à celles et ceux
           </div>
-          <div style={{ color: "#2547C7", fontSize: 64, fontWeight: 800, lineHeight: 1.1, letterSpacing: -2 }}>
+          <div style={{ color: "#1B3D88", fontSize: 64, fontWeight: 800, lineHeight: 1.1, letterSpacing: -2 }}>
             qui le construiront demain.
           </div>
         </div>

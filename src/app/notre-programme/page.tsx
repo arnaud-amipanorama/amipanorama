@@ -11,25 +11,25 @@ const whyItems = [
   {
     num: "01",
     title: "Attractivité et différenciation",
-    accent: "#1E52D0",
+    accent: "#24478F",
     desc: "Les établissements qui intègrent une mobilité internationale dans leur cursus se démarquent dans le recrutement. C'est souvent ce qui fait la différence dans le choix d'une filière par les candidats et leurs familles.",
   },
   {
     num: "02",
     title: "Cohésion de promotion",
-    accent: "#2547C7",
+    accent: "#1B3D88",
     desc: "Un séjour à l'étranger crée des liens entre étudiants que plusieurs années de cours ne recréent pas. Ces liens renforcent l'engagement, réduisent l'abandon et construisent un sentiment d'appartenance durable.",
   },
   {
     num: "03",
     title: "Image et positionnement",
-    accent: "#1E52D0",
+    accent: "#24478F",
     desc: "Proposer une mobilité internationale signale un standard d'ambition et d'exigence. C'est un investissement dans la perception de qualité de votre formation, et dans la fierté de vos étudiants.",
   },
   {
     num: "04",
     title: "Valeur du parcours étudiant",
-    accent: "#2547C7",
+    accent: "#1B3D88",
     desc: "Les participants qui vivent une expérience internationale en ressortent avec une vision plus large et une confiance renforcée. Ils valorisent mieux leur formation, et ils en parlent autour d'eux.",
   },
 ];
@@ -82,7 +82,7 @@ const components = [
     num: "01",
     title: "Formation professionnelle",
     sub: "15 à 82h selon le format",
-    accent: "#1E52D0",
+    accent: "#24478F",
     desc: "Au cœur du programme, une formation structurée, de 15h à 82h selon le format, la destination et les objectifs pédagogiques, conçue pour ouvrir vos participants au monde professionnel international. Panorama socio-économique du pays d'accueil, ateliers de Business English, ateliers sectoriels et mises en situation professionnelle.",
     details: [
       "Cours animés par des formateurs locaux et professionnels du secteur",
@@ -95,7 +95,7 @@ const components = [
     num: "02",
     title: "Visites d'entreprise",
     sub: "Immersion professionnelle réelle",
-    accent: "#2547C7",
+    accent: "#1B3D88",
     desc: "Vos apprentis ne visitent pas des vitrines, ils entrent dans les coulisses d'entreprises locales sélectionnées pour leur pertinence sectorielle. Échanges avec des professionnels, découverte des pratiques de travail locales, comparaison avec le marché français.",
     details: [
       "Sélection d'entreprises alignées avec les filières de votre CFA",
@@ -108,7 +108,7 @@ const components = [
     num: "03",
     title: "Activités culturelles",
     sub: "Programme saisonnier sur mesure",
-    accent: "#1E52D0",
+    accent: "#24478F",
     desc: "La mobilité internationale se vit aussi en dehors des salles de formation. Notre programme d'activités culturelles est conçu pour maximiser l'immersion : sites historiques, expériences locales authentiques et moments de vie partagée qui restent gravés.",
     details: [
       "Programme adapté à la saison et aux conditions météorologiques",
@@ -121,7 +121,7 @@ const components = [
     num: "04",
     title: "Hébergement encadré",
     sub: "Logement sécurisé, durée selon le format",
-    accent: "#2547C7",
+    accent: "#1B3D88",
     desc: "Nous sélectionnons des établissements qui combinent confort, sécurité et cadre propice à la vie de groupe. Chaque hébergement est testé et validé par notre équipe terrain avant d'être intégré à nos programmes.",
     details: [
       "Petits-déjeuners complets inclus chaque matin",
@@ -134,7 +134,7 @@ const components = [
     num: "05",
     title: "Transports inclus",
     sub: "Zéro logistique de déplacement",
-    accent: "#1E52D0",
+    accent: "#24478F",
     desc: "De l'arrivée à l'aéroport jusqu'au retour, tous les transports sont coordonnés par notre équipe. Vos apprentis n'ont pas à gérer les trajets, ils se concentrent sur l'expérience.",
     details: [
       "Transferts aéroport aller et retour organisés",
@@ -147,7 +147,7 @@ const components = [
     num: "06",
     title: "Assurances complètes",
     sub: "Couverture totale pendant le séjour",
-    accent: "#2547C7",
+    accent: "#1B3D88",
     desc: "La sécurité de vos participants est une priorité absolue. Notre couverture assurance est parmi les plus complètes du marché, avec une assistance rapatriement disponible 24h/24.",
     details: [
       "Assistance-rapatriement disponible 24h/24, 7j/7",
@@ -160,7 +160,7 @@ const components = [
     num: "07",
     title: "Ingénierie administrative & financière",
     sub: "Accompagnement de A à Z",
-    accent: "#1E52D0",
+    accent: "#24478F",
     desc: "La complexité administrative est souvent ce qui freine un premier projet de mobilité. AMI Panorama vous accompagne sur l'ensemble de cette dimension, structuration, démarches documentaires, identification des dispositifs mobilisables et coordination des étapes clés, en travaillant avec vous à chaque étape.",
     details: [
       "Structuration du projet de mobilité et calendrier réglementaire",
@@ -183,7 +183,7 @@ export default function NotreProgrammePage() {
         <div style={{
           position: "absolute", top: 0, right: 0,
           width: 600, height: 500,
-          background: "radial-gradient(ellipse at top right, rgba(30,82,208,0.08) 0%, transparent 65%)",
+          background: "radial-gradient(ellipse at top right, rgba(36,71,143,0.08) 0%, transparent 65%)",
           pointerEvents: "none",
         }} />
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative" }}>
@@ -491,13 +491,13 @@ export default function NotreProgrammePage() {
             <div style={{
               position: "absolute", top: "-60px", left: "25%",
               width: 450, height: 300,
-              background: "radial-gradient(ellipse, rgba(30,82,208,0.3) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse, rgba(36,71,143,0.3) 0%, transparent 70%)",
               pointerEvents: "none",
             }} />
             <div style={{
               position: "absolute", bottom: "-40px", right: "20%",
               width: 350, height: 250,
-              background: "radial-gradient(ellipse, rgba(37,71,199,0.22) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse, rgba(27,61,136,0.22) 0%, transparent 70%)",
               pointerEvents: "none",
             }} />
             <div className="section-label-light" style={{ justifyContent: "center" }}>Construisons votre programme</div>

@@ -28,7 +28,7 @@ export default function UnlockForm() {
         boxShadow: "0 24px 80px rgba(0,0,0,0.5)",
       }}>
         <div style={{
-          width: 8, height: 8, borderRadius: "50%", background: "#4B76F0",
+          width: 8, height: 8, borderRadius: "50%", background: "#3A5FAB",
           boxShadow: "0 0 14px rgba(75,118,240,0.8)", marginBottom: 24,
         }} />
         <h1 style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.03em", margin: 0 }}>
@@ -57,7 +57,7 @@ export default function UnlockForm() {
             style={{
               width: "100%", border: "none", borderRadius: 10, cursor: "pointer",
               padding: "13px 15px", fontSize: 14, fontWeight: 600, color: "#fff",
-              background: pending ? "rgba(75,118,240,0.6)" : "#4B76F0",
+              background: pending ? "rgba(75,118,240,0.6)" : "#3A5FAB",
               transition: "background 0.2s",
             }}
           >

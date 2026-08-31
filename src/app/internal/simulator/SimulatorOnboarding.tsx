@@ -47,27 +47,27 @@ export default function SimulatorOnboarding({ onComplete, onStepChange }: { onCo
         <div style={{ position: "fixed", top: spotlight.top + spotlight.height, left: 0, right: 0, bottom: 0, background: "rgba(4,4,7,0.64)", backdropFilter: "blur(5px)" }} />
       </> : <div style={{ position: "absolute", inset: 0, background: "rgba(4,4,7,0.64)", backdropFilter: "blur(5px)" }} />}
       {spotlight && <motion.div initial={false} animate={spotlight} transition={{ type: "spring", stiffness: 280, damping: 30 }}
-        style={{ position: "fixed", borderRadius: 17, border: "2px solid #2547C7", boxShadow: "0 0 0 6px rgba(37,71,199,0.18), 0 0 32px rgba(37,71,199,0.42)", pointerEvents: "none" }} />}
+        style={{ position: "fixed", borderRadius: 17, border: "2px solid #1B3D88", boxShadow: "0 0 0 6px rgba(27,61,136,0.18), 0 0 32px rgba(27,61,136,0.42)", pointerEvents: "none" }} />}
       <motion.section initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }}
         role="dialog" aria-modal="true" aria-labelledby="sim-onboarding-title"
         style={{ position: "fixed", pointerEvents: "auto", right: "clamp(16px, 4vw, 42px)", bottom: "clamp(16px, 4vw, 42px)", width: "min(calc(100% - 32px), 430px)", padding: "24px", borderRadius: 18, background: "#101015", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 24px 80px rgba(0,0,0,0.55)", color: "#F4F5F7" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-          <span style={{ color: "#2547C7", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.14em" }}>PRISE EN MAIN GUIDÉE</span>
+          <span style={{ color: "#1B3D88", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.14em" }}>PRISE EN MAIN GUIDÉE</span>
           <span style={{ color: "#A2A8B4", fontSize: 12 }}>{step + 1} / {steps.length}</span>
         </div>
         <motion.div key={current.number} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.18 }}>
-          <div style={{ color: "#2547C7", fontSize: 29, fontWeight: 800, letterSpacing: "-0.05em", lineHeight: 1 }}>{current.number}</div>
+          <div style={{ color: "#1B3D88", fontSize: 29, fontWeight: 800, letterSpacing: "-0.05em", lineHeight: 1 }}>{current.number}</div>
           <h1 id="sim-onboarding-title" style={{ margin: "11px 0 7px", fontSize: 23, lineHeight: 1.1, letterSpacing: "-0.035em" }}>{current.title}</h1>
           <p style={{ margin: 0, color: "#A2A8B4", fontSize: 13.5, lineHeight: 1.58 }}>{current.text}</p>
         </motion.div>
         <div style={{ display: "flex", alignItems: "center", gap: 5, margin: "22px 0 17px" }}>
-          {steps.map((item, index) => <span key={item.number} style={{ display: "block", height: 3, flex: 1, borderRadius: 20, background: index <= step ? "#2547C7" : "rgba(255,255,255,0.13)", transition: "background 0.2s" }} />)}
+          {steps.map((item, index) => <span key={item.number} style={{ display: "block", height: 3, flex: 1, borderRadius: 20, background: index <= step ? "#1B3D88" : "rgba(255,255,255,0.13)", transition: "background 0.2s" }} />)}
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
           <button type="button" onClick={() => goToStep(Math.max(0, step - 1))} disabled={step === 0}
             style={{ border: 0, background: "transparent", color: step === 0 ? "#555966" : "#A2A8B4", cursor: step === 0 ? "not-allowed" : "pointer", fontSize: 13, padding: "10px 0" }}>← Précédent</button>
           <button type="button" onClick={() => last ? onComplete() : goToStep(step + 1)}
-            style={{ border: 0, borderRadius: 9, background: "#2547C7", color: "#fff", cursor: "pointer", padding: "11px 15px", fontSize: 13, fontWeight: 700 }}>{last ? "Ouvrir le simulateur →" : "Voir l’étape suivante →"}</button>
+            style={{ border: 0, borderRadius: 9, background: "#1B3D88", color: "#fff", cursor: "pointer", padding: "11px 15px", fontSize: 13, fontWeight: 700 }}>{last ? "Ouvrir le simulateur →" : "Voir l’étape suivante →"}</button>
         </div>
       </motion.section>
     </div>

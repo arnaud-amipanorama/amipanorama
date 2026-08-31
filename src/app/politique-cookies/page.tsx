@@ -129,7 +129,7 @@ export default function PolitiqueCookiesPage() {
                     <span style={{
                       fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
                       textTransform: "uppercase",
-                      background: consent ? "rgba(30,82,208,0.08)" : "rgba(30,130,80,0.08)",
+                      background: consent ? "rgba(36,71,143,0.08)" : "rgba(30,130,80,0.08)",
                       color: consent ? "var(--blue)" : "#1a7a40",
                       borderRadius: 100, padding: "3px 9px",
                     }}>

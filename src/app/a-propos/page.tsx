@@ -11,25 +11,25 @@ const values = [
   {
     num: "01",
     title: "Qualité sans compromis",
-    accent: "#1E52D0",
+    accent: "#24478F",
     desc: "Chaque hébergement, chaque formateur, chaque entreprise partenaire est sélectionné selon des critères stricts. Rien n'est laissé au hasard dans un programme AMI.",
   },
   {
     num: "02",
     title: "Simplicité pour vous",
-    accent: "#2547C7",
+    accent: "#1B3D88",
     desc: "Votre rôle est de rester le référent pédagogique de votre groupe. Le nôtre est d'organiser ce qui entoure le séjour, logistique, encadrement terrain, démarches administratives et structuration du projet de financement.",
   },
   {
     num: "03",
     title: "Impact sur les apprentis",
-    accent: "#1E52D0",
+    accent: "#24478F",
     desc: "Une mobilité réussie transforme un parcours. Nous le savons car nos 3 000 alumni nous le disent. C'est cette conviction qui anime chaque programme que nous construisons.",
   },
   {
     num: "04",
     title: "Partenariat durable",
-    accent: "#2547C7",
+    accent: "#1B3D88",
     desc: "Nous construisons des relations à long terme avec les établissements qui nous font confiance. 50 organismes travaillent avec nous depuis plusieurs années, et la majorité repart chaque saison.",
   },
 ];
@@ -92,7 +92,7 @@ export default function AProposPage() {
         <div style={{
           position: "absolute", top: 0, right: 0,
           width: 600, height: 500,
-          background: "radial-gradient(ellipse at top right, rgba(30,82,208,0.2) 0%, transparent 65%)",
+          background: "radial-gradient(ellipse at top right, rgba(36,71,143,0.2) 0%, transparent 65%)",
           pointerEvents: "none",
         }} />
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative" }}>
@@ -105,7 +105,7 @@ export default function AProposPage() {
             L&apos;ouverture internationale{" "}
             <span style={{
               fontFamily: "var(--font-serif)", fontStyle: "italic",
-              fontWeight: 500, color: "rgba(37,71,199,0.9)",
+              fontWeight: 500, color: "rgba(27,61,136,0.9)",
             }}>ne devrait pas être réservée à certains parcours.</span>
           </h1>
           <p className="anim-fade-up-3" style={{
@@ -174,10 +174,10 @@ export default function AProposPage() {
             }}>
               <div style={{
                 position: "absolute", inset: 0,
-                background: "radial-gradient(ellipse at top right, rgba(37,71,199,0.14) 0%, transparent 65%)",
+                background: "radial-gradient(ellipse at top right, rgba(27,61,136,0.14) 0%, transparent 65%)",
                 pointerEvents: "none",
               }} />
-              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(37,71,199,0.8)", marginBottom: 16, position: "relative" }}>CFA · Formations en alternance</div>
+              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(27,61,136,0.8)", marginBottom: 16, position: "relative" }}>CFA · Formations en alternance</div>
               <h3 style={{
                 fontSize: "clamp(16px, 2vw, 21px)", fontWeight: 700,
                 letterSpacing: "-0.03em", lineHeight: 1.3, marginBottom: 20,
@@ -376,13 +376,13 @@ export default function AProposPage() {
             <div style={{
               position: "absolute", top: "-80px", left: "0",
               width: 500, height: 400,
-              background: "radial-gradient(ellipse at left, rgba(30,82,208,0.25) 0%, transparent 65%)",
+              background: "radial-gradient(ellipse at left, rgba(36,71,143,0.25) 0%, transparent 65%)",
               pointerEvents: "none",
             }} />
             <div style={{ position: "relative" }}>
               <div style={{
                 fontSize: 60, lineHeight: 0.8, marginBottom: 24,
-                fontFamily: "Georgia, serif", color: "rgba(37,71,199,0.5)",
+                fontFamily: "Georgia, serif", color: "rgba(27,61,136,0.5)",
               }}>&ldquo;</div>
               <blockquote style={{
                 fontSize: "clamp(17px, 2.2vw, 22px)", fontWeight: 500,
@@ -428,7 +428,7 @@ export default function AProposPage() {
           }}>
             <div style={{
               position: "absolute", inset: 0, pointerEvents: "none",
-              background: "radial-gradient(ellipse at 50% 0%, rgba(30,82,208,0.07) 0%, transparent 60%)",
+              background: "radial-gradient(ellipse at 50% 0%, rgba(36,71,143,0.07) 0%, transparent 60%)",
             }} />
             <div className="section-label" style={{ justifyContent: "center" }}>Travaillons ensemble</div>
             <h2 style={{

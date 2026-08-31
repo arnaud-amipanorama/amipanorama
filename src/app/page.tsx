@@ -185,7 +185,7 @@ export default function HomePage() {
           position: "absolute", top: 12, left: 12, zIndex: 2,
           fontSize: 9, fontWeight: 600, letterSpacing: "0.1em",
           textTransform: "uppercase", color: "#fff",
-          background: "rgba(37,71,199,0.92)", borderRadius: 100,
+          background: "rgba(27,61,136,0.92)", borderRadius: 100,
           padding: "4px 10px",
         }}>Destination phare</div>
       )}
@@ -234,7 +234,7 @@ export default function HomePage() {
                 pour faire grandir<br />
                 <span className="hero-gradient-anim" style={{
                   color: "transparent",
-                  background: "linear-gradient(120deg, #0B1829 0%, #2547C7 100%)",
+                  background: "linear-gradient(120deg, #0B1829 0%, #1B3D88 100%)",
                   WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
                 }}>vos étudiants.</span>
               </span>
@@ -404,7 +404,7 @@ export default function HomePage() {
                 position: "absolute", top: -16, left: -16,
                 background: "var(--coral)", borderRadius: 10,
                 padding: "12px 18px",
-                boxShadow: "0 4px 20px rgba(37,71,199,0.35)",
+                boxShadow: "0 4px 20px rgba(27,61,136,0.35)",
               }}>
                 <div style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", letterSpacing: "0.06em" }}>Encadrement</div>
                 <div style={{ fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: "-0.02em" }}>24h / 7j</div>
@@ -556,7 +556,7 @@ export default function HomePage() {
                     }}>
                       <div style={{
                         width: 28, height: 28, borderRadius: "50%",
-                        background: "rgba(30,82,208,0.12)", border: "1px solid rgba(30,82,208,0.2)",
+                        background: "rgba(36,71,143,0.12)", border: "1px solid rgba(36,71,143,0.2)",
                         display: "flex", alignItems: "center", justifyContent: "center",
                         fontSize: 12, fontWeight: 700, color: "var(--blue)",
                         position: "relative", zIndex: 1,
@@ -656,12 +656,12 @@ export default function HomePage() {
             <div className="testi-feature-inner" style={{ padding: "60px 56px", position: "relative" }}>
               <div style={{
                 position: "absolute", top: 0, left: 0, width: 500, height: "100%",
-                background: "radial-gradient(ellipse at left, rgba(30,82,208,0.18) 0%, transparent 65%)",
+                background: "radial-gradient(ellipse at left, rgba(36,71,143,0.18) 0%, transparent 65%)",
                 pointerEvents: "none",
               }} />
               <div style={{
                 fontSize: 56, lineHeight: 0.8, marginBottom: 28,
-                fontFamily: "Georgia, serif", color: "rgba(37,71,199,0.4)",
+                fontFamily: "Georgia, serif", color: "rgba(27,61,136,0.4)",
                 position: "relative",
               }}>&ldquo;</div>
               <blockquote style={{
@@ -723,13 +723,13 @@ export default function HomePage() {
             <div style={{
               position: "absolute", top: "-80px", left: "10%",
               width: 500, height: 380,
-              background: "radial-gradient(ellipse, rgba(30,82,208,0.3) 0%, transparent 65%)",
+              background: "radial-gradient(ellipse, rgba(36,71,143,0.3) 0%, transparent 65%)",
               pointerEvents: "none",
             }} />
             <div style={{
               position: "absolute", bottom: "-60px", right: "10%",
               width: 380, height: 300,
-              background: "radial-gradient(ellipse, rgba(37,71,199,0.22) 0%, transparent 65%)",
+              background: "radial-gradient(ellipse, rgba(27,61,136,0.22) 0%, transparent 65%)",
               pointerEvents: "none",
             }} />
             <div className="section-label-light" style={{ justifyContent: "center" }}>

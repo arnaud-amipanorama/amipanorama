@@ -678,7 +678,7 @@ export default function ChatWidget() {
                         i < stepIndex
                           ? "var(--blue)"
                           : i === stepIndex
-                          ? "rgba(30,82,208,0.35)"
+                          ? "rgba(36,71,143,0.35)"
                           : "var(--border)",
                       transition: "background 0.3s",
                     }}

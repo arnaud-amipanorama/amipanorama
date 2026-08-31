@@ -32,12 +32,12 @@ export default function RendezVousPage() {
       }}>
         <div style={{
           position: "absolute", top: 0, right: 0, width: 600, height: 460,
-          background: "radial-gradient(ellipse at top right, rgba(30,82,208,0.22) 0%, transparent 65%)",
+          background: "radial-gradient(ellipse at top right, rgba(36,71,143,0.22) 0%, transparent 65%)",
           pointerEvents: "none",
         }} />
         <div style={{
           position: "absolute", bottom: -60, left: "10%", width: 420, height: 320,
-          background: "radial-gradient(ellipse, rgba(37,71,199,0.16) 0%, transparent 65%)",
+          background: "radial-gradient(ellipse, rgba(27,61,136,0.16) 0%, transparent 65%)",
           pointerEvents: "none",
         }} />
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative" }}>
@@ -47,7 +47,7 @@ export default function RendezVousPage() {
             letterSpacing: "-0.045em", lineHeight: 1.08, maxWidth: 680, marginBottom: 24, color: "#fff",
           }}>
             Parlons de votre projet,{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 500, color: "rgba(37,71,199,0.9)" }}>
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 500, color: "rgba(27,61,136,0.9)" }}>
               de vive voix.
             </span>
           </h1>
@@ -94,16 +94,16 @@ export default function RendezVousPage() {
             }}>
               <div style={{
                 position: "absolute", inset: 0, pointerEvents: "none",
-                background: "radial-gradient(ellipse at 50% 0%, rgba(30,82,208,0.06) 0%, transparent 60%)",
+                background: "radial-gradient(ellipse at 50% 0%, rgba(36,71,143,0.06) 0%, transparent 60%)",
               }} />
               <div style={{
                 width: 56, height: 56, borderRadius: 16, margin: "0 auto 24px",
-                background: "rgba(37,71,199,0.10)", border: "1px solid rgba(37,71,199,0.22)",
+                background: "rgba(27,61,136,0.10)", border: "1px solid rgba(27,61,136,0.22)",
                 display: "flex", alignItems: "center", justifyContent: "center", position: "relative",
               }}>
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                  <rect x="3" y="4.5" width="18" height="16" rx="2.5" stroke="#2547C7" strokeWidth="1.6"/>
-                  <path d="M3 9h18M8 2.5v4M16 2.5v4" stroke="#2547C7" strokeWidth="1.6" strokeLinecap="round"/>
+                  <rect x="3" y="4.5" width="18" height="16" rx="2.5" stroke="#1B3D88" strokeWidth="1.6"/>
+                  <path d="M3 9h18M8 2.5v4M16 2.5v4" stroke="#1B3D88" strokeWidth="1.6" strokeLinecap="round"/>
                 </svg>
               </div>
               <h2 style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 12, position: "relative" }}>

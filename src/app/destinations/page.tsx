@@ -15,7 +15,7 @@ const destinations = [
     country: "Canada",
     tag: "Destination historique · Amérique du Nord",
     flag: "🇨🇦",
-    accent: "#1E52D0",
+    accent: "#24478F",
     phare: true,
     photo: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=900&q=80",
     headline: "L'Amérique du Nord, en français.",
@@ -33,7 +33,7 @@ const destinations = [
     country: "Espagne",
     tag: "Deuxième pilier · Culture & immersion",
     flag: "🇪🇸",
-    accent: "#2547C7",
+    accent: "#1B3D88",
     phare: true,
     photo: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
     headline: "L'Andalousie comme terrain de formation.",
@@ -54,7 +54,7 @@ const destinations = [
     country: "États-Unis",
     tag: "Destination iconique · Business & culture",
     flag: "🇺🇸",
-    accent: "#1E52D0",
+    accent: "#24478F",
     photo: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=900&q=80",
     headline: "La ville où l'ambition professionnelle prend une autre dimension.",
     desc: "New York ne s'explique pas, elle se vit. Aucun autre environnement ne confronte aussi directement les participants à l'intensité d'un marché international. Business English de haut niveau, rencontres avec des professionnels en activité, énergie unique d'une ville qui ne ralentit jamais.",
@@ -71,7 +71,7 @@ const destinations = [
     country: "Royaume-Uni",
     tag: "Business English",
     flag: "🇬🇧",
-    accent: "#1E52D0",
+    accent: "#24478F",
     photo: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=900&q=80",
     headline: "La capitale mondiale du Business English.",
     desc: "Londres reste la référence absolue pour l'apprentissage de l'anglais professionnel en contexte réel. Un séjour à Londres, c'est une immersion totale dans une ville qui concentre une densité unique d'entreprises internationales et où l'anglais professionnel est la langue de travail universelle.",
@@ -88,7 +88,7 @@ const destinations = [
     country: "Méditerranée",
     tag: "English immersion",
     flag: "🇲🇹",
-    accent: "#1E52D0",
+    accent: "#24478F",
     photo: "/Assets/destinations/Malte Destination.png",
     headline: "L'anglais en immersion totale, sous le soleil méditerranéen.",
     desc: "Malte est l'une des rares destinations européennes entièrement anglophones, et l'une des plus accessibles. Son cadre méditerranéen, son histoire millénaire et sa taille humaine en font un environnement idéal pour une progression réelle en anglais professionnel, dans une atmosphère solaire et engageante.",
@@ -122,7 +122,7 @@ const destinations = [
     country: "Allemagne",
     tag: "Entrepreneuriat & innovation",
     flag: "🇩🇪",
-    accent: "#2547C7",
+    accent: "#1B3D88",
     photo: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=900&q=80",
     headline: "L'Europe de l'entrepreneuriat et des idées neuves.",
     desc: "Berlin pense autrement. Capitale européenne de la scène startup et de l'innovation ouverte, elle offre aux apprentis une immersion dans un écosystème professionnel non conventionnel. Un programme volontairement orienté terrain et rencontres, moins de salle de cours, plus de fondateurs, d'entreprises et d'idées.",
@@ -156,7 +156,7 @@ const destinations = [
     country: "États-Unis",
     tag: "Business English & ouverture américaine",
     flag: "🇺🇸",
-    accent: "#1E52D0",
+    accent: "#24478F",
     photo: "/Assets/destinations/Miami-unsplash.jpg",
     headline: "L'Amérique dans sa version la plus internationale.",
     desc: "Miami n'est pas New York, et c'est précisément son atout. Carrefour des Amériques, ville internationale par nature, elle offre aux apprentis une lecture concrète du modèle économique américain dans un environnement cosmopolite, accessible et tourné vers l'Atlantique.",
@@ -173,7 +173,7 @@ const destinations = [
     country: "Corée du Sud",
     tag: "Tech & monde asiatique",
     flag: "🇰🇷",
-    accent: "#2547C7",
+    accent: "#1B3D88",
     photo: "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=900&q=80",
     headline: "Une fenêtre directe sur l'Asie du XXIe siècle.",
     desc: "Séoul est l'une des métropoles les plus innovantes de la planète. Un séjour en Corée du Sud expose les apprentis à une culture professionnelle radicalement différente : exigence, culture de l'innovation, technologies de rupture. Un programme pour ceux qui veulent comprendre où se construit l'avenir.",
@@ -190,7 +190,7 @@ const destinations = [
     country: "Afrique du Sud",
     tag: "Prochainement",
     flag: "🇿🇦",
-    accent: "#1E52D0",
+    accent: "#24478F",
     photo: "https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=900&q=80",
     headline: "L'Afrique du Sud, entre entrepreneuriat et paysages d'exception.",
     desc: "Un programme alliant découverte économique, diversité culturelle et paysages d'exception. Le Cap s'impose comme une destination premium pour les apprentis qui souhaitent découvrir le continent africain sous un angle professionnel et ambitieux.",
@@ -243,7 +243,7 @@ export default function DestinationsPage() {
             10 destinations.{" "}
             <span style={{
               fontFamily: "var(--font-serif)", fontStyle: "italic",
-              fontWeight: 500, color: "rgba(37,71,199,0.9)",
+              fontWeight: 500, color: "rgba(27,61,136,0.9)",
             }}>Une même exigence.</span>
           </h1>
           <p className="anim-fade-up-3" style={{
@@ -299,13 +299,13 @@ export default function DestinationsPage() {
             <div style={{
               position: "absolute", top: "-60px", left: "20%",
               width: 400, height: 300,
-              background: "radial-gradient(ellipse, rgba(30,82,208,0.25) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse, rgba(36,71,143,0.25) 0%, transparent 70%)",
               pointerEvents: "none",
             }} />
             <div style={{
               position: "absolute", bottom: "-40px", right: "20%",
               width: 300, height: 250,
-              background: "radial-gradient(ellipse, rgba(37,71,199,0.2) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse, rgba(27,61,136,0.2) 0%, transparent 70%)",
               pointerEvents: "none",
             }} />
             <div className="section-label-light" style={{ justifyContent: "center" }}>Une destination vous intéresse ?</div>
