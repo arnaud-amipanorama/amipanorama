@@ -228,7 +228,7 @@ export default function HomePage() {
                 à celles et ceux qui<br />
                 <span className="hero-gradient-anim" style={{
                   color: "transparent",
-                  background: "linear-gradient(120deg, #0B1829 0%, #1B3D88 100%)",
+                  background: "linear-gradient(120deg, #0B1829 0%, #29456F 46%, #607CB0 100%)",
                   WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
                 }}>le construiront demain.</span>
               </span>
