@@ -3,8 +3,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import AnimateOnView from "@/components/AnimateOnView";
 import HeroGallery from "./HeroGallery";
-import HeroBackdrop from "./HeroBackdrop";
-import { HERO_IMAGE, HERO_FOCUS, HERO_PHOTOS } from "./heroConfig";
+import { HERO_PHOTOS } from "./heroConfig";
 import { testimonials } from "@/data/testimonials";
 
 const testimonialColumns = [
@@ -211,28 +210,18 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ══════════════════════════════════════════════
-          HERO, cinematic split layout
-          Dark navy + animated orbs + real group photos
-      ══════════════════════════════════════════════ */}
+      {/* Hero éditorial : l'idée précède les images. */}
       <section className="hero-section" style={{
-        position: "relative", overflow: "hidden", background: "var(--bg)",
+        background: "var(--bg)", overflow: "hidden",
       }}>
-        {/* Image full-bleed + voiles + dérive d'ambiance (client) */}
-        <HeroBackdrop image={HERO_IMAGE} focus={HERO_FOCUS} />
-
-        {/* Contenu : texte (haut) + cartes flottantes (bas), une seule scène */}
         <div className="hero-inner" style={{
-          position: "relative", maxWidth: 1200, margin: "0 auto", width: "100%",
-          minHeight: "min(90svh, 880px)",
-          display: "flex", flexDirection: "column", justifyContent: "space-between",
-          padding: "134px 24px 34px",
+          maxWidth: 1200, margin: "0 auto", width: "100%", padding: "164px 24px 46px",
         }}>
-          <div className="hero-text-col" style={{ maxWidth: 560 }}>
+          <div className="hero-text-col" style={{ maxWidth: 700 }}>
             <h1 className="anim-fade-up" style={{
-              fontSize: "clamp(34px, 5vw, 66px)", fontWeight: 800,
+              fontSize: "clamp(38px, 5.2vw, 70px)", fontWeight: 800,
               letterSpacing: "-0.045em", lineHeight: 1.02,
-              color: "var(--text-primary)", marginBottom: 22,
+              color: "var(--text-primary)", marginBottom: 20,
             }}>
               <span className="hero-breath">
                 Ouvrir le monde<br />
@@ -247,31 +236,24 @@ export default function HomePage() {
 
             <p className="anim-fade-up-3" style={{
               fontSize: "clamp(15px, 1.35vw, 17px)", color: "var(--text-secondary)",
-              lineHeight: 1.6, maxWidth: 460, marginBottom: 12,
+              lineHeight: 1.6, maxWidth: 460, marginBottom: 24,
             }}>
               Pour les CFA et les écoles.
             </p>
 
-            <div className="anim-fade-up-4 hero-ctas" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <Link href="/rendez-vous" className="btn-primary">
+            <div className="anim-fade-up-4 hero-ctas" style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
+              <Link href="/rendez-vous" className="hero-link hero-link-primary">
                 Réserver un échange
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </Link>
-              <Link href="/destinations" className="btn-ghost">
+              <Link href="/destinations" className="hero-link">
                 Découvrir les destinations
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </Link>
             </div>
           </div>
 
-          {/* Cartes destinations en coverflow, profondeur par ombre diffuse, sans plateau géométrique */}
-          <div className="anim-fade-up-4 hero-gallery-wrap" style={{ position: "relative", marginTop: 28 }}>
-            <div aria-hidden="true" style={{
-              position: "absolute", left: "50%", bottom: 8, transform: "translateX(-50%)",
-              width: "min(860px, 94%)", height: 140,
-              background: "radial-gradient(58% 62% at 50% 64%, rgba(11,24,41,0.13) 0%, rgba(11,24,41,0.05) 44%, transparent 72%)",
-              filter: "blur(28px)", pointerEvents: "none",
-            }} />
+          <div className="anim-fade-up-4 hero-gallery-wrap" style={{ position: "relative", marginTop: 54 }}>
             <HeroGallery items={HERO_PHOTOS} />
           </div>
         </div>
@@ -775,19 +757,23 @@ export default function HomePage() {
       {/* ══ Hero & animation styles ══ */}
       <style>{`
         .hero-text-col { padding-right: 0; }
+        .hero-link {
+          display: inline-flex; align-items: center; gap: 8px; padding: 2px 0 5px;
+          border-bottom: 1px solid rgba(11,24,41,.22); color: var(--text-secondary);
+          font-size: 14px; font-weight: 600; letter-spacing: -.01em;
+          transition: color .2s ease, border-color .2s ease;
+        }
+        .hero-link:hover { color: var(--text-primary); border-color: var(--text-primary); }
+        .hero-link svg { transition: transform .22s ease; }
+        .hero-link:hover svg { transform: translateX(3px); }
+        .hero-link-primary { color: var(--text-primary); border-color: var(--text-primary); }
 
         @media (max-width: 760px) {
-          /* Hero mobile = SPLIT éditorial : texte à gauche (~56%), photo à droite.
-             Le voile de lisibilité est géré par HeroBackdrop (.hb-scrim). */
-          .hero-inner { min-height: 100svh !important; padding: 88px 22px 26px !important; justify-content: flex-start !important; }
-          .hero-text-col { max-width: 56% !important; }
-          .hero-eyebrow { display: block !important; width: calc(100vw - 44px) !important; max-width: none !important; margin-bottom: 16px !important; }
-          .hero-eyebrow-dash { display: none !important; }
-          .hero-eyebrow-txt { font-size: 11px !important; letter-spacing: 0.1em !important; line-height: 1.4 !important; }
+          .hero-inner { padding: 116px 22px 30px !important; }
+          .hero-text-col { max-width: none !important; }
           .hero-text-col h1 { font-size: 32px !important; line-height: 1.06 !important; letter-spacing: -0.035em !important; margin-bottom: 16px !important; }
-          .hero-ctas { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; }
-          .hero-gallery-wrap { display: none !important; }
-          .hero-op-line { display: none !important; }
+          .hero-ctas { gap: 22px !important; }
+          .hero-gallery-wrap { margin-top: 38px !important; }
         }
         .hero-gradient-anim {
           background-size: 220% 220% !important;
