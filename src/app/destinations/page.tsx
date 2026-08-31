@@ -243,11 +243,11 @@ export default function DestinationsPage() {
             10 destinations.{" "}
             <span style={{
               fontFamily: "var(--font-serif)", fontStyle: "italic",
-              fontWeight: 500, color: "rgba(27,61,136,0.9)",
+              fontWeight: 500, color: "var(--blue-on-dark)",
             }}>Une même exigence.</span>
           </h1>
           <p className="anim-fade-up-3" style={{
-            fontSize: 18, color: "rgba(255,255,255,0.65)",
+            fontSize: 18, color: "rgba(255,255,255,0.78)",
             maxWidth: 580, lineHeight: 1.75,
           }}>
             Chaque destination est sélectionnée pour sa valeur pédagogique,

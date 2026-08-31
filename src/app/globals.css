@@ -20,6 +20,8 @@
   --blue:          #24478F;
   --blue-light:    #3A5FAB;
   --blue-glow:     rgba(36,71,143,0.18);
+  /* Accent réservé aux fonds sombres : le bleu de marque reste lisible. */
+  --blue-on-dark:  #B9CCFF;
 
   /* ── Teal accent (CTA, highlights) ── */
   --coral:         #1B3D88;

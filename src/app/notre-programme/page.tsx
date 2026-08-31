@@ -77,97 +77,34 @@ const faqItems = [
   },
 ];
 
-const components = [
+const programPillars = [
   {
-    num: "01",
-    title: "Formation professionnelle",
-    sub: "15 à 82h selon le format",
-    accent: "#24478F",
-    desc: "Au cœur du programme, une formation structurée, de 15h à 82h selon le format, la destination et les objectifs pédagogiques, conçue pour ouvrir vos participants au monde professionnel international. Panorama socio-économique du pays d'accueil, ateliers de Business English, ateliers sectoriels et mises en situation professionnelle.",
-    details: [
-      "Cours animés par des formateurs locaux et professionnels du secteur",
-      "Contenu personnalisable selon le secteur d'activité de vos participants",
-      "Business English pour les profils non-anglophones",
-      "Attestation de formation remise à chaque participant",
-    ],
+    label: "Apprendre",
+    title: "Une formation qui sort de la salle.",
+    desc: "Cours, Business English et ateliers sectoriels se construisent autour de votre groupe, de sa filière et de la destination.",
+    detail: "De 15 à 82 heures selon le format.",
+    image: "/Assets/program/visite-conference.jpg",
   },
   {
-    num: "02",
-    title: "Visites d'entreprise",
-    sub: "Immersion professionnelle réelle",
-    accent: "#1B3D88",
-    desc: "Vos apprentis ne visitent pas des vitrines, ils entrent dans les coulisses d'entreprises locales sélectionnées pour leur pertinence sectorielle. Échanges avec des professionnels, découverte des pratiques de travail locales, comparaison avec le marché français.",
-    details: [
-      "Sélection d'entreprises alignées avec les filières de votre CFA",
-      "Format : visite + échanges + questions/réponses",
-      "Secteurs couverts : tech, industrie, services, tourisme, commerce",
-      "Compte-rendu de visite disponible pour valorisation pédagogique",
-    ],
+    label: "Découvrir",
+    title: "Des entreprises, pas des vitrines.",
+    desc: "Vos participants rencontrent des professionnels et voient comment leur secteur prend vie ailleurs.",
+    detail: "Des visites choisies pour leur pertinence.",
+    image: "/Assets/program/visite-startup.jpg",
   },
   {
-    num: "03",
-    title: "Activités culturelles",
-    sub: "Programme saisonnier sur mesure",
-    accent: "#24478F",
-    desc: "La mobilité internationale se vit aussi en dehors des salles de formation. Notre programme d'activités culturelles est conçu pour maximiser l'immersion : sites historiques, expériences locales authentiques et moments de vie partagée qui restent gravés.",
-    details: [
-      "Programme adapté à la saison et aux conditions météorologiques",
-      "Sites iconiques : cathédrales, musées, quartiers historiques",
-      "Expériences locales : gastronomie, artisanat, spectacles",
-      "Temps libres encadrés pour favoriser l'autonomie",
-    ],
+    label: "Vivre",
+    title: "Une ville à vivre, ensemble.",
+    desc: "La culture, les rencontres et les temps partagés donnent une vraie profondeur au séjour.",
+    detail: "Un programme adapté à la saison et au groupe.",
+    image: "/Assets/program/visite-eleves.jpg",
   },
   {
-    num: "04",
-    title: "Hébergement encadré",
-    sub: "Logement sécurisé, durée selon le format",
-    accent: "#1B3D88",
-    desc: "Nous sélectionnons des établissements qui combinent confort, sécurité et cadre propice à la vie de groupe. Chaque hébergement est testé et validé par notre équipe terrain avant d'être intégré à nos programmes.",
-    details: [
-      "Petits-déjeuners complets inclus chaque matin",
-      "Espaces de vie communs pour favoriser la cohésion du groupe",
-      "Rooftop et espaces de détente selon les destinations",
-      "Accueil 24h/24 et assistance sur place",
-    ],
-  },
-  {
-    num: "05",
-    title: "Transports inclus",
-    sub: "Zéro logistique de déplacement",
-    accent: "#24478F",
-    desc: "De l'arrivée à l'aéroport jusqu'au retour, tous les transports sont coordonnés par notre équipe. Vos apprentis n'ont pas à gérer les trajets, ils se concentrent sur l'expérience.",
-    details: [
-      "Transferts aéroport aller et retour organisés",
-      "Navettes quotidiennes aller-retour vers le lieu de formation",
-      "Transport pour toutes les visites d'entreprise et activités",
-      "Coordination des transports en cas d'imprévus",
-    ],
-  },
-  {
-    num: "06",
-    title: "Assurances complètes",
-    sub: "Couverture totale pendant le séjour",
-    accent: "#1B3D88",
-    desc: "La sécurité de vos participants est une priorité absolue. Notre couverture assurance est parmi les plus complètes du marché, avec une assistance rapatriement disponible 24h/24.",
-    details: [
-      "Assistance-rapatriement disponible 24h/24, 7j/7",
-      "Hospitalisation et soins médicaux couverts jusqu'à 200 000 €",
-      "Bagages couverts jusqu'à 2 000 €",
-      "Assistance, rapatriement et responsabilité civile inclus",
-    ],
-  },
-  {
-    num: "07",
-    title: "Ingénierie administrative & financière",
-    sub: "Accompagnement de A à Z",
-    accent: "#24478F",
-    desc: "La complexité administrative est souvent ce qui freine un premier projet de mobilité. AMI Panorama vous accompagne sur l'ensemble de cette dimension, structuration, démarches documentaires, identification des dispositifs mobilisables et coordination des étapes clés, en travaillant avec vous à chaque étape.",
-    details: [
-      "Structuration du projet de mobilité et calendrier réglementaire",
-      "Identification des cadres de financement mobilisables selon votre situation",
-      "Rédaction des conventions de mobilité et documents requis",
-      "Suivi documentaire et coordination jusqu'à la clôture du projet",
-    ],
+    label: "Être accompagné",
+    title: "Vous vous concentrez sur le groupe.",
+    desc: "Hébergement, transports, assurances et coordination sont préparés et suivis par notre équipe.",
+    detail: "Présence terrain pendant tout le séjour.",
+    image: "/Assets/program/visite-pro.jpg",
   },
 ];
 
@@ -328,66 +265,26 @@ export default function NotreProgrammePage() {
       <section style={{ padding: "64px 24px 80px", background: "var(--bg)" }}>
         <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 40 }}>
-            <div className="section-label">Les composantes du programme</div>
+            <div className="section-label">Une semaine AMI</div>
             <h2 style={{
               fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 700,
               letterSpacing: "-0.035em", maxWidth: 560,
             }}>
-              Ce qui est inclus dans chaque programme AMI Panorama
+              Apprendre, découvrir, vivre. Le reste est déjà organisé.
             </h2>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-            {components.map(({ num, title, sub, accent, desc, details }) => (
-              <div key={num} className="hover-row" style={{
-                display: "grid", gridTemplateColumns: "200px 1fr",
-                background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 16,
-                overflow: "hidden",
-              }}>
-                {/* Left panel */}
-                <div style={{
-                  padding: "36px 28px", background: "var(--bg-2)",
-                  borderRight: "1px solid var(--border)",
-                  display: "flex", flexDirection: "column", gap: 12,
-                }}>
-                  <span style={{
-                    fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
-                    color: "var(--text-muted)", textTransform: "uppercase",
-                  }}>{num}</span>
-                  <div style={{
-                    width: 36, height: 36, borderRadius: 9,
-                    background: accent + "18",
-                    border: `1px solid ${accent}30`,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                  }}>
-                    <div style={{ width: 10, height: 10, borderRadius: "50%", background: accent }} />
-                  </div>
-                  <h2 style={{
-                    fontSize: 15, fontWeight: 600, letterSpacing: "-0.02em",
-                    lineHeight: 1.3, marginTop: 4, color: "var(--text-primary)",
-                  }}>{title}</h2>
-                  <span style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.4 }}>{sub}</span>
+          <div className="programme-pillars">
+            {programPillars.map(({ label, title, desc, detail, image }) => (
+              <article key={label} className="programme-pillar">
+                <div className="programme-pillar-photo" style={{ backgroundImage: `url('${image}')` }} />
+                <div className="programme-pillar-copy">
+                  <div className="programme-pillar-label">{label}</div>
+                  <h3>{title}</h3>
+                  <p>{desc}</p>
+                  <span>{detail}</span>
                 </div>
-
-                {/* Right panel */}
-                <div style={{ padding: "36px 44px" }}>
-                  <p style={{
-                    fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.8,
-                    marginBottom: 24, maxWidth: 640,
-                  }}>{desc}</p>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                    {details.map(d => (
-                      <div key={d} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                        <div style={{
-                          width: 5, height: 5, borderRadius: "50%",
-                          background: accent, flexShrink: 0, marginTop: 8,
-                        }} />
-                        <span style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.65 }}>{d}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>
@@ -419,8 +316,21 @@ export default function NotreProgrammePage() {
             ))}
           </div>
         </div>
-        <style>{`
-          .vp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+      <style>{`
+        .programme-pillars { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+        .programme-pillar {
+          display: grid; grid-template-columns: 42% 1fr; min-height: 276px; overflow: hidden;
+          background: var(--bg-1); border: 1px solid var(--border); border-radius: 18px;
+          transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+        }
+        .programme-pillar:hover { transform: translateY(-3px); border-color: var(--border-hover); box-shadow: 0 18px 38px rgba(11,24,41,.10); }
+        .programme-pillar-photo { background-size: cover; background-position: center; min-height: 100%; }
+        .programme-pillar-copy { display: flex; flex-direction: column; align-items: flex-start; padding: 30px 28px; }
+        .programme-pillar-label { color: var(--blue); font-size: 11px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; margin-bottom: 20px; }
+        .programme-pillar h3 { font-size: clamp(20px, 2vw, 28px); line-height: 1.08; letter-spacing: -.04em; margin-bottom: 14px; }
+        .programme-pillar p { color: var(--text-secondary); font-size: 14px; line-height: 1.7; margin-bottom: auto; }
+        .programme-pillar span { color: var(--text-muted); font-size: 12px; line-height: 1.5; margin-top: 22px; }
+        .vp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
           .vp-photo {
             position: relative; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden;
             background-size: cover; background-position: center;
@@ -530,8 +440,10 @@ export default function NotreProgrammePage() {
 
       <style>{`
         @media (max-width: 700px) {
-          .hover-row { grid-template-columns: 1fr !important; }
-          .hover-row > div:first-child { border-right: none !important; border-bottom: 1px solid var(--border); }
+          .programme-pillars { grid-template-columns: 1fr; }
+          .programme-pillar { grid-template-columns: 38% 1fr; min-height: 230px; }
+          .programme-pillar-copy { padding: 24px 20px; }
+          .programme-pillar-label { margin-bottom: 14px; }
           .why-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           .faq-row { grid-template-columns: 1fr !important; gap: 12px !important; }
         }

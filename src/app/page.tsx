@@ -7,6 +7,11 @@ import HeroBackdrop from "./HeroBackdrop";
 import { HERO_IMAGE, HERO_FOCUS, HERO_PHOTOS } from "./heroConfig";
 import { testimonials } from "@/data/testimonials";
 
+const testimonialColumns = [
+  testimonials.filter((_, index) => index % 2 === 0),
+  testimonials.filter((_, index) => index % 2 !== 0),
+];
+
 export const metadata: Metadata = {
   title: "Séjours à l'international pour les CFA et les écoles",
   description:
@@ -230,13 +235,13 @@ export default function HomePage() {
               color: "var(--text-primary)", marginBottom: 22,
             }}>
               <span className="hero-breath">
-                Des séjours à l&apos;étranger<br />
-                pour faire grandir<br />
+                Ouvrir le monde<br />
+                à celles et ceux qui<br />
                 <span className="hero-gradient-anim" style={{
                   color: "transparent",
                   background: "linear-gradient(120deg, #0B1829 0%, #1B3D88 100%)",
                   WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
-                }}>vos étudiants.</span>
+                }}>le construiront demain.</span>
               </span>
             </h1>
 
@@ -592,7 +597,7 @@ export default function HomePage() {
             {/* Column 1, real testimonials, scrolls slower */}
             <div className="testi-track">
               <div className="testi-col-1" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                {[...testimonials, ...testimonials].map(({ quote, name, school, dest, flag }, i) => (
+                {[...testimonialColumns[0], ...testimonialColumns[0]].map(({ quote, name, school, dest, flag }, i) => (
                   <div key={i} className="testi-card">
                     <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.85, whiteSpace: "pre-line", marginBottom: 20 }}>{quote}</p>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -617,7 +622,7 @@ export default function HomePage() {
             {/* Column 2, additional testimonials, scrolls faster */}
             <div className="testi-track">
               <div className="testi-col-2" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                {[...testimonials.slice(2), ...testimonials.slice(0, 2), ...testimonials.slice(2), ...testimonials.slice(0, 2)].map(({ quote, name, school, dest, flag }, i) => (
+                {[...testimonialColumns[1], ...testimonialColumns[1]].map(({ quote, name, school, dest, flag }, i) => (
                   <div key={i} className="testi-card">
                     <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.85, whiteSpace: "pre-line", marginBottom: 20 }}>{quote}</p>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

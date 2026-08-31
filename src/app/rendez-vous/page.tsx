@@ -47,7 +47,7 @@ export default function RendezVousPage() {
             letterSpacing: "-0.045em", lineHeight: 1.08, maxWidth: 680, marginBottom: 24, color: "#fff",
           }}>
             Parlons de votre projet,{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 500, color: "rgba(27,61,136,0.9)" }}>
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 500, color: "var(--blue-on-dark)" }}>
               de vive voix.
             </span>
           </h1>
