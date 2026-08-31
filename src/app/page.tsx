@@ -226,7 +226,7 @@ export default function HomePage() {
               <span className="hero-breath">
                 <span className="hero-gradient-anim" style={{
                   color: "transparent",
-                  background: "linear-gradient(135deg, #0B1829 0%, #29456F 46%, #607CB0 100%)",
+                  background: "linear-gradient(135deg, #0B1829 0%, #112A4F 56%, #29456F 74%, #607CB0 100%)",
                   WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
                 }}>
                   Ouvrir le monde<br />
@@ -780,18 +780,18 @@ export default function HomePage() {
         }
         .hero-gradient-anim {
           display: inline-block;
-          background-size: 260% 100% !important;
-          animation: heroGradient 8.5s ease-in-out infinite;
+          background-size: 112% 100% !important;
+          animation: heroGradient 7s ease-in-out infinite;
           will-change: background-position, filter;
         }
         @keyframes heroGradient {
           0%, 100% { background-position: 0% 50%; filter: brightness(1) saturate(.94); }
-          50%      { background-position: 100% 50%; filter: brightness(1.13) saturate(1.04); }
+          50%      { background-position: 18% 50%; filter: brightness(1.07) saturate(1.01); }
         }
-        .hero-breath { display: inline-block; animation: heroTextBreath 6.5s ease-in-out infinite; will-change: transform; }
+        .hero-breath { display: inline-block; animation: heroTextBreath 4.8s ease-in-out infinite; will-change: transform; }
         @keyframes heroTextBreath {
-          0%, 100% { transform: translate3d(0, 0, 0); }
-          50%      { transform: translate3d(0, -6px, 0); }
+          0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+          50%      { transform: translate3d(0, -5px, 0) scale(1.012); }
         }
         @media (prefers-reduced-motion: reduce) {
           .hero-breath, .hero-gradient-anim { animation: none !important; }
