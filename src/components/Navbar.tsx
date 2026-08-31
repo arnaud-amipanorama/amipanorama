@@ -52,7 +52,7 @@ export default function Navbar() {
             </Link>
 
             <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <Link href="/rendez-vous" className="nav-cta btn-primary" style={{ padding: "10px 20px", fontSize: 13 }}>
+              <Link href="/rendez-vous" className="nav-cta" style={{ color: open ? "#fff" : "var(--text-primary)" }}>
                 Prendre rendez-vous
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </Link>
@@ -134,6 +134,14 @@ export default function Navbar() {
           font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
           transition: color 0.3s ease;
         }
+        .nav-cta {
+          display: inline-flex; align-items: center; gap: 8px; padding: 3px 0 6px;
+          border-bottom: 1px solid currentColor; font-size: 13px; font-weight: 600;
+          letter-spacing: -.01em; transition: opacity .2s ease;
+        }
+        .nav-cta:hover { opacity: .62; }
+        .nav-cta svg { transition: transform .22s ease; }
+        .nav-cta:hover svg { transform: translateX(3px); }
         .nav-bars { display: inline-flex; flex-direction: column; gap: 4px; width: 19px; }
         .nav-bars > span {
           display: block; height: 1.6px; width: 100%; background: currentColor; border-radius: 2px;

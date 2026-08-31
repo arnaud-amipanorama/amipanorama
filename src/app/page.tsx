@@ -217,7 +217,7 @@ export default function HomePage() {
         <div className="hero-inner" style={{
           maxWidth: 1200, margin: "0 auto", width: "100%", padding: "164px 24px 46px",
         }}>
-          <div className="hero-text-col" style={{ maxWidth: 700 }}>
+          <div className="hero-text-col" style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}>
             <h1 className="anim-fade-up" style={{
               fontSize: "clamp(38px, 5.2vw, 70px)", fontWeight: 800,
               letterSpacing: "-0.045em", lineHeight: 1.02,
@@ -236,12 +236,13 @@ export default function HomePage() {
 
             <p className="anim-fade-up-3" style={{
               fontSize: "clamp(15px, 1.35vw, 17px)", color: "var(--text-secondary)",
-              lineHeight: 1.6, maxWidth: 460, marginBottom: 24,
+              lineHeight: 1.7, maxWidth: 560, margin: "0 auto 24px",
             }}>
-              Pour les CFA et les écoles.
+              AMI Panorama imagine et organise des séjours internationaux pour les CFA et les écoles.
+              Formation, rencontres professionnelles, hébergement et accompagnement sont pensés pour votre groupe.
             </p>
 
-            <div className="anim-fade-up-4 hero-ctas" style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
+            <div className="anim-fade-up-4 hero-ctas" style={{ display: "flex", gap: 28, flexWrap: "wrap", justifyContent: "center" }}>
               <Link href="/rendez-vous" className="hero-link hero-link-primary">
                 Réserver un échange
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
