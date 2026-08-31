@@ -238,8 +238,8 @@ export default function HomePage() {
               fontSize: "clamp(15px, 1.35vw, 17px)", color: "var(--text-secondary)",
               lineHeight: 1.7, maxWidth: 560, margin: "0 auto 24px",
             }}>
-              AMI Panorama imagine et organise des séjours internationaux pour les CFA et les écoles.
-              Formation, rencontres professionnelles, hébergement et accompagnement sont pensés pour votre groupe.
+              AMI Panorama imagine et organise des séjours, séminaires et mobilités internationales pour les établissements et les entreprises.
+              Spécialistes des alternants et des CFA, nous réunissons formation, rencontres professionnelles et accompagnement complet.
             </p>
 
             <div className="anim-fade-up-4 hero-ctas" style={{ display: "flex", gap: 28, flexWrap: "wrap", justifyContent: "center" }}>
