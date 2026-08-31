@@ -8,9 +8,9 @@ import { HERO_IMAGE, HERO_FOCUS, HERO_PHOTOS } from "./heroConfig";
 import { testimonials } from "@/data/testimonials";
 
 export const metadata: Metadata = {
-  title: "AMI Panorama, Opérateur de mobilité internationale pour les CFA et les établissements",
+  title: "Séjours à l'international pour les CFA et les écoles",
   description:
-    "AMI Panorama conçoit des programmes de mobilité internationale structurés pour les CFA, les écoles et les établissements d'enseignement supérieur. Formation professionnelle, visites d'entreprise, encadrement terrain et accompagnement administratif de A à Z.",
+    "AMI Panorama organise des séjours à l'international pour les étudiants. Formation, hébergement, activités et accompagnement sont inclus.",
 };
 
 const destinations: {
@@ -224,29 +224,19 @@ export default function HomePage() {
           padding: "134px 24px 34px",
         }}>
           <div className="hero-text-col" style={{ maxWidth: 560 }}>
-            <div className="anim-fade-up hero-eyebrow" style={{
-              display: "inline-flex", alignItems: "center", gap: 11, marginBottom: 24,
-            }}>
-              <span aria-hidden="true" className="hero-eyebrow-dash" style={{ width: 26, height: 1.5, background: "var(--coral)", borderRadius: 2, display: "inline-block" }} />
-              <span className="hero-eyebrow-txt" style={{
-                fontSize: 12, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase",
-                color: "var(--coral)",
-              }}>Opérateur de mobilité internationale · Depuis 2022</span>
-            </div>
-
-            <h1 className="anim-fade-up-2" style={{
+            <h1 className="anim-fade-up" style={{
               fontSize: "clamp(34px, 5vw, 66px)", fontWeight: 800,
               letterSpacing: "-0.045em", lineHeight: 1.02,
               color: "var(--text-primary)", marginBottom: 22,
             }}>
               <span className="hero-breath">
-                Ouvrir le monde<br />
-                à celles et ceux qui<br />
+                Des séjours à l&apos;étranger<br />
+                pour faire grandir<br />
                 <span className="hero-gradient-anim" style={{
                   color: "transparent",
                   background: "linear-gradient(120deg, #0B1829 0%, #2547C7 100%)",
                   WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
-                }}>le construiront demain.</span>
+                }}>vos étudiants.</span>
               </span>
             </h1>
 
@@ -254,17 +244,7 @@ export default function HomePage() {
               fontSize: "clamp(15px, 1.35vw, 17px)", color: "var(--text-secondary)",
               lineHeight: 1.6, maxWidth: 460, marginBottom: 12,
             }}>
-              AMI Panorama conçoit des programmes de mobilité internationale pour les
-              CFA et les établissements d&apos;enseignement supérieur.
-            </p>
-
-            <p className="anim-fade-up-3 hero-op-line" style={{
-              fontSize: "clamp(13px, 1.1vw, 14px)", color: "var(--text-muted)",
-              lineHeight: 1.6, maxWidth: 460, marginBottom: 28,
-            }}>
-              Formation, hébergement, logistique, accompagnement administratif et
-              ingénierie financière : nous concevons, organisons et sécurisons vos
-              mobilités de bout en bout.
+              Pour les CFA et les écoles.
             </p>
 
             <div className="anim-fade-up-4 hero-ctas" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
