@@ -777,26 +777,21 @@ export default function HomePage() {
           .hero-gallery-wrap { margin-top: 38px !important; }
         }
         .hero-gradient-anim {
-          background-size: 220% 220% !important;
-          animation: heroGradient 13s ease-in-out infinite;
+          background-size: 260% 100% !important;
+          animation: heroGradient 8.5s ease-in-out infinite;
+          will-change: background-position, filter;
         }
         @keyframes heroGradient {
-          0%, 100% { background-position: 0% 50%; }
-          50%      { background-position: 100% 50%; }
+          0%, 100% { background-position: 0% 50%; filter: brightness(1) saturate(.94); }
+          50%      { background-position: 100% 50%; filter: brightness(1.13) saturate(1.04); }
         }
-        /* Respiration unifiée : tout le bloc texte (CTA inclus) bouge ENSEMBLE,
-           translation verticale quasi imperceptible, même philosophie que le fond et le carousel */
-        .hero-breath { display: inline-block; }
-        .hero-text-col {
-          animation: heroTextBreath 7s ease-in-out infinite;
-          will-change: transform, opacity;
-        }
+        .hero-breath { display: inline-block; animation: heroTextBreath 6.5s ease-in-out infinite; will-change: transform; }
         @keyframes heroTextBreath {
-          0%, 100% { transform: translate3d(0, 0, 0); opacity: 1; }
-          50%      { transform: translate3d(0, -3px, 0); opacity: 0.985; }
+          0%, 100% { transform: translate3d(0, 0, 0); }
+          50%      { transform: translate3d(0, -6px, 0); }
         }
         @media (prefers-reduced-motion: reduce) {
-          .hero-text-col, .hero-gradient-anim { animation: none !important; }
+          .hero-breath, .hero-gradient-anim { animation: none !important; }
         }
         /* ⚠️ Bloc supprimé : maquette "dashboard", cartes photo flottantes et
            voiles .hero-veil / .hero-grid / .hero-img. Ces règles n'étaient plus
