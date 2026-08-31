@@ -224,13 +224,15 @@ export default function HomePage() {
               color: "var(--text-primary)", marginBottom: 20,
             }}>
               <span className="hero-breath">
-                Ouvrir le monde<br />
-                à celles et ceux qui<br />
                 <span className="hero-gradient-anim" style={{
                   color: "transparent",
-                  background: "linear-gradient(120deg, #0B1829 0%, #29456F 46%, #607CB0 100%)",
+                  background: "linear-gradient(135deg, #0B1829 0%, #29456F 46%, #607CB0 100%)",
                   WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
-                }}>le construiront demain.</span>
+                }}>
+                  Ouvrir le monde<br />
+                  à celles et ceux qui<br />
+                  le construiront demain.
+                </span>
               </span>
             </h1>
 
@@ -777,6 +779,7 @@ export default function HomePage() {
           .hero-gallery-wrap { margin-top: 38px !important; }
         }
         .hero-gradient-anim {
+          display: inline-block;
           background-size: 260% 100% !important;
           animation: heroGradient 8.5s ease-in-out infinite;
           will-change: background-position, filter;
