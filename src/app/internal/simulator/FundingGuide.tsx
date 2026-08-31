@@ -15,12 +15,12 @@ export default function FundingGuide() {
     <section style={{ border: "1px solid rgba(255,255,255,0.12)", borderRadius: 14, background: "rgba(255,255,255,0.025)", overflow: "hidden" }}>
       <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open}
         style={{ width: "100%", display: "flex", justifyContent: "space-between", gap: 16, alignItems: "center", color: "#F4F5F7", background: "transparent", border: 0, padding: "17px 20px", cursor: "pointer", textAlign: "left" }}>
-        <span><span style={{ color: "#0F6B6D", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", display: "block", marginBottom: 4 }}>Guide express</span><span style={{ fontSize: 15, fontWeight: 700 }}>Bien utiliser le simulateur de financement</span></span>
+        <span><span style={{ color: "#2547C7", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", display: "block", marginBottom: 4 }}>Guide express</span><span style={{ fontSize: 15, fontWeight: 700 }}>Bien utiliser le simulateur de financement</span></span>
         <span aria-hidden="true" style={{ color: "#A2A8B4", fontSize: 20 }}>{open ? "−" : "+"}</span>
       </button>
       {open && <div style={{ padding: "0 20px 20px", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
         {items.map(([title, text]) => <div key={title} style={{ paddingTop: 16 }}><h3 style={{ fontSize: 13, margin: 0, color: "#fff" }}>{title}</h3><p style={{ color: "#A2A8B4", fontSize: 12, lineHeight: 1.6, margin: "5px 0 0" }}>{text}</p></div>)}
-        <p style={{ margin: "18px 0 0", padding: 12, borderRadius: 9, background: "rgba(15,107,109,0.12)", color: "#F4F5F7", fontSize: 12, lineHeight: 1.55 }}>À retenir : une simulation prépare le dossier ; elle ne remplace ni la validation de l’OPCO, ni la convention, ni les justificatifs.</p>
+        <p style={{ margin: "18px 0 0", padding: 12, borderRadius: 9, background: "rgba(37,71,199,0.12)", color: "#F4F5F7", fontSize: 12, lineHeight: 1.55 }}>À retenir : une simulation prépare le dossier ; elle ne remplace ni la validation de l’OPCO, ni la convention, ni les justificatifs.</p>
       </div>}
     </section>
   );

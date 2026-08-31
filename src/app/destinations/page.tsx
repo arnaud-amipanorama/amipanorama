@@ -33,7 +33,7 @@ const destinations = [
     country: "Espagne",
     tag: "Deuxième pilier · Culture & immersion",
     flag: "🇪🇸",
-    accent: "#0F6B6D",
+    accent: "#2547C7",
     phare: true,
     photo: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
     headline: "L'Andalousie comme terrain de formation.",
@@ -122,7 +122,7 @@ const destinations = [
     country: "Allemagne",
     tag: "Entrepreneuriat & innovation",
     flag: "🇩🇪",
-    accent: "#0F6B6D",
+    accent: "#2547C7",
     photo: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=900&q=80",
     headline: "L'Europe de l'entrepreneuriat et des idées neuves.",
     desc: "Berlin pense autrement. Capitale européenne de la scène startup et de l'innovation ouverte, elle offre aux apprentis une immersion dans un écosystème professionnel non conventionnel. Un programme volontairement orienté terrain et rencontres, moins de salle de cours, plus de fondateurs, d'entreprises et d'idées.",
@@ -173,7 +173,7 @@ const destinations = [
     country: "Corée du Sud",
     tag: "Tech & monde asiatique",
     flag: "🇰🇷",
-    accent: "#0F6B6D",
+    accent: "#2547C7",
     photo: "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=900&q=80",
     headline: "Une fenêtre directe sur l'Asie du XXIe siècle.",
     desc: "Séoul est l'une des métropoles les plus innovantes de la planète. Un séjour en Corée du Sud expose les apprentis à une culture professionnelle radicalement différente : exigence, culture de l'innovation, technologies de rupture. Un programme pour ceux qui veulent comprendre où se construit l'avenir.",
@@ -243,7 +243,7 @@ export default function DestinationsPage() {
             10 destinations.{" "}
             <span style={{
               fontFamily: "var(--font-serif)", fontStyle: "italic",
-              fontWeight: 500, color: "rgba(15,107,109,0.9)",
+              fontWeight: 500, color: "rgba(37,71,199,0.9)",
             }}>Une même exigence.</span>
           </h1>
           <p className="anim-fade-up-3" style={{
@@ -305,7 +305,7 @@ export default function DestinationsPage() {
             <div style={{
               position: "absolute", bottom: "-40px", right: "20%",
               width: 300, height: 250,
-              background: "radial-gradient(ellipse, rgba(15,107,109,0.2) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse, rgba(37,71,199,0.2) 0%, transparent 70%)",
               pointerEvents: "none",
             }} />
             <div className="section-label-light" style={{ justifyContent: "center" }}>Une destination vous intéresse ?</div>

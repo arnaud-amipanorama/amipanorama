@@ -33,7 +33,7 @@ const C = {
   light: "#9AA0AA",
   line: "#E6E7EB",
   soft: "#F6F6F8",
-  orange: "#0F6B6D",
+  orange: "#2547C7",
   blue: "#3B68D6",
   green: "#1FA97A",
   amber: "#E0A52E",

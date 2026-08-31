@@ -24,8 +24,8 @@ const T = {
   text: "#F4F5F7",
   muted: "#A2A8B4",
   faint: "#6B7280",
-  orange: "#0F6B6D",
-  orangeSoft: "rgba(15,107,109,0.14)",
+  orange: "#2547C7",
+  orangeSoft: "rgba(37,71,199,0.14)",
   blue: "#5B8DEF",
   teal: "#2DD4BF",
   green: "#34D399",
@@ -213,7 +213,7 @@ export default function SimulatorApp() {
   if (view === "hero") {
     return (
       <div style={{ background: T.bg, color: T.text, minHeight: "100svh", fontFamily: "var(--font-manrope, system-ui, sans-serif)", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 70% 50% at 50% -10%, rgba(15,107,109,0.16), transparent 60%)" }} />
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 70% 50% at 50% -10%, rgba(37,71,199,0.16), transparent 60%)" }} />
         <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 50% 40% at 80% 110%, rgba(91,141,239,0.10), transparent 60%)" }} />
         <div style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "clamp(64px,12vh,140px) 24px 80px", textAlign: "center" }}>
           <motion.img src="/Assets/Brand/ami-logo-white.png" alt="AMI Panorama"
@@ -252,7 +252,7 @@ export default function SimulatorApp() {
   // ════════════════════════ APP ════════════════════════
   return (
     <div style={{ background: T.bg, color: T.text, minHeight: "100svh", fontFamily: "var(--font-manrope, system-ui, sans-serif)" }}>
-      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 60% 35% at 70% -5%, rgba(15,107,109,0.10), transparent 60%)" }} />
+      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 60% 35% at 70% -5%, rgba(37,71,199,0.10), transparent 60%)" }} />
       <div style={{ position: "relative", maxWidth: 1180, margin: "0 auto", padding: "28px 24px 96px" }}>
         {/* Top bar */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28 }}>
@@ -374,8 +374,8 @@ export default function SimulatorApp() {
             </div>
 
             {/* Carte « À savoir » */}
-            <div style={{ ...panelStyle, background: T.orangeSoft, border: "1px solid rgba(15,107,109,0.22)", padding: 16, display: "flex", gap: 12 }}>
-              <span style={{ width: 22, height: 22, borderRadius: 6, background: "rgba(15,107,109,0.18)", color: T.orange, fontWeight: 700, fontSize: 13, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>i</span>
+            <div style={{ ...panelStyle, background: T.orangeSoft, border: "1px solid rgba(37,71,199,0.22)", padding: 16, display: "flex", gap: 12 }}>
+              <span style={{ width: 22, height: 22, borderRadius: 6, background: "rgba(37,71,199,0.18)", color: T.orange, fontWeight: 700, fontSize: 13, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>i</span>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4 }}>À savoir</div>
                 <p style={{ fontSize: 12, color: T.muted, lineHeight: 1.55, margin: 0 }}>
@@ -390,7 +390,7 @@ export default function SimulatorApp() {
             {/* KPI principal */}
             <motion.div key={Math.round(result.racAvg)} initial={{ opacity: 0.4, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
               data-sim-tour="results"
-              style={{ ...panelStyle, background: "linear-gradient(160deg, rgba(15,107,109,0.10), rgba(255,255,255,0.02))", border: `1px solid ${T.borderStrong}`, padding: "32px 30px", position: "relative", overflow: "hidden" }}>
+              style={{ ...panelStyle, background: "linear-gradient(160deg, rgba(37,71,199,0.10), rgba(255,255,255,0.02))", border: `1px solid ${T.borderStrong}`, padding: "32px 30px", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 3, background: T.orange }} />
               <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: T.muted }}>Reste à charge moyen étudiant</div>
               <div style={{ fontSize: "clamp(48px,8vw,84px)", fontWeight: 800, letterSpacing: "-0.05em", lineHeight: 1, color: T.white, margin: "6px 0 4px" }}>{eur(result.racAvg)}</div>
@@ -583,7 +583,7 @@ function Step({ n, title, right, children }: { n: number; title: string; right?:
   );
 }
 function StepBadge({ n }: { n: number }) {
-  return <span style={{ width: 24, height: 24, borderRadius: 7, background: T.orangeSoft, border: `1px solid rgba(15,107,109,0.3)`, color: T.orange, fontSize: 12, fontWeight: 700, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>{n}</span>;
+  return <span style={{ width: 24, height: 24, borderRadius: 7, background: T.orangeSoft, border: `1px solid rgba(37,71,199,0.3)`, color: T.orange, fontSize: 12, fontWeight: 700, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>{n}</span>;
 }
 function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (

@@ -185,7 +185,7 @@ export default function HomePage() {
           position: "absolute", top: 12, left: 12, zIndex: 2,
           fontSize: 9, fontWeight: 600, letterSpacing: "0.1em",
           textTransform: "uppercase", color: "#fff",
-          background: "rgba(15,107,109,0.92)", borderRadius: 100,
+          background: "rgba(37,71,199,0.92)", borderRadius: 100,
           padding: "4px 10px",
         }}>Destination phare</div>
       )}
@@ -244,7 +244,7 @@ export default function HomePage() {
                 à celles et ceux qui<br />
                 <span className="hero-gradient-anim" style={{
                   color: "transparent",
-                  background: "linear-gradient(120deg, #0B1829 0%, #0F6B6D 100%)",
+                  background: "linear-gradient(120deg, #0B1829 0%, #2547C7 100%)",
                   WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
                 }}>le construiront demain.</span>
               </span>
@@ -424,7 +424,7 @@ export default function HomePage() {
                 position: "absolute", top: -16, left: -16,
                 background: "var(--coral)", borderRadius: 10,
                 padding: "12px 18px",
-                boxShadow: "0 4px 20px rgba(15,107,109,0.35)",
+                boxShadow: "0 4px 20px rgba(37,71,199,0.35)",
               }}>
                 <div style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", letterSpacing: "0.06em" }}>Encadrement</div>
                 <div style={{ fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: "-0.02em" }}>24h / 7j</div>
@@ -681,7 +681,7 @@ export default function HomePage() {
               }} />
               <div style={{
                 fontSize: 56, lineHeight: 0.8, marginBottom: 28,
-                fontFamily: "Georgia, serif", color: "rgba(15,107,109,0.4)",
+                fontFamily: "Georgia, serif", color: "rgba(37,71,199,0.4)",
                 position: "relative",
               }}>&ldquo;</div>
               <blockquote style={{
@@ -749,7 +749,7 @@ export default function HomePage() {
             <div style={{
               position: "absolute", bottom: "-60px", right: "10%",
               width: 380, height: 300,
-              background: "radial-gradient(ellipse, rgba(15,107,109,0.22) 0%, transparent 65%)",
+              background: "radial-gradient(ellipse, rgba(37,71,199,0.22) 0%, transparent 65%)",
               pointerEvents: "none",
             }} />
             <div className="section-label-light" style={{ justifyContent: "center" }}>

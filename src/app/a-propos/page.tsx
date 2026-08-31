@@ -17,7 +17,7 @@ const values = [
   {
     num: "02",
     title: "Simplicité pour vous",
-    accent: "#0F6B6D",
+    accent: "#2547C7",
     desc: "Votre rôle est de rester le référent pédagogique de votre groupe. Le nôtre est d'organiser ce qui entoure le séjour, logistique, encadrement terrain, démarches administratives et structuration du projet de financement.",
   },
   {
@@ -29,7 +29,7 @@ const values = [
   {
     num: "04",
     title: "Partenariat durable",
-    accent: "#0F6B6D",
+    accent: "#2547C7",
     desc: "Nous construisons des relations à long terme avec les établissements qui nous font confiance. 50 organismes travaillent avec nous depuis plusieurs années, et la majorité repart chaque saison.",
   },
 ];
@@ -105,7 +105,7 @@ export default function AProposPage() {
             L&apos;ouverture internationale{" "}
             <span style={{
               fontFamily: "var(--font-serif)", fontStyle: "italic",
-              fontWeight: 500, color: "rgba(15,107,109,0.9)",
+              fontWeight: 500, color: "rgba(37,71,199,0.9)",
             }}>ne devrait pas être réservée à certains parcours.</span>
           </h1>
           <p className="anim-fade-up-3" style={{
@@ -174,10 +174,10 @@ export default function AProposPage() {
             }}>
               <div style={{
                 position: "absolute", inset: 0,
-                background: "radial-gradient(ellipse at top right, rgba(15,107,109,0.14) 0%, transparent 65%)",
+                background: "radial-gradient(ellipse at top right, rgba(37,71,199,0.14) 0%, transparent 65%)",
                 pointerEvents: "none",
               }} />
-              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(15,107,109,0.8)", marginBottom: 16, position: "relative" }}>CFA · Formations en alternance</div>
+              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(37,71,199,0.8)", marginBottom: 16, position: "relative" }}>CFA · Formations en alternance</div>
               <h3 style={{
                 fontSize: "clamp(16px, 2vw, 21px)", fontWeight: 700,
                 letterSpacing: "-0.03em", lineHeight: 1.3, marginBottom: 20,
@@ -382,7 +382,7 @@ export default function AProposPage() {
             <div style={{ position: "relative" }}>
               <div style={{
                 fontSize: 60, lineHeight: 0.8, marginBottom: 24,
-                fontFamily: "Georgia, serif", color: "rgba(15,107,109,0.5)",
+                fontFamily: "Georgia, serif", color: "rgba(37,71,199,0.5)",
               }}>&ldquo;</div>
               <blockquote style={{
                 fontSize: "clamp(17px, 2.2vw, 22px)", fontWeight: 500,

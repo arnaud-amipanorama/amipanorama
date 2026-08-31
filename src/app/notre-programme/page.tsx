@@ -17,7 +17,7 @@ const whyItems = [
   {
     num: "02",
     title: "Cohésion de promotion",
-    accent: "#0F6B6D",
+    accent: "#2547C7",
     desc: "Un séjour à l'étranger crée des liens entre étudiants que plusieurs années de cours ne recréent pas. Ces liens renforcent l'engagement, réduisent l'abandon et construisent un sentiment d'appartenance durable.",
   },
   {
@@ -29,7 +29,7 @@ const whyItems = [
   {
     num: "04",
     title: "Valeur du parcours étudiant",
-    accent: "#0F6B6D",
+    accent: "#2547C7",
     desc: "Les participants qui vivent une expérience internationale en ressortent avec une vision plus large et une confiance renforcée. Ils valorisent mieux leur formation, et ils en parlent autour d'eux.",
   },
 ];
@@ -95,7 +95,7 @@ const components = [
     num: "02",
     title: "Visites d'entreprise",
     sub: "Immersion professionnelle réelle",
-    accent: "#0F6B6D",
+    accent: "#2547C7",
     desc: "Vos apprentis ne visitent pas des vitrines, ils entrent dans les coulisses d'entreprises locales sélectionnées pour leur pertinence sectorielle. Échanges avec des professionnels, découverte des pratiques de travail locales, comparaison avec le marché français.",
     details: [
       "Sélection d'entreprises alignées avec les filières de votre CFA",
@@ -121,7 +121,7 @@ const components = [
     num: "04",
     title: "Hébergement encadré",
     sub: "Logement sécurisé, durée selon le format",
-    accent: "#0F6B6D",
+    accent: "#2547C7",
     desc: "Nous sélectionnons des établissements qui combinent confort, sécurité et cadre propice à la vie de groupe. Chaque hébergement est testé et validé par notre équipe terrain avant d'être intégré à nos programmes.",
     details: [
       "Petits-déjeuners complets inclus chaque matin",
@@ -147,7 +147,7 @@ const components = [
     num: "06",
     title: "Assurances complètes",
     sub: "Couverture totale pendant le séjour",
-    accent: "#0F6B6D",
+    accent: "#2547C7",
     desc: "La sécurité de vos participants est une priorité absolue. Notre couverture assurance est parmi les plus complètes du marché, avec une assistance rapatriement disponible 24h/24.",
     details: [
       "Assistance-rapatriement disponible 24h/24, 7j/7",
@@ -497,7 +497,7 @@ export default function NotreProgrammePage() {
             <div style={{
               position: "absolute", bottom: "-40px", right: "20%",
               width: 350, height: 250,
-              background: "radial-gradient(ellipse, rgba(15,107,109,0.22) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse, rgba(37,71,199,0.22) 0%, transparent 70%)",
               pointerEvents: "none",
             }} />
             <div className="section-label-light" style={{ justifyContent: "center" }}>Construisons votre programme</div>

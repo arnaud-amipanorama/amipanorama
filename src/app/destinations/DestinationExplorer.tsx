@@ -176,7 +176,7 @@ export default function DestinationExplorer({ destinations }: { destinations: De
                   </div>
                   <div style={{ position: "absolute", top: 20, right: 20, fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", color: "rgba(255,255,255,0.35)" }}>0{i + 1}</div>
                   {phare && (
-                    <div style={{ position: "absolute", top: 18, left: 28, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff", background: "rgba(15,107,109,0.92)", borderRadius: 100, padding: "4px 12px" }}>Destination phare</div>
+                    <div style={{ position: "absolute", top: 18, left: 28, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff", background: "rgba(37,71,199,0.92)", borderRadius: 100, padding: "4px 12px" }}>Destination phare</div>
                   )}
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }} className="dest-card-body">
@@ -248,7 +248,7 @@ export default function DestinationExplorer({ destinations }: { destinations: De
                   <div style={{ fontSize: 30, fontWeight: 700, letterSpacing: "-0.04em", color: "#fff", lineHeight: 1 }}>{active.city}</div>
                 </div>
                 {active.phare && (
-                  <div style={{ position: "absolute", top: 16, left: 18, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff", background: "rgba(15,107,109,0.92)", borderRadius: 100, padding: "4px 12px" }}>Destination phare</div>
+                  <div style={{ position: "absolute", top: 16, left: 18, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff", background: "rgba(37,71,199,0.92)", borderRadius: 100, padding: "4px 12px" }}>Destination phare</div>
                 )}
                 {hasGroup && (
                   <div style={{ position: "absolute", bottom: 18, right: 18, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)", background: "rgba(11,24,41,0.42)", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 100, padding: "5px 12px", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)" }}>Photos du groupe</div>

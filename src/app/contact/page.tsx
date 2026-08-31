@@ -281,7 +281,7 @@ export default function ContactPage() {
               }}>
                 <div style={{
                   position: "absolute", inset: 0, pointerEvents: "none",
-                  background: "radial-gradient(ellipse at top right, rgba(15,107,109,0.18) 0%, transparent 65%)",
+                  background: "radial-gradient(ellipse at top right, rgba(37,71,199,0.18) 0%, transparent 65%)",
                 }} />
                 <h3 style={{ fontSize: 15, fontWeight: 600, color: "#fff", marginBottom: 8, position: "relative" }}>
                   Préférez un échange direct ?
@@ -341,7 +341,7 @@ export default function ContactPage() {
               </div>
 
               <div style={{
-                background: "rgba(15,107,109,0.06)", border: "1px solid rgba(15,107,109,0.18)",
+                background: "rgba(37,71,199,0.06)", border: "1px solid rgba(37,71,199,0.18)",
                 borderRadius: 16, padding: "28px",
               }}>
                 <div style={{ fontSize: 20, marginBottom: 12 }}>✦</div>

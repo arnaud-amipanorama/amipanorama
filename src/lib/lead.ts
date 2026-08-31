@@ -83,7 +83,7 @@ export function leadToEmailHtml(lead: Lead): string {
 
   return `<!doctype html><html><body style="margin:0;background:#F8F6F1;font-family:Arial,Helvetica,sans-serif">
     <div style="max-width:560px;margin:0 auto;padding:32px 24px">
-      <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#0F6B6D;font-weight:700;margin-bottom:6px">Nouveau lead · AMI Panorama</div>
+      <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#2547C7;font-weight:700;margin-bottom:6px">Nouveau lead · AMI Panorama</div>
       <h1 style="font-size:20px;color:#0B1829;margin:0 0 4px">${escapeHtml(lead.prenom)} ${escapeHtml(lead.nom)}</h1>
       <div style="font-size:13px;color:#8A9BB0;margin-bottom:20px">${escapeHtml(lead.source)} · ${new Date(lead.date).toLocaleString("fr-FR")}</div>
       <div style="background:#fff;border:1px solid rgba(11,24,41,0.09);border-radius:12px;padding:20px 22px">
@@ -126,7 +126,7 @@ export function leadToConfirmationHtml(lead: Lead, bookingUrl: string): string {
 
   return `<!doctype html><html lang="fr"><body style="margin:0;background:#F8F6F1;font-family:Arial,Helvetica,sans-serif">
     <div style="max-width:560px;margin:0 auto;padding:32px 24px">
-      <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#0F6B6D;font-weight:700;margin-bottom:18px">AMI Panorama</div>
+      <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#2547C7;font-weight:700;margin-bottom:18px">AMI Panorama</div>
 
       <h1 style="font-size:22px;line-height:1.3;color:#0B1829;margin:0 0 16px">Bonjour ${escapeHtml(lead.prenom)}, votre demande est bien arrivée.</h1>
 
@@ -151,7 +151,7 @@ export function leadToConfirmationHtml(lead: Lead, bookingUrl: string): string {
         sans engagement.
       </p>
 
-      <a href="${escapeHtml(bookingUrl)}" style="display:inline-block;background:#0F6B6D;color:#fff;text-decoration:none;font-size:15px;font-weight:bold;padding:14px 28px;border-radius:8px">Réserver un échange</a>
+      <a href="${escapeHtml(bookingUrl)}" style="display:inline-block;background:#2547C7;color:#fff;text-decoration:none;font-size:15px;font-weight:bold;padding:14px 28px;border-radius:8px">Réserver un échange</a>
 
       <div style="margin-top:32px;padding-top:20px;border-top:1px solid rgba(11,24,41,0.09);font-size:13px;line-height:1.7;color:#8A9BB0">
         AMI Panorama, opérateur de mobilité internationale pour les CFA et les établissements de formation.<br />

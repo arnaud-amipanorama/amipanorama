@@ -22,9 +22,9 @@
   --blue-glow:     rgba(30,82,208,0.18);
 
   /* ── Teal accent (CTA, highlights) ── */
-  --coral:         #0F6B6D;
-  --coral-light:   #177C7E;
-  --coral-glow:    rgba(15,107,109,0.18);
+  --coral:         #2547C7;
+  --coral-light:   #3F67E6;
+  --coral-glow:    rgba(37,71,199,0.18);
 
   /* ── Text (on light bg) ── */
   /* Contrastes vérifiés, seuil WCAG AA = 4.5:1.
