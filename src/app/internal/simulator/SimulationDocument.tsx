@@ -169,24 +169,24 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Text style={s.h2}>L&apos;essentiel en un coup d&apos;œil</Text>
         <View style={s.kpiGrid}>
           <View style={s.kpiCard}><View style={[s.kpiInner, { backgroundColor: C.ink, borderColor: C.ink }]}>
-            <Text style={[s.kpiLabel, { color: "#A2A8B4" }]}>Reste à charge moyen étudiant</Text>
+            <Text style={[s.kpiLabel, { color: "#A2A8B4" }]}>À prévoir par étudiant</Text>
             <Text style={[s.kpiValue, { color: "#FFFFFF" }]}>{eur(kpis.racAvg)}</Text>
-            <Text style={[s.kpiSub, { color: "#8A90A0" }]}>après financements et réinjection</Text>
+            <Text style={[s.kpiSub, { color: "#8A90A0" }]}>après les aides estimées</Text>
           </View></View>
           <View style={s.kpiCard}><View style={s.kpiInner}>
-            <Text style={s.kpiLabel}>Financements mobilisables</Text>
+            <Text style={s.kpiLabel}>Aides estimées pour le groupe</Text>
             <Text style={[s.kpiValue, { color: C.green }]}>{eur(kpis.financementsMobilisables)}</Text>
-            <Text style={s.kpiSub}>OPCO apprentis et réinjection</Text>
+            <Text style={s.kpiSub}>financements OPCO et aide mobilisable</Text>
           </View></View>
           <View style={s.kpiCard}><View style={s.kpiInner}>
-            <Text style={s.kpiLabel}>Budget référent affecté au CFA</Text>
-            <Text style={[s.kpiValue, { color: kpis.montantConserve >= 0 ? C.ink : C.orange }]}>{eur(kpis.montantConserve)}</Text>
-            <Text style={s.kpiSub}>coordination et accompagnement à justifier</Text>
+            <Text style={s.kpiLabel}>Solde estimé pour l&apos;établissement</Text>
+            <Text style={[s.kpiValue, { color: kpis.montantConserve >= 0 ? C.ink : C.orange }]}>{kpis.montantConserve > 0 ? "+ " : ""}{eur(kpis.montantConserve)}</Text>
+            <Text style={s.kpiSub}>{kpis.montantConserve > 0 ? "budget disponible pour coordonner le séjour" : "aucun coût estimé pour l’établissement"}</Text>
           </View></View>
           <View style={s.kpiCard}><View style={s.kpiInner}>
-            <Text style={s.kpiLabel}>Coût brut total</Text>
+            <Text style={s.kpiLabel}>Prix total du séjour</Text>
             <Text style={[s.kpiValue, { color: C.ink }]}>{eur(kpis.coutBrut)}</Text>
-            <Text style={s.kpiSub}>{eur(kpis.coutParEtudiant)} par étudiant</Text>
+            <Text style={s.kpiSub}>{eur(kpis.coutParEtudiant)} par étudiant, avant aides</Text>
           </View></View>
         </View>
 

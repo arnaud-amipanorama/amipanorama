@@ -37,10 +37,10 @@ type RowState = { id: string; count: number };
 type ModeKind = "free" | "maxReduction" | "coverSupport" | "targetRac";
 
 const MODES: { kind: ModeKind; label: string; desc: string }[] = [
-  { kind: "free", label: "Optimisation libre", desc: "Vous fixez le montant conservé par accompagnant." },
-  { kind: "maxReduction", label: "Reste à charge minimal", desc: "Affecte le budget référent au reste à charge, dans la limite des dépenses." },
-  { kind: "coverSupport", label: "Couvrir l'accompagnement", desc: "Affecte le budget référent au coût estimé des accompagnants." },
-  { kind: "targetRac", label: "Reste à charge cible", desc: "Le moteur arbitre pour atteindre un objectif." },
+  { kind: "maxReduction", label: "Priorité aux étudiants", desc: "Utilise le budget disponible pour réduire au maximum ce que les étudiants ont à payer." },
+  { kind: "coverSupport", label: "Pour l'accompagnement", desc: "Réserve une part du budget pour coordonner et accompagner le séjour." },
+  { kind: "free", label: "Répartition personnalisée", desc: "Vous choisissez le budget à réserver pour l’accompagnement." },
+  { kind: "targetRac", label: "Objectif par étudiant", desc: "Vous indiquez le montant maximal à laisser à chaque étudiant." },
 ];
 
 const BENEFITS = ["Financements OPCO", "Référent mobilité", "Reste à charge étudiant", "Impact établissement"];
@@ -310,7 +310,7 @@ export default function SimulatorApp() {
   return (
     <div style={{ background: T.bg, color: T.text, minHeight: "100svh", fontFamily: "var(--font-manrope, system-ui, sans-serif)" }}>
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 60% 35% at 70% -5%, rgba(27,61,136,0.10), transparent 60%)" }} />
-      <div style={{ position: "relative", maxWidth: 1180, margin: "0 auto", padding: "28px 24px 96px" }}>
+      <div style={{ position: "relative", maxWidth: 1180, margin: "0 auto", padding: "52px 24px 112px" }}>
         {/* Top bar */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28 }}>
           <button onClick={() => setView("hero")} style={{ ...linkBtn, display: "inline-flex", alignItems: "center", gap: 11 }}>
@@ -359,7 +359,10 @@ export default function SimulatorApp() {
               <button onClick={() => setAdvancedOpen((o) => !o)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 18px", background: "transparent", border: "none", cursor: "pointer", color: T.text }}>
                 <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <StepBadge n={3} />
-                  <span style={{ fontSize: 15, fontWeight: 600 }}>Paramètres avancés</span>
+                  <span style={{ display: "grid", gap: 3, textAlign: "left" }}>
+                    <span style={{ fontSize: 15, fontWeight: 600 }}>Adapter l’estimation</span>
+                    <span style={{ fontSize: 11.5, color: T.faint, fontWeight: 400 }}>Facultatif · les montants sont déjà préremplis</span>
+                  </span>
                 </span>
                 <span style={{ color: T.muted, transform: advancedOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>⌄</span>
               </button>
@@ -367,10 +370,12 @@ export default function SimulatorApp() {
                 {advancedOpen && (
                   <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} style={{ overflow: "hidden" }}>
                     <div style={{ padding: "4px 18px 20px", display: "flex", flexDirection: "column", gap: 16, borderTop: `1px solid ${T.border}` }}>
+                      <p style={{ fontSize: 12, color: T.muted, lineHeight: 1.55, margin: "14px 0 -2px" }}>Modifiez uniquement les informations que vous connaissez. Vous pouvez laisser le reste tel quel.</p>
                       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 14 }}>
-                        <Field label="Billet moyen"><NumInput value={transport} onChange={setTransport} suffix="€" /></Field>
-                        <Field label="Programme / étudiant" hint={`sugg. ${eur(suggestedProgramme)}`}><NumInput value={programme} onChange={setProgramme} suffix="€" /></Field>
+                        <Field label="Billet d’avion / étudiant"><NumInput value={transport} onChange={setTransport} suffix="€" /></Field>
+                        <Field label="Séjour / étudiant" hint={`suggestion : ${eur(suggestedProgramme)}`}><NumInput value={programme} onChange={setProgramme} suffix="€" /></Field>
                       </div>
+                      {(hasAtlas || hasOpcoMobilites || hasAkto || hasEp) && <p style={{ fontSize: 12, fontWeight: 600, color: T.text, margin: "2px 0 -6px" }}>Situations particulières liées aux contrats</p>}
                       {hasAtlas && (
                         <>
                           <Field label="ATLAS, mode de contrat">
@@ -410,7 +415,8 @@ export default function SimulatorApp() {
                         </Field>
                       )}
                       <div>
-                        <Label>Stratégie de réinjection</Label>
+                        <Label>Comment utiliser le budget de coordination</Label>
+                        <p style={{ fontSize: 11.5, color: T.faint, lineHeight: 1.5, margin: "-3px 0 0" }}>Choisissez si ce budget doit rester disponible pour le CFA ou aider davantage les étudiants.</p>
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 8 }}>
                           {MODES.map((m) => (
                             <button key={m.kind} onClick={() => setMode(m.kind)} title={m.desc} style={{
@@ -426,17 +432,17 @@ export default function SimulatorApp() {
                       {(mode === "free" || mode === "coverSupport") && (
                         <div>
                           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                            <Label>{mode === "coverSupport" ? "Budget / accompagnant" : "Budget référent affecté / accompagnant"}</Label>
+                            <Label>{mode === "coverSupport" ? "Budget prévu par accompagnant" : "Budget réservé par accompagnant"}</Label>
                             <span style={{ fontSize: 13.5, fontWeight: 700, color: T.orange }}>{eur(keptPerAccompagnant)}</span>
                           </div>
                           <input type="range" min={0} max={3000} step={50} value={keptPerAccompagnant} onChange={(e) => setKeptPerAccompagnant(Number(e.target.value))} style={{ width: "100%", accentColor: T.orange }} />
                           <p style={{ fontSize: 11.5, color: T.faint, marginTop: 8, lineHeight: 1.5 }}>
-                            {accompagnants} accompagnant·s → budget estimé {eur(keptPerAccompagnant * accompagnants)}. Il est plafonné au forfait référent réellement disponible ; le reliquat peut réduire le reste à charge étudiant.
+                            Pour {accompagnants} accompagnant·s, cela représente {eur(keptPerAccompagnant * accompagnants)} pour préparer et suivre le séjour. Le budget restant sert à réduire ce que les étudiants ont à payer.
                           </p>
                         </div>
                       )}
                       {mode === "targetRac" && (
-                        <Field label="Reste à charge étudiant visé"><NumInput value={targetRac} onChange={setTargetRac} suffix="€" /></Field>
+                        <Field label="Montant visé par étudiant"><NumInput value={targetRac} onChange={setTargetRac} suffix="€" /></Field>
                       )}
                     </div>
                   </motion.div>
@@ -463,16 +469,16 @@ export default function SimulatorApp() {
               data-sim-tour="results"
               style={{ ...panelStyle, background: "linear-gradient(160deg, rgba(27,61,136,0.10), rgba(255,255,255,0.02))", border: `1px solid ${T.borderStrong}`, padding: "32px 30px", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 3, background: T.orange }} />
-              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: T.muted }}>Reste à charge moyen étudiant</div>
+              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: T.muted }}>À prévoir par étudiant</div>
               <div style={{ fontSize: "clamp(48px,8vw,84px)", fontWeight: 800, letterSpacing: "-0.05em", lineHeight: 1, color: T.white, margin: "6px 0 4px" }}>{eur(result.racAvg)}</div>
-              <div style={{ fontSize: 14, color: T.muted }}>{result.totalStudents} étudiants · {destination || "Non renseignée"} · {nights + 1} jours</div>
+              <div style={{ fontSize: 14, color: T.muted }}>Après les aides estimées · {result.totalStudents} étudiants · {destination || "Non renseignée"} · {nights + 1} jours</div>
             </motion.div>
 
             {/* KPI secondaires */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12 }} className="sim-kpis">
-              <Kpi label="Réduction estimée du reste à charge" value={eur(financementsMobilisables)} accent={T.green} />
-              <Kpi label="Budget référent affecté" value={eur(result.schoolImpact)} accent={T.teal} />
-              <Kpi label="Coût brut" value={eur(result.totalCostAll)} sub={`${eur(result.totalCostPerStudent)} / étud.`} />
+              <Kpi label="Aides estimées pour le groupe" value={eur(financementsMobilisables)} sub="financements OPCO et aide mobilisable" accent={T.green} />
+              <Kpi label="Solde estimé pour l’établissement" value={result.schoolImpact > 0 ? `+ ${eur(result.schoolImpact)}` : "0 €"} sub={result.schoolImpact > 0 ? "budget disponible pour coordonner le séjour" : "aucun coût estimé pour l’établissement"} accent={T.teal} />
+              <Kpi label="Prix total du séjour" value={eur(result.totalCostAll)} sub={`${eur(result.totalCostPerStudent)} par étudiant, avant aides`} />
             </div>
 
             {/* Indicateur de fiabilité */}
@@ -482,22 +488,22 @@ export default function SimulatorApp() {
                 <div style={{ fontSize: 13, fontWeight: 600 }}>{confidence.label}</div>
                 <div style={{ fontSize: 11.5, color: T.muted }}>{confidence.desc}</div>
               </div>
-              <span style={{ fontSize: 10, color: T.faint }}>Fiabilité</span>
+              <span style={{ fontSize: 10, color: T.faint }}>À confirmer</span>
             </div>
 
             {/* Donut */}
             <div style={{ ...panelStyle, padding: 22, display: "grid", gridTemplateColumns: "180px 1fr", gap: 20, alignItems: "center" }} className="sim-donut">
               <Donut total={result.totalCostAll} segments={[
-                { label: "Financements apprentis", value: result.apprentiTotal, color: T.blue },
-                { label: "Réinjectés pour réduire le RAC", value: result.reinjected, color: T.green },
-                { label: "Reste à charge étudiant", value: Math.max(0, result.racFinalTotal), color: T.orange },
+                { label: "Aides OPCO pour les étudiants", value: result.apprentiTotal, color: T.blue },
+                { label: "Part utilisée pour les étudiants", value: result.reinjected, color: T.green },
+                { label: "À payer par les étudiants", value: Math.max(0, result.racFinalTotal), color: T.orange },
               ]} />
               <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-                <CardLabel>Décomposition du coût</CardLabel>
+                <CardLabel>Comment le séjour est financé</CardLabel>
                 {[
-                  { label: "Financements apprentis", value: result.apprentiTotal, color: T.blue },
-                  { label: "Réinjectés pour réduire le RAC", value: result.reinjected, color: T.green },
-                  { label: "Reste à charge étudiant", value: Math.max(0, result.racFinalTotal), color: T.orange },
+                  { label: "Aides OPCO pour les étudiants", value: result.apprentiTotal, color: T.blue },
+                  { label: "Part utilisée pour les étudiants", value: result.reinjected, color: T.green },
+                  { label: "À payer par les étudiants", value: Math.max(0, result.racFinalTotal), color: T.orange },
                 ].map((s) => (
                   <div key={s.label} style={{ display: "flex", alignItems: "center", gap: 9, fontSize: 12.5 }}>
                     <span style={{ width: 9, height: 9, borderRadius: 3, background: s.color, flexShrink: 0 }} />
@@ -508,15 +514,14 @@ export default function SimulatorApp() {
               </div>
             </div>
 
-            {/* Waterfall */}
-            <div style={{ ...panelStyle, padding: 22 }}>
-              <CardLabel>Du coût brut au reste à charge</CardLabel>
-              <Waterfall steps={[
-                { label: "Coût brut", value: result.totalCostAll, kind: "total" },
-                { label: "− Financements apprentis", value: result.apprentiTotal, kind: "down" },
-                { label: "− Réinjection référent", value: result.reinjected, kind: "down" },
-                { label: "Reste à charge étudiant", value: Math.max(0, result.racFinalTotal), kind: "final" },
-              ]} />
+            <div style={{ ...panelStyle, padding: "18px 20px", background: "rgba(27,61,136,0.08)", borderColor: "rgba(27,61,136,0.22)" }}>
+              <CardLabel>En clair</CardLabel>
+              <p style={{ fontSize: 13, color: T.text, lineHeight: 1.65, margin: "9px 0 0" }}>
+                Pour ce séjour, les aides estimées couvrent {eur(financementsMobilisables)} sur {eur(result.totalCostAll)}. Après répartition, chaque étudiant aurait environ <b>{eur(result.racAvg)}</b> à prévoir.
+              </p>
+              <p style={{ fontSize: 11.5, color: T.muted, lineHeight: 1.55, margin: "8px 0 0" }}>
+                Le solde établissement correspond au budget estimé disponible pour organiser et accompagner le séjour. Il ne remplace pas la validation finale des OPCO.
+              </p>
             </div>
 
             {/* Détail OPCO */}
