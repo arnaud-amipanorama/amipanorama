@@ -60,8 +60,26 @@ export const OPCOS: OpcoConfig[] = [
   },
   {
     id: "afdas", label: "AFDAS",
-    referent: { type: "fixed", amount: 400 }, apprenti: { type: "fixed", amount: 1000 }, status: "to_confirm",
-    notes: "Le montant et les conditions de durée/zone doivent être confirmés sur le barème applicable au contrat avant utilisation commerciale.",
+    referent: {
+      type: "tieredByDays", dayBasis: "calendar",
+      select: { param: "afdasTrainingLevel", default: "postBac", options: ["postBac", "bacOrBelow"] },
+      bands: [
+        { minDays: 0, maxDays: 27, amounts: { postBac: 400, bacOrBelow: 440 } },
+        { minDays: 28, maxDays: 182, amounts: { postBac: 500, bacOrBelow: 550 } },
+        { minDays: 183, maxDays: null, amounts: { postBac: 600, bacOrBelow: 660 } },
+      ],
+    },
+    apprenti: {
+      type: "tieredByDays", dayBasis: "calendar",
+      select: { param: "destinationZone", default: "international", options: ["europe", "international"] },
+      bands: [
+        { minDays: 0, maxDays: 28, amounts: { europe: 1000, international: 1500 } },
+        { minDays: 29, maxDays: null, amounts: { europe: 2000, international: 2500 } },
+      ],
+    },
+    status: "validated",
+    notes: "Forfait par contrat : Europe élargie 1 000 € HT jusqu’à 4 semaines, puis 2 000 € HT ; autres pays 1 500 € HT, puis 2 500 € HT. Référent mobilité : 400 €, 500 € ou 600 € selon la durée, majoré de 10 % pour Bac et infra.",
+    source: { label: "AFDAS, critères de financement du contrat d’apprentissage", url: "https://www.afdas.com/entreprise/financer-vos-actions-de-formation/choisir-le-bon-financement/le-contrat-dapprentissage-criteres-de-financement.html", checkedAt },
   },
   {
     id: "constructys", label: "CONSTRUCTYS",
@@ -167,6 +185,7 @@ export type FundingExplanationInput = {
   destinationZone: "europe" | "international";
   aktoContractMode: "miseADisposition" | "miseEnVeille";
   aktoTrainingLevel: "postBac" | "bacOrBelow";
+  afdasTrainingLevel: "postBac" | "bacOrBelow";
   atlasContractMode: "miseADisposition" | "miseEnVeille";
   epContractMode: "miseADisposition" | "miseEnVeille";
   amount: number;
@@ -195,7 +214,10 @@ export function explainFunding(id: string, input: FundingExplanationInput): { ho
     case "ep":
       return { how: `OPCO EP fonctionne par forfait hebdomadaire : l’estimation est de ${amount} par alternant pour une ${epModeLabel}.`, condition: `Toute semaine commencée compte. Le plafond dépend de la convention : 2 000 € en mise à disposition, 3 000 € en mise en veille.` };
     case "afdas":
-      return { how: `Une estimation provisoire de ${amount} par alternant est affichée.`, condition: "Ne la présentez pas comme acquise : le barème AFDAS, la destination, la durée et le dossier doivent être confirmés avant toute décision." };
+      return {
+        how: `AFDAS prévoit un forfait de ${amount} par alternant pour cette mobilité ${euro ? "en Europe élargie" : "hors Europe"}.`,
+        condition: `Le forfait référent est de ${input.afdasTrainingLevel === "bacOrBelow" ? "majoré de 10 % pour le niveau Bac ou infra. " : "calculé au barème post-bac. "}La mobilité doit figurer au programme de formation, faire l’objet d’une convention spécifique et les justificatifs doivent être conservés.`,
+      };
     case "constructys":
       return { how: `Constructys rembourse les dépenses de mobilité réellement supportées par le CFA, jusqu’à ${amount} par alternant dans cette simulation.`, condition: "Le plafond est de 1 180 € et couvre notamment le voyage, l’hébergement et les repas, sous réserve d’un programme de formation et d’une convention spécifique." };
     case "ocapiat":

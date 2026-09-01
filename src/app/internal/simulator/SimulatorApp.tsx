@@ -83,6 +83,7 @@ export default function SimulatorApp() {
   const [atlasBeforeApril2026, setAtlasBeforeApril2026] = useState(0);
   const [aktoContractMode, setAktoContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
   const [aktoTrainingLevel, setAktoTrainingLevel] = useState<"postBac" | "bacOrBelow">("postBac");
+  const [afdasTrainingLevel, setAfdasTrainingLevel] = useState<"postBac" | "bacOrBelow">("postBac");
   const [epContractMode, setEpContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
   const [opcoMobilitesBefore2026, setOpcoMobilitesBefore2026] = useState(0);
   const [targetRac, setTargetRac] = useState(300);
@@ -150,7 +151,7 @@ export default function SimulatorApp() {
     // catalogue des destinations utilise « europe ». On normalise ici pour ne
     // jamais transformer un financement éligible en 0 €.
     const aktoZone = destinationZone === "europe" ? "euro" : destinationZone;
-    const selections = { atlasContractMode, epContractMode, aktoTrainingLevel, aktoFunding: `${aktoZone}_${aktoContractMode}`, destinationZone };
+    const selections = { atlasContractMode, epContractMode, aktoTrainingLevel, afdasTrainingLevel, aktoFunding: `${aktoZone}_${aktoContractMode}`, destinationZone };
     const base = baseTotals({ stay, rows: rowsConfig, selections });
     const modeObj: OptimizationMode =
       mode === "free"
@@ -174,6 +175,7 @@ export default function SimulatorApp() {
     atlasBeforeApril2026,
     aktoContractMode,
     aktoTrainingLevel,
+    afdasTrainingLevel,
     epContractMode,
     opcoMobilitesBefore2026,
     mode,
@@ -187,6 +189,7 @@ export default function SimulatorApp() {
   const hasAtlas = rows.some((r) => r.id === "atlas");
   const hasOpcoMobilites = rows.some((r) => r.id === "opco_mobilites");
   const hasAkto = rows.some((r) => r.id === "akto");
+  const hasAfdas = rows.some((r) => r.id === "afdas");
   const hasEp = rows.some((r) => r.id === "ep");
   const available = OPCOS.filter((o) => !rows.some((r) => r.id === o.id));
   const financementsMobilisables = result.apprentiTotal + result.reinjected;
@@ -224,7 +227,7 @@ export default function SimulatorApp() {
         confidence,
       },
       opco: result.perOpco.map((o) => {
-        const explanation = explainFunding(o.id, { calendarDays: nights + 1, destinationZone, aktoContractMode, aktoTrainingLevel, atlasContractMode, epContractMode, amount: o.apprentiAmount });
+        const explanation = explainFunding(o.id, { calendarDays: nights + 1, destinationZone, aktoContractMode, aktoTrainingLevel, afdasTrainingLevel, atlasContractMode, epContractMode, amount: o.apprentiAmount });
         return { label: o.label, count: o.count, apprenti: o.apprentiAmount, referent: o.referentAmount, how: explanation.how, condition: explanation.condition, toConfirm: o.status === "to_confirm" };
       }),
     };
@@ -376,7 +379,7 @@ export default function SimulatorApp() {
                         <Field label="Billet d’avion / étudiant"><NumInput value={transport} onChange={setTransport} suffix="€" /></Field>
                         <Field label="Séjour / étudiant" hint={`suggestion : ${eur(suggestedProgramme)}`}><NumInput value={programme} onChange={setProgramme} suffix="€" /></Field>
                       </div>
-                      {(hasAtlas || hasOpcoMobilites || hasAkto || hasEp) && <p style={{ fontSize: 12, fontWeight: 600, color: T.text, margin: "2px 0 -6px" }}>Situations particulières liées aux contrats</p>}
+                      {(hasAtlas || hasOpcoMobilites || hasAkto || hasAfdas || hasEp) && <p style={{ fontSize: 12, fontWeight: 600, color: T.text, margin: "2px 0 -6px" }}>Situations particulières liées aux contrats</p>}
                       {hasAtlas && (
                         <>
                           <Field label="ATLAS, mode de contrat">
@@ -408,6 +411,12 @@ export default function SimulatorApp() {
                               options={[{ v: "postBac", l: "Supérieur au bac" }, { v: "bacOrBelow", l: "Bac ou infra" }]} />
                           </Field>
                         </>
+                      )}
+                      {hasAfdas && (
+                        <Field label="AFDAS, niveau de formation" hint="+10 % sur le forfait référent pour Bac ou infra">
+                          <Toggle value={afdasTrainingLevel} onChange={(v) => setAfdasTrainingLevel(v as "postBac" | "bacOrBelow")}
+                            options={[{ v: "postBac", l: "Supérieur au bac" }, { v: "bacOrBelow", l: "Bac ou infra" }]} />
+                        </Field>
                       )}
                       {hasEp && (
                         <Field label="OPCO EP, type de convention">
@@ -542,7 +551,7 @@ export default function SimulatorApp() {
                         <b style={{ minWidth: 66, textAlign: "right" }}>{eur(o.apprentiAmount)}</b>
                       </div>
                       {(() => {
-                        const explanation = explainFunding(o.id, { calendarDays: nights + 1, destinationZone, aktoContractMode, aktoTrainingLevel, atlasContractMode, epContractMode, amount: o.apprentiAmount });
+                        const explanation = explainFunding(o.id, { calendarDays: nights + 1, destinationZone, aktoContractMode, aktoTrainingLevel, afdasTrainingLevel, atlasContractMode, epContractMode, amount: o.apprentiAmount });
                         return <div style={{ display: "grid", gap: 5, marginTop: 8, padding: "10px 11px", borderRadius: 9, background: "rgba(255,255,255,0.025)" }}>
                           <p style={{ fontSize: 11.5, color: T.text, lineHeight: 1.55, margin: 0 }}><b>Comment ça fonctionne :</b> {explanation.how}</p>
                           <p style={{ fontSize: 10.5, color: o.status === "to_confirm" ? "#E0A52E" : T.muted, lineHeight: 1.5, margin: 0 }}><b>{o.status === "to_confirm" ? "À confirmer :" : "À prévoir :"}</b> {explanation.condition}</p>
