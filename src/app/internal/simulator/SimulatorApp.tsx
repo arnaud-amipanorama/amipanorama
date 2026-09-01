@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { OPCOS, OPCO_BY_ID, SIMULATION_OPCO_BY_ID, LEGACY_OPCOS, COST_DEFAULTS, DESTINATION_TARIFFS, DESTINATION_NAMES, programmeForDestination, OPCO_SECTORS, explainFunding } from "@/lib/simulator/opco-config";
 import {
@@ -47,7 +47,17 @@ const BENEFITS = ["Financements OPCO", "Référent mobilité", "Reste à charge 
 
 export default function SimulatorApp() {
   const [view, setView] = useState<"hero" | "app">("app");
-  const [showOnboarding, setShowOnboarding] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  useEffect(() => {
+    if (window.localStorage.getItem("ami_simulator_onboarding_seen") !== "true") setShowOnboarding(true);
+  }, []);
+
+  const finishOnboarding = () => {
+    window.localStorage.setItem("ami_simulator_onboarding_seen", "true");
+    setShowOnboarding(false);
+    setView("app");
+  };
 
   // Étape 1, le groupe
   const [destination, setDestination] = useState("Montréal");
@@ -612,7 +622,7 @@ export default function SimulatorApp() {
           </motion.div>
         )}
       </AnimatePresence>
-      {showOnboarding && <SimulatorOnboarding onStepChange={(step) => { if (step === 3) setAdvancedOpen(true); }} onComplete={() => { setShowOnboarding(false); setView("app"); }} />}
+      {showOnboarding && <SimulatorOnboarding onStepChange={(step) => { if (step === 3) setAdvancedOpen(true); }} onComplete={finishOnboarding} />}
 
       <style>{`
         @media (max-width: 880px) {

@@ -25,7 +25,7 @@ export default function SimulatorOnboarding({ onComplete, onStepChange }: { onCo
     const target = document.querySelector<HTMLElement>(`[data-sim-tour="${current.target}"]`);
     if (!target) return;
 
-    target.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+    target.scrollIntoView({ behavior: last ? "auto" : "smooth", block: last ? "start" : "center", inline: "nearest" });
     const placeSpotlight = () => {
       const rect = target.getBoundingClientRect();
       const pad = 10;
@@ -33,7 +33,7 @@ export default function SimulatorOnboarding({ onComplete, onStepChange }: { onCo
       const height = Math.min(window.innerHeight - 16, rect.height + pad * 2);
       setSpotlight({ top: Math.max(8, Math.min(rect.top - pad, window.innerHeight - height - 8)), left: Math.max(8, Math.min(rect.left - pad, window.innerWidth - width - 8)), width, height });
     };
-    const timer = window.setTimeout(placeSpotlight, 360);
+    const timer = window.setTimeout(placeSpotlight, last ? 80 : 360);
     window.addEventListener("resize", placeSpotlight);
     return () => { window.clearTimeout(timer); window.removeEventListener("resize", placeSpotlight); };
   }, [current.target, step]);
@@ -50,10 +50,13 @@ export default function SimulatorOnboarding({ onComplete, onStepChange }: { onCo
         style={{ position: "fixed", borderRadius: 17, border: "2px solid #1B3D88", boxShadow: "0 0 0 6px rgba(27,61,136,0.18), 0 0 32px rgba(27,61,136,0.42)", pointerEvents: "none" }} />}
       <motion.section initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }}
         role="dialog" aria-modal="true" aria-labelledby="sim-onboarding-title"
-        style={{ position: "fixed", pointerEvents: "auto", right: "clamp(16px, 4vw, 42px)", bottom: "clamp(16px, 4vw, 42px)", width: "min(calc(100% - 32px), 430px)", padding: "24px", borderRadius: 18, background: "#101015", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 24px 80px rgba(0,0,0,0.55)", color: "#F4F5F7" }}>
+        style={{ position: "fixed", pointerEvents: "auto", right: "clamp(16px, 4vw, 42px)", top: last ? "clamp(16px, 4vw, 42px)" : "auto", bottom: last ? "auto" : "clamp(16px, 4vw, 42px)", width: "min(calc(100% - 32px), 430px)", maxHeight: "calc(100vh - 32px)", overflowY: "auto", padding: "24px", borderRadius: 18, background: "#101015", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 24px 80px rgba(0,0,0,0.55)", color: "#F4F5F7" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
           <span style={{ color: "#1B3D88", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.14em" }}>PRISE EN MAIN GUIDÉE</span>
-          <span style={{ color: "#A2A8B4", fontSize: 12 }}>{step + 1} / {steps.length}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <button type="button" onClick={onComplete} style={{ border: 0, padding: 0, background: "transparent", color: "#A2A8B4", cursor: "pointer", fontSize: 12 }}>Passer le tutoriel</button>
+            <span style={{ color: "#A2A8B4", fontSize: 12 }}>{step + 1} / {steps.length}</span>
+          </div>
         </div>
         <motion.div key={current.number} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.18 }}>
           <div style={{ color: "#1B3D88", fontSize: 29, fontWeight: 800, letterSpacing: "-0.05em", lineHeight: 1 }}>{current.number}</div>
