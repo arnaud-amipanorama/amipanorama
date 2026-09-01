@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { accessCookie, readAccessCookie, recordSimulatorEvent } from "@/lib/simulator-access";
 
 // Capture de simulation (V1) : trace serveur + webhook optionnel.
 // Structure prête pour Notion / HubSpot / Postgres (à brancher en S5).
@@ -25,6 +27,22 @@ export async function POST(request: NextRequest) {
       if (!res.ok) console.error("[AMI Simulation] Webhook error:", res.status);
     } catch (err) {
       console.error("[AMI Simulation] Webhook error:", err);
+    }
+  }
+
+  // Historique d'utilisation du simulateur, rattaché uniquement à un accès
+  // déjà vérifié. L'échec de cette trace ne bloque jamais le téléchargement.
+  const jar = await cookies();
+  const email = readAccessCookie(jar.get(accessCookie.name)?.value);
+  if (email) {
+    try {
+      await recordSimulatorEvent(email, {
+        destination: data.meta && typeof data.meta === "object" ? (data.meta as Record<string, unknown>).destination : undefined,
+        students: data.meta && typeof data.meta === "object" ? (data.meta as Record<string, unknown>).students : undefined,
+        generatedAt: new Date().toISOString(),
+      });
+    } catch (err) {
+      console.error("[AMI Simulation] Access tracking error:", err);
     }
   }
 

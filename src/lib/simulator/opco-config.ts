@@ -103,6 +103,47 @@ export const OPCOS: OpcoConfig[] = [
 
 export const OPCO_BY_ID: Record<string, OpcoConfig> = Object.fromEntries(OPCOS.map((o) => [o.id, o]));
 
+/**
+ * Barèmes conservés pour les contrats conclus avant une évolution officielle.
+ * Ils ne sont pas proposés comme OPCO séparés dans l'interface : le simulateur
+ * les applique uniquement à la part historique indiquée dans les paramètres.
+ */
+export const LEGACY_OPCOS = {
+  atlasBeforeApril2026: {
+    id: "atlas_before_202604",
+    label: "ATLAS · contrats signés avant le 1er avril 2026",
+    referent: { type: "fixed", amount: 500 },
+    apprenti: {
+      type: "tieredByDays",
+      dayBasis: "calendar",
+      select: { param: "atlasContractMode", default: "miseADisposition", options: ["miseADisposition", "miseEnVeille"] },
+      bands: [{ minDays: 0, maxDays: null, amounts: { miseADisposition: 1800, miseEnVeille: 2500 } }],
+    },
+    status: "validated",
+    notes: "Barème antérieur : aucun minimum de 15 jours appliqué dans cette simulation.",
+    source: { label: "Atlas, mobilité internationale", url: "https://www.opco-atlas.fr/mobilite-europeenne-internationale-alternants.html", checkedAt },
+  },
+  opcoMobilitesBefore2026: {
+    id: "opco_mobilites_before_202601",
+    label: "OPCO Mobilités · contrats signés avant le 1er janvier 2026",
+    referent: {
+      type: "tieredByDays",
+      dayBasis: "calendar",
+      select: { param: "destinationZone", default: "international", options: ["europe", "international"] },
+      bands: [{ minDays: 0, maxDays: null, amounts: { europe: 1200, international: 1500 } }],
+    },
+    apprenti: { type: "fixed", amount: 0 },
+    status: "validated",
+    notes: "Barème antérieur : forfait versé au CFA pour les frais de mobilité, sans ventilation apprenti séparée.",
+    source: { label: "OPCO Mobilités, procédure de facturation", url: "https://www.opcomobilites.fr/fileadmin/user_upload/documentation/cfa/Procedure_facturation_des_contrats_d_apprentissage_OPCO_Mobilites__mars_2021.pdf", checkedAt },
+  },
+} satisfies Record<string, OpcoConfig>;
+
+export const SIMULATION_OPCO_BY_ID: Record<string, OpcoConfig> = {
+  ...OPCO_BY_ID,
+  ...Object.fromEntries(Object.values(LEGACY_OPCOS).map((o) => [o.id, o])),
+};
+
 export const COST_DEFAULTS = { programmeBase: 989, programmePerExtraNight: 60, referenceNights: 7, transportDefault: 250, keptPerAccompagnant: 1750 };
 export function programmeCostForNights(nights: number): number { return COST_DEFAULTS.programmeBase + Math.max(0, nights - COST_DEFAULTS.referenceNights) * COST_DEFAULTS.programmePerExtraNight; }
 
@@ -147,6 +188,8 @@ export function explainFunding(id: string, input: FundingExplanationInput): { ho
     case "atlas":
       if (input.calendarDays < 15) return { how: "ATLAS ne prévoit pas de financement apprenti pour ce format : la mobilité doit durer au minimum 15 jours calendaires.", condition: "Le forfait référent mobilité de 500 € par alternant reste à traiter selon le dossier. Une convention signée est nécessaire avant le départ." };
       return { how: `ATLAS prévoit un forfait de ${amount} par alternant pour une mobilité de ${input.calendarDays} jours en ${atlasModeLabel}.`, condition: "Le contrat doit relever des règles applicables depuis le 1er avril 2026 ; convention de mobilité et justificatifs à conserver." };
+    case "atlas_before_202604":
+      return { how: `ATLAS prévoit le barème antérieur de ${amount} par alternant en ${atlasModeLabel}.`, condition: "Cette ligne concerne uniquement les contrats signés avant le 1er avril 2026. Le minimum de 15 jours des règles 2026 ne lui est pas appliqué." };
     case "opcommerce":
       return { how: "Aucun financement apprenti n’est retenu dans cette simulation.", condition: "Le barème applicable doit être confirmé avec le conseiller OPCOMMERCE avant de compter sur une prise en charge." };
     case "ep":
@@ -159,6 +202,8 @@ export function explainFunding(id: string, input: FundingExplanationInput): { ho
       return { how: `OCAPIAT rembourse les dépenses réellement supportées par le CFA ; l’estimation affichée est de ${amount} par alternant.`, condition: "Prévoir les dépenses dans la convention, conserver les factures et vérifier le transport autorisé. Le forfait référent est de 500 € par alternant." };
     case "opco_mobilites":
       return { how: `OPCO Mobilités rembourse les frais de transport, d’hébergement et de restauration supportés par le CFA, jusqu’à ${amount} par alternant.`, condition: `Plafond appliqué : ${euro ? "1 500 € HT en Europe" : "2 000 € HT à l’international"}. Une mobilité par alternant et par contrat ; convention signée requise.` };
+    case "opco_mobilites_before_202601":
+      return { how: `Pour ces contrats, le forfait de mobilité est intégré au financement CFA, et non affiché comme un financement apprenti distinct.`, condition: `Cette ligne concerne uniquement les contrats signés avant le 1er janvier 2026 : ${euro ? "1 200 € en Europe" : "1 500 € à l’international"} sont comptés dans le forfait référent.` };
     case "cnfpt":
       return { how: "Aucun financement n’est calculé : le CNFPT n’est pas un OPCO dans ce simulateur.", condition: "Le projet doit être étudié via les dispositifs propres à la fonction publique territoriale." };
     case "uniformation":

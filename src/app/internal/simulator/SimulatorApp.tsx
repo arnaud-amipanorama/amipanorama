@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { OPCOS, OPCO_BY_ID, COST_DEFAULTS, DESTINATION_TARIFFS, DESTINATION_NAMES, programmeForDestination, OPCO_SECTORS, explainFunding } from "@/lib/simulator/opco-config";
+import { OPCOS, OPCO_BY_ID, SIMULATION_OPCO_BY_ID, LEGACY_OPCOS, COST_DEFAULTS, DESTINATION_TARIFFS, DESTINATION_NAMES, programmeForDestination, OPCO_SECTORS, explainFunding } from "@/lib/simulator/opco-config";
 import {
   computeSimulation,
   baseTotals,
@@ -69,9 +69,11 @@ export default function SimulatorApp() {
   const [mode, setMode] = useState<ModeKind>("free");
   const [keptPerAccompagnant, setKeptPerAccompagnant] = useState(COST_DEFAULTS.keptPerAccompagnant);
   const [atlasContractMode, setAtlasContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
+  const [atlasBeforeApril2026, setAtlasBeforeApril2026] = useState(0);
   const [aktoContractMode, setAktoContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
   const [aktoTrainingLevel, setAktoTrainingLevel] = useState<"postBac" | "bacOrBelow">("postBac");
   const [epContractMode, setEpContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
+  const [opcoMobilitesBefore2026, setOpcoMobilitesBefore2026] = useState(0);
   const [targetRac, setTargetRac] = useState(300);
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
@@ -108,12 +110,36 @@ export default function SimulatorApp() {
   };
 
   const result = useMemo(() => {
-    const rowsConfig = rows
-      .filter((r) => OPCO_BY_ID[r.id])
-      .map((r) => ({ config: OPCO_BY_ID[r.id], count: Math.max(0, r.count) }));
+    const rowsConfig = rows.flatMap((r) => {
+      const config = OPCO_BY_ID[r.id];
+      const count = Math.max(0, r.count);
+      if (!config) return [];
+
+      if (r.id === "atlas") {
+        const beforeChange = Math.min(count, Math.max(0, atlasBeforeApril2026));
+        return [
+          { config: LEGACY_OPCOS.atlasBeforeApril2026, count: beforeChange },
+          { config, count: count - beforeChange },
+        ].filter((line) => line.count > 0);
+      }
+
+      if (r.id === "opco_mobilites") {
+        const beforeChange = Math.min(count, Math.max(0, opcoMobilitesBefore2026));
+        return [
+          { config: LEGACY_OPCOS.opcoMobilitesBefore2026, count: beforeChange },
+          { config, count: count - beforeChange },
+        ].filter((line) => line.count > 0);
+      }
+
+      return [{ config, count }];
+    });
     const stay = { nights, programmeCost: programme, transportCost: transport, accommodationCost: eligibleAccommodation, mealsCost: eligibleMeals };
     const destinationZone = DESTINATION_TARIFFS[destination]?.zone ?? "international";
-    const selections = { atlasContractMode, epContractMode, aktoTrainingLevel, aktoFunding: `${destinationZone}_${aktoContractMode}`, destinationZone };
+    // AKTO appelle cette zone « euro » dans son barème officiel alors que le
+    // catalogue des destinations utilise « europe ». On normalise ici pour ne
+    // jamais transformer un financement éligible en 0 €.
+    const aktoZone = destinationZone === "europe" ? "euro" : destinationZone;
+    const selections = { atlasContractMode, epContractMode, aktoTrainingLevel, aktoFunding: `${aktoZone}_${aktoContractMode}`, destinationZone };
     const base = baseTotals({ stay, rows: rowsConfig, selections });
     const modeObj: OptimizationMode =
       mode === "free"
@@ -125,11 +151,30 @@ export default function SimulatorApp() {
         : { kind: mode };
     const keptTotal = resolveKeptTotal(modeObj, base);
     return computeSimulation({ stay, rows: rowsConfig, keptTotal, selections });
-  }, [rows, nights, programme, transport, atlasContractMode, mode, keptPerAccompagnant, accompagnants, targetRac]);
+  }, [
+    rows,
+    destination,
+    nights,
+    programme,
+    transport,
+    eligibleAccommodation,
+    eligibleMeals,
+    atlasContractMode,
+    atlasBeforeApril2026,
+    aktoContractMode,
+    aktoTrainingLevel,
+    epContractMode,
+    opcoMobilitesBefore2026,
+    mode,
+    keptPerAccompagnant,
+    accompagnants,
+    targetRac,
+  ]);
 
   const totalAlternants = result.totalStudents;
   const destinationZone = DESTINATION_TARIFFS[destination]?.zone ?? "international";
   const hasAtlas = rows.some((r) => r.id === "atlas");
+  const hasOpcoMobilites = rows.some((r) => r.id === "opco_mobilites");
   const hasAkto = rows.some((r) => r.id === "akto");
   const hasEp = rows.some((r) => r.id === "ep");
   const available = OPCOS.filter((o) => !rows.some((r) => r.id === o.id));
@@ -315,10 +360,24 @@ export default function SimulatorApp() {
                         <Field label="Programme / étudiant" hint={`sugg. ${eur(suggestedProgramme)}`}><NumInput value={programme} onChange={setProgramme} suffix="€" /></Field>
                       </div>
                       {hasAtlas && (
-                        <Field label="ATLAS, mode de contrat">
-                          <Toggle value={atlasContractMode} onChange={(v) => setAtlasContractMode(v as "miseADisposition" | "miseEnVeille")}
-                            options={[{ v: "miseADisposition", l: "Mise à disposition" }, { v: "miseEnVeille", l: "Mise en veille" }]} />
-                        </Field>
+                        <>
+                          <Field label="ATLAS, mode de contrat">
+                            <Toggle value={atlasContractMode} onChange={(v) => setAtlasContractMode(v as "miseADisposition" | "miseEnVeille")}
+                              options={[{ v: "miseADisposition", l: "Mise à disposition" }, { v: "miseEnVeille", l: "Mise en veille" }]} />
+                          </Field>
+                          <Field label="ATLAS, contrats signés avant le 1er avril 2026" hint="barème antérieur">
+                            <NumInput value={atlasBeforeApril2026} onChange={(v) => setAtlasBeforeApril2026(Math.min(v, rows.find((r) => r.id === "atlas")?.count ?? 0))} suffix="contrats" />
+                          </Field>
+                          <p style={{ fontSize: 11.5, color: T.faint, margin: "-8px 0 0", lineHeight: 1.5 }}>Les autres contrats ATLAS suivent les règles depuis le 1er avril 2026, avec un minimum de 15 jours calendaires.</p>
+                        </>
+                      )}
+                      {hasOpcoMobilites && (
+                        <>
+                          <Field label="OPCO Mobilités, contrats signés avant le 1er janvier 2026" hint="barème antérieur">
+                            <NumInput value={opcoMobilitesBefore2026} onChange={(v) => setOpcoMobilitesBefore2026(Math.min(v, rows.find((r) => r.id === "opco_mobilites")?.count ?? 0))} suffix="contrats" />
+                          </Field>
+                          <p style={{ fontSize: 11.5, color: T.faint, margin: "-8px 0 0", lineHeight: 1.5 }}>Les autres contrats suivent les règles 2026. Les anciens contrats conservent le forfait CFA historique selon la zone.</p>
+                        </>
                       )}
                       {hasAkto && (
                         <>
@@ -472,8 +531,8 @@ export default function SimulatorApp() {
                           <p style={{ fontSize: 10.5, color: T.faint, margin: 0 }}>Référent mobilité : {eur(o.referentAmount)} par alternant, à affecter à la coordination et aux dépenses liées à la mobilité.</p>
                         </div>;
                       })()}
-                      {OPCO_SECTORS[o.id] && <div style={{ fontSize: 10.5, color: T.faint, marginTop: 3, fontStyle: "italic", lineHeight: 1.5 }}>{OPCO_SECTORS[o.id]}</div>}
-                      {OPCO_BY_ID[o.id].source && <a href={OPCO_BY_ID[o.id].source!.url} target="_blank" rel="noreferrer" style={{ display: "inline-block", marginTop: 4, fontSize: 10.5, color: T.blue }}>Source vérifiée · {OPCO_BY_ID[o.id].source!.checkedAt} ↗</a>}
+                      {OPCO_SECTORS[o.id.replace(/_before_\d+$/, "")] && <div style={{ fontSize: 10.5, color: T.faint, marginTop: 3, fontStyle: "italic", lineHeight: 1.5 }}>{OPCO_SECTORS[o.id.replace(/_before_\d+$/, "")]}</div>}
+                      {SIMULATION_OPCO_BY_ID[o.id]?.source && <a href={SIMULATION_OPCO_BY_ID[o.id].source!.url} target="_blank" rel="noreferrer" style={{ display: "inline-block", marginTop: 4, fontSize: 10.5, color: T.blue }}>Source vérifiée · {SIMULATION_OPCO_BY_ID[o.id].source!.checkedAt} ↗</a>}
                     </div>
                   );
                 })}
