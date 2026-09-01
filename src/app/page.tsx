@@ -113,6 +113,14 @@ const destinations: {
     gradient: "linear-gradient(170deg,rgba(6,14,36,0.42),rgba(16,32,80,0.28))",
     img: "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=800&q=80",
   },
+  {
+    city: "Cape Town",
+    country: "Afrique du Sud",
+    flag: "🇿🇦",
+    tag: "Innovation & ouverture africaine",
+    gradient: "linear-gradient(170deg,rgba(49,24,8,0.42),rgba(154,84,18,0.25))",
+    img: "/Assets/destinations/cape-town/table-mountain.jpg",
+  },
 ];
 
 const IconUsers = (
@@ -132,7 +140,7 @@ const stats = [
   { value: "3 000+", label: "participants accompagnés", icon: IconUsers },
   { value: "100+",   label: "groupes coordonnés",       icon: IconGroups },
   { value: "50",     label: "écoles partenaires",       icon: IconSchool },
-  { value: "10",     label: "destinations actives",     icon: IconGlobe },
+  { value: "11",     label: "destinations actives",     icon: IconGlobe },
 ];
 
 const partnerNames = [

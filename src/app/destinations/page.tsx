@@ -6,7 +6,7 @@ import DestinationExplorer from "./DestinationExplorer";
 export const metadata: Metadata = {
   title: "Destinations",
   description:
-    "10 destinations de mobilité professionnelle internationale, Montréal, Séville, New York, Londres, Malte, Berlin, Rome, Miami, Maroc, Séoul. Chaque programme est structuré pour sa valeur pédagogique et professionnelle, adapté à votre filière.",
+    "11 destinations de mobilité professionnelle internationale, de Montréal à Cape Town. Chaque programme est structuré pour sa valeur pédagogique et professionnelle, adapté à votre filière.",
 };
 
 const destinations = [
@@ -188,15 +188,19 @@ const destinations = [
   {
     city: "Cape Town",
     country: "Afrique du Sud",
-    tag: "Prochainement",
+    tag: "Innovation & ouverture africaine",
     flag: "🇿🇦",
-    accent: "#24478F",
-    photo: "https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=900&q=80",
-    headline: "L'Afrique du Sud, entre entrepreneuriat et paysages d'exception.",
-    desc: "Un programme alliant découverte économique, diversité culturelle et paysages d'exception. Le Cap s'impose comme une destination premium pour les apprentis qui souhaitent découvrir le continent africain sous un angle professionnel et ambitieux.",
-    highlights: [],
-    ideal: "",
-    comingSoon: true,
+    accent: "#D4862A",
+    photo: "/Assets/destinations/cape-town/table-mountain.jpg",
+    headline: "L'Afrique du Sud, là où les horizons professionnels s'élargissent.",
+    desc: "Cape Town réunit une scène entrepreneuriale en mouvement, une diversité culturelle rare et un cadre naturel spectaculaire. Une immersion ambitieuse pour découvrir l'Afrique du Sud par ses réalités économiques, ses initiatives locales et l'énergie de sa métropole du Cap.",
+    highlights: [
+      "Formation sur l'environnement socio-économique sud-africain et les dynamiques du Cap",
+      "Visites de structures locales et rencontres professionnelles adaptées à la filière du groupe",
+      "Immersion interculturelle : quartiers, initiatives créatives et lecture des codes locaux",
+      "Découverte de Cape Town : Table Mountain, waterfront, Bo-Kaap et littoral atlantique",
+    ],
+    ideal: "Commerce international · Numérique · Management · Tourisme",
   },
   {
     city: "Dubai",
@@ -240,7 +244,7 @@ export default function DestinationsPage() {
             letterSpacing: "-0.04em", lineHeight: 1.08, maxWidth: 720, marginBottom: 24,
             color: "#fff",
           }}>
-            10 destinations.{" "}
+            11 destinations.{" "}
             <span style={{
               fontFamily: "var(--font-serif)", fontStyle: "italic",
               fontWeight: 500, color: "var(--blue-on-dark)",
@@ -276,7 +280,7 @@ export default function DestinationsPage() {
               fontSize: 12, color: "rgba(255,255,255,0.35)",
               fontStyle: "italic",
             }}>
-              🇿🇦 🇦🇪 prochainement
+              🇦🇪 prochainement
             </div>
           </div>
         </div>

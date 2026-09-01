@@ -21,7 +21,7 @@ export interface Dest {
 
 // Contenu additionnel du modal, faits qualitatifs et vérifiables.
 // Aucune statistique AMI Panorama inventée, aucun volume par destination.
-const EXTRA: Record<string, { facts: string[]; gallery: string[] }> = {
+const EXTRA: Record<string, { facts: string[]; gallery: string[]; galleryLabel?: string }> = {
   "Montréal": {
     facts: [
       "Notre destination historique, la première ouverte et la plus maîtrisée.",
@@ -102,6 +102,19 @@ const EXTRA: Record<string, { facts: string[]; gallery: string[] }> = {
     ],
     gallery: [],
   },
+  "Cape Town": {
+    facts: [
+      "Une ville portuaire tournée vers l'Afrique australe et les échanges internationaux.",
+      "Un écosystème créatif et entrepreneurial particulièrement dynamique.",
+      "Une immersion où ville, océan et reliefs se rencontrent au quotidien.",
+    ],
+    gallery: [
+      "/Assets/destinations/cape-town/table-mountain.jpg",
+      "/Assets/destinations/cape-town/coast.jpg",
+      "/Assets/destinations/cape-town/bo-kaap.jpg",
+    ],
+    galleryLabel: "Panoramas de Cape Town",
+  },
 };
 
 export default function DestinationExplorer({ destinations }: { destinations: Dest[] }) {
@@ -119,10 +132,11 @@ export default function DestinationExplorer({ destinations }: { destinations: De
 
   const open = (d: Dest) => { setActive(d); setImgIdx(0); };
 
-  const hasGroup = !!(active && EXTRA[active.city]?.gallery?.length);
-  // Détail = preuve terrain : on montre les vraies photos de groupe si elles existent,
-  // sinon on retombe sur le visuel ville de la carte.
-  const gallery = active ? (hasGroup ? EXTRA[active.city].gallery : [active.photo]) : [];
+  const hasGallery = !!(active && EXTRA[active.city]?.gallery?.length);
+  // Détail = preuve terrain : on montre les photos de groupe lorsqu'elles existent,
+  // sinon une sélection éditoriale propre à la destination.
+  const gallery = active ? (hasGallery ? EXTRA[active.city].gallery : [active.photo]) : [];
+  const galleryLabel = active ? EXTRA[active.city]?.galleryLabel ?? "Photos du groupe" : "";
   const facts = active ? EXTRA[active.city]?.facts ?? [] : [];
 
   return (
@@ -250,8 +264,8 @@ export default function DestinationExplorer({ destinations }: { destinations: De
                 {active.phare && (
                   <div style={{ position: "absolute", top: 16, left: 18, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff", background: "rgba(27,61,136,0.92)", borderRadius: 100, padding: "4px 12px" }}>Destination phare</div>
                 )}
-                {hasGroup && (
-                  <div style={{ position: "absolute", bottom: 18, right: 18, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)", background: "rgba(11,24,41,0.42)", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 100, padding: "5px 12px", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)" }}>Photos du groupe</div>
+                {hasGallery && (
+                  <div style={{ position: "absolute", bottom: 18, right: 18, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)", background: "rgba(11,24,41,0.42)", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 100, padding: "5px 12px", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)" }}>{galleryLabel}</div>
                 )}
               </div>
 
