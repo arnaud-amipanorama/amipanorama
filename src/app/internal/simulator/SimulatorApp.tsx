@@ -560,24 +560,26 @@ export default function SimulatorApp() {
             <FundingGuide />
 
             {/* Document + enregistrement */}
-            <div data-sim-tour="document" style={{ ...panelStyle, padding: 22 }}>
-              <CardLabel>Générer le document</CardLabel>
-              <p style={{ fontSize: 11.5, color: T.faint, margin: "8px 0 12px", lineHeight: 1.5 }}>
-                Ces informations sont nécessaires pour générer le document (champs obligatoires).
-              </p>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, margin: "0 0 14px" }}>
-                <Input value={ecole} onChange={setEcole} placeholder="Nom de l'établissement *" invalid={formError && !ecole.trim()} />
-                <Input value={referent} onChange={setReferent} placeholder="Référent / personne *" invalid={formError && !referent.trim()} />
-                <Input value={email} onChange={setEmail} placeholder="Email *" type="email" invalid={formError && !emailValid} />
-                <Input value={dateSouhaitee} onChange={setDateSouhaitee} placeholder="Période souhaitée *" invalid={formError && !dateSouhaitee.trim()} />
-              </div>
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-                <button onClick={() => { if (!docFormValid) { setFormError(true); } else { setFormError(false); setConsentChecked(false); setShowConsent(true); } }} disabled={pdfState === "loading"} style={primaryBtn}>
-                  {pdfState === "loading" ? "Génération…" : "Télécharger le PDF"}
-                </button>
-                <button onClick={() => void saveSimulation()} disabled={saved === "saving"} style={ghostBtn}>
-                  {saved === "saving" ? "…" : saved === "ok" ? "✓ Enregistrée" : "Enregistrer"}
-                </button>
+            <div style={{ ...panelStyle, padding: 22 }}>
+              <div data-sim-tour="document" style={{ scrollMarginTop: 72, scrollMarginBottom: 380 }}>
+                <CardLabel>Générer le document</CardLabel>
+                <p style={{ fontSize: 11.5, color: T.faint, margin: "8px 0 12px", lineHeight: 1.5 }}>
+                  Ces informations sont nécessaires pour générer le document (champs obligatoires).
+                </p>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, margin: "0 0 14px" }}>
+                  <Input value={ecole} onChange={setEcole} placeholder="Nom de l'établissement *" invalid={formError && !ecole.trim()} />
+                  <Input value={referent} onChange={setReferent} placeholder="Référent / personne *" invalid={formError && !referent.trim()} />
+                  <Input value={email} onChange={setEmail} placeholder="Email *" type="email" invalid={formError && !emailValid} />
+                  <Input value={dateSouhaitee} onChange={setDateSouhaitee} placeholder="Période souhaitée *" invalid={formError && !dateSouhaitee.trim()} />
+                </div>
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+                  <button onClick={() => { if (!docFormValid) { setFormError(true); } else { setFormError(false); setConsentChecked(false); setShowConsent(true); } }} disabled={pdfState === "loading"} style={primaryBtn}>
+                    {pdfState === "loading" ? "Génération…" : "Télécharger le PDF"}
+                  </button>
+                  <button onClick={() => void saveSimulation()} disabled={saved === "saving"} style={ghostBtn}>
+                    {saved === "saving" ? "…" : saved === "ok" ? "✓ Enregistrée" : "Enregistrer"}
+                  </button>
+                </div>
               </div>
               {formError && !docFormValid && <p style={{ fontSize: 12, color: "#FF6B6B", marginTop: 10 }}>Merci de renseigner l&apos;établissement, la personne, un email valide et la période souhaitée.</p>}
               {pdfState === "err" && <p style={{ fontSize: 12, color: "#FF6B6B", marginTop: 10 }}>Erreur lors de la génération du PDF.</p>}
