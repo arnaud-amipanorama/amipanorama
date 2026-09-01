@@ -1,4 +1,4 @@
-import { createHash, createHmac, randomInt, timingSafeEqual } from "crypto";
+import { createHash, createHmac, randomBytes, randomInt, timingSafeEqual } from "crypto";
 
 const SUPABASE_URL = "https://zknulgrqwdnwsqmmqdvt.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_4s1b8dxr2LQVMtfkJ50csA_4EmwyEMP";
@@ -19,6 +19,10 @@ export function isAmiEmail(email: string): boolean {
 
 export function createVerificationCode(): string {
   return randomInt(0, 1_000_000).toString().padStart(6, "0");
+}
+
+export function createApprovalToken(): string {
+  return randomBytes(32).toString("base64url");
 }
 
 export function hashVerificationCode(code: string): string {
@@ -91,6 +95,7 @@ export async function requestSimulatorAccess(input: {
   email: string;
   phone: string;
   codeHash: string;
+  approvalTokenHash: string;
 }): Promise<AccessStatus> {
   const rows = await rpc<{ status: AccessStatus }>("ami_simulator_request_access", {
     p_full_name: input.fullName,
@@ -98,9 +103,19 @@ export async function requestSimulatorAccess(input: {
     p_email: normalizeEmail(input.email),
     p_phone: input.phone,
     p_code_hash: input.codeHash,
+    p_approval_token_hash: input.approvalTokenHash,
   });
   if (!rows[0]?.status) throw new Error("Réponse de vérification invalide.");
   return rows[0].status;
+}
+
+export async function decideSimulatorAccess(token: string, decision: "approved" | "rejected"): Promise<{ email: string; full_name: string; status: AccessStatus }> {
+  const rows = await rpc<{ email: string; full_name: string; status: AccessStatus }>("ami_simulator_decide_access", {
+    p_token_hash: hashVerificationCode(token),
+    p_decision: decision,
+  });
+  if (!rows[0]) throw new Error("Ce lien n’est plus valide.");
+  return rows[0];
 }
 
 export async function verifySimulatorAccess(email: string, code: string): Promise<{ status: AccessStatus; granted: boolean }> {

@@ -37,8 +37,7 @@ export async function POST(request: NextRequest) {
   if (email) {
     try {
       await recordSimulatorEvent(email, {
-        destination: data.meta && typeof data.meta === "object" ? (data.meta as Record<string, unknown>).destination : undefined,
-        students: data.meta && typeof data.meta === "object" ? (data.meta as Record<string, unknown>).students : undefined,
+        simulation: data,
         generatedAt: new Date().toISOString(),
       });
     } catch (err) {

@@ -221,12 +221,14 @@ export default function SimulatorApp() {
 
   async function generatePdf() {
     setPdfState("loading");
+    const simulationData = buildPdfData();
+    void saveSimulation(simulationData);
     try {
       const [{ pdf }, mod] = await Promise.all([
         import("@react-pdf/renderer"),
         import("./SimulationDocument"),
       ]);
-      const blob = await pdf(<mod.SimulationDocument data={buildPdfData()} />).toBlob();
+      const blob = await pdf(<mod.SimulationDocument data={simulationData} />).toBlob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -240,13 +242,13 @@ export default function SimulatorApp() {
     }
   }
 
-  async function saveSimulation() {
+  async function saveSimulation(simulationData = buildPdfData()) {
     setSaved("saving");
     try {
       const res = await fetch("/api/simulation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ source: "simulateur financement", ...buildPdfData(), date: new Date().toISOString() }),
+        body: JSON.stringify({ source: "simulateur financement", ...simulationData, date: new Date().toISOString() }),
       });
       setSaved(res.ok ? "ok" : "err");
     } catch {
@@ -563,7 +565,7 @@ export default function SimulatorApp() {
                 <button onClick={() => { if (!docFormValid) { setFormError(true); } else { setFormError(false); setConsentChecked(false); setShowConsent(true); } }} disabled={pdfState === "loading"} style={primaryBtn}>
                   {pdfState === "loading" ? "Génération…" : "Télécharger le PDF"}
                 </button>
-                <button onClick={saveSimulation} disabled={saved === "saving"} style={ghostBtn}>
+                <button onClick={() => void saveSimulation()} disabled={saved === "saving"} style={ghostBtn}>
                   {saved === "saving" ? "…" : saved === "ok" ? "✓ Enregistrée" : "Enregistrer"}
                 </button>
               </div>
