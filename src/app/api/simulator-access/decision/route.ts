@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { decideSimulatorAccess } from "@/lib/simulator-access";
+import { sendTransactionalEmail } from "@/lib/transactional-email";
 
 export async function GET(request: NextRequest) {
   const token = request.nextUrl.searchParams.get("token") ?? "";
@@ -35,20 +36,13 @@ function page(title: string, message: string, status = 200) {
 }
 
 async function sendDecisionEmail(email: string, fullName: string) {
-  const key = process.env.RESEND_API_KEY;
   const from = process.env.LEAD_CONFIRMATION_FROM || process.env.LEAD_NOTIFICATION_FROM;
-  if (!key || !from) return;
+  if (!from) return;
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.amipanorama.com").replace(/\/$/, "");
   const safeName = fullName.replace(/[&<>'"]/g, "");
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from,
-      to: [email],
-      subject: "Votre accès au simulateur AMI Panorama est approuvé",
-      html: `<div style="font-family:Arial,sans-serif;color:#101B2D;max-width:560px;margin:auto;padding:32px"><p>Bonjour ${safeName},</p><p>Votre demande d’accès au simulateur de financement AMI Panorama a été approuvée.</p><p style="margin:28px 0"><a href="${siteUrl}/internal/simulator" style="display:inline-block;background:#102A56;color:#fff;padding:13px 20px;border-radius:8px;text-decoration:none;font-weight:700">Ouvrir le simulateur</a></p><p style="color:#64748B;font-size:13px">À l’ouverture, saisissez votre adresse e-mail et le code reçu pour accéder à votre espace.</p></div>`,
-    }),
-  });
-  if (!response.ok) console.error("[AMI Simulator Access] decision email error", response.status);
+  try {
+    await sendTransactionalEmail({ from, to: email, subject: "Votre accès au simulateur AMI Panorama est approuvé", html: `<div style="font-family:Arial,sans-serif;color:#101B2D;max-width:560px;margin:auto;padding:32px"><p>Bonjour ${safeName},</p><p>Votre demande d’accès au simulateur de financement AMI Panorama a été approuvée.</p><p style="margin:28px 0"><a href="${siteUrl}/internal/simulator" style="display:inline-block;background:#102A56;color:#fff;padding:13px 20px;border-radius:8px;text-decoration:none;font-weight:700">Ouvrir le simulateur</a></p><p style="color:#64748B;font-size:13px">À l’ouverture, saisissez votre adresse e-mail et le code reçu pour accéder à votre espace.</p></div>` });
+  } catch (error) {
+    console.error("[AMI Simulator Access] decision email error", error);
+  }
 }

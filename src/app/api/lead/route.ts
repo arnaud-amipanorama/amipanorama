@@ -6,6 +6,7 @@ import {
   leadToNotionProperties,
   type Lead,
 } from "@/lib/lead";
+import { sendTransactionalEmail } from "@/lib/transactional-email";
 
 /**
  * Diagnostic de configuration. Ne renvoie que des booléens, jamais une clé,
@@ -17,12 +18,12 @@ export async function GET() {
   return NextResponse.json({
     canaux: {
       emailInterne: Boolean(
-        process.env.RESEND_API_KEY &&
+        process.env.BREVO_API_KEY &&
           process.env.LEAD_NOTIFICATION_TO &&
           process.env.LEAD_NOTIFICATION_FROM
       ),
       accuseReception: Boolean(
-        process.env.RESEND_API_KEY && process.env.LEAD_NOTIFICATION_FROM
+        process.env.BREVO_API_KEY && process.env.LEAD_NOTIFICATION_FROM
       ),
       notion: Boolean(process.env.NOTION_TOKEN && process.env.NOTION_LEADS_DB),
       webhook: Boolean(process.env.WEBHOOK_URL),
@@ -86,24 +87,20 @@ export async function POST(request: NextRequest) {
 /** "sent" si le canal a réellement transmis, "skipped" s'il n'est pas configuré. */
 type ChannelResult = "sent" | "skipped";
 
-// ── Envoi via l'API REST de Resend (aucune dépendance npm) ──
-async function resendSend(
+// ── Envoi transactionnel via Brevo (aucune dépendance npm) ──
+async function emailSend(
   payload: Record<string, unknown>,
   label: string
 ): Promise<ChannelResult> {
-  const key = process.env.RESEND_API_KEY;
-  if (!key) return "skipped";
-
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${key}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
-  if (!res.ok) {
-    console.error(`[AMI Lead] Resend ${label} error:`, res.status, await res.text().catch(() => ""));
+  const from = typeof payload.from === "string" ? payload.from : "";
+  const to = Array.isArray(payload.to) && typeof payload.to[0] === "string" ? payload.to[0] : "";
+  const subject = typeof payload.subject === "string" ? payload.subject : "";
+  const html = typeof payload.html === "string" ? payload.html : "";
+  if (!process.env.BREVO_API_KEY || !from || !to || !subject || !html) return "skipped";
+  try {
+    await sendTransactionalEmail({ from, to, subject, html, replyTo: typeof payload.reply_to === "string" ? payload.reply_to : undefined });
+  } catch (error) {
+    console.error(`[AMI Lead] Brevo ${label} error:`, error);
     return "skipped";
   }
   return "sent";
@@ -115,7 +112,7 @@ async function sendEmail(lead: Lead): Promise<ChannelResult> {
   const from = process.env.LEAD_NOTIFICATION_FROM;
   if (!to || !from) return "skipped"; // non configuré → on saute proprement
 
-  return resendSend(
+  return emailSend(
     {
       from,
       to: [to],
@@ -136,7 +133,7 @@ async function sendConfirmation(lead: Lead): Promise<ChannelResult> {
   const bookingUrl =
     process.env.NEXT_PUBLIC_BOOKING_URL || "https://calendar.app.google/sLYXj9s7nDiMwzYu8";
 
-  return resendSend(
+  return emailSend(
     {
       from,
       to: [lead.email],
