@@ -65,10 +65,11 @@ export function evaluateRule(rule: FundingRule, ctx: RuleContext): RuleResult {
       const d = rule.dayBasis === "nights" ? ctx.nights : ctx.calendarDays;
       const band = rule.bands.find((b) => d >= b.minDays && (b.maxDays === null || d <= b.maxDays));
       const variant = rule.select ? ctx.selections[rule.select.param] ?? rule.select.default : "default";
-      const a = band ? band.amounts[variant] ?? band.amounts["default"] ?? 0 : 0;
+      const raw = band ? band.amounts[variant] ?? band.amounts["default"] ?? 0 : 0;
+      const a = rule.capByEligibleMobilityCost ? Math.min(raw, ctx.eligibleMobilityCost) : raw;
       const label = band ? `de ${band.minDays} à ${band.maxDays ?? "∞"} jours` : "hors barème";
       const basis = rule.dayBasis === "nights" ? "nuits" : "jours calendaires";
-      return { amount: a, trace: `Barème ${basis} (${d} j) → ${label}${rule.select ? ` · ${variant}` : ""} = ${eur(a)}` };
+      return { amount: a, trace: `Barème ${basis} (${d} j) → ${label}${rule.select ? ` · ${variant}` : ""} = ${eur(raw)}${rule.capByEligibleMobilityCost && raw > a ? `, limité aux dépenses éligibles déclarées (${eur(ctx.eligibleMobilityCost)})` : ""}` };
     }
 
     case "composite": {
@@ -98,6 +99,7 @@ export interface OpcoLine {
   count: number;
   status: OpcoConfig["status"];
   apprentiAmount: number;
+  apprentiTheoreticalAmount: number;
   apprentiTrace: string;
   referentAmount: number;
   racStudent: number;
@@ -133,25 +135,31 @@ export function computeSimulation(input: SimInput): SimResult {
     transportCost: stay.transportCost,
     accommodationCost: stay.accommodationCost,
     mealsCost: stay.mealsCost,
+    otherMobilityCost: stay.otherMobilityCost,
     totalCost,
-    eligibleMobilityCost: stay.transportCost + stay.accommodationCost + stay.mealsCost,
+    eligibleMobilityCost: stay.transportCost + stay.accommodationCost + stay.mealsCost + stay.otherMobilityCost,
     selections: input.selections ?? {},
   };
 
   const perOpco: OpcoLine[] = rows.map(({ config, count }) => {
     const f = apprentiFunding(config, ctx);
     const referent = evaluateRule(config.referent, ctx).amount;
-    const racStudent = totalCost - f.amount;
+    // Une aide ne peut pas réduire le prix du séjour au-delà de son coût réel.
+    // Les éventuels forfaits OPCO qui dépassent ce montant restent à qualifier dans le dossier,
+    // mais ne sont jamais présentés ici comme une somme versée à l'étudiant.
+    const appliedFunding = Math.min(f.amount, totalCost);
+    const racStudent = totalCost - appliedFunding;
     return {
       id: config.id,
       label: config.label,
       count,
       status: config.status,
-      apprentiAmount: f.amount,
-      apprentiTrace: f.trace,
+      apprentiAmount: appliedFunding,
+      apprentiTheoreticalAmount: f.amount,
+      apprentiTrace: f.amount > appliedFunding ? `${f.trace} ; montant utilisable sur le séjour limité à ${eur(totalCost)}` : f.trace,
       referentAmount: referent,
       racStudent,
-      apprentiTotal: f.amount * count,
+      apprentiTotal: appliedFunding * count,
       referentTotal: referent * count,
       racTotal: racStudent * count,
     };

@@ -3,10 +3,10 @@
 import { useState } from "react";
 
 const items = [
-  ["1. Partir du bon coût", "Le prix du séjour AMI sert à estimer le reste à charge commercial. Pour les OPCO qui remboursent au réel, renseignez séparément les dépenses réellement supportées par le CFA : transport, hébergement et restauration."],
+  ["1. Partir du bon coût", "Le prix du séjour AMI sert à estimer le reste à payer par les étudiants. Pour les OPCO qui remboursent au réel, le montant retenu ne peut jamais dépasser les dépenses éligibles réellement supportées et justifiables par le CFA."],
   ["2. Séparer les deux enveloppes", "Le forfait référent mobilité est destiné à la coordination et aux dépenses de mobilité du CFA. La prise en charge apprenti suit le barème de l’OPCO et les justificatifs demandés. Les deux lignes ne doivent pas être additionnées comme une promesse de financement."],
   ["3. Vérifier les conditions avant d’engager", "Contrat, OPCO, durée en jours calendaires, type de convention, zone de destination, dépenses supportées par le CFA et pièces à produire peuvent changer le montant. La convention de mobilité doit être anticipée."],
-  ["4. Lire le résultat comme un scénario", "Le simulateur distingue les règles documentées des règles à confirmer. Le montant final reste soumis à l’accord de l’OPCO, au dossier complet et à la réalité des dépenses."],
+  ["4. Lire le résultat comme un scénario", "Le simulateur distingue les aides utilisées pour réduire le coût des étudiants des forfaits destinés au travail du CFA. Le montant final reste soumis à l’accord de l’OPCO, au dossier complet et à la réalité des dépenses."],
 ];
 
 export default function FundingGuide() {

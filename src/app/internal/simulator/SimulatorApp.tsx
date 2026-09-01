@@ -77,6 +77,7 @@ export default function SimulatorApp() {
   const [programme, setProgramme] = useState(programmeForDestination("Montréal", 7));
   const [eligibleAccommodation, setEligibleAccommodation] = useState(7 * 6);
   const [eligibleMeals, setEligibleMeals] = useState(8 * 2 * 3);
+  const [eligibleOther, setEligibleOther] = useState(0);
   const [mode, setMode] = useState<ModeKind>("free");
   const [keptPerAccompagnant, setKeptPerAccompagnant] = useState(COST_DEFAULTS.keptPerAccompagnant);
   const [atlasContractMode, setAtlasContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
@@ -145,7 +146,7 @@ export default function SimulatorApp() {
 
       return [{ config, count }];
     });
-    const stay = { nights, programmeCost: programme, transportCost: transport, accommodationCost: eligibleAccommodation, mealsCost: eligibleMeals };
+    const stay = { nights, programmeCost: programme, transportCost: transport, accommodationCost: eligibleAccommodation, mealsCost: eligibleMeals, otherMobilityCost: eligibleOther };
     const destinationZone = DESTINATION_TARIFFS[destination]?.zone ?? "international";
     // AKTO appelle cette zone « euro » dans son barème officiel alors que le
     // catalogue des destinations utilise « europe ». On normalise ici pour ne
@@ -171,6 +172,7 @@ export default function SimulatorApp() {
     transport,
     eligibleAccommodation,
     eligibleMeals,
+    eligibleOther,
     atlasContractMode,
     atlasBeforeApril2026,
     aktoContractMode,
@@ -227,7 +229,7 @@ export default function SimulatorApp() {
         confidence,
       },
       opco: result.perOpco.map((o) => {
-        const explanation = explainFunding(o.id, { calendarDays: nights + 1, destinationZone, aktoContractMode, aktoTrainingLevel, afdasTrainingLevel, atlasContractMode, epContractMode, amount: o.apprentiAmount });
+        const explanation = explainFunding(o.id, { calendarDays: nights + 1, destinationZone, aktoContractMode, aktoTrainingLevel, afdasTrainingLevel, atlasContractMode, epContractMode, amount: o.apprentiTheoreticalAmount });
         return { label: o.label, count: o.count, apprenti: o.apprentiAmount, referent: o.referentAmount, how: explanation.how, condition: explanation.condition, toConfirm: o.status === "to_confirm" };
       }),
     };
@@ -379,6 +381,10 @@ export default function SimulatorApp() {
                         <Field label="Billet d’avion / étudiant"><NumInput value={transport} onChange={setTransport} suffix="€" /></Field>
                         <Field label="Séjour / étudiant" hint={`suggestion : ${eur(suggestedProgramme)}`}><NumInput value={programme} onChange={setProgramme} suffix="€" /></Field>
                       </div>
+                      <Field label="Autres frais justifiables / étudiant" hint="assurance, visa ou protection sociale">
+                        <NumInput value={eligibleOther} onChange={setEligibleOther} suffix="€" />
+                      </Field>
+                      <p style={{ fontSize: 11.5, color: T.faint, lineHeight: 1.5, margin: "-10px 0 0" }}>Pour les OPCO qui remboursent au réel, le simulateur ne retient jamais plus que les dépenses éligibles déclarées et justifiables.</p>
                       {(hasAtlas || hasOpcoMobilites || hasAkto || hasAfdas || hasEp) && <p style={{ fontSize: 12, fontWeight: 600, color: T.text, margin: "2px 0 -6px" }}>Situations particulières liées aux contrats</p>}
                       {hasAtlas && (
                         <>
@@ -479,16 +485,17 @@ export default function SimulatorApp() {
               data-sim-tour="results"
               style={{ ...panelStyle, background: "linear-gradient(160deg, rgba(118,163,255,0.14), #171E2A 58%)", border: `1px solid ${T.borderStrong}`, padding: "32px 30px", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 3, background: T.orange }} />
-              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: T.muted }}>À prévoir par étudiant</div>
+              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: T.muted }}>Reste à payer par étudiant</div>
               <div style={{ fontSize: "clamp(48px,8vw,84px)", fontWeight: 800, letterSpacing: "-0.05em", lineHeight: 1, color: T.white, margin: "6px 0 4px" }}>{eur(result.racAvg)}</div>
               <div style={{ fontSize: 14, color: T.muted }}>Après les aides estimées · {result.totalStudents} étudiants · {destination || "Non renseignée"} · {nights + 1} jours</div>
             </motion.div>
 
             {/* KPI secondaires */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12 }} className="sim-kpis">
-              <Kpi label="Aides estimées pour le groupe" value={eur(financementsMobilisables)} sub="financements OPCO et aide mobilisable" accent={T.green} />
-              <Kpi label="Solde estimé pour l’établissement" value={result.schoolImpact > 0 ? `+ ${eur(result.schoolImpact)}` : "0 €"} sub={result.schoolImpact > 0 ? "budget disponible pour coordonner le séjour" : "aucun coût estimé pour l’établissement"} accent={T.teal} />
-              <Kpi label="Prix total du séjour" value={eur(result.totalCostAll)} sub={`${eur(result.totalCostPerStudent)} par étudiant, avant aides`} />
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12 }} className="sim-kpis">
+              <Kpi label="Aides OPCO au total" value={eur(result.apprentiTotal + result.referentTotal)} sub="étudiants + accompagnement" accent={T.green} />
+              <Kpi label="Aides pour les étudiants" value={eur(result.apprentiTotal)} sub={`${eur(result.financementMoyen)} par étudiant`} accent={T.blue} />
+              <Kpi label="Forfaits référent mobilité" value={eur(result.referentTotal)} sub="organisation et accompagnement" accent={T.teal} />
+              <Kpi label="Budget CFA pour accompagner" value={result.schoolImpact > 0 ? eur(result.schoolImpact) : "0 €"} sub={result.schoolImpact > 0 ? "accompagnateurs et coordination" : "tout a été réinjecté pour les étudiants"} accent={T.orange} />
             </div>
 
             {/* Indicateur de fiabilité */}
@@ -527,10 +534,10 @@ export default function SimulatorApp() {
             <div style={{ ...panelStyle, padding: "18px 20px", background: "rgba(118,163,255,0.12)", borderColor: "rgba(157,187,255,0.35)" }}>
               <CardLabel>En clair</CardLabel>
               <p style={{ fontSize: 13, color: T.text, lineHeight: 1.65, margin: "9px 0 0" }}>
-                Pour ce séjour, les aides estimées couvrent {eur(financementsMobilisables)} sur {eur(result.totalCostAll)}. Après répartition, chaque étudiant aurait environ <b>{eur(result.racAvg)}</b> à prévoir.
+                Le séjour représente {eur(result.totalCostAll)} au total. Les aides directement utilisées pour les étudiants représentent {eur(result.apprentiTotal)} et {eur(result.reinjected)} du budget référent est réinjecté. Après cette répartition, chaque étudiant aurait environ <b>{eur(result.racAvg)}</b> à payer.
               </p>
               <p style={{ fontSize: 11.5, color: T.muted, lineHeight: 1.55, margin: "8px 0 0" }}>
-                Le solde établissement correspond au budget estimé disponible pour organiser et accompagner le séjour. Il ne remplace pas la validation finale des OPCO.
+                Les {eur(result.referentTotal)} de forfaits référent mobilité financent le travail du CFA. Dans cette simulation, {eur(result.schoolImpact)} restent disponibles pour les accompagnateurs, la coordination et l’organisation. Ce n’est pas une marge libre et la validation finale des OPCO reste nécessaire.
               </p>
             </div>
 
@@ -551,9 +558,10 @@ export default function SimulatorApp() {
                         <b style={{ minWidth: 66, textAlign: "right" }}>{eur(o.apprentiAmount)}</b>
                       </div>
                       {(() => {
-                        const explanation = explainFunding(o.id, { calendarDays: nights + 1, destinationZone, aktoContractMode, aktoTrainingLevel, afdasTrainingLevel, atlasContractMode, epContractMode, amount: o.apprentiAmount });
+                        const explanation = explainFunding(o.id, { calendarDays: nights + 1, destinationZone, aktoContractMode, aktoTrainingLevel, afdasTrainingLevel, atlasContractMode, epContractMode, amount: o.apprentiTheoreticalAmount });
                         return <div style={{ display: "grid", gap: 5, marginTop: 8, padding: "10px 11px", borderRadius: 9, background: "rgba(255,255,255,0.025)" }}>
                           <p style={{ fontSize: 11.5, color: T.text, lineHeight: 1.55, margin: 0 }}><b>Comment ça fonctionne :</b> {explanation.how}</p>
+                          {o.apprentiTheoreticalAmount > o.apprentiAmount && <p style={{ fontSize: 10.5, color: T.orange, lineHeight: 1.5, margin: 0 }}><b>Montant retenu :</b> limité à {eur(o.apprentiAmount)} par étudiant, afin de ne pas dépasser le prix estimé du séjour.</p>}
                           <p style={{ fontSize: 10.5, color: o.status === "to_confirm" ? "#E0A52E" : T.muted, lineHeight: 1.5, margin: 0 }}><b>{o.status === "to_confirm" ? "À confirmer :" : "À prévoir :"}</b> {explanation.condition}</p>
                           <p style={{ fontSize: 10.5, color: T.faint, margin: 0 }}>Référent mobilité : {eur(o.referentAmount)} par alternant, à affecter à la coordination et aux dépenses liées à la mobilité.</p>
                         </div>;

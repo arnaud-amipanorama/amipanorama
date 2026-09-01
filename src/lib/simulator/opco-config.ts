@@ -6,7 +6,7 @@
 // ──────────────────────────────────────────────────────────────
 import type { FundingRule, OpcoConfig } from "./types";
 
-const checkedAt = "28/07/2026";
+const checkedAt = "01/09/2026";
 const realMobilityCosts: FundingRule = {
   type: "composite",
   rules: [
@@ -28,7 +28,7 @@ export const OPCOS: OpcoConfig[] = [
   {
     id: "opco21", label: "OPCO 2i",
     referent: { type: "fixed", amount: 500 },
-    apprenti: { type: "tieredByDays", dayBasis: "calendar", bands: [{ minDays: 0, maxDays: 28, amounts: { default: 800 } }, { minDays: 29, maxDays: null, amounts: { default: 1600 } }] },
+    apprenti: { type: "tieredByDays", dayBasis: "calendar", capByEligibleMobilityCost: true, bands: [{ minDays: 0, maxDays: 28, amounts: { default: 800 } }, { minDays: 29, maxDays: null, amounts: { default: 1600 } }] },
     status: "validated",
     notes: "Au réel, plafonné par alternant et contrat ; cas particulier IEG à gérer hors simulateur.",
     source: { label: "OPCO 2i, fiche pratique CFA", url: "https://www.opco2i.fr/la-mobilite-internationale-un-levier-dattractivite-pour-les-formations-industrielles/", checkedAt },
@@ -47,8 +47,9 @@ export const OPCOS: OpcoConfig[] = [
   },
   {
     id: "opcommerce", label: "OPCOMMERCE",
-    referent: { type: "fixed", amount: 500 }, apprenti: { type: "fixed", amount: 0 }, status: "to_confirm",
-    notes: "Financement apprenti volontairement neutralisé : barème 2026 spécifique à confirmer avec le conseiller OPCO.",
+    referent: { type: "fixed", amount: 500 }, apprenti: { type: "fixed", amount: 0 }, status: "validated",
+    notes: "Forfait CFA de 500 € en cas de mobilité internationale. Il finance l’organisation et l’accompagnement, pas un montant à reverser automatiquement à l’apprenti.",
+    source: { label: "L’Opcommerce, conditions générales de gestion 2026", url: "https://www.lopcommerce.com/media/bsbnjydz/conditons-generales-gestion.pdf", checkedAt },
   },
   {
     id: "ep", label: "OPCO EP (Entreprises de Proximité)",
@@ -97,8 +98,8 @@ export const OPCOS: OpcoConfig[] = [
     id: "opco_mobilites", label: "OPCO MOBILITÉS",
     referent: { type: "fixed", amount: 500 },
     apprenti: { type: "realCostCapped", cap: { europe: 1500, international: 2000 }, select: { param: "destinationZone", default: "international", options: ["europe", "international"] } }, status: "validated",
-    notes: "Le plafond dépend de la zone : Europe 1 500 € HT, international 2 000 € HT. Le sélecteur de zone est appliqué dans le moteur.",
-    source: { label: "OPCO Mobilités, modalités 2026", url: "https://www.opcomobilites.fr/financer-un-contrat-dapprentissage-autres-conventions-collectives-ou-sans-convention-collective-drom/", checkedAt },
+    notes: "Depuis le 1er janvier 2026 : forfait référent obligatoire de 500 € HT, puis remboursement facultatif des frais supportés par le CFA au réel, plafonné à 1 500 € HT en Europe et 2 000 € HT hors Europe. Un aller-retour au trajet le moins cher est retenu.",
+    source: { label: "OPCO Mobilités, modalités apprentissage 2026", url: "https://www.opcomobilites.fr/financer-un-contrat-dapprentissage-autres-conventions-collectives-ou-sans-convention-collective-drom/", checkedAt },
   },
   {
     id: "cnfpt", label: "CNFPT",
@@ -203,14 +204,14 @@ export function explainFunding(id: string, input: FundingExplanationInput): { ho
     case "akto":
       return { how: `AKTO prévoit un forfait de ${amount} par alternant pour cette destination et une convention de ${modeLabel}.`, condition: `À vérifier : convention signée, mobilité effectivement réalisée et une mobilité maximum par alternant/contrat. Le forfait référent est de ${input.aktoTrainingLevel === "bacOrBelow" ? "600" : "500"} € par alternant.` };
     case "opco21":
-      return { how: `OPCO 2i peut rembourser les frais de mobilité du CFA, dans la limite estimée de ${amount} par alternant.`, condition: input.calendarDays <= 28 ? "Ce plafond concerne les mobilités de 28 jours ou moins. Les dépenses et justificatifs restent déterminants." : "Ce plafond concerne les mobilités de 29 jours ou plus. Les dépenses et justificatifs restent déterminants." };
+      return { how: `OPCO 2i rembourse les frais de mobilité réellement supportés par le CFA, dans la limite de ${amount} par alternant dans cette simulation.`, condition: input.calendarDays <= 28 ? "Le plafond est de 800 € pour une mobilité courte. Le montant ne peut jamais dépasser les dépenses éligibles et justifiées." : "Le plafond est de 1 600 € pour une mobilité longue. Le montant ne peut jamais dépasser les dépenses éligibles et justifiées." };
     case "atlas":
       if (input.calendarDays < 15) return { how: "ATLAS ne prévoit pas de financement apprenti pour ce format : la mobilité doit durer au minimum 15 jours calendaires.", condition: "Le forfait référent mobilité de 500 € par alternant reste à traiter selon le dossier. Une convention signée est nécessaire avant le départ." };
       return { how: `ATLAS prévoit un forfait de ${amount} par alternant pour une mobilité de ${input.calendarDays} jours en ${atlasModeLabel}.`, condition: "Le contrat doit relever des règles applicables depuis le 1er avril 2026 ; convention de mobilité et justificatifs à conserver." };
     case "atlas_before_202604":
       return { how: `ATLAS prévoit le barème antérieur de ${amount} par alternant en ${atlasModeLabel}.`, condition: "Cette ligne concerne uniquement les contrats signés avant le 1er avril 2026. Le minimum de 15 jours des règles 2026 ne lui est pas appliqué." };
     case "opcommerce":
-      return { how: "Aucun financement apprenti n’est retenu dans cette simulation.", condition: "Le barème applicable doit être confirmé avec le conseiller OPCOMMERCE avant de compter sur une prise en charge." };
+      return { how: "L’Opcommerce ne verse pas ici d’aide directement destinée à réduire le prix du séjour de l’apprenti.", condition: "Un forfait CFA de 500 € par mobilité internationale est comptabilisé séparément pour l’organisation et l’accompagnement." };
     case "ep":
       return { how: `OPCO EP fonctionne par forfait hebdomadaire : l’estimation est de ${amount} par alternant pour une ${epModeLabel}.`, condition: `Toute semaine commencée compte. Le plafond dépend de la convention : 2 000 € en mise à disposition, 3 000 € en mise en veille.` };
     case "afdas":

@@ -169,24 +169,24 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Text style={s.h2}>L&apos;essentiel en un coup d&apos;œil</Text>
         <View style={s.kpiGrid}>
           <View style={s.kpiCard}><View style={[s.kpiInner, { backgroundColor: C.ink, borderColor: C.ink }]}>
-            <Text style={[s.kpiLabel, { color: "#A2A8B4" }]}>À prévoir par étudiant</Text>
+            <Text style={[s.kpiLabel, { color: "#A2A8B4" }]}>Reste à payer par étudiant</Text>
             <Text style={[s.kpiValue, { color: "#FFFFFF" }]}>{eur(kpis.racAvg)}</Text>
             <Text style={[s.kpiSub, { color: "#8A90A0" }]}>après les aides estimées</Text>
           </View></View>
           <View style={s.kpiCard}><View style={s.kpiInner}>
-            <Text style={s.kpiLabel}>Aides estimées pour le groupe</Text>
-            <Text style={[s.kpiValue, { color: C.green }]}>{eur(kpis.financementsMobilisables)}</Text>
-            <Text style={s.kpiSub}>financements OPCO et aide mobilisable</Text>
+            <Text style={s.kpiLabel}>Aides pour les étudiants</Text>
+            <Text style={[s.kpiValue, { color: C.green }]}>{eur(kpis.apprentiTotal)}</Text>
+            <Text style={s.kpiSub}>montant utilisable sur le séjour</Text>
           </View></View>
           <View style={s.kpiCard}><View style={s.kpiInner}>
-            <Text style={s.kpiLabel}>Solde estimé pour l&apos;établissement</Text>
-            <Text style={[s.kpiValue, { color: kpis.montantConserve >= 0 ? C.ink : C.orange }]}>{kpis.montantConserve > 0 ? "+ " : ""}{eur(kpis.montantConserve)}</Text>
-            <Text style={s.kpiSub}>{kpis.montantConserve > 0 ? "budget disponible pour coordonner le séjour" : "aucun coût estimé pour l’établissement"}</Text>
+            <Text style={s.kpiLabel}>Forfaits référent mobilité</Text>
+            <Text style={[s.kpiValue, { color: C.ink }]}>{eur(kpis.referentTotal)}</Text>
+            <Text style={s.kpiSub}>organisation et accompagnement du CFA</Text>
           </View></View>
           <View style={s.kpiCard}><View style={s.kpiInner}>
-            <Text style={s.kpiLabel}>Prix total du séjour</Text>
-            <Text style={[s.kpiValue, { color: C.ink }]}>{eur(kpis.coutBrut)}</Text>
-            <Text style={s.kpiSub}>{eur(kpis.coutParEtudiant)} par étudiant, avant aides</Text>
+            <Text style={s.kpiLabel}>Budget CFA pour accompagner</Text>
+            <Text style={[s.kpiValue, { color: kpis.montantConserve >= 0 ? C.ink : C.orange }]}>{eur(kpis.montantConserve)}</Text>
+            <Text style={s.kpiSub}>{kpis.montantConserve > 0 ? "accompagnateurs et coordination" : "tout a été réinjecté aux étudiants"}</Text>
           </View></View>
         </View>
 
@@ -241,7 +241,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
             <Text style={s.infoTitle}>Réinjection et reste à charge</Text>
           </View>
           <Text style={s.infoBody}>
-            Dans cette simulation, le CFA peut tester l&apos;affectation d&apos;une part du budget référent à la réduction du reste à charge, sans dépasser le coût restant. Le <Text style={s.infoStrong}>reste à charge moyen étudiant</Text> correspond au coût estimé après les financements modélisés ; il demeure conditionnel à l&apos;accord de l&apos;OPCO et au dossier.
+            Dans cette simulation, le CFA peut tester l&apos;affectation d&apos;une part du budget référent à la réduction du reste à charge, sans dépasser le coût restant. Les aides utilisées pour les étudiants sont également plafonnées au prix estimé du séjour. Le <Text style={s.infoStrong}>reste à charge moyen étudiant</Text> correspond au coût estimé après les financements modélisés ; il demeure conditionnel à l&apos;accord de l&apos;OPCO et au dossier.
           </Text>
         </View>
 

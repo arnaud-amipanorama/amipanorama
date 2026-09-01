@@ -15,8 +15,9 @@ export interface RuleContext {
   transportCost: number; // billet avion/train / étudiant
   accommodationCost: number; // part hébergement réellement supportée par le CFA
   mealsCost: number; // part restauration réellement supportée par le CFA
+  otherMobilityCost: number; // assurance, visa, protection sociale et autres frais justifiables
   totalCost: number; // programme + transport (reste à charge commercial)
-  eligibleMobilityCost: number; // transport + hébergement + repas déclarés au réel
+  eligibleMobilityCost: number; // transport + hébergement + repas + autres frais déclarés au réel
   selections: Record<string, string>; // ex. { atlasContractMode: "miseADisposition" }
 }
 
@@ -35,6 +36,7 @@ export type FundingRule =
       // sélecteur optionnel (ex. mode de contrat ATLAS) → plusieurs montants par palier
       select?: { param: string; default: string; options: string[] };
       bands: { minDays: number; maxDays: number | null; amounts: Record<string, number> }[];
+      capByEligibleMobilityCost?: boolean;
     }
   | { type: "composite"; rules: FundingRule[]; cap?: number };
 
@@ -55,6 +57,7 @@ export interface StayParams {
   transportCost: number;
   accommodationCost: number;
   mealsCost: number;
+  otherMobilityCost: number;
 }
 
 export interface OpcoRow {
