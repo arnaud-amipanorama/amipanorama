@@ -12,15 +12,15 @@ const items = [
 export default function FundingGuide() {
   const [open, setOpen] = useState(false);
   return (
-    <section style={{ border: "1px solid rgba(255,255,255,0.12)", borderRadius: 14, background: "rgba(255,255,255,0.025)", overflow: "hidden" }}>
+    <section style={{ border: "1px solid #53647E", borderRadius: 14, background: "#171E2A", overflow: "hidden" }}>
       <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open}
-        style={{ width: "100%", display: "flex", justifyContent: "space-between", gap: 16, alignItems: "center", color: "#F4F5F7", background: "transparent", border: 0, padding: "17px 20px", cursor: "pointer", textAlign: "left" }}>
-        <span><span style={{ color: "#1B3D88", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", display: "block", marginBottom: 4 }}>Guide express</span><span style={{ fontSize: 15, fontWeight: 700 }}>Bien utiliser le simulateur de financement</span></span>
-        <span aria-hidden="true" style={{ color: "#A2A8B4", fontSize: 20 }}>{open ? "−" : "+"}</span>
+        style={{ width: "100%", display: "flex", justifyContent: "space-between", gap: 16, alignItems: "center", color: "#F8FAFC", background: "transparent", border: 0, padding: "17px 20px", cursor: "pointer", textAlign: "left" }}>
+        <span><span style={{ color: "#9DBBFF", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", display: "block", marginBottom: 4 }}>Guide express</span><span style={{ color: "#FFFFFF", fontSize: 15, fontWeight: 700 }}>Bien utiliser le simulateur de financement</span></span>
+        <span aria-hidden="true" style={{ color: "#AAB7C9", fontSize: 20 }}>{open ? "−" : "+"}</span>
       </button>
-      {open && <div style={{ padding: "0 20px 20px", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-        {items.map(([title, text]) => <div key={title} style={{ paddingTop: 16 }}><h3 style={{ fontSize: 13, margin: 0, color: "#fff" }}>{title}</h3><p style={{ color: "#A2A8B4", fontSize: 12, lineHeight: 1.6, margin: "5px 0 0" }}>{text}</p></div>)}
-        <p style={{ margin: "18px 0 0", padding: 12, borderRadius: 9, background: "rgba(27,61,136,0.12)", color: "#F4F5F7", fontSize: 12, lineHeight: 1.55 }}>À retenir : une simulation prépare le dossier ; elle ne remplace ni la validation de l’OPCO, ni la convention, ni les justificatifs.</p>
+      {open && <div style={{ padding: "0 20px 20px", borderTop: "1px solid #3A4659" }}>
+        {items.map(([title, text]) => <div key={title} style={{ paddingTop: 16 }}><h3 style={{ fontSize: 13, margin: 0, color: "#FFFFFF" }}>{title}</h3><p style={{ color: "#D5DDEA", fontSize: 12, lineHeight: 1.6, margin: "5px 0 0" }}>{text}</p></div>)}
+        <p style={{ margin: "18px 0 0", padding: 12, borderRadius: 9, background: "rgba(118,163,255,0.16)", border: "1px solid rgba(157,187,255,0.30)", color: "#F8FAFC", fontSize: 12, lineHeight: 1.55 }}>À retenir : une simulation prépare le dossier ; elle ne remplace ni la validation de l’OPCO, ni la convention, ni les justificatifs.</p>
       </div>}
     </section>
   );

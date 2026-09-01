@@ -38,12 +38,12 @@ export default function UnlockForm() {
   }
 
   return (
-    <div style={{ minHeight: "100svh", display: "flex", alignItems: "center", justifyContent: "center", background: "#07090F", color: "#fff", padding: 24, fontFamily: "var(--font-manrope, system-ui, sans-serif)" }}>
-      <div style={{ position: "fixed", top: "-10%", left: "50%", transform: "translateX(-50%)", width: 700, height: 500, pointerEvents: "none", background: "radial-gradient(ellipse, rgba(27,61,136,0.2) 0%, transparent 65%)" }} />
-      <main style={{ position: "relative", width: "100%", maxWidth: 440, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 18, padding: "clamp(28px,5vw,40px)", boxShadow: "0 24px 80px rgba(0,0,0,0.5)" }}>
-        <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#3A5FAB", boxShadow: "0 0 14px rgba(75,118,240,0.8)", marginBottom: 24 }} />
-        <h1 style={{ fontSize: 25, fontWeight: 700, letterSpacing: "-0.03em", margin: 0 }}>Simulateur de financement</h1>
-        <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.55)", margin: "10px 0 28px", lineHeight: 1.55 }}>Cet espace est réservé aux établissements accompagnés par AMI Panorama.</p>
+    <div style={{ minHeight: "100svh", display: "flex", alignItems: "center", justifyContent: "center", background: "#101722", color: "#F8FAFC", padding: 24, fontFamily: "var(--font-manrope, system-ui, sans-serif)" }}>
+      <div style={{ position: "fixed", top: "-10%", left: "50%", transform: "translateX(-50%)", width: 700, height: 500, pointerEvents: "none", background: "radial-gradient(ellipse, rgba(57,99,183,0.25) 0%, transparent 65%)" }} />
+      <main style={{ position: "relative", width: "100%", maxWidth: 440, background: "#1D2736", border: "1px solid #53647E", borderRadius: 18, padding: "clamp(28px,5vw,40px)", boxShadow: "0 24px 80px rgba(0,0,0,0.42)", color: "#F8FAFC" }}>
+        <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#5C8EF0", boxShadow: "0 0 16px rgba(92,142,240,0.72)", marginBottom: 24 }} />
+        <h1 style={{ fontSize: 25, fontWeight: 700, letterSpacing: "-0.03em", margin: 0, color: "#FFFFFF" }}>Simulateur de financement</h1>
+        <p style={{ fontSize: 13.5, color: "#CBD5E1", margin: "10px 0 28px", lineHeight: 1.55 }}>Cet espace est réservé aux établissements accompagnés par AMI Panorama.</p>
         {stage === "request" && <form onSubmit={requestAccess} style={formStyle}>
           <Field label="Nom et prénom"><input required value={form.fullName} onChange={(e) => update("fullName", e.target.value)} style={inputStyle} autoComplete="name" /></Field>
           <Field label="Établissement"><input value={form.establishment} onChange={(e) => update("establishment", e.target.value)} style={inputStyle} autoComplete="organization" /></Field>
@@ -53,24 +53,24 @@ export default function UnlockForm() {
           <button type="submit" disabled={pending} style={buttonStyle}>{pending ? "Envoi en cours…" : "Demander l’accès"}</button>
         </form>}
         {stage === "verify" && <form onSubmit={verifyCode} style={formStyle}>
-          <p style={{ margin: "0 0 16px", fontSize: 13.5, color: "rgba(255,255,255,0.68)", lineHeight: 1.55 }}>{message}</p>
+          <p style={{ margin: "0 0 16px", fontSize: 13.5, color: "#D5DDEA", lineHeight: 1.55 }}>{message}</p>
           <Field label="Code de vérification"><input required inputMode="numeric" pattern="[0-9]{6}" maxLength={6} value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))} style={{ ...inputStyle, fontSize: 22, fontWeight: 700, letterSpacing: "0.2em", textAlign: "center" }} autoFocus /></Field>
           <button type="submit" disabled={pending} style={buttonStyle}>{pending ? "Vérification…" : "Vérifier le code"}</button>
           <button type="button" onClick={() => { setStage("request"); setError(""); }} style={linkStyle}>Utiliser une autre adresse</button>
         </form>}
-        {stage === "pending" && <div><h2 style={{ fontSize: 18, margin: "0 0 10px" }}>Demande vérifiée</h2><p style={{ margin: 0, fontSize: 13.5, color: "rgba(255,255,255,0.62)", lineHeight: 1.6 }}>Merci. Ton adresse e-mail est confirmée. Notre équipe va examiner ta demande et te donnera accès au simulateur.</p></div>}
+        {stage === "pending" && <div><h2 style={{ fontSize: 18, margin: "0 0 10px", color: "#8FB4FF" }}>Demande vérifiée</h2><p style={{ margin: 0, fontSize: 13.5, color: "#D5DDEA", lineHeight: 1.6 }}>Merci. Ton adresse e-mail est confirmée. Notre équipe va examiner ta demande et te donnera accès au simulateur.</p></div>}
         {error && <p style={{ fontSize: 12.5, color: "#FF8C8C", margin: "18px 0 0", lineHeight: 1.5 }}>{error}</p>}
-        <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.35)", margin: "24px 0 0", lineHeight: 1.5 }}>Vos coordonnées servent uniquement à gérer l’accès et le suivi de votre demande.</p>
+        <p style={{ fontSize: 11.5, color: "#AAB7C9", margin: "24px 0 0", lineHeight: 1.5 }}>Vos coordonnées servent uniquement à gérer l’accès et le suivi de votre demande.</p>
       </main>
     </div>
   );
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return <label style={{ display: "grid", gap: 7, fontSize: 12, color: "rgba(255,255,255,0.68)", fontWeight: 600 }}>{label}{children}</label>;
+  return <label style={{ display: "grid", gap: 7, fontSize: 12, color: "#D5DDEA", fontWeight: 600 }}>{label}{children}</label>;
 }
 
 const formStyle = { display: "grid", gap: 15 };
-const inputStyle = { width: "100%", boxSizing: "border-box" as const, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 10, padding: "12px 13px", fontSize: 14, color: "#fff", outline: "none" };
-const buttonStyle = { width: "100%", border: "none", borderRadius: 10, cursor: "pointer", padding: "13px 15px", fontSize: 14, fontWeight: 700, color: "#fff", background: "#1B3D88", marginTop: 4 };
+const inputStyle = { width: "100%", boxSizing: "border-box" as const, background: "#263246", border: "1px solid #62738D", borderRadius: 10, padding: "12px 13px", fontSize: 14, color: "#FFFFFF", outline: "none" };
+const buttonStyle = { width: "100%", border: "none", borderRadius: 10, cursor: "pointer", padding: "13px 15px", fontSize: 14, fontWeight: 700, color: "#fff", background: "#3E68BE", marginTop: 4 };
 const linkStyle = { border: "none", background: "transparent", color: "#91B5FF", padding: "4px", fontSize: 12.5, cursor: "pointer" };

@@ -14,21 +14,22 @@ import SimulatorOnboarding from "./SimulatorOnboarding";
 
 // ── Thème : noir profond · blanc · gris clair · ORANGE AMI (accent). Bleu = accent graphique. ──
 const T = {
-  bg: "#08080B",
-  bg2: "#0E0E13",
-  panel: "rgba(255,255,255,0.025)",
-  panel2: "rgba(255,255,255,0.05)",
-  border: "rgba(255,255,255,0.08)",
-  borderStrong: "rgba(255,255,255,0.16)",
+  bg: "#0B1018",
+  bg2: "#111827",
+  panel: "#171E2A",
+  panel2: "#202938",
+  border: "#3A4659",
+  borderStrong: "#53647E",
   white: "#FFFFFF",
-  text: "#F4F5F7",
-  muted: "#A2A8B4",
-  faint: "#6B7280",
-  orange: "#1B3D88",
-  orangeSoft: "rgba(27,61,136,0.14)",
-  blue: "#5B8DEF",
-  teal: "#2DD4BF",
-  green: "#34D399",
+  text: "#F8FAFC",
+  muted: "#D5DDEA",
+  faint: "#AAB7C9",
+  orange: "#9DBBFF",
+  orangeSoft: "rgba(118,163,255,0.18)",
+  blue: "#76A3FF",
+  teal: "#5EEAD4",
+  green: "#5BE0B5",
+  blueFill: "#3E68BE",
 };
 
 const eur = (n: number) => `${Math.round(n).toLocaleString("fr-FR")} €`;
@@ -270,7 +271,7 @@ export default function SimulatorApp() {
   if (view === "hero") {
     return (
       <div style={{ background: T.bg, color: T.text, minHeight: "100svh", fontFamily: "var(--font-manrope, system-ui, sans-serif)", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 70% 50% at 50% -10%, rgba(27,61,136,0.16), transparent 60%)" }} />
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 70% 50% at 50% -10%, rgba(118,163,255,0.16), transparent 60%)" }} />
         <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 50% 40% at 80% 110%, rgba(91,141,239,0.10), transparent 60%)" }} />
         <div style={{ position: "relative", maxWidth: 920, margin: "0 auto", padding: "clamp(64px,12vh,140px) 24px 80px", textAlign: "center" }}>
           <motion.img src="/Assets/Brand/ami-logo-white.png" alt="AMI Panorama"
@@ -309,7 +310,7 @@ export default function SimulatorApp() {
   // ════════════════════════ APP ════════════════════════
   return (
     <div style={{ background: T.bg, color: T.text, minHeight: "100svh", fontFamily: "var(--font-manrope, system-ui, sans-serif)" }}>
-      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 60% 35% at 70% -5%, rgba(27,61,136,0.10), transparent 60%)" }} />
+      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 60% 35% at 70% -5%, rgba(118,163,255,0.12), transparent 60%)" }} />
       <div style={{ position: "relative", maxWidth: 1180, margin: "0 auto", padding: "52px 24px 112px" }}>
         {/* Top bar */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28 }}>
@@ -451,8 +452,8 @@ export default function SimulatorApp() {
             </div>
 
             {/* Carte « À savoir » */}
-            <div style={{ ...panelStyle, background: T.orangeSoft, border: "1px solid rgba(27,61,136,0.22)", padding: 16, display: "flex", gap: 12 }}>
-              <span style={{ width: 22, height: 22, borderRadius: 6, background: "rgba(27,61,136,0.18)", color: T.orange, fontWeight: 700, fontSize: 13, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>i</span>
+            <div style={{ ...panelStyle, background: T.orangeSoft, border: "1px solid rgba(157,187,255,0.40)", padding: 16, display: "flex", gap: 12 }}>
+              <span style={{ width: 22, height: 22, borderRadius: 6, background: "rgba(157,187,255,0.20)", color: T.orange, fontWeight: 700, fontSize: 13, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>i</span>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4 }}>À savoir</div>
                 <p style={{ fontSize: 12, color: T.muted, lineHeight: 1.55, margin: 0 }}>
@@ -467,7 +468,7 @@ export default function SimulatorApp() {
             {/* KPI principal */}
             <motion.div key={Math.round(result.racAvg)} initial={{ opacity: 0.4, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
               data-sim-tour="results"
-              style={{ ...panelStyle, background: "linear-gradient(160deg, rgba(27,61,136,0.10), rgba(255,255,255,0.02))", border: `1px solid ${T.borderStrong}`, padding: "32px 30px", position: "relative", overflow: "hidden" }}>
+              style={{ ...panelStyle, background: "linear-gradient(160deg, rgba(118,163,255,0.14), #171E2A 58%)", border: `1px solid ${T.borderStrong}`, padding: "32px 30px", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 3, background: T.orange }} />
               <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: T.muted }}>À prévoir par étudiant</div>
               <div style={{ fontSize: "clamp(48px,8vw,84px)", fontWeight: 800, letterSpacing: "-0.05em", lineHeight: 1, color: T.white, margin: "6px 0 4px" }}>{eur(result.racAvg)}</div>
@@ -514,7 +515,7 @@ export default function SimulatorApp() {
               </div>
             </div>
 
-            <div style={{ ...panelStyle, padding: "18px 20px", background: "rgba(27,61,136,0.08)", borderColor: "rgba(27,61,136,0.22)" }}>
+            <div style={{ ...panelStyle, padding: "18px 20px", background: "rgba(118,163,255,0.12)", borderColor: "rgba(157,187,255,0.35)" }}>
               <CardLabel>En clair</CardLabel>
               <p style={{ fontSize: 13, color: T.text, lineHeight: 1.65, margin: "9px 0 0" }}>
                 Pour ce séjour, les aides estimées couvrent {eur(financementsMobilisables)} sur {eur(result.totalCostAll)}. Après répartition, chaque étudiant aurait environ <b>{eur(result.racAvg)}</b> à prévoir.
@@ -661,7 +662,7 @@ function Step({ n, title, right, children }: { n: number; title: string; right?:
   );
 }
 function StepBadge({ n }: { n: number }) {
-  return <span style={{ width: 24, height: 24, borderRadius: 7, background: T.orangeSoft, border: `1px solid rgba(27,61,136,0.3)`, color: T.orange, fontSize: 12, fontWeight: 700, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>{n}</span>;
+  return <span style={{ width: 24, height: 24, borderRadius: 7, background: T.orangeSoft, border: "1px solid rgba(157,187,255,0.42)", color: T.orange, fontSize: 12, fontWeight: 700, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>{n}</span>;
 }
 function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (
@@ -712,7 +713,7 @@ function Toggle({ value, onChange, options }: { value: string; onChange: (v: str
   return (
     <div style={{ display: "inline-flex", background: T.panel2, border: `1px solid ${T.border}`, borderRadius: 10, padding: 3 }}>
       {options.map((o) => (
-        <button key={o.v} onClick={() => onChange(o.v)} style={{ border: "none", cursor: "pointer", padding: "8px 14px", borderRadius: 8, fontSize: 12.5, fontWeight: 600, background: value === o.v ? T.orange : "transparent", color: value === o.v ? "#fff" : T.muted, transition: "all 0.18s" }}>{o.l}</button>
+        <button key={o.v} onClick={() => onChange(o.v)} style={{ border: "none", cursor: "pointer", padding: "8px 14px", borderRadius: 8, fontSize: 12.5, fontWeight: 600, background: value === o.v ? T.blueFill : "transparent", color: value === o.v ? "#fff" : T.muted, transition: "all 0.18s" }}>{o.l}</button>
       ))}
     </div>
   );
@@ -771,7 +772,7 @@ function Waterfall({ steps }: { steps: { label: string; value: number; kind: "to
 const panelStyle: React.CSSProperties = { background: T.panel, border: `1px solid ${T.border}`, borderRadius: 16 };
 const inputStyle: React.CSSProperties = { width: "100%", background: T.panel2, border: `1px solid ${T.border}`, borderRadius: 10, padding: "11px 13px", fontSize: 14, color: T.text, outline: "none", fontFamily: "inherit" };
 const selectStyle: React.CSSProperties = { ...inputStyle, cursor: "pointer" };
-const primaryBtn: React.CSSProperties = { border: "none", borderRadius: 10, cursor: "pointer", padding: "13px 22px", fontSize: 14, fontWeight: 600, color: "#fff", background: T.orange };
+const primaryBtn: React.CSSProperties = { border: "none", borderRadius: 10, cursor: "pointer", padding: "13px 22px", fontSize: 14, fontWeight: 600, color: "#fff", background: T.blueFill };
 const ghostBtn: React.CSSProperties = { border: `1px solid ${T.borderStrong}`, borderRadius: 10, cursor: "pointer", padding: "13px 18px", fontSize: 14, fontWeight: 500, color: T.text, background: "transparent" };
 const linkBtn: React.CSSProperties = { border: "none", background: "transparent", color: T.muted, cursor: "pointer", fontSize: 12.5, letterSpacing: "0.06em", textTransform: "uppercase" };
 const iconBtn: React.CSSProperties = { border: `1px solid ${T.border}`, borderRadius: 8, cursor: "pointer", width: 30, height: 30, color: T.faint, background: "transparent", fontSize: 12, flexShrink: 0 };
