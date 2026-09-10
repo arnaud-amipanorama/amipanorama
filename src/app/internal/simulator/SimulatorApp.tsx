@@ -490,6 +490,22 @@ export default function SimulatorApp() {
               <div style={{ fontSize: 14, color: T.muted }}>Après les aides estimées · {result.totalStudents} étudiants · {destination || "Non renseignée"} · {nights + 1} jours</div>
             </motion.div>
 
+            <div style={{ ...panelStyle, padding: "18px 20px", background: "rgba(118,163,255,0.12)", borderColor: "rgba(157,187,255,0.35)" }}>
+              <CardLabel>En clair</CardLabel>
+              <p style={{ fontSize: 13, color: T.text, lineHeight: 1.65, margin: "9px 0 0" }}>
+                Cette estimation utilise un billet de transport à <b>{eur(transport)}</b> par étudiant et un séjour AMI Panorama à <b>{eur(programme)}</b> par étudiant, soit <b>{eur(result.totalCostPerStudent)}</b> avant les aides.
+              </p>
+              <p style={{ fontSize: 12, color: T.muted, lineHeight: 1.6, margin: "8px 0 0" }}>
+                Dès réception du devis, remplacez ces deux montants par les prix confirmés. Les tarifs AMI Panorama varient selon la destination, la période, la durée du séjour, le nombre de participants et les prestations retenues. C’est la meilleure façon d’obtenir une simulation précise.
+              </p>
+              <p style={{ fontSize: 12, color: T.muted, lineHeight: 1.6, margin: "8px 0 0" }}>
+                Dans ce scénario, {eur(result.apprentiTotal)} d’aides sont directement utilisés pour les étudiants et {eur(result.reinjected)} du budget référent est réinjecté. Après cette répartition, chaque étudiant aurait environ <b style={{ color: T.text }}>{eur(result.racAvg)}</b> à payer.
+              </p>
+              <p style={{ fontSize: 11.5, color: T.faint, lineHeight: 1.55, margin: "8px 0 0" }}>
+                Les {eur(result.referentTotal)} de forfaits référent mobilité financent le travail du CFA. Dans cette simulation, {eur(result.schoolImpact)} restent disponibles pour les accompagnateurs, la coordination et l’organisation. La validation finale des OPCO reste nécessaire.
+              </p>
+            </div>
+
             {/* KPI secondaires */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12 }} className="sim-kpis">
               <Kpi label="Aides OPCO au total" value={eur(result.apprentiTotal + result.referentTotal)} sub="étudiants + accompagnement" accent={T.green} />
@@ -531,31 +547,33 @@ export default function SimulatorApp() {
               </div>
             </div>
 
-            <div style={{ ...panelStyle, padding: "18px 20px", background: "rgba(118,163,255,0.12)", borderColor: "rgba(157,187,255,0.35)" }}>
-              <CardLabel>En clair</CardLabel>
-              <p style={{ fontSize: 13, color: T.text, lineHeight: 1.65, margin: "9px 0 0" }}>
-                Le séjour représente {eur(result.totalCostAll)} au total. Les aides directement utilisées pour les étudiants représentent {eur(result.apprentiTotal)} et {eur(result.reinjected)} du budget référent est réinjecté. Après cette répartition, chaque étudiant aurait environ <b>{eur(result.racAvg)}</b> à payer.
-              </p>
-              <p style={{ fontSize: 11.5, color: T.muted, lineHeight: 1.55, margin: "8px 0 0" }}>
-                Les {eur(result.referentTotal)} de forfaits référent mobilité financent le travail du CFA. Dans cette simulation, {eur(result.schoolImpact)} restent disponibles pour les accompagnateurs, la coordination et l’organisation. Ce n’est pas une marge libre et la validation finale des OPCO reste nécessaire.
-              </p>
-            </div>
-
             {/* Détail OPCO */}
             <div style={{ ...panelStyle, padding: 22 }}>
               <CardLabel>Comprendre le financement, OPCO par OPCO</CardLabel>
               <div style={{ marginTop: 12, display: "flex", flexDirection: "column" }}>
                 {result.perOpco.map((o) => {
-                  const maxA = Math.max(...result.perOpco.map((x) => x.apprentiAmount), 1);
                   return (
                     <div key={o.id} style={{ padding: "10px 0", borderTop: `1px solid ${T.border}` }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13 }}>
-                        <span style={{ minWidth: 132, fontWeight: 600 }}>{o.label}</span>
-                        <span style={{ color: T.faint, minWidth: 56, fontSize: 12 }}>{o.count} alt.</span>
-                        <div style={{ flex: 1, height: 5, background: "rgba(255,255,255,0.06)", borderRadius: 4 }}>
-                          <div style={{ width: `${(o.apprentiAmount / maxA) * 100}%`, height: "100%", background: T.blue, borderRadius: 4 }} />
+                      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10, fontSize: 13 }}>
+                        <span style={{ fontWeight: 700 }}>{o.label}</span>
+                        <span style={{ color: T.faint, fontSize: 12 }}>{o.count} alternant{o.count > 1 ? "s" : ""}</span>
+                      </div>
+                      <div style={{ display: "grid", gap: 7, marginTop: 8, padding: "10px 11px", borderRadius: 9, background: "rgba(255,255,255,0.025)" }}>
+                        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12 }}>
+                          <div>
+                            <div style={{ fontSize: 12.5, color: T.muted }}>Aide pour les étudiants</div>
+                            <div style={{ marginTop: 2, fontSize: 11.5, color: T.faint }}>soit {eur(o.apprentiTotal)} pour ce groupe</div>
+                          </div>
+                          <b style={{ color: T.blue, whiteSpace: "nowrap", fontSize: 13 }}>{eur(o.apprentiAmount)} / alternant</b>
                         </div>
-                        <b style={{ minWidth: 66, textAlign: "right" }}>{eur(o.apprentiAmount)}</b>
+                        <div style={{ height: 1, background: T.border }} />
+                        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12 }}>
+                          <div>
+                            <div style={{ fontSize: 12.5, color: T.muted }}>Forfait référent mobilité</div>
+                            <div style={{ marginTop: 2, fontSize: 11.5, color: T.faint }}>soit {eur(o.referentTotal)} pour le CFA</div>
+                          </div>
+                          <b style={{ color: T.teal, whiteSpace: "nowrap", fontSize: 13 }}>{eur(o.referentAmount)} / alternant</b>
+                        </div>
                       </div>
                       {(() => {
                         const explanation = explainFunding(o.id, { calendarDays: nights + 1, destinationZone, aktoContractMode, aktoTrainingLevel, afdasTrainingLevel, atlasContractMode, epContractMode, amount: o.apprentiTheoreticalAmount });
@@ -576,7 +594,7 @@ export default function SimulatorApp() {
                 <p style={{ fontSize: 11.5, color: T.muted, lineHeight: 1.6, margin: 0 }}>
                   <b style={{ color: T.text }}>Comment lire ces montants.</b> Le <b>forfait référent mobilité</b> finance le travail et les dépenses de coordination du CFA ; il ne constitue pas une marge libre. Pour les OPCO au réel, le simulateur applique une estimation selon les plafonds connus. AMI Panorama fournit ensuite la ventilation utile au dossier, lorsque le séjour est défini.
                 </p>
-                <p style={{ fontSize: 10, color: T.faint, margin: "8px 0 0" }}>Sources officielles consultées le 28/07/2026. Une source et la date de contrôle sont disponibles par ligne.</p>
+                <p style={{ fontSize: 10, color: T.faint, margin: "8px 0 0" }}>Sources officielles vérifiées le 01/09/2026. Une source et la date de contrôle sont disponibles par ligne.</p>
               </div>
             </div>
 

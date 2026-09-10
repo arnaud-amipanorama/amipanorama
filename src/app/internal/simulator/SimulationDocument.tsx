@@ -33,7 +33,7 @@ const C = {
   light: "#9AA0AA",
   line: "#E6E7EB",
   soft: "#F6F6F8",
-  orange: "#1B3D88",
+  orange: "#76A3FF",
   blue: "#3B68D6",
   green: "#1FA97A",
   amber: "#E0A52E",
@@ -220,9 +220,10 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
           </Text>
         </View>
 
-        <View style={[s.infoCard, { backgroundColor: C.soft }]}>
-          <Text style={s.infoTitle}>En pratique, comment un financement se confirme-t-il ?</Text>
-          <Text style={[s.infoBody, { marginTop: 8 }]}>1. Le CFA et AMI cadrent le séjour.  2. Les conditions applicables au contrat et à l&apos;OPCO sont vérifiées.  3. La convention de mobilité et les documents demandés sont préparés.  4. L&apos;OPCO instruit le dossier selon ses règles. Cette simulation intervient avant cette dernière validation.</Text>
+        <View style={[s.infoCard, { backgroundColor: C.soft, padding: 14 }]}>
+          <Text style={s.infoTitle}>En pratique, les 5 étapes pour confirmer le départ</Text>
+          <Text style={[s.infoBody, { marginTop: 7, fontSize: 8.8, lineHeight: 1.5 }]}>1. Renseigner les OPCO des groupes dans le simulateur afin d&apos;estimer les financements.  2. Demander les devis pour le transport aérien.  3. Choisir et bloquer les dates avec AMI Panorama.  4. Faire signer les conventions de mobilité et préparer les pièces demandées.  5. Une fois les documents et conventions signés, le départ peut être confirmé.</Text>
+          <Text style={[s.infoBody, { marginTop: 7, fontSize: 8.5, lineHeight: 1.48 }]}><Text style={s.infoStrong}>Calendrier de règlement AMI Panorama :</Text> 10 % d&apos;acompte à la sélection du devis et des dates pour les bloquer, puis un deuxième acompte de 50 % à 45 jours du départ. Les conditions d&apos;annulation s&apos;appliquent à partir de J-45. Avant cette échéance, des groupes peuvent être annulés ; toute variation d&apos;effectif supérieure à 20 % doit toutefois être étudiée au cas par cas et signalée avant J-45. Selon les délais de financement, les règlements peuvent intervenir en amont ; AMI Panorama propose des délais de paiement flexibles.</Text>
         </View>
 
         <View style={s.infoCard}>
@@ -297,14 +298,18 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
           <Text style={s.intro}>Chaque bloc explique simplement ce qui est estimé, la façon dont l&apos;OPCO peut intervenir et le point à vérifier avant de compter ce financement.</Text>
           {chunk.map((o, i) => (
             <View key={i} style={s.opcoCard} wrap={false}>
-              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <View style={{ flex: 1, paddingRight: 10 }}>
-                  <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 12 }}>{o.label}</Text>
-                  <Text style={{ fontSize: 8.5, color: C.gray, marginTop: 3 }}>{o.count} alternant{o.count > 1 ? "s" : ""} concerné{o.count > 1 ? "s" : ""}</Text>
+              <View>
+                <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 12 }}>{o.label}</Text>
+                <Text style={{ fontSize: 8.5, color: C.gray, marginTop: 3 }}>{o.count} alternant{o.count > 1 ? "s" : ""} concerné{o.count > 1 ? "s" : ""}</Text>
+              </View>
+              <View style={{ marginTop: 9, borderWidth: 1, borderColor: C.line, borderRadius: 7 }}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingVertical: 7, paddingHorizontal: 9 }}>
+                  <Text style={s.opcoKicker}>Financement de l&apos;alternant</Text>
+                  <Text style={[s.opcoValue, { fontSize: 13, marginTop: 0 }]}>{eur(o.apprenti)} / alternant</Text>
                 </View>
-                <View style={{ alignItems: "flex-end" }}>
-                  <Text style={s.opcoKicker}>Estimation / alternant</Text>
-                  <Text style={s.opcoValue}>{eur(o.apprenti)}</Text>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingVertical: 7, paddingHorizontal: 9, borderTopWidth: 1, borderTopColor: C.line, backgroundColor: "#F0FDF9" }}>
+                  <Text style={s.opcoKicker}>Frais de référent mobilité</Text>
+                  <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 13, color: C.green }}>{eur(o.referent)} / alternant</Text>
                 </View>
               </View>
               <View style={{ marginTop: 10 }}>
@@ -315,7 +320,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
                 <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8.5, color: o.toConfirm ? C.amber : C.gray }}>{o.toConfirm ? "À CONFIRMER AVANT DE COMPTER CE MONTANT" : "À PRÉVOIR DANS LE DOSSIER"}</Text>
                 <Text style={{ fontSize: 8.7, color: "#3A3A40", lineHeight: 1.55, marginTop: 3 }}>{o.condition}</Text>
               </View>
-              <Text style={{ fontSize: 8.5, color: C.gray, marginTop: 8 }}>Forfait référent mobilité : {eur(o.referent)} par alternant, pour la coordination et les dépenses liées au projet du CFA.</Text>
+              <Text style={{ fontSize: 8.5, color: C.gray, marginTop: 8 }}>Le forfait référent mobilité est destiné à la coordination et aux dépenses liées au projet du CFA.</Text>
             </View>
           ))}
           <Footer p={`0${5 + pageIndex}`} />
