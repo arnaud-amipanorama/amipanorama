@@ -97,6 +97,14 @@ const s = StyleSheet.create({
   compRow: { marginBottom: 14 },
   compTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 6 },
   compTrack: { height: 10, backgroundColor: C.soft, borderRadius: 3 },
+  stepRow: { flexDirection: "row", alignItems: "flex-start", marginBottom: 11 },
+  stepNumber: { width: 24, height: 24, borderRadius: 12, backgroundColor: C.orange, color: "#FFFFFF", fontFamily: "Helvetica-Bold", fontSize: 10, textAlign: "center", paddingTop: 5, marginRight: 11 },
+  stepTitle: { fontFamily: "Helvetica-Bold", fontSize: 10.5, color: C.ink },
+  stepText: { fontSize: 9, color: C.gray, lineHeight: 1.5, marginTop: 2 },
+  paymentCard: { flex: 1, borderWidth: 1, borderColor: C.line, borderRadius: 9, padding: 13 },
+  paymentValue: { fontFamily: "Helvetica-Bold", fontSize: 18, color: C.blue },
+  paymentLabel: { fontFamily: "Helvetica-Bold", fontSize: 9.5, color: C.ink, marginTop: 4 },
+  paymentText: { fontSize: 8.5, color: C.gray, lineHeight: 1.45, marginTop: 4 },
 });
 
 function Footer({ p }: { p: string }) {
@@ -131,7 +139,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
     { label: "Reste à charge étudiant", value: racFinalTotal, color: C.orange, final: true },
   ];
   const opcoChunks = Array.from({ length: Math.ceil(opco.length / 3) }, (_, index) => opco.slice(index * 3, index * 3 + 3));
-  const methodologyPage = 5 + opcoChunks.length;
+  const methodologyPage = 6 + opcoChunks.length;
   const mentionsPage = methodologyPage + 1;
 
   return (
@@ -215,15 +223,8 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
             <View style={[s.sw, { backgroundColor: C.green, width: 10, height: 10, borderRadius: 3 }]} />
             <Text style={s.infoTitle}>Prise en charge du référent mobilité</Text>
           </View>
-          <Text style={s.infoBody}>
-            Montant alloué par l&apos;OPCO au CFA (Centre de Formation d&apos;Apprentis) pour accompagner la mise en œuvre des mobilités étudiantes : organisation, coordination, suivi, préparation des élèves et dépenses liées au projet. <Text style={s.infoStrong}>Important :</Text> son affectation doit être cohérente avec les conditions de l&apos;OPCO, le dossier et les justificatifs à conserver ; elle ne constitue pas une marge libre.
-          </Text>
-        </View>
-
-        <View style={[s.infoCard, { backgroundColor: C.soft, padding: 14 }]}>
-          <Text style={s.infoTitle}>En pratique, les 5 étapes pour confirmer le départ</Text>
-          <Text style={[s.infoBody, { marginTop: 7, fontSize: 8.8, lineHeight: 1.5 }]}>1. Renseigner les OPCO des groupes dans le simulateur afin d&apos;estimer les financements.  2. Demander les devis pour le transport aérien.  3. Choisir et bloquer les dates avec AMI Panorama.  4. Faire signer les conventions de mobilité et préparer les pièces demandées.  5. Une fois les documents et conventions signés, le départ peut être confirmé.</Text>
-          <Text style={[s.infoBody, { marginTop: 7, fontSize: 8.5, lineHeight: 1.48 }]}><Text style={s.infoStrong}>Calendrier de règlement AMI Panorama :</Text> 10 % d&apos;acompte à la sélection du devis et des dates pour les bloquer, puis un deuxième acompte de 50 % à 45 jours du départ. Les conditions d&apos;annulation s&apos;appliquent à partir de J-45. Avant cette échéance, des groupes peuvent être annulés ; toute variation d&apos;effectif supérieure à 20 % doit toutefois être étudiée au cas par cas et signalée avant J-45. Selon les délais de financement, les règlements peuvent intervenir en amont ; AMI Panorama propose des délais de paiement flexibles.</Text>
+          <Text style={s.infoBody}>Montant alloué par l&apos;OPCO au CFA (Centre de Formation d&apos;Apprentis) pour accompagner la mise en œuvre des mobilités étudiantes. Il peut financer l&apos;organisation, la coordination, le suivi, la préparation des élèves et les dépenses liées au projet.</Text>
+          <Text style={[s.infoBody, { marginTop: 6 }]}><Text style={s.infoStrong}>À retenir. </Text>Son affectation doit respecter les conditions de l&apos;OPCO et les justificatifs à conserver. Il ne constitue pas une marge libre.</Text>
         </View>
 
         <View style={s.infoCard}>
@@ -231,9 +232,8 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
             <View style={[s.sw, { backgroundColor: C.blue, width: 10, height: 10, borderRadius: 3 }]} />
             <Text style={s.infoTitle}>Prise en charge de l&apos;apprenti·e</Text>
           </View>
-          <Text style={s.infoBody}>
-            Montant pris en charge directement par l&apos;OPCO pour chaque apprenti·e dans le cadre d&apos;une mobilité à l&apos;étranger. Cette aide peut couvrir tout ou partie des frais liés au transport, à l&apos;hébergement, à l&apos;assurance, ou encore à la restauration pendant la mobilité. Elle est généralement versée au CFA, qui la redistribue ou l&apos;utilise pour organiser la mobilité. <Text style={s.infoStrong}>Objectif :</Text> limiter les coûts restant à la charge de l&apos;apprenti·e et favoriser son départ à l&apos;international.
-          </Text>
+          <Text style={s.infoBody}>Montant pris en charge par l&apos;OPCO pour chaque apprenti·e dans le cadre d&apos;une mobilité à l&apos;étranger. Cette aide peut couvrir tout ou partie du transport, de l&apos;hébergement, de l&apos;assurance et de la restauration. Elle est généralement versée au CFA, qui l&apos;utilise pour organiser la mobilité ou la redistribue.</Text>
+          <Text style={[s.infoBody, { marginTop: 6 }]}><Text style={s.infoStrong}>Objectif. </Text>Réduire le reste à charge de l&apos;apprenti·e et faciliter son départ à l&apos;international.</Text>
         </View>
 
         <View style={s.infoCard}>
@@ -242,14 +242,56 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
             <Text style={s.infoTitle}>Réinjection et reste à charge</Text>
           </View>
           <Text style={s.infoBody}>
-            Dans cette simulation, le CFA peut tester l&apos;affectation d&apos;une part du budget référent à la réduction du reste à charge, sans dépasser le coût restant. Les aides utilisées pour les étudiants sont également plafonnées au prix estimé du séjour. Le <Text style={s.infoStrong}>reste à charge moyen étudiant</Text> correspond au coût estimé après les financements modélisés ; il demeure conditionnel à l&apos;accord de l&apos;OPCO et au dossier.
+            Dans cette simulation, le CFA peut affecter une part du budget référent à la réduction du reste à charge, sans dépasser le coût restant. Les aides utilisées pour les étudiants sont également plafonnées au prix estimé du séjour. Le <Text style={s.infoStrong}>reste à charge moyen étudiant</Text> correspond au coût estimé après les financements modélisés. Il demeure conditionnel à l&apos;accord de l&apos;OPCO et à la validation du dossier.
           </Text>
         </View>
 
         <Footer p="03" />
       </Page>
 
-      {/* PAGE 4, ANALYSE FINANCIÈRE (barres, sans pie chart) */}
+      {/* PAGE 4, PARCOURS DE CONFIRMATION */}
+      <Page size="A4" style={s.page}>
+        <Image src={LOGO_BLACK} style={s.hdrLogo} />
+        <Text style={s.eyebrow}>Passer de l&apos;estimation au départ</Text>
+        <Text style={s.h2}>Les 5 étapes de votre projet</Text>
+        <Text style={s.intro}>Un parcours simple pour fiabiliser le budget, réserver le séjour et finaliser le dossier de mobilité.</Text>
+        {[
+          ["Identifier les OPCO", "Renseignez la répartition du groupe dans le simulateur pour obtenir une première estimation des financements."],
+          ["Demander les devis aériens", "Confirmez le coût réel du transport afin d&apos;affiner le budget du séjour."],
+          ["Choisir les dates", "Validez le devis et bloquez les dates du groupe avec AMI Panorama."],
+          ["Finaliser le dossier", "Faites signer les conventions de mobilité et réunissez les documents demandés."],
+          ["Confirmer le départ", "Une fois les conventions et les documents signés, le groupe est prêt à partir."],
+        ].map(([title, text], index) => (
+          <View key={title} style={s.stepRow} wrap={false}>
+            <Text style={s.stepNumber}>{index + 1}</Text>
+            <View style={{ flex: 1, paddingTop: 1 }}>
+              <Text style={s.stepTitle}>{title}</Text>
+              <Text style={s.stepText}>{text}</Text>
+            </View>
+          </View>
+        ))}
+
+        <Text style={[s.eyebrow, { marginTop: 13, marginBottom: 10 }]}>Un règlement progressif et flexible</Text>
+        <View style={{ flexDirection: "row", gap: 10 }}>
+          <View style={s.paymentCard} wrap={false}>
+            <Text style={s.paymentValue}>10 %</Text>
+            <Text style={s.paymentLabel}>Pour bloquer les dates</Text>
+            <Text style={s.paymentText}>Premier acompte demandé après la sélection du devis et des dates.</Text>
+          </View>
+          <View style={s.paymentCard} wrap={false}>
+            <Text style={s.paymentValue}>50 %</Text>
+            <Text style={s.paymentLabel}>À 45 jours du départ</Text>
+            <Text style={s.paymentText}>Deuxième acompte. Les conditions d&apos;annulation s&apos;appliquent à partir de cette échéance.</Text>
+          </View>
+        </View>
+        <View style={[s.infoCard, { backgroundColor: C.soft, marginTop: 12, marginBottom: 0, padding: 12 }]} wrap={false}>
+          <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9.5 }}>Ajustement des groupes</Text>
+          <Text style={[s.infoBody, { fontSize: 8.7, marginTop: 4 }]}>Avant J-45, les annulations de groupes restent possibles. Toute variation d&apos;effectif supérieure à 20 % doit être signalée avant cette date et sera étudiée au cas par cas. Selon le calendrier des financements, les règlements peuvent intervenir plus tôt. AMI Panorama propose des délais de paiement flexibles.</Text>
+        </View>
+        <Footer p="04" />
+      </Page>
+
+      {/* PAGE 5, ANALYSE FINANCIÈRE (barres, sans pie chart) */}
       <Page size="A4" style={s.page}>
         <Image src={LOGO_BLACK} style={s.hdrLogo} />
         <Text style={s.eyebrow}>Analyse financière</Text>
@@ -286,10 +328,10 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
             </View>
           ))}
         </View>
-        <Footer p="04" />
+        <Footer p="05" />
       </Page>
 
-      {/* PAGE 5+, OPCO EXPLIQUÉS */}
+      {/* PAGE 6+, OPCO EXPLIQUÉS */}
       {opcoChunks.map((chunk, pageIndex) => (
         <Page key={pageIndex} size="A4" style={s.page}>
           <Image src={LOGO_BLACK} style={s.hdrLogo} />
@@ -323,11 +365,11 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
               <Text style={{ fontSize: 8.5, color: C.gray, marginTop: 8 }}>Le forfait référent mobilité est destiné à la coordination et aux dépenses liées au projet du CFA.</Text>
             </View>
           ))}
-          <Footer p={`0${5 + pageIndex}`} />
+          <Footer p={String(6 + pageIndex).padStart(2, "0")} />
         </Page>
       ))}
 
-      {/* PAGE 6, MÉTHODOLOGIE */}
+      {/* MÉTHODOLOGIE */}
       <Page size="A4" style={s.page}>
         <Image src={LOGO_BLACK} style={s.hdrLogo} />
         <Text style={s.eyebrow}>Méthodologie</Text>
