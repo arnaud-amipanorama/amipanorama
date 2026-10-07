@@ -102,18 +102,23 @@ const EXTRA: Record<string, { facts: string[]; gallery: string[]; galleryLabel?:
     ],
     gallery: [],
   },
-  "Cape Town": {
+  "Bucarest": {
     facts: [
-      "Une ville portuaire tournée vers l'Afrique australe et les échanges internationaux.",
-      "Un écosystème créatif et entrepreneurial particulièrement dynamique.",
-      "Une immersion où ville, océan et reliefs se rencontrent au quotidien.",
+      "Une capitale européenne en pleine transformation économique et urbaine.",
+      "Un écosystème numérique et entrepreneurial en forte croissance.",
+      "Un patrimoine architectural marqué par plusieurs époques de l'histoire roumaine.",
     ],
-    gallery: [
-      "/Assets/destinations/cape-town/table-mountain.jpg",
-      "/Assets/destinations/cape-town/coast.jpg",
-      "/Assets/destinations/cape-town/bo-kaap.jpg",
+    gallery: [],
+    galleryLabel: "Bucarest et son patrimoine",
+  },
+  "Lisbonne": {
+    facts: [
+      "Une capitale ouverte sur l'Atlantique et les échanges internationaux.",
+      "Un écosystème reconnu pour la tech, les services et les industries créatives.",
+      "Une ville à taille humaine où l'immersion professionnelle reste très accessible.",
     ],
-    galleryLabel: "Panoramas de Cape Town",
+    gallery: [],
+    galleryLabel: "Lisbonne et ses quartiers",
   },
 };
 

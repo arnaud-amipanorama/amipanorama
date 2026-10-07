@@ -73,7 +73,7 @@ export type HeroPhoto = { src: string; city: string; flag: string };
 //    Séville  3  → deuxième pilier, doit rester clairement visible
 //    New York 3  → destination iconique, mise en lumière pour sa force
 //                  d'attraction, mais jamais au-dessus des deux piliers
-//    Londres/Malte/Rome 2, Berlin/Cape Town 1 → reflètent la diversité de l'offre
+//    Londres/Malte/Rome 2, Berlin/Bucarest/Lisbonne 1 → reflètent la diversité de l'offre
 //
 //  L'ordre d'ouverture (Montréal → Séville → New York) rejoue cette
 //  hiérarchie dès les premières cartes visibles.
@@ -97,5 +97,6 @@ export const HERO_PHOTOS: HeroPhoto[] = [
   { src: "/Assets/groups/berlin-main.jpg",      city: "Berlin",   flag: "🇩🇪" },
   { src: "/Assets/groups/malta-group.jpg",      city: "Malte",    flag: "🇲🇹" },
   { src: "/Assets/groups/rome-group.jpg",       city: "Rome",     flag: "🇮🇹" },
-  { src: "/Assets/destinations/cape-town/bo-kaap.jpg", city: "Cape Town", flag: "🇿🇦" },
+  { src: "https://images.unsplash.com/photo-1772617613154-725567be5174?w=1200&q=90", city: "Bucarest", flag: "🇷🇴" },
+  { src: "https://images.unsplash.com/photo-1762882450531-c99aca0ba328?w=1200&q=85", city: "Lisbonne", flag: "🇵🇹" },
 ];

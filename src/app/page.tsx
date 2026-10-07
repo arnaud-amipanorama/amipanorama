@@ -114,12 +114,20 @@ const destinations: {
     img: "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=800&q=80",
   },
   {
-    city: "Cape Town",
-    country: "Afrique du Sud",
-    flag: "🇿🇦",
-    tag: "Innovation & ouverture africaine",
-    gradient: "linear-gradient(170deg,rgba(49,24,8,0.42),rgba(154,84,18,0.25))",
-    img: "/Assets/destinations/cape-town/table-mountain.jpg",
+    city: "Bucarest",
+    country: "Roumanie",
+    flag: "🇷🇴",
+    tag: "Transformation & culture européenne",
+    gradient: "linear-gradient(170deg,rgba(10,28,56,0.34),rgba(25,77,122,0.18))",
+    img: "https://images.unsplash.com/photo-1772617613154-725567be5174?w=900&q=90",
+  },
+  {
+    city: "Lisbonne",
+    country: "Portugal",
+    flag: "🇵🇹",
+    tag: "Innovation & ouverture atlantique",
+    gradient: "linear-gradient(170deg,rgba(34,20,8,0.34),rgba(174,92,22,0.18))",
+    img: "https://images.unsplash.com/photo-1762882450531-c99aca0ba328?w=900&q=85",
   },
 ];
 
@@ -140,7 +148,7 @@ const stats = [
   { value: "3 000+", label: "participants accompagnés", icon: IconUsers },
   { value: "100+",   label: "groupes coordonnés",       icon: IconGroups },
   { value: "50",     label: "écoles partenaires",       icon: IconSchool },
-  { value: "11",     label: "destinations actives",     icon: IconGlobe },
+  { value: "12",     label: "destinations actives",     icon: IconGlobe },
 ];
 
 const partnerNames = [

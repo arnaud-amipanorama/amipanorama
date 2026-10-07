@@ -6,7 +6,7 @@ import DestinationExplorer from "./DestinationExplorer";
 export const metadata: Metadata = {
   title: "Destinations",
   description:
-    "11 destinations de mobilité professionnelle internationale, de Montréal à Cape Town. Chaque programme est structuré pour sa valeur pédagogique et professionnelle, adapté à votre filière.",
+    "12 destinations de mobilité professionnelle internationale, de Montréal à Lisbonne. Chaque programme est structuré pour sa valeur pédagogique et professionnelle, adapté à votre filière.",
 };
 
 const destinations = [
@@ -186,21 +186,38 @@ const destinations = [
     ideal: "Numérique · Tech · Industrie · Innovation",
   },
   {
-    city: "Cape Town",
-    country: "Afrique du Sud",
-    tag: "Innovation & ouverture africaine",
-    flag: "🇿🇦",
-    accent: "#D4862A",
-    photo: "/Assets/destinations/cape-town/table-mountain.jpg",
-    headline: "L'Afrique du Sud, là où les horizons professionnels s'élargissent.",
-    desc: "Cape Town réunit une scène entrepreneuriale en mouvement, une diversité culturelle rare et un cadre naturel spectaculaire. Une immersion ambitieuse pour découvrir l'Afrique du Sud par ses réalités économiques, ses initiatives locales et l'énergie de sa métropole du Cap.",
+    city: "Bucarest",
+    country: "Roumanie",
+    tag: "Transformation & culture européenne",
+    flag: "🇷🇴",
+    accent: "#24478F",
+    photo: "https://images.unsplash.com/photo-1772617613154-725567be5174?w=1200&q=90",
+    headline: "Une capitale européenne en pleine transformation.",
+    desc: "Bucarest conjugue architecture monumentale, nouvelles industries et énergie entrepreneuriale. Une destination qui permet aux apprentis de comprendre les mutations de l'Europe centrale, au contact d'acteurs économiques et culturels ancrés dans la ville.",
     highlights: [
-      "Formation sur l'environnement socio-économique sud-africain et les dynamiques du Cap",
-      "Visites de structures locales et rencontres professionnelles adaptées à la filière du groupe",
-      "Immersion interculturelle : quartiers, initiatives créatives et lecture des codes locaux",
-      "Découverte de Cape Town : Table Mountain, waterfront, Bo-Kaap et littoral atlantique",
+      "Panorama socio-économique de la Roumanie et de sa capitale",
+      "Visites d'entreprises et rencontres dans les secteurs numérique, services et industrie",
+      "Découverte du patrimoine : Athénée roumain, centre historique et architecture du XXe siècle",
+      "Immersion dans les nouveaux lieux créatifs et entrepreneuriaux de Bucarest",
     ],
-    ideal: "Commerce international · Numérique · Management · Tourisme",
+    ideal: "Numérique · Commerce · Management · Communication",
+  },
+  {
+    city: "Lisbonne",
+    country: "Portugal",
+    tag: "Innovation & ouverture atlantique",
+    flag: "🇵🇹",
+    accent: "#D4862A",
+    photo: "https://images.unsplash.com/photo-1762882450531-c99aca0ba328?w=1200&q=85",
+    headline: "L'Europe atlantique, entre patrimoine et nouveaux usages.",
+    desc: "Lisbonne offre un terrain d'apprentissage particulièrement accessible : une économie ouverte, une scène entrepreneuriale internationale et une culture urbaine forte. Son échelle humaine favorise les rencontres, l'observation et l'immersion professionnelle.",
+    highlights: [
+      "Panorama de l'économie portugaise et de l'écosystème lisboète",
+      "Rencontres professionnelles dans la tech, le tourisme et les industries créatives",
+      "Découverte de la ville : Baixa, Alfama, Belém et les rives du Tage",
+      "Lecture des transformations urbaines et des nouveaux modèles de services",
+    ],
+    ideal: "Tourisme · Commerce · Numérique · Communication",
   },
   {
     city: "Dubai",
