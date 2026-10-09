@@ -16,7 +16,6 @@ export default function GuidedSimulatorIntro({ onStart, canResume, onResume }: {
 
   return (
     <div className={`${styles.screen} ${styles.intro}`}>
-      <p className={styles.eyebrow}>AMI Panorama · Simulation guidée</p>
       <h1 ref={titleRef} tabIndex={-1} className={`${styles.title} ${styles.introTitle}`}>Estimez le budget de votre voyage étudiant</h1>
       <p className={styles.help}>Répondez à quelques questions simples. Nous estimons ensuite le coût du séjour, les financements possibles et le reste à payer par participant.</p>
       <ul className={styles.reassure}>

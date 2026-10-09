@@ -797,6 +797,34 @@ export function advancedToGuided(snapshot: AdvancedSnapshot, previous: GuidedAns
   return next;
 }
 
+// ── Choix du simulateur ───────────────────────────────────────
+export type SimulatorMode = "guided" | "expert";
+export const SIMULATOR_PATH = "/internal/simulator";
+
+/** `?mode=guided` ou `?mode=expert`. Toute autre valeur mène à l'écran de choix. */
+export function parseSimulatorMode(value: string | string[] | undefined): SimulatorMode | null {
+  const mode = Array.isArray(value) ? value[0] : value;
+  return mode === "guided" || mode === "expert" ? mode : null;
+}
+
+export function simulatorUrl(mode: SimulatorMode | null): string {
+  return mode ? `${SIMULATOR_PATH}?mode=${mode}` : SIMULATOR_PATH;
+}
+
+/** Le parcours guidé a-t-il reçu au moins une réponse ? */
+export function hasGuidedAnswers(answers: GuidedAnswers): boolean {
+  return answers.destinationKnown !== null;
+}
+
+/**
+ * État avec lequel ouvrir le simulateur expert.
+ * - Parcours guidé commencé : ses réponses, complétées par les réglages propres à l'expert déjà saisis.
+ * - Sinon : le dernier état de l'expert, ou null, c'est-à-dire ses valeurs d'exemple habituelles.
+ */
+export function expertInitialSnapshot(answers: GuidedAnswers, lastExpert: AdvancedSnapshot | null): AdvancedSnapshot | null {
+  return hasGuidedAnswers(answers) ? guidedToAdvanced(answers, lastExpert) : lastExpert;
+}
+
 /** Lecture tolérante d'un état sauvegardé : toute donnée douteuse retombe sur la valeur initiale. */
 export function reviveGuidedAnswers(raw: unknown): GuidedAnswers {
   if (!raw || typeof raw !== "object") return INITIAL_GUIDED_ANSWERS;

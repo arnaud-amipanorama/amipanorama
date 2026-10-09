@@ -53,13 +53,16 @@ type SimulatorAppProps = {
   /** État repris du parcours guidé. Absent : valeurs d'exemple historiques. */
   initial?: AdvancedSnapshot | null;
   initialContact?: SimulatorContact | null;
-  /** Retour vers la simulation guidée, avec l'état courant pour ne rien perdre. */
-  onSwitchToGuided?: (snapshot: AdvancedSnapshot, contact: SimulatorContact) => void;
+  /**
+   * Retour à l'écran de choix, avec l'état courant pour ne rien perdre.
+   * `changed` est faux tant que rien n'a été modifié depuis l'ouverture.
+   */
+  onChangeSimulator?: (snapshot: AdvancedSnapshot, contact: SimulatorContact, changed: boolean) => void;
   /** Information affichée sous la barre du haut (ex. participants sans OPCO connu). */
   notice?: string | null;
 };
 
-export default function SimulatorApp({ initial = null, initialContact = null, onSwitchToGuided, notice = null }: SimulatorAppProps = {}) {
+export default function SimulatorApp({ initial = null, initialContact = null, onChangeSimulator, notice = null }: SimulatorAppProps = {}) {
   const [view, setView] = useState<"hero" | "app">("app");
   const [showOnboarding, setShowOnboarding] = useState(false);
 
@@ -222,10 +225,10 @@ export default function SimulatorApp({ initial = null, initialContact = null, on
   const removeRow = (id: string) => setRows((rs) => rs.filter((r) => r.id !== id));
   const setCount = (id: string, count: number) => setRows((rs) => rs.map((r) => (r.id === id ? { ...r, count: Math.max(0, count) } : r)));
 
-  const switchToGuided = () => onSwitchToGuided?.(
-    { destination, nights, accompagnants, rows, transport, programme, eligibleAccommodation, eligibleMeals, eligibleOther, mode, keptPerAccompagnant, atlasContractMode, atlasBeforeApril2026, aktoContractMode, aktoTrainingLevel, afdasTrainingLevel, epContractMode, opcoMobilitesBefore2026, targetRac },
-    { ecole, referent, email, dateSouhaitee },
-  );
+  const snapshot: AdvancedSnapshot = { destination, nights, accompagnants, rows, transport, programme, eligibleAccommodation, eligibleMeals, eligibleOther, mode, keptPerAccompagnant, atlasContractMode, atlasBeforeApril2026, aktoContractMode, aktoTrainingLevel, afdasTrainingLevel, epContractMode, opcoMobilitesBefore2026, targetRac };
+  // État à l'ouverture, pour savoir si quelque chose a été modifié depuis.
+  const [openedWith] = useState(() => JSON.stringify(snapshot));
+  const changeSimulator = () => onChangeSimulator?.(snapshot, { ecole, referent, email, dateSouhaitee }, JSON.stringify(snapshot) !== openedWith);
 
   function buildPdfData(): SimulationData {
     return {
@@ -336,14 +339,15 @@ export default function SimulatorApp({ initial = null, initialContact = null, on
   return (
     <div style={{ background: T.bg, color: T.text, minHeight: "100svh", fontFamily: "var(--font-manrope, system-ui, sans-serif)" }}>
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 60% 35% at 70% -5%, rgba(118,163,255,0.12), transparent 60%)" }} />
-      <div style={{ position: "relative", maxWidth: 1180, margin: "0 auto", padding: "52px 24px 112px" }}>
+      {/* Marge haute : la barre de navigation du site est fixe (86 px) et masquait cette barre. */}
+      <div style={{ position: "relative", maxWidth: 1180, margin: "0 auto", padding: "112px 24px 112px" }}>
         {/* Top bar */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28 }}>
           <button onClick={() => setView("hero")} style={{ ...linkBtn, display: "inline-flex", alignItems: "center", gap: 11 }}>
             <img src="/Assets/Brand/ami-logo-white.png" alt="AMI Panorama" style={{ height: 22, width: "auto" }} />
-            <span style={{ color: T.faint, textTransform: "none", letterSpacing: 0 }}>· Simulation avancée</span>
+            <span style={{ color: T.faint, textTransform: "none", letterSpacing: 0 }}>· Simulateur expert</span>
           </button>
-          {onSwitchToGuided && <button onClick={switchToGuided} style={{ ...linkBtn, textTransform: "none", letterSpacing: 0, textDecoration: "underline", textUnderlineOffset: 3 }}>Revenir à la simulation guidée</button>}
+          {onChangeSimulator && <button onClick={changeSimulator} style={{ ...ghostBtn, padding: "9px 14px", fontSize: 13 }}>⇄ Changer de simulateur</button>}
         </div>
         {notice && <p role="status" style={{ margin: "-12px 0 24px", padding: "11px 14px", borderRadius: 10, background: T.orangeSoft, border: "1px solid rgba(157,187,255,0.40)", color: T.text, fontSize: 12.5, lineHeight: 1.55 }}>{notice}</p>}
 

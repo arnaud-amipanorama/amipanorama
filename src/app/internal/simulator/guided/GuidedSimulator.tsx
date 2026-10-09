@@ -34,10 +34,13 @@ type Props = {
   onReset: () => void;
   contact: GuidedContact;
   onContact: (contact: GuidedContact) => void;
-  onAdvanced: () => void;
+  /** Ouvre le simulateur expert avec les réponses déjà données. */
+  onExpert: () => void;
+  /** Revient à l'écran de choix entre les deux simulateurs. */
+  onChangeSimulator: () => void;
 };
 
-export default function GuidedSimulator({ answers, screen, onAnswers, onScreen, onReset, contact, onContact, onAdvanced }: Props) {
+export default function GuidedSimulator({ answers, screen, onAnswers, onScreen, onReset, contact, onContact, onExpert, onChangeSimulator }: Props) {
   // Erreur affichée seulement après une tentative de continuer, pour ne pas gronder avant la réponse.
   const [attempted, setAttempted] = useState<GuidedStepId | null>(null);
   // Étape ouverte depuis le récapitulatif ou le résultat : « Continuer » y ramène directement.
@@ -71,7 +74,7 @@ export default function GuidedSimulator({ answers, screen, onAnswers, onScreen, 
         onEdit={(step) => edit(step, "results")}
         onReview={() => go("review")}
         onRestart={restart}
-        onAdvanced={onAdvanced}
+        onAdvanced={onExpert}
       />
     );
   } else {
@@ -121,18 +124,17 @@ export default function GuidedSimulator({ answers, screen, onAnswers, onScreen, 
     <div className={styles.root}>
       <div aria-hidden="true" className={styles.glow} />
       <div className={`${styles.shell} ${wide ? styles.shellWide : ""}`}>
-        {current !== "intro" && (
-          <header className={styles.topbar}>
-            <span className={styles.brandTag}>AMI Panorama · Simulation guidée</span>
-            <div>
-              {current !== "results" && <button type="button" className={styles.textLink} onClick={restart}>Effacer et recommencer</button>}
-            </div>
-          </header>
-        )}
+        <header className={styles.topbar}>
+          <span className={styles.brandTag}>AMI Panorama · Simulateur guidé</span>
+          <div className={styles.topActions}>
+            {current !== "intro" && current !== "results" && <button type="button" className={styles.textLink} onClick={restart}>Effacer et recommencer</button>}
+            <button type="button" className={styles.switchLink} onClick={onChangeSimulator}>⇄ Changer de simulateur</button>
+          </div>
+        </header>
         <main key={current}>{content}</main>
         {current !== "results" && (
           <p style={{ textAlign: "center", marginTop: 40 }}>
-            <button type="button" className={styles.textLink} onClick={onAdvanced}>Vous connaissez déjà vos paramètres ? Passer à la simulation avancée</button>
+            <button type="button" className={styles.textLink} onClick={onExpert}>Vous connaissez déjà vos paramètres ? Ouvrir le simulateur expert</button>
           </p>
         )}
       </div>

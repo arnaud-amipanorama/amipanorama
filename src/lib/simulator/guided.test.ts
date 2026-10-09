@@ -7,6 +7,9 @@ import {
   advancedToGuided,
   buildGuidedOutcome,
   daysToNights,
+  expertInitialSnapshot,
+  parseSimulatorMode,
+  simulatorUrl,
   firstInvalidStep,
   guidedToAdvanced,
   guidedToSimInput,
@@ -331,5 +334,32 @@ describe("reprise après rechargement", () => {
     expect(reviveGuidedAnswers(null)).toEqual(INITIAL_GUIDED_ANSWERS);
     const revived = reviveGuidedAnswers({ destination: "Atlantide", participants: -4, opcoRows: [{ id: "inconnu", count: 3 }, { id: "akto", count: 2 }], zone: "mars" });
     expect(revived).toMatchObject({ destination: null, zone: null, participants: INITIAL_GUIDED_ANSWERS.participants, opcoRows: [{ id: "akto", count: 2 }] });
+  });
+});
+
+describe("choix du simulateur", () => {
+  it("ne reconnaît que les deux modes ; tout le reste mène à l’écran de choix", () => {
+    expect(parseSimulatorMode("guided")).toBe("guided");
+    expect(parseSimulatorMode("expert")).toBe("expert");
+    expect(parseSimulatorMode(["expert", "guided"])).toBe("expert");
+    for (const value of [undefined, "", "advanced", "GUIDED", "ancien"]) expect(parseSimulatorMode(value)).toBeNull();
+  });
+
+  it("donne une adresse partageable par simulateur", () => {
+    expect(simulatorUrl(null)).toBe("/internal/simulator");
+    expect(simulatorUrl("guided")).toBe("/internal/simulator?mode=guided");
+    expect(simulatorUrl("expert")).toBe("/internal/simulator?mode=expert");
+  });
+
+  it("ouvre le simulateur expert sur ses valeurs habituelles tant que le parcours guidé est vierge", () => {
+    expect(expertInitialSnapshot(INITIAL_GUIDED_ANSWERS, null)).toBeNull();
+    const last = guidedToAdvanced(complete());
+    expect(expertInitialSnapshot(INITIAL_GUIDED_ANSWERS, last)).toBe(last);
+  });
+
+  it("reprend les réponses du parcours guidé, en gardant les réglages propres à l’expert", () => {
+    const last = { ...guidedToAdvanced(complete()), mode: "targetRac" as const, targetRac: 150, eligibleOther: 40 };
+    const snapshot = expertInitialSnapshot(complete({ participants: 30, opcoRows: [{ id: "akto", count: 30 }], destination: "Rome" }), last);
+    expect(snapshot).toMatchObject({ destination: "Rome", rows: [{ id: "akto", count: 30 }], mode: "targetRac", targetRac: 150, eligibleOther: 40 });
   });
 });

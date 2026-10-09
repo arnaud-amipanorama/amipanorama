@@ -196,7 +196,7 @@ export default function GuidedResults({ answers, outcome, update, contact, onCon
         <div className={styles.actions}>
           <button type="button" className={styles.ghost} onClick={onReview}>Modifier mes réponses</button>
           <button type="button" className={styles.ghost} onClick={onRestart}>Recommencer une simulation</button>
-          <button type="button" className={styles.textLink} onClick={onAdvanced}>Passer au mode avancé</button>
+          <button type="button" className={styles.textLink} onClick={onAdvanced}>Ouvrir le simulateur expert</button>
         </div>
         <p className={styles.legal}>
           Les résultats fournis constituent des estimations indicatives, basées sur les informations saisies et sur les règles de financement connues à ce jour. Ils ne sont pas contractuels. Les décisions finales de prise en charge relèvent exclusivement des OPCO et organismes compétents. AMI Panorama ne garantit aucun montant de financement.
