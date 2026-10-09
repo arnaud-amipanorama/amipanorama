@@ -8,6 +8,7 @@ import {
   resolveKeptTotal,
   type OptimizationMode,
 } from "@/lib/simulator/engine";
+import type { AdvancedSnapshot } from "@/lib/simulator/guided";
 import type { SimulationData } from "./SimulationDocument";
 import FundingGuide from "./FundingGuide";
 import SimulatorOnboarding from "./SimulatorOnboarding";
@@ -46,7 +47,19 @@ const MODES: { kind: ModeKind; label: string; desc: string }[] = [
 
 const BENEFITS = ["Financements OPCO", "Référent mobilité", "Reste à charge étudiant", "Impact établissement"];
 
-export default function SimulatorApp() {
+export type SimulatorContact = { ecole: string; referent: string; email: string; dateSouhaitee: string };
+
+type SimulatorAppProps = {
+  /** État repris du parcours guidé. Absent : valeurs d'exemple historiques. */
+  initial?: AdvancedSnapshot | null;
+  initialContact?: SimulatorContact | null;
+  /** Retour vers la simulation guidée, avec l'état courant pour ne rien perdre. */
+  onSwitchToGuided?: (snapshot: AdvancedSnapshot, contact: SimulatorContact) => void;
+  /** Information affichée sous la barre du haut (ex. participants sans OPCO connu). */
+  notice?: string | null;
+};
+
+export default function SimulatorApp({ initial = null, initialContact = null, onSwitchToGuided, notice = null }: SimulatorAppProps = {}) {
   const [view, setView] = useState<"hero" | "app">("app");
   const [showOnboarding, setShowOnboarding] = useState(false);
 
@@ -61,40 +74,40 @@ export default function SimulatorApp() {
   };
 
   // Étape 1, le groupe
-  const [destination, setDestination] = useState("Montréal");
-  const [nights, setNights] = useState(7);
-  const [accompagnants, setAccompagnants] = useState(2);
+  const [destination, setDestination] = useState(initial?.destination ?? "Montréal");
+  const [nights, setNights] = useState(initial?.nights ?? 7);
+  const [accompagnants, setAccompagnants] = useState(initial?.accompagnants ?? 2);
 
   // Étape 2, répartition OPCO
-  const [rows, setRows] = useState<RowState[]>([
+  const [rows, setRows] = useState<RowState[]>(initial?.rows ?? [
     { id: "akto", count: 8 },
     { id: "atlas", count: 4 },
     { id: "afdas", count: 6 },
   ]);
 
   // Étape 3, paramètres avancés
-  const [transport, setTransport] = useState(DESTINATION_TARIFFS["Montréal"].billets);
-  const [programme, setProgramme] = useState(programmeForDestination("Montréal", 7));
-  const [eligibleAccommodation, setEligibleAccommodation] = useState(7 * 6);
-  const [eligibleMeals, setEligibleMeals] = useState(8 * 2 * 3);
-  const [eligibleOther, setEligibleOther] = useState(0);
-  const [mode, setMode] = useState<ModeKind>("free");
-  const [keptPerAccompagnant, setKeptPerAccompagnant] = useState(COST_DEFAULTS.keptPerAccompagnant);
-  const [atlasContractMode, setAtlasContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
-  const [atlasBeforeApril2026, setAtlasBeforeApril2026] = useState(0);
-  const [aktoContractMode, setAktoContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
-  const [aktoTrainingLevel, setAktoTrainingLevel] = useState<"postBac" | "bacOrBelow">("postBac");
-  const [afdasTrainingLevel, setAfdasTrainingLevel] = useState<"postBac" | "bacOrBelow">("postBac");
-  const [epContractMode, setEpContractMode] = useState<"miseADisposition" | "miseEnVeille">("miseADisposition");
-  const [opcoMobilitesBefore2026, setOpcoMobilitesBefore2026] = useState(0);
-  const [targetRac, setTargetRac] = useState(300);
+  const [transport, setTransport] = useState(initial?.transport ?? DESTINATION_TARIFFS["Montréal"].billets);
+  const [programme, setProgramme] = useState(initial?.programme ?? programmeForDestination("Montréal", 7));
+  const [eligibleAccommodation, setEligibleAccommodation] = useState(initial?.eligibleAccommodation ?? 7 * 6);
+  const [eligibleMeals, setEligibleMeals] = useState(initial?.eligibleMeals ?? 8 * 2 * 3);
+  const [eligibleOther, setEligibleOther] = useState(initial?.eligibleOther ?? 0);
+  const [mode, setMode] = useState<ModeKind>(initial?.mode ?? "free");
+  const [keptPerAccompagnant, setKeptPerAccompagnant] = useState(initial?.keptPerAccompagnant ?? COST_DEFAULTS.keptPerAccompagnant);
+  const [atlasContractMode, setAtlasContractMode] = useState<"miseADisposition" | "miseEnVeille">(initial?.atlasContractMode ?? "miseADisposition");
+  const [atlasBeforeApril2026, setAtlasBeforeApril2026] = useState(initial?.atlasBeforeApril2026 ?? 0);
+  const [aktoContractMode, setAktoContractMode] = useState<"miseADisposition" | "miseEnVeille">(initial?.aktoContractMode ?? "miseADisposition");
+  const [aktoTrainingLevel, setAktoTrainingLevel] = useState<"postBac" | "bacOrBelow">(initial?.aktoTrainingLevel ?? "postBac");
+  const [afdasTrainingLevel, setAfdasTrainingLevel] = useState<"postBac" | "bacOrBelow">(initial?.afdasTrainingLevel ?? "postBac");
+  const [epContractMode, setEpContractMode] = useState<"miseADisposition" | "miseEnVeille">(initial?.epContractMode ?? "miseADisposition");
+  const [opcoMobilitesBefore2026, setOpcoMobilitesBefore2026] = useState(initial?.opcoMobilitesBefore2026 ?? 0);
+  const [targetRac, setTargetRac] = useState(initial?.targetRac ?? 300);
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
   // Coordonnées (pour le document)
-  const [ecole, setEcole] = useState("");
-  const [referent, setReferent] = useState("");
-  const [email, setEmail] = useState("");
-  const [dateSouhaitee, setDateSouhaitee] = useState("");
+  const [ecole, setEcole] = useState(initialContact?.ecole ?? "");
+  const [referent, setReferent] = useState(initialContact?.referent ?? "");
+  const [email, setEmail] = useState(initialContact?.email ?? "");
+  const [dateSouhaitee, setDateSouhaitee] = useState(initialContact?.dateSouhaitee ?? "");
   const [pdfState, setPdfState] = useState<"idle" | "loading" | "err">("idle");
   const [saved, setSaved] = useState<"idle" | "saving" | "ok" | "err">("idle");
 
@@ -209,6 +222,11 @@ export default function SimulatorApp() {
   const removeRow = (id: string) => setRows((rs) => rs.filter((r) => r.id !== id));
   const setCount = (id: string, count: number) => setRows((rs) => rs.map((r) => (r.id === id ? { ...r, count: Math.max(0, count) } : r)));
 
+  const switchToGuided = () => onSwitchToGuided?.(
+    { destination, nights, accompagnants, rows, transport, programme, eligibleAccommodation, eligibleMeals, eligibleOther, mode, keptPerAccompagnant, atlasContractMode, atlasBeforeApril2026, aktoContractMode, aktoTrainingLevel, afdasTrainingLevel, epContractMode, opcoMobilitesBefore2026, targetRac },
+    { ecole, referent, email, dateSouhaitee },
+  );
+
   function buildPdfData(): SimulationData {
     return {
       meta: {
@@ -216,6 +234,7 @@ export default function SimulatorApp() {
         referent, email, destination,
         dateSouhaitee, generatedAt: new Date().toLocaleDateString("fr-FR"),
         students: result.totalStudents, days: nights + 1,
+        companions: accompagnants,
       },
       kpis: {
         racAvg: result.racAvg,
@@ -226,11 +245,12 @@ export default function SimulatorApp() {
         apprentiTotal: result.apprentiTotal,
         referentTotal: result.referentTotal,
         reinjected: result.reinjected,
+        racFinalTotal: result.racFinalTotal,
         confidence,
       },
       opco: result.perOpco.map((o) => {
         const explanation = explainFunding(o.id, { calendarDays: nights + 1, destinationZone, aktoContractMode, aktoTrainingLevel, afdasTrainingLevel, atlasContractMode, epContractMode, amount: o.apprentiTheoreticalAmount });
-        return { label: o.label, count: o.count, apprenti: o.apprentiAmount, referent: o.referentAmount, how: explanation.how, condition: explanation.condition, toConfirm: o.status === "to_confirm" };
+        return { label: o.label, count: o.count, apprenti: o.apprentiAmount, referent: o.referentAmount, how: explanation.how, condition: explanation.condition, toConfirm: o.status === "to_confirm", remaining: o.racStudent, source: SIMULATION_OPCO_BY_ID[o.id]?.source };
       }),
     };
   }
@@ -321,9 +341,11 @@ export default function SimulatorApp() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28 }}>
           <button onClick={() => setView("hero")} style={{ ...linkBtn, display: "inline-flex", alignItems: "center", gap: 11 }}>
             <img src="/Assets/Brand/ami-logo-white.png" alt="AMI Panorama" style={{ height: 22, width: "auto" }} />
-            <span style={{ color: T.faint, textTransform: "none", letterSpacing: 0 }}>· Simulateur</span>
+            <span style={{ color: T.faint, textTransform: "none", letterSpacing: 0 }}>· Simulation avancée</span>
           </button>
+          {onSwitchToGuided && <button onClick={switchToGuided} style={{ ...linkBtn, textTransform: "none", letterSpacing: 0, textDecoration: "underline", textUnderlineOffset: 3 }}>Revenir à la simulation guidée</button>}
         </div>
+        {notice && <p role="status" style={{ margin: "-12px 0 24px", padding: "11px 14px", borderRadius: 10, background: T.orangeSoft, border: "1px solid rgba(157,187,255,0.40)", color: T.text, fontSize: 12.5, lineHeight: 1.55 }}>{notice}</p>}
 
         <div style={{ display: "grid", gridTemplateColumns: "minmax(340px, 400px) 1fr", gap: 28, alignItems: "start" }} className="sim-layout">
           {/* ── COLONNE PARAMÈTRES (niveau 3) ── */}

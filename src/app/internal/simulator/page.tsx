@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { isUnlocked } from "./actions";
 import UnlockForm from "./UnlockForm";
-import SimulatorApp from "./SimulatorApp";
+import SimulatorShell from "./SimulatorShell";
 
 export const metadata: Metadata = {
   title: "AMI Panorama, Financial Simulator",
@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 
 export default async function SimulatorPage() {
   const unlocked = await isUnlocked();
-  return unlocked ? <SimulatorApp /> : <UnlockForm />;
+  return unlocked ? <SimulatorShell /> : <UnlockForm />;
 }

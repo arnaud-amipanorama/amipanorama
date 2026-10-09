@@ -12,6 +12,14 @@ export interface SimulationData {
     generatedAt: string;
     students: number;
     days: number;
+    /** Nombre d'accompagnateurs prévus. */
+    companions?: number;
+    /** Précision affichée sous la destination (ex. destination non choisie). */
+    destinationNote?: string;
+    /** Précision affichée à côté de la durée (ex. durée supposée). */
+    durationNote?: string;
+    /** Avertissement affiché en tête du résumé quand l'estimation est provisoire (ex. destination non choisie). */
+    provisionalNote?: string;
   };
   kpis: {
     racAvg: number;
@@ -22,9 +30,18 @@ export interface SimulationData {
     apprentiTotal: number;
     referentTotal: number;
     reinjected: number;
+    /** Reste à charge total après répartition. Absent : recalculé à partir des autres montants. */
+    racFinalTotal?: number;
     confidence: { level: ConfidenceLevel; label: string; desc: string };
   };
-  opco: { label: string; count: number; apprenti: number; referent: number; how: string; condition: string; toConfirm: boolean }[];
+  opco: {
+    label: string; count: number; apprenti: number; referent: number; how: string; condition: string; toConfirm: boolean;
+    /** Reste à charge par participant avant la part du budget référent redistribuée. */
+    remaining?: number;
+    source?: { label: string; url: string; checkedAt: string };
+  }[];
+  /** Hypothèses appliquées par la simulation. `toConfirm` = donnée inconnue ou supposée. */
+  assumptions?: { label: string; value: string; detail?: string; toConfirm: boolean; provisional?: boolean }[];
 }
 
 const C = {
@@ -46,6 +63,13 @@ function eur(n: number): string {
   const sign = n < 0 ? "− " : "";
   const v = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   return `${sign}${v} €`;
+}
+
+/** Helvetica n'a pas d'espace insécable (fine ou non) : sans ce remplacement, « 1 000 € » s'imprime « 1/000 € ». */
+function clean(text: string): string {
+  // Deuxième correction : après « € », Helvetica avale l'espace suivant (« 250 €par participant »).
+  // Un second espace rétablit l'écart normal.
+  return text.replace(/[\u202f\u00a0]/g, " ").replace(/€ (?=\S)/g, "€  ");
 }
 
 const s = StyleSheet.create({
@@ -80,7 +104,8 @@ const s = StyleSheet.create({
   wfVal: { width: 95, textAlign: "right", fontFamily: "Helvetica-Bold" },
   th: { fontSize: 8, color: C.gray, textTransform: "uppercase", letterSpacing: 0.4 },
   row: { flexDirection: "row", alignItems: "flex-start", borderTopWidth: 1, borderTopColor: C.line, paddingVertical: 9 },
-  footer: { position: "absolute", bottom: 26, left: 50, right: 50, flexDirection: "row", justifyContent: "space-between", fontSize: 8, color: C.light },
+  footer: { position: "absolute", top: 804, left: 50, right: 190, fontSize: 8, color: C.light },
+  footerPage: { position: "absolute", top: 804, right: 50, width: 130, textAlign: "right", fontSize: 8, color: C.light },
   legalP: { fontSize: 10, color: "#3A3A40", marginBottom: 10, lineHeight: 1.65 },
   bullet: { flexDirection: "row", marginBottom: 7 },
   badge: { alignSelf: "flex-start", fontSize: 8.5, letterSpacing: 1.5, color: C.orange, borderWidth: 1, borderColor: C.orange, borderRadius: 4, paddingVertical: 4, paddingHorizontal: 9 },
@@ -107,12 +132,14 @@ const s = StyleSheet.create({
   paymentText: { fontSize: 8.5, color: C.gray, lineHeight: 1.45, marginTop: 4 },
 });
 
-function Footer({ p }: { p: string }) {
+function Footer() {
+  // Le numéro de page est ancré par `top` : avec l'interligne défini sur la page, @react-pdf 4.5
+  // n'imprime pas un texte dynamique (`render`) ancré par `bottom`.
   return (
-    <View style={s.footer} fixed>
-      <Text>AMI Panorama, Simulation financière mobilité internationale</Text>
-      <Text>{p} · Confidentiel</Text>
-    </View>
+    <>
+      <Text style={s.footer} fixed>AMI Panorama, Simulation financière mobilité internationale · Estimation non contractuelle</Text>
+      <Text style={s.footerPage} fixed render={({ pageNumber, totalPages }) => `${String(pageNumber).padStart(2, "0")} / ${String(totalPages).padStart(2, "0")} · Confidentiel`} />
+    </>
   );
 }
 
@@ -124,23 +151,25 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
   const LOGO_WHITE = `${origin}/Assets/Brand/ami-logo-white.png`;
   const LOGO_BLACK = `${origin}/Assets/Brand/ami-logo-black.png`;
 
-  const racFinalTotal = Math.max(0, kpis.coutBrut - kpis.financementsMobilisables);
+  const racFinalTotal = kpis.racFinalTotal ?? Math.max(0, kpis.coutBrut - kpis.financementsMobilisables);
   const comp = [
-    { label: "Financements apprentis", value: kpis.apprentiTotal, color: C.blue },
-    { label: "Réinjectés afin de réduire le reste à charge", value: kpis.reinjected, color: C.green },
-    { label: "Reste à charge étudiant", value: racFinalTotal, color: C.orange },
+    { label: "Financements OPCO estimés pour les participants", value: kpis.apprentiTotal, color: C.blue },
+    { label: "Part du budget référent utilisée pour réduire le reste à charge", value: kpis.reinjected, color: C.green },
+    { label: "Reste à charge des participants", value: racFinalTotal, color: C.orange },
   ];
   const compTotal = Math.max(comp.reduce((a, b) => a + Math.max(0, b.value), 0), 1);
   const wfMax = Math.max(kpis.coutBrut, 1);
   const wf = [
-    { label: "Coût brut", value: kpis.coutBrut, color: "#C9CCD3", final: false },
-    { label: "Financements apprentis", value: kpis.apprentiTotal, color: C.blue, final: false },
-    { label: "Réinjection référent", value: kpis.reinjected, color: C.green, final: false },
-    { label: "Reste à charge étudiant", value: racFinalTotal, color: C.orange, final: true },
+    { label: "Coût brut du projet", value: kpis.coutBrut, color: "#C9CCD3", sign: "", final: false },
+    { label: "Financements OPCO estimés", value: kpis.apprentiTotal, color: C.blue, sign: "− ", final: false },
+    { label: "Budget référent redistribué", value: kpis.reinjected, color: C.green, sign: "− ", final: false },
+    { label: "Reste à charge total", value: racFinalTotal, color: C.orange, sign: "= ", final: true },
   ];
-  const opcoChunks = Array.from({ length: Math.ceil(opco.length / 3) }, (_, index) => opco.slice(index * 3, index * 3 + 3));
-  const methodologyPage = 6 + opcoChunks.length;
-  const mentionsPage = methodologyPage + 1;
+  const assumptions = data.assumptions ?? [];
+  const unknowns = assumptions.filter((a) => a.toConfirm);
+  const sources = opco.flatMap((o) => (o.source ? [o.source] : [])).filter((src, i, all) => all.findIndex((x) => x.url === src.url) === i);
+  const companions = meta.companions;
+  const format = `${meta.students} participant${meta.students > 1 ? "s" : ""} · ${meta.days} jours${meta.durationNote ? ` (${meta.durationNote})` : ""}${companions !== undefined ? ` · ${companions} accompagnateur${companions > 1 ? "s" : ""}` : ""}`;
 
   return (
     <Document title={`AMI Panorama, Simulation ${meta.etablissement}`} author="AMI Panorama">
@@ -157,14 +186,14 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
           <View style={s.discBox}>
             <Text style={s.discKicker}>CONFIDENTIEL · ESTIMATION · NON CONTRACTUEL</Text>
             <Text style={s.discText}>
-              Cette simulation constitue une estimation préparée par AMI Panorama à partir des informations communiquées et des règles de financement connues à la date de génération. Les montants présentés sont indicatifs et demeurent soumis à validation par les OPCO et organismes compétents.
+              Cette simulation constitue une estimation préparée par AMI Panorama à partir des informations communiquées et des règles de financement connues à la date de génération. Les montants présentés sont indicatifs et demeurent soumis à validation par les OPCO et organismes compétents. Aucun financement n’est garanti.
             </Text>
           </View>
         </View>
         <View>
           <View style={s.metaRow}><Text style={s.metaK}>Établissement</Text><Text style={s.metaV}>{meta.etablissement}</Text></View>
-          <View style={s.metaRow}><Text style={s.metaK}>Destination</Text><Text style={s.metaV}>{meta.destination || "Non renseignée"}</Text></View>
-          <View style={s.metaRow}><Text style={s.metaK}>Format</Text><Text style={s.metaV}>{meta.students} étudiants · {meta.days} jours</Text></View>
+          <View style={s.metaRow}><Text style={s.metaK}>Destination</Text><Text style={s.metaV}>{meta.destination || "Non renseignée"}{meta.destinationNote ? ` (${meta.destinationNote})` : ""}</Text></View>
+          <View style={s.metaRow}><Text style={s.metaK}>Format</Text><Text style={s.metaV}>{format}</Text></View>
           <View style={s.metaRow}><Text style={s.metaK}>Date souhaitée</Text><Text style={s.metaV}>{meta.dateSouhaitee || "Non renseignée"}</Text></View>
           <View style={s.metaRow}><Text style={s.metaK}>Généré le</Text><Text style={s.metaV}>{meta.generatedAt}</Text></View>
         </View>
@@ -175,26 +204,32 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Image src={LOGO_BLACK} style={s.hdrLogo} />
         <Text style={s.eyebrow}>Résumé exécutif</Text>
         <Text style={s.h2}>L&apos;essentiel en un coup d&apos;œil</Text>
+        {meta.provisionalNote && (
+          <View style={{ marginBottom: 14, padding: 12, borderRadius: 8, borderWidth: 1, borderColor: C.amber, backgroundColor: "#FFF6E8" }}>
+            <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9, color: C.amber, letterSpacing: 0.8 }}>ESTIMATION PROVISOIRE</Text>
+            <Text style={{ fontSize: 9.5, color: "#3A3A40", lineHeight: 1.55, marginTop: 4 }}>{clean(meta.provisionalNote)}</Text>
+          </View>
+        )}
         <View style={s.kpiGrid}>
           <View style={s.kpiCard}><View style={[s.kpiInner, { backgroundColor: C.ink, borderColor: C.ink }]}>
-            <Text style={[s.kpiLabel, { color: "#A2A8B4" }]}>Reste à payer par étudiant</Text>
+            <Text style={[s.kpiLabel, { color: "#A2A8B4" }]}>Reste à payer estimé par participant</Text>
             <Text style={[s.kpiValue, { color: "#FFFFFF" }]}>{eur(kpis.racAvg)}</Text>
-            <Text style={[s.kpiSub, { color: "#8A90A0" }]}>après les aides estimées</Text>
+            <Text style={[s.kpiSub, { color: "#8A90A0" }]}>après les financements estimés et le budget d’accompagnement</Text>
           </View></View>
           <View style={s.kpiCard}><View style={s.kpiInner}>
-            <Text style={s.kpiLabel}>Aides pour les étudiants</Text>
+            <Text style={s.kpiLabel}>Financements OPCO estimés</Text>
             <Text style={[s.kpiValue, { color: C.green }]}>{eur(kpis.apprentiTotal)}</Text>
-            <Text style={s.kpiSub}>montant utilisable sur le séjour</Text>
+            <Text style={s.kpiSub}>pour les participants, sous réserve d’accord</Text>
           </View></View>
           <View style={s.kpiCard}><View style={s.kpiInner}>
             <Text style={s.kpiLabel}>Forfaits référent mobilité</Text>
             <Text style={[s.kpiValue, { color: C.ink }]}>{eur(kpis.referentTotal)}</Text>
-            <Text style={s.kpiSub}>organisation et accompagnement du CFA</Text>
+            <Text style={s.kpiSub}>organisation et accompagnement par l’établissement</Text>
           </View></View>
           <View style={s.kpiCard}><View style={s.kpiInner}>
-            <Text style={s.kpiLabel}>Budget CFA pour accompagner</Text>
+            <Text style={s.kpiLabel}>Budget réservé à l’accompagnement</Text>
             <Text style={[s.kpiValue, { color: kpis.montantConserve >= 0 ? C.ink : C.orange }]}>{eur(kpis.montantConserve)}</Text>
-            <Text style={s.kpiSub}>{kpis.montantConserve > 0 ? "accompagnateurs et coordination" : "tout a été réinjecté aux étudiants"}</Text>
+            <Text style={s.kpiSub}>{kpis.montantConserve > 0 ? clean(`accompagnateurs et coordination${companions ? ` · ${eur(kpis.montantConserve / companions)} par accompagnateur` : ""}`) : "tout le budget référent réduit le reste à charge"}</Text>
           </View></View>
         </View>
 
@@ -202,11 +237,24 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
           <View style={[s.dot, { backgroundColor: CONF[kpis.confidence.level] }]} />
           <View style={{ flex: 1 }}>
             <Text style={{ fontSize: 11, fontFamily: "Helvetica-Bold" }}>{kpis.confidence.label}</Text>
-            <Text style={{ fontSize: 9, color: C.gray, marginTop: 2 }}>{kpis.confidence.desc}</Text>
+            <Text style={{ fontSize: 9, color: C.gray, marginTop: 2 }}>{clean(kpis.confidence.desc)}</Text>
           </View>
-          <Text style={{ fontSize: 8, color: C.light }}>Indicateur de fiabilité</Text>
+          <Text style={{ fontSize: 8, color: C.light }}>Niveau de fiabilité</Text>
         </View>
-        <Footer p="02" />
+        <View style={{ marginTop: 14, borderWidth: 1, borderColor: C.line, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 4 }}>
+          {[
+            ["Coût estimé du séjour par participant", eur(kpis.coutParEtudiant)],
+            ["Coût brut total du projet", eur(kpis.coutBrut)],
+            ["Part du budget référent utilisée pour réduire le reste à charge", eur(kpis.reinjected)],
+            ["Reste à charge total", eur(racFinalTotal)],
+          ].map(([label, value], i) => (
+            <View key={label} style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 7, borderTopWidth: i ? 1 : 0, borderTopColor: C.line }}>
+              <Text style={{ fontSize: 9.5, color: C.gray, flex: 1, paddingRight: 10 }}>{label}</Text>
+              <Text style={{ fontSize: 10, fontFamily: "Helvetica-Bold" }}>{value}</Text>
+            </View>
+          ))}
+        </View>
+        <Footer />
       </Page>
 
       {/* PAGE 3, COMPRENDRE LA MOBILITÉ ET SES FINANCEMENTS */}
@@ -223,7 +271,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
             <View style={[s.sw, { backgroundColor: C.green, width: 10, height: 10, borderRadius: 3 }]} />
             <Text style={s.infoTitle}>Prise en charge du référent mobilité</Text>
           </View>
-          <Text style={s.infoBody}>Montant alloué par l&apos;OPCO au CFA (Centre de Formation d&apos;Apprentis) pour accompagner la mise en œuvre des mobilités étudiantes. Il peut financer l&apos;organisation, la coordination, le suivi, la préparation des élèves et les dépenses liées au projet.</Text>
+          <Text style={s.infoBody}>Montant alloué par l&apos;OPCO au CFA (Centre de Formation d&apos;Apprentis) pour accompagner la mise en œuvre des mobilités étudiantes. Il peut financer l&apos;organisation, la coordination, le suivi, la préparation des participants et les dépenses liées au projet.</Text>
           <Text style={[s.infoBody, { marginTop: 6 }]}><Text style={s.infoStrong}>À retenir. </Text>Son affectation doit respecter les conditions de l&apos;OPCO et les justificatifs à conserver. Il ne constitue pas une marge libre.</Text>
         </View>
 
@@ -242,11 +290,11 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
             <Text style={s.infoTitle}>Réinjection et reste à charge</Text>
           </View>
           <Text style={s.infoBody}>
-            Dans cette simulation, le CFA peut affecter une part du budget référent à la réduction du reste à charge, sans dépasser le coût restant. Les aides utilisées pour les étudiants sont également plafonnées au prix estimé du séjour. Le <Text style={s.infoStrong}>reste à charge moyen étudiant</Text> correspond au coût estimé après les financements modélisés. Il demeure conditionnel à l&apos;accord de l&apos;OPCO et à la validation du dossier.
+            Dans cette simulation, le CFA peut affecter une part du budget référent à la réduction du reste à charge, sans dépasser le coût restant. Les financements utilisés pour les participants sont également plafonnés au prix estimé du séjour. Le <Text style={s.infoStrong}>reste à charge moyen par participant</Text> correspond au coût estimé après les financements modélisés. Il demeure conditionnel à l&apos;accord de l&apos;OPCO et à la validation du dossier.
           </Text>
         </View>
 
-        <Footer p="03" />
+        <Footer />
       </Page>
 
       {/* PAGE 4, PARCOURS DE CONFIRMATION */}
@@ -257,7 +305,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Text style={s.intro}>Un parcours simple pour fiabiliser le budget, réserver le séjour et finaliser le dossier de mobilité.</Text>
         {[
           ["Identifier les OPCO", "Renseignez la répartition du groupe dans le simulateur pour obtenir une première estimation des financements."],
-          ["Demander les devis aériens", "Confirmez le coût réel du transport afin d&apos;affiner le budget du séjour."],
+          ["Demander les devis de transport", "Confirmez le coût réel du transport afin d’affiner le budget du séjour."],
           ["Choisir les dates", "Validez le devis et bloquez les dates du groupe avec AMI Panorama."],
           ["Finaliser le dossier", "Faites signer les conventions de mobilité et réunissez les documents demandés."],
           ["Confirmer le départ", "Une fois les conventions et les documents signés, le groupe est prêt à partir."],
@@ -288,7 +336,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
           <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9.5 }}>Ajustement des groupes</Text>
           <Text style={[s.infoBody, { fontSize: 8.7, marginTop: 4 }]}>Avant J-45, les annulations de groupes restent possibles. Toute variation d&apos;effectif supérieure à 20 % doit être signalée avant cette date et sera étudiée au cas par cas. Selon le calendrier des financements, les règlements peuvent intervenir plus tôt. AMI Panorama propose des délais de paiement flexibles.</Text>
         </View>
-        <Footer p="04" />
+        <Footer />
       </Page>
 
       {/* PAGE 5, ANALYSE FINANCIÈRE (barres, sans pie chart) */}
@@ -320,7 +368,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <View style={{ marginTop: 16 }}>
           {wf.map((w) => (
             <View key={w.label} style={s.wfRow}>
-              <Text style={s.wfLabel}>{w.final ? "" : "− "}{w.label}</Text>
+              <Text style={s.wfLabel}>{w.sign}{w.label}</Text>
               <View style={{ flex: 1, height: 12, justifyContent: "center" }}>
                 <View style={{ width: `${Math.max(2, (Math.abs(w.value) / wfMax) * 100)}%`, height: 12, backgroundColor: w.color, borderRadius: 3 }} />
               </View>
@@ -328,46 +376,88 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
             </View>
           ))}
         </View>
-        <Footer p="05" />
+        <Footer />
       </Page>
 
-      {/* PAGE 6+, OPCO EXPLIQUÉS */}
-      {opcoChunks.map((chunk, pageIndex) => (
-        <Page key={pageIndex} size="A4" style={s.page}>
-          <Image src={LOGO_BLACK} style={s.hdrLogo} />
+      {/* OPCO EXPLIQUÉS : les cartes se répartissent seules sur autant de pages que nécessaire */}
+      {opco.length > 0 && (
+        <Page size="A4" style={s.page}>
+          <Image src={LOGO_BLACK} style={s.hdrLogo} fixed />
           <Text style={s.eyebrow}>OPCO par OPCO</Text>
-          <Text style={s.h2}>{pageIndex === 0 ? "Comprendre chaque financement" : "Suite des financements"}</Text>
+          <Text style={s.h2}>Comprendre chaque financement</Text>
           <Text style={s.intro}>Chaque bloc explique simplement ce qui est estimé, la façon dont l&apos;OPCO peut intervenir et le point à vérifier avant de compter ce financement.</Text>
-          {chunk.map((o, i) => (
+          {opco.map((o, i) => (
             <View key={i} style={s.opcoCard} wrap={false}>
               <View>
                 <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 12 }}>{o.label}</Text>
-                <Text style={{ fontSize: 8.5, color: C.gray, marginTop: 3 }}>{o.count} alternant{o.count > 1 ? "s" : ""} concerné{o.count > 1 ? "s" : ""}</Text>
+                <Text style={{ fontSize: 8.5, color: C.gray, marginTop: 3 }}>{o.count} participant{o.count > 1 ? "s" : ""} concerné{o.count > 1 ? "s" : ""}</Text>
               </View>
               <View style={{ marginTop: 9, borderWidth: 1, borderColor: C.line, borderRadius: 7 }}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingVertical: 7, paddingHorizontal: 9 }}>
-                  <Text style={s.opcoKicker}>Financement de l&apos;alternant</Text>
-                  <Text style={[s.opcoValue, { fontSize: 13, marginTop: 0 }]}>{eur(o.apprenti)} / alternant</Text>
+                  <Text style={s.opcoKicker}>Financement estimé du participant</Text>
+                  <Text style={[s.opcoValue, { fontSize: 13, marginTop: 0 }]}>{clean(`${eur(o.apprenti)} / participant`)}</Text>
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingVertical: 7, paddingHorizontal: 9, borderTopWidth: 1, borderTopColor: C.line, backgroundColor: "#F0FDF9" }}>
-                  <Text style={s.opcoKicker}>Frais de référent mobilité</Text>
-                  <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 13, color: C.green }}>{eur(o.referent)} / alternant</Text>
+                  <Text style={s.opcoKicker}>Forfait référent mobilité estimé</Text>
+                  <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 13, color: C.green }}>{clean(`${eur(o.referent)} / participant`)}</Text>
                 </View>
               </View>
               <View style={{ marginTop: 10 }}>
                 <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9 }}>Comment cela fonctionne</Text>
-                <Text style={[s.infoBody, { fontSize: 9, marginTop: 3 }]}>{o.how}</Text>
+                <Text style={[s.infoBody, { fontSize: 9, marginTop: 3 }]}>{clean(o.how)}</Text>
               </View>
               <View style={{ marginTop: 8, padding: 9, borderRadius: 7, backgroundColor: o.toConfirm ? "#FFF6E8" : C.soft }}>
                 <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8.5, color: o.toConfirm ? C.amber : C.gray }}>{o.toConfirm ? "À CONFIRMER AVANT DE COMPTER CE MONTANT" : "À PRÉVOIR DANS LE DOSSIER"}</Text>
-                <Text style={{ fontSize: 8.7, color: "#3A3A40", lineHeight: 1.55, marginTop: 3 }}>{o.condition}</Text>
+                <Text style={{ fontSize: 8.7, color: "#3A3A40", lineHeight: 1.55, marginTop: 3 }}>{clean(o.condition)}</Text>
               </View>
-              <Text style={{ fontSize: 8.5, color: C.gray, marginTop: 8 }}>Le forfait référent mobilité est destiné à la coordination et aux dépenses liées au projet du CFA.</Text>
+              {o.remaining !== undefined && <Text style={{ fontSize: 8.7, color: "#3A3A40", marginTop: 8 }}>{clean(`Reste à charge estimé : ${eur(o.remaining)} par participant, avant la part du budget référent redistribuée par l’établissement.`)}</Text>}
+              <Text style={{ fontSize: 8.5, color: C.gray, marginTop: 6 }}>Le forfait référent mobilité est destiné à la coordination et aux dépenses liées au projet. Il ne constitue pas une marge libre.</Text>
+              {o.source && <Text style={{ fontSize: 8, color: C.light, marginTop: 5 }}>Source : {o.source.label}, vérifiée le {o.source.checkedAt}</Text>}
             </View>
           ))}
-          <Footer p={String(6 + pageIndex).padStart(2, "0")} />
+          <Footer />
         </Page>
-      ))}
+      )}
+
+      {/* HYPOTHÈSES, DONNÉES À CONFIRMER ET SOURCES */}
+      {(assumptions.length > 0 || sources.length > 0) && (
+        <Page size="A4" style={s.page}>
+          <Image src={LOGO_BLACK} style={s.hdrLogo} fixed />
+          <Text style={s.eyebrow}>Hypothèses utilisées</Text>
+          <Text style={s.h2}>Sur quoi repose cette estimation</Text>
+          <Text style={s.intro}>Chaque ligne ci-dessous est une hypothèse de travail, pas une donnée acquise. Les lignes marquées « à confirmer » correspondent à des informations inconnues ou supposées au moment de la simulation.</Text>
+          {assumptions.map((a, i) => (
+            <View key={i} style={{ flexDirection: "row", alignItems: "flex-start", borderTopWidth: 1, borderTopColor: C.line, paddingVertical: 8 }} wrap={false}>
+              <View style={{ flex: 1, paddingRight: 12 }}>
+                <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9.5 }}>{clean(a.label)}</Text>
+                {a.detail && <Text style={{ fontSize: 8.5, color: C.gray, lineHeight: 1.5, marginTop: 2 }}>{clean(a.detail)}</Text>}
+              </View>
+              <View style={{ width: 190, alignItems: "flex-end" }}>
+                <Text style={{ fontSize: 9.5, textAlign: "right" }}>{clean(a.value)}</Text>
+                {(a.toConfirm || a.provisional) && <Text style={{ fontSize: 7.5, fontFamily: "Helvetica-Bold", color: C.amber, marginTop: 3, letterSpacing: 0.6 }}>{a.provisional ? "PROVISOIRE" : "À CONFIRMER"}</Text>}
+              </View>
+            </View>
+          ))}
+          {unknowns.length > 0 && (
+            <View style={{ marginTop: 14, padding: 12, borderRadius: 8, backgroundColor: "#FFF6E8" }} wrap={false}>
+              <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9, color: C.amber }}>DONNÉES INCONNUES OU À CONFIRMER</Text>
+              <Text style={{ fontSize: 9, color: "#3A3A40", lineHeight: 1.55, marginTop: 4 }}>{clean(unknowns.map((a) => a.label).join(" · "))}. Le résultat changera lorsque ces informations seront connues.</Text>
+            </View>
+          )}
+          {sources.length > 0 && (
+            <View style={{ marginTop: 16 }} wrap={false}>
+              <Text style={[s.eyebrow, { marginBottom: 8 }]}>Sources officielles consultées</Text>
+              {sources.map((src) => (
+                <View key={src.url} style={{ marginBottom: 6 }}>
+                  <Text style={{ fontSize: 9, fontFamily: "Helvetica-Bold" }}>{src.label} · vérifiée le {src.checkedAt}</Text>
+                  <Text style={{ fontSize: 7.5, color: C.gray }}>{src.url}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+          <Footer />
+        </Page>
+      )}
 
       {/* MÉTHODOLOGIE */}
       <Page size="A4" style={s.page}>
@@ -387,7 +477,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
           </View>
         ))}
         <Text style={[s.legalP, { marginTop: 14 }]}>Les financements définitifs demeurent soumis à validation par les organismes compétents.</Text>
-        <Footer p={String(methodologyPage).padStart(2, "0")} />
+        <Footer />
       </Page>
 
       {/* PAGE 7, MENTIONS */}
@@ -402,7 +492,7 @@ export function SimulationDocument({ data }: { data: SimulationData }) {
         <Text style={s.legalP}>AMI Panorama ne garantit aucun montant de financement et ne peut être tenu responsable d&apos;une décision prise uniquement sur la base de cette simulation.</Text>
         <Text style={s.legalP}>Chaque établissement demeure responsable de réaliser ses propres vérifications, analyses et démarches de validation avant toute décision.</Text>
         <View style={{ marginTop: 22 }}><Text style={s.badge}>CONFIDENTIEL</Text></View>
-        <Footer p={String(mentionsPage).padStart(2, "0")} />
+        <Footer />
       </Page>
     </Document>
   );
