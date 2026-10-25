@@ -1,11 +1,13 @@
 import Link from "next/link";
-import type { Metadata } from "next";
+import Image from "next/image";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "À propos",
   description:
     "L'histoire d'AMI Panorama, un constat sur l'accès inégal à la mobilité internationale selon les filières, et la mission construite pour y répondre.",
-};
+  path: "/a-propos",
+});
 
 const values = [
   {
@@ -77,14 +79,14 @@ export default function AProposPage() {
         position: "relative", paddingTop: 160, paddingBottom: 96,
         background: "var(--navy)", overflow: "hidden",
       }}>
-        <div style={{
-          position: "absolute", inset: 0,
-          // Montréal : la page raconte une entreprise fondée à Montréal en 2022,
-          // le visuel doit dire la même chose que le texte.
-          backgroundImage: "url('/Assets/groups/montreal-sunset.jpg')",
-          backgroundSize: "cover", backgroundPosition: "center 35%",
-          opacity: 0.15,
-        }} />
+        <Image
+          src="/Assets/groups/montreal-sunset.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          style={{ objectFit: "cover", objectPosition: "center 35%", opacity: 0.15 }}
+        />
         <div style={{
           position: "absolute", inset: 0,
           background: "linear-gradient(to bottom, rgba(11,24,41,0.2) 0%, var(--navy) 100%)",
@@ -111,7 +113,7 @@ export default function AProposPage() {
           <p className="anim-fade-up-3" style={{
             fontSize: 18, color: "rgba(255,255,255,0.78)", maxWidth: 600, lineHeight: 1.75,
           }}>
-            AMI Panorama est née d'une observation simple : dans le parcours d'un étudiant,
+            AMI Panorama est née d&apos;une observation simple : dans le parcours d&apos;un étudiant,
             certaines expériences, collectives, internationales, mémorables, ne sont pas
             accessibles de la même façon selon la filière choisie. Nous existons pour changer ça.
           </p>
@@ -161,10 +163,10 @@ export default function AProposPage() {
               </h3>
               <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.85 }}>
                 Dans les grandes écoles et les campus traditionnels, les étudiants bénéficient
-                d'une vie collective structurée : voyages de promotion, séjours internationaux,
+                d&apos;une vie collective structurée : voyages de promotion, séjours internationaux,
                 associations, cohortes soudées, réseaux alumni actifs. Ces expériences ne sont
                 pas accessoires, elles construisent une identité, des liens durables et un fort
-                attachement à l'établissement. Elles contribuent directement à son attractivité.
+                attachement à l&apos;établissement. Elles contribuent directement à son attractivité.
               </p>
             </div>
             <div style={{
@@ -188,9 +190,9 @@ export default function AProposPage() {
               <p style={{ fontSize: 14, color: "rgba(255,255,255,0.74)", lineHeight: 1.85, position: "relative" }}>
                 Les apprentis vivent un parcours intensément professionnel et formateur. Mais ils
                 ont moins accès, structurellement, aux expériences qui marquent durablement une
-                formation : l'international collectif, les souvenirs partagés hors contexte
+                formation : l&apos;international collectif, les souvenirs partagés hors contexte
                 professionnel, les moments qui lient une promotion. AMI Panorama existe pour que
-                cette dimension soit accessible à eux aussi, sans renoncer à l'exigence
+                cette dimension soit accessible à eux aussi, sans renoncer à l&apos;exigence
                 pédagogique qui les caractérise.
               </p>
             </div>
@@ -217,23 +219,23 @@ export default function AProposPage() {
                 </span>
               </h2>
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: 18 }}>
-                En France, l'accès à la mobilité internationale collective reste structurellement
-                inégal selon les filières. Les grandes écoles et les universités disposent d'une
+                En France, l&apos;accès à la mobilité internationale collective reste structurellement
+                inégal selon les filières. Les grandes écoles et les universités disposent d&apos;une
                 infrastructure bien établie pour les voyages de groupe et les cohortes soudées.
                 La formation en apprentissage, plus exigeante professionnellement, plus contrainte
                 administrativement, en bénéficie beaucoup moins.
               </p>
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: 18 }}>
-                Cette inégalité n'est pas une fatalité. Elle est le résultat d'un manque
-                d'infrastructure dédiée. Organiser une mobilité pour des apprentis demande une
+                Cette inégalité n&apos;est pas une fatalité. Elle est le résultat d&apos;un manque
+                d&apos;infrastructure dédiée. Organiser une mobilité pour des apprentis demande une
                 expertise spécifique : cadres réglementaires, financements disponibles, contraintes
                 du calendrier en alternance, documentation pédagogique. AMI Panorama a été créé
                 pour apporter cette expertise.
               </p>
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85 }}>
                 Depuis 2022, nous construisons des programmes qui permettent à des groupes
-                d'apprentis de vivre des expériences collectives et internationales de la même
-                qualité que celles proposées dans les cursus traditionnels, sans que l'établissement
+                d&apos;apprentis de vivre des expériences collectives et internationales de la même
+                qualité que celles proposées dans les cursus traditionnels, sans que l&apos;établissement
                 ait à porter seul la complexité que cela représente.
               </p>
             </div>
@@ -269,11 +271,13 @@ export default function AProposPage() {
             position: "relative", borderRadius: 20, overflow: "hidden",
             height: "clamp(280px, 38vw, 480px)",
           }}>
-            <div style={{
-              position: "absolute", inset: 0,
-              backgroundImage: "url('/Assets/groups/montreal-sunset.jpg')",
-              backgroundSize: "cover", backgroundPosition: "center 35%",
-            }} />
+            <Image
+              src="/Assets/groups/montreal-sunset.jpg"
+              alt="Groupe AMI Panorama à Montréal"
+              fill
+              sizes="(max-width: 768px) 100vw, 1200px"
+              style={{ objectFit: "cover", objectPosition: "center 35%" }}
+            />
             <div style={{
               position: "absolute", inset: 0,
               background: "linear-gradient(to right, rgba(11,24,41,0.72) 0%, rgba(11,24,41,0.10) 55%, transparent 100%)",
@@ -344,8 +348,8 @@ export default function AProposPage() {
           }} className="founders-card">
             <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.85, margin: 0 }}>
               AMI Panorama a été fondé par Arnaud et Samuel, portés par des trajectoires
-              complémentaires. L'un ancré dans l'enseignement supérieur international,
-              l'autre dans la formation professionnelle, ils ont construit AMI Panorama
+              complémentaires. L&apos;un ancré dans l&apos;enseignement supérieur international,
+              l&apos;autre dans la formation professionnelle, ils ont construit AMI Panorama
               sur la conviction que les apprentis méritent des expériences collectives
               et internationales aussi structurées et mémorables que celles proposées
               dans les cursus traditionnels.

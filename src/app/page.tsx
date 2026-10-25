@@ -1,135 +1,25 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { Metadata } from "next";
 import AnimateOnView from "@/components/AnimateOnView";
 import HeroGallery from "./HeroGallery";
 import { HERO_PHOTOS } from "./heroConfig";
 import { testimonials } from "@/data/testimonials";
+import { activeDestinationCount, activeDestinations, destinationPath, type Destination } from "@/data/destinations";
+import { included } from "@/data/programme";
+import { pageMeta } from "@/lib/seo";
 
 const testimonialColumns = [
   testimonials.filter((_, index) => index % 2 === 0),
   testimonials.filter((_, index) => index % 2 !== 0),
 ];
 
-export const metadata: Metadata = {
-  title: "Séjours à l'international pour les CFA et les écoles",
+export const metadata = pageMeta({
+  title: "Mobilité internationale pour CFA et écoles | AMI Panorama",
   description:
-    "AMI Panorama organise des séjours à l'international pour les étudiants. Formation, hébergement, activités et accompagnement sont inclus.",
-};
-
-const destinations: {
-  city: string; country: string; flag: string; tag: string;
-  gradient: string; img: string; phare?: boolean;
-}[] = [
-  // HIÉRARCHIE, ne pas réordonner sans arbitrage éditorial :
-  //   1. Montréal = destination historique et principale  → carte phare
-  //   2. Séville  = deuxième pilier, grande dest. européenne → carte phare
-  //   3. New York = destination iconique et aspirationnelle → 1re carte secondaire,
-  //      volontairement mise en lumière (vraie photo de groupe) MAIS sans badge
-  //      "phare" : elle fait rêver, elle n'est pas l'un des deux piliers.
-  //
-  // Les cartes phares portent de VRAIES photos de groupe : à ce format, la preuve
-  // terrain vaut mieux qu'un visuel de banque d'images. Les autres cartes restent
-  // city-led (visuel de ville), cf. DestinationExplorer.
-  {
-    city: "Montréal",
-    country: "Canada",
-    flag: "🇨🇦",
-    tag: "Destination historique · Amérique du Nord",
-    phare: true,
-    gradient: "linear-gradient(170deg,rgba(8,28,60,0.30),rgba(20,52,140,0.18))",
-    img: "/Assets/groups/montreal-sunset.jpg",
-  },
-  {
-    city: "Séville",
-    country: "Espagne",
-    flag: "🇪🇸",
-    tag: "Deuxième pilier · Culture & immersion",
-    phare: true,
-    gradient: "linear-gradient(170deg,rgba(90,34,10,0.30),rgba(170,76,20,0.18))",
-    img: "/Assets/groups/seville-garden.jpg",
-  },
-  {
-    city: "New York",
-    country: "États-Unis",
-    flag: "🇺🇸",
-    tag: "Destination iconique · Business & culture",
-    gradient: "linear-gradient(170deg,rgba(10,18,40,0.34),rgba(20,38,80,0.20))",
-    img: "/Assets/groups/newyork-pano.jpg",
-  },
-  {
-    city: "Londres",
-    country: "Royaume-Uni",
-    flag: "🇬🇧",
-    tag: "Business English",
-    gradient: "linear-gradient(170deg,rgba(10,20,44,0.42),rgba(24,44,88,0.28))",
-    img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80",
-  },
-  {
-    city: "Malte",
-    country: "Méditerranée",
-    flag: "🇲🇹",
-    tag: "English immersion",
-    gradient: "linear-gradient(170deg,rgba(8,28,70,0.42),rgba(18,50,130,0.28))",
-    img: "/Assets/destinations/Malte Destination.png",
-  },
-  {
-    city: "Maroc",
-    country: "Afrique du Nord",
-    flag: "🇲🇦",
-    tag: "Immersion & interculturel",
-    gradient: "linear-gradient(170deg,rgba(80,30,10,0.42),rgba(160,80,20,0.28))",
-    img: "/Assets/destinations/Maroc.jpg",
-  },
-  {
-    city: "Berlin",
-    country: "Allemagne",
-    flag: "🇩🇪",
-    tag: "Entrepreneuriat & innovation",
-    gradient: "linear-gradient(170deg,rgba(60,20,10,0.42),rgba(120,50,20,0.28))",
-    img: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=800&q=80",
-  },
-  {
-    city: "Rome",
-    country: "Italie",
-    flag: "🇮🇹",
-    tag: "Culture & économie italienne",
-    gradient: "linear-gradient(170deg,rgba(90,35,8,0.42),rgba(160,70,18,0.28))",
-    img: "/Assets/destinations/Rome.jpg",
-  },
-  {
-    city: "Miami",
-    country: "États-Unis",
-    flag: "🇺🇸",
-    tag: "Business English & ouverture US",
-    gradient: "linear-gradient(170deg,rgba(8,24,55,0.42),rgba(18,44,100,0.28))",
-    img: "/Assets/destinations/Miami-unsplash.jpg",
-  },
-  {
-    city: "Séoul",
-    country: "Corée du Sud",
-    flag: "🇰🇷",
-    tag: "Tech & monde asiatique",
-    gradient: "linear-gradient(170deg,rgba(6,14,36,0.42),rgba(16,32,80,0.28))",
-    img: "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=800&q=80",
-  },
-  {
-    city: "Bucarest",
-    country: "Roumanie",
-    flag: "🇷🇴",
-    tag: "Transformation & culture européenne",
-    gradient: "linear-gradient(170deg,rgba(10,28,56,0.34),rgba(25,77,122,0.18))",
-    img: "https://images.unsplash.com/photo-1772617613154-725567be5174?w=900&q=90",
-  },
-  {
-    city: "Lisbonne",
-    country: "Portugal",
-    flag: "🇵🇹",
-    tag: "Innovation & ouverture atlantique",
-    gradient: "linear-gradient(170deg,rgba(34,20,8,0.34),rgba(174,92,22,0.18))",
-    img: "https://images.unsplash.com/photo-1762882450531-c99aca0ba328?w=900&q=85",
-  },
-];
+    "AMI Panorama conçoit des programmes de mobilité internationale pour les CFA, les écoles et les établissements de l'alternance. Format de référence : 8 jours / 7 nuits. Formation, visites d'entreprise, hébergement et encadrement.",
+  path: "/",
+  absolute: true,
+});
 
 const IconUsers = (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
@@ -148,7 +38,7 @@ const stats = [
   { value: "3 000+", label: "participants accompagnés", icon: IconUsers },
   { value: "100+",   label: "groupes coordonnés",       icon: IconGroups },
   { value: "50",     label: "écoles partenaires",       icon: IconSchool },
-  { value: "12",     label: "destinations actives",     icon: IconGlobe },
+  { value: String(activeDestinationCount), label: "destinations actives", icon: IconGlobe },
 ];
 
 const partnerNames = [
@@ -173,52 +63,46 @@ const partnerNames = [
   "Les Charmilles",
 ];
 
-const included = [
-  { num: "01", label: "Formation de 15 à 82 h", sub: "Business English et ateliers sectoriels" },
-  { num: "02", label: "Visites d'entreprise",  sub: "Immersion professionnelle réelle" },
-  { num: "03", label: "Activités culturelles", sub: "Programme saisonnier sur mesure" },
-  { num: "04", label: "Hébergement encadré",   sub: "Logement sécurisé, testé sur place" },
-  { num: "05", label: "Transports inclus",     sub: "Aéroport + navettes quotidiennes" },
-  { num: "06", label: "Assurances complètes",  sub: "Rapatriement 24h/24 + 200 k€" },
-  { num: "07", label: "Ingénierie administrative", sub: "Structuration, dispositifs, suivi documentaire" },
-];
-
 export default function HomePage() {
-  const renderDestCard = ({ city, country, flag, tag, gradient, img, phare }: (typeof destinations)[number]) => (
-    <Link key={city} href="/destinations" className="dest-card" style={{
+  const renderDestCard = (d: Destination) => (
+    <Link key={d.slug} href={destinationPath(d)} className="dest-card" style={{
       position: "relative", borderRadius: 16, overflow: "hidden",
       display: "block", textDecoration: "none",
     }}>
-      <div className="dest-card-bg" style={{
-        position: "absolute", inset: 0,
-        backgroundImage: `${gradient}, url('${img}')`,
-        backgroundSize: "cover, cover",
-        backgroundPosition: "center",
-      }} />
+      <div className="dest-card-bg" style={{ position: "absolute", inset: 0 }}>
+        <Image
+          src={d.cardImage}
+          alt={d.cardAlt}
+          fill
+          sizes={d.phare ? "(max-width: 540px) 100vw, 50vw" : "(max-width: 900px) 50vw, 33vw"}
+          style={{ objectFit: "cover" }}
+        />
+      </div>
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: d.gradient }} />
       <div className="dest-card-overlay" style={{
         position: "absolute", inset: 0,
         background: "rgba(11,24,41,0.0)",
         transition: "background 0.35s ease",
       }} />
-      {phare && (
+      {d.phare && (
         <div style={{
           position: "absolute", top: 12, left: 12, zIndex: 2,
-          fontSize: 9, fontWeight: 600, letterSpacing: "0.1em",
+          fontSize: 12, fontWeight: 600, letterSpacing: "0.08em",
           textTransform: "uppercase", color: "#fff",
           background: "rgba(27,61,136,0.92)", borderRadius: 100,
           padding: "4px 10px",
         }}>Destination phare</div>
       )}
       <div style={{
-        position: "absolute", bottom: 0, left: 0, right: 0,
+        position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 2,
         padding: "20px 20px 20px",
         background: "linear-gradient(to top, rgba(11,24,41,0.82) 0%, transparent 100%)",
       }}>
-        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginBottom: 4, letterSpacing: "0.08em", textTransform: "uppercase" }}>{tag}</div>
+        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.72)", marginBottom: 4, letterSpacing: "0.08em", textTransform: "uppercase" }}>{d.cardTag ?? d.tag}</div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 16 }}>{flag}</span>
-          <span style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.03em" }}>{city}</span>
-          <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginLeft: 2 }}>{country}</span>
+          <span style={{ fontSize: 16 }}>{d.flag}</span>
+          <h2 style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.03em", margin: 0 }}>{d.city}</h2>
+          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.72)", marginLeft: 2 }}>{d.country}</span>
         </div>
       </div>
     </Link>
@@ -234,13 +118,10 @@ export default function HomePage() {
           maxWidth: 1200, margin: "0 auto", width: "100%", padding: "164px 24px 46px",
         }}>
           <div className="hero-text-col" style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}>
-            <h1 className="anim-fade-up" style={{
-              fontSize: "clamp(38px, 5.2vw, 70px)", fontWeight: 800,
-              letterSpacing: "-0.045em", lineHeight: 1.02,
-              color: "var(--text-primary)", marginBottom: 20,
-            }}>
+            <h1 className="anim-fade-up" style={{ marginBottom: 20 }}>
+              <span className="hero-kicker">Mobilité internationale pour les CFA et les écoles</span>
               <span className="hero-breath">
-                <span className="hero-gradient-anim" style={{
+                <span className="hero-slogan hero-gradient-anim" style={{
                   color: "transparent",
                   background: "linear-gradient(135deg, #0B1829 0%, #112A4F 56%, #29456F 74%, #607CB0 100%)",
                   WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
@@ -260,12 +141,12 @@ export default function HomePage() {
               Spécialistes des alternants et des CFA, nous réunissons formation, rencontres professionnelles et accompagnement complet.
             </p>
 
-            <div className="anim-fade-up-4 hero-ctas" style={{ display: "flex", gap: 28, flexWrap: "wrap", justifyContent: "center" }}>
-              <Link href="/rendez-vous" className="hero-link hero-link-primary">
+            <div className="anim-fade-up-4 hero-ctas" style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+              <Link href="/rendez-vous" className="btn-primary">
                 Réserver un échange
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </Link>
-              <Link href="/destinations" className="hero-link">
+              <Link href="/destinations" className="btn-ghost">
                 Découvrir les destinations
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </Link>
@@ -433,7 +314,7 @@ export default function HomePage() {
                 AMI Panorama coordonne chaque dimension du programme pour que
                 vos participants vivent une expérience internationale structurée et
                 professionnalisante. Vous restez le référent pédagogique de votre groupe.
-                Nous prenons en charge la logistique, l'encadrement terrain et l'appui administratif.
+                Nous prenons en charge la logistique, l&apos;encadrement terrain et l&apos;appui administratif.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 0, marginBottom: 40 }}>
                 {included.map(({ num, label, sub }) => (
@@ -479,7 +360,7 @@ export default function HomePage() {
               marginBottom: 40, flexWrap: "wrap", gap: 16,
             }}>
               <div>
-                <div className="section-label">10 destinations</div>
+                <div className="section-label">{activeDestinationCount} destinations</div>
                 <h2 style={{
                   fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700,
                   letterSpacing: "-0.04em", maxWidth: 480,
@@ -508,7 +389,7 @@ export default function HomePage() {
               gap: 12,
               marginBottom: 12,
             }}>
-              {destinations.filter((d) => d.phare).map(renderDestCard)}
+              {activeDestinations.filter((d) => d.phare).map(renderDestCard)}
             </div>
             {/* Les autres destinations */}
             <div style={{
@@ -517,7 +398,7 @@ export default function HomePage() {
               gridAutoRows: "240px",
               gap: 12,
             }} className="dest-grid">
-              {destinations.filter((d) => !d.phare).map(renderDestCard)}
+              {activeDestinations.filter((d) => !d.phare).map(renderDestCard)}
             </div>
           </AnimateOnView>
         </div>
@@ -776,22 +657,23 @@ export default function HomePage() {
       {/* ══ Hero & animation styles ══ */}
       <style>{`
         .hero-text-col { padding-right: 0; }
-        .hero-link {
-          display: inline-flex; align-items: center; gap: 8px; padding: 2px 0 5px;
-          border-bottom: 1px solid rgba(11,24,41,.22); color: var(--text-secondary);
-          font-size: 14px; font-weight: 600; letter-spacing: -.01em;
-          transition: color .2s ease, border-color .2s ease;
+        .hero-kicker {
+          display: block; margin: 0 auto 18px; max-width: 640;
+          font-size: 12px; font-weight: 600; letter-spacing: 0.14em;
+          text-transform: uppercase; color: var(--coral);
         }
-        .hero-link:hover { color: var(--text-primary); border-color: var(--text-primary); }
-        .hero-link svg { transition: transform .22s ease; }
-        .hero-link:hover svg { transform: translateX(3px); }
-        .hero-link-primary { color: var(--text-primary); border-color: var(--text-primary); }
+        .hero-slogan {
+          display: inline-block;
+          font-size: clamp(38px, 5.2vw, 70px); font-weight: 800;
+          letter-spacing: -0.045em; line-height: 1.02;
+        }
 
         @media (max-width: 760px) {
           .hero-inner { padding: 116px 22px 30px !important; }
           .hero-text-col { max-width: none !important; }
-          .hero-text-col h1 { font-size: 32px !important; line-height: 1.06 !important; letter-spacing: -0.035em !important; margin-bottom: 16px !important; }
-          .hero-ctas { gap: 22px !important; }
+          .hero-slogan { font-size: 32px !important; line-height: 1.06 !important; letter-spacing: -0.035em !important; }
+          .hero-text-col h1 { margin-bottom: 16px !important; }
+          .hero-ctas { gap: 10px !important; }
           .hero-gallery-wrap { margin-top: 38px !important; }
         }
         .hero-gradient-anim {

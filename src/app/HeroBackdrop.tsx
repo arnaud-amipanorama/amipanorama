@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 
 // Fond du hero.
@@ -45,25 +46,25 @@ export default function HeroBackdrop({
         aria-hidden="true"
         className="hb-bg"
         style={{
-          backgroundImage: `url('${image}')`,
-          // Variables consommées par les règles CSS ci-dessous (desktop + mobile).
           ["--hb-pos-desktop" as string]: focus.desktop,
           ["--hb-pos-mobile" as string]: focus.mobile,
         }}
-      />
+      >
+        <Image src={image} alt="" fill priority sizes="(max-width: 760px) 100vw, 58vw" className="hb-img" />
+      </div>
       <div aria-hidden="true" className="hb-scrim" />
       <style>{`
         .hb-bg {
           position: absolute; top: 0; right: 0;
           width: 58%; height: 64%;
-          background-size: cover;
-          background-position: var(--hb-pos-desktop);
+          overflow: hidden;
           transform-origin: 75% 25%; will-change: transform;
           filter: saturate(1.03) brightness(1.04);
           -webkit-mask-image: radial-gradient(125% 135% at 100% 4%, #000 24%, rgba(0,0,0,0.5) 50%, transparent 76%);
           mask-image: radial-gradient(125% 135% at 100% 4%, #000 24%, rgba(0,0,0,0.5) 50%, transparent 76%);
           animation: hbDrift 26s ease-in-out infinite;
         }
+        .hb-img { object-fit: cover; object-position: var(--hb-pos-desktop); }
         .hb-scrim { display: none; }
         @keyframes hbDrift {
           0%, 100% { transform: scale(1.04) translate3d(0, 0, 0); }
@@ -74,7 +75,6 @@ export default function HeroBackdrop({
         @media (max-width: 760px) {
           .hb-bg {
             inset: 0; width: auto; height: auto;
-            background-position: var(--hb-pos-mobile);
             border-radius: 0; box-shadow: none;
             transform-origin: center top;
             -webkit-mask-image: linear-gradient(104deg, transparent 6%, rgba(0,0,0,0.28) 28%, #000 52%);
@@ -82,6 +82,7 @@ export default function HeroBackdrop({
             filter: saturate(1.06) contrast(1.02);
             animation: none;
           }
+          .hb-img { object-position: var(--hb-pos-mobile); }
           /* Voile de lisibilité : le masque seul ne suffit pas dès que la photo
              est sombre du côté texte (immeubles, foule). Le scrim garantit le
              contraste du bloc éditorial quelle que soit l'image choisie, et

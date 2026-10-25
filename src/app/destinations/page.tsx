@@ -1,255 +1,31 @@
 import Link from "next/link";
-import type { Metadata } from "next";
+import Image from "next/image";
 import AnimateOnView from "@/components/AnimateOnView";
 import DestinationExplorer from "./DestinationExplorer";
+import { activeDestinationCount, destinations, destinationsHeroImage } from "@/data/destinations";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "Destinations",
-  description:
-    "12 destinations de mobilité professionnelle internationale, de Montréal à Lisbonne. Chaque programme est structuré pour sa valeur pédagogique et professionnelle, adapté à votre filière.",
-};
-
-const destinations = [
-  {
-    city: "Montréal",
-    country: "Canada",
-    tag: "Destination historique · Amérique du Nord",
-    flag: "🇨🇦",
-    accent: "#24478F",
-    phare: true,
-    photo: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=900&q=80",
-    headline: "L'Amérique du Nord, en français.",
-    desc: "Notre destination historique, et la plus maîtrisée. Métropole bilingue et cosmopolite, Montréal est la seule ville nord-américaine où les étudiants francophones peuvent découvrir un modèle économique radicalement différent sans barrière linguistique. Un cadre idéal pour élargir sa vision tout en restant ancré dans sa langue.",
-    highlights: [
-      "Formation sur le modèle économique et l'environnement professionnel nord-américain",
-      "Visites d'entreprises innovantes : tech, commerce, services, secteur créatif",
-      "Exploration de la ville et de ses quartiers : Plateau, Vieux-Montréal, Mile End",
-      "Rencontres avec des professionnels locaux et une communauté française active",
-    ],
-    ideal: "Numérique · Gestion · Commerce · Communication",
-  },
-  {
-    city: "Séville",
-    country: "Espagne",
-    tag: "Deuxième pilier · Culture & immersion",
-    flag: "🇪🇸",
-    accent: "#1B3D88",
-    phare: true,
-    photo: "https://images.pexels.com/photos/28989039/pexels-photo-28989039.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
-    headline: "L'Andalousie comme terrain de formation.",
-    desc: "Notre deuxième pilier. Séville offre un cadre exceptionnel pour une immersion totale : architecture baroque, économie tertiaire dynamique et chaleur humaine qui facilite naturellement l'ouverture interculturelle. Une destination idéale pour les filières orientées vers les services, le tourisme et le commerce.",
-    highlights: [
-      "Hébergement en centre-ville dans un établissement sélectionné et testé sur place",
-      "Formation avec panorama socio-économique de la région andalouse",
-      "Visites d'entreprises locales dans les secteurs tertiaire et services",
-      "Activités culturelles : flamenco, Cathédrale de Séville, Alcazar",
-    ],
-    ideal: "Tourisme · Commerce · RH · Services",
-  },
-  // New York vient juste après les deux piliers : très forte force d'attraction
-  // auprès des alternants, donc placée haut dans la page, mais SANS `phare`,
-  // qui reste réservé à Montréal et Séville.
-  {
-    city: "New York",
-    country: "États-Unis",
-    tag: "Destination iconique · Business & culture",
-    flag: "🇺🇸",
-    accent: "#24478F",
-    photo: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=900&q=80",
-    headline: "La ville où l'ambition professionnelle prend une autre dimension.",
-    desc: "New York ne s'explique pas, elle se vit. Aucun autre environnement ne confronte aussi directement les participants à l'intensité d'un marché international. Business English de haut niveau, rencontres avec des professionnels en activité, énergie unique d'une ville qui ne ralentit jamais.",
-    highlights: [
-      "Business English intensif avec des professeurs et professionnels natifs",
-      "Visites d'entreprises dans l'écosystème business new-yorkais",
-      "Découverte de la ville : Manhattan, Brooklyn Bridge, musées emblématiques",
-      "Rencontres avec des professionnels et expatriés français en activité",
-    ],
-    ideal: "Commerce international · Finance · Communication · Tourisme",
-  },
-  {
-    city: "Londres",
-    country: "Royaume-Uni",
-    tag: "Business English",
-    flag: "🇬🇧",
-    accent: "#24478F",
-    photo: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=900&q=80",
-    headline: "La capitale mondiale du Business English.",
-    desc: "Londres reste la référence absolue pour l'apprentissage de l'anglais professionnel en contexte réel. Un séjour à Londres, c'est une immersion totale dans une ville qui concentre une densité unique d'entreprises internationales et où l'anglais professionnel est la langue de travail universelle.",
-    highlights: [
-      "Formation Business English avec des formateurs professionnels natifs certifiés",
-      "Visites d'entreprises et observation du monde du travail londonien",
-      "Programme adapté au niveau et à la filière du groupe",
-      "Découverte des quartiers emblématiques : City, Canary Wharf, Shoreditch",
-    ],
-    ideal: "Toutes filières · Progression en anglais professionnel",
-  },
-  {
-    city: "Malte",
-    country: "Méditerranée",
-    tag: "English immersion",
-    flag: "🇲🇹",
-    accent: "#24478F",
-    photo: "/Assets/destinations/Malte Destination.png",
-    headline: "L'anglais en immersion totale, sous le soleil méditerranéen.",
-    desc: "Malte est l'une des rares destinations européennes entièrement anglophones, et l'une des plus accessibles. Son cadre méditerranéen, son histoire millénaire et sa taille humaine en font un environnement idéal pour une progression réelle en anglais professionnel, dans une atmosphère solaire et engageante.",
-    highlights: [
-      "Cours d'anglais professionnel animés par des formateurs natifs certifiés",
-      "Visites culturelles : Valletta (capitale UNESCO), Blue Grotto, Mdina",
-      "Visites d'entreprises locales adaptées à la filière du groupe",
-      "Programme d'activités conçu pour maximiser l'immersion culturelle et sociale",
-    ],
-    ideal: "Toutes filières · Progression en anglais professionnel",
-  },
-  {
-    city: "Maroc",
-    country: "Afrique du Nord",
-    tag: "Immersion & management interculturel",
-    flag: "🇲🇦",
-    accent: "#D4862A",
-    photo: "/Assets/destinations/Maroc.jpg",
-    headline: "L'Afrique du Nord, entre tradition et dynamisme contemporain.",
-    desc: "Le Maroc, principalement Marrakech et Casablanca, propose un programme ancré dans les réalités économiques et culturelles du pays. Une destination qui confronte les apprentis à un environnement professionnel différent, entre héritage fort et ambitions de modernisation.",
-    highlights: [
-      "Formation sur le tissu économique marocain et les échanges franco-marocains",
-      "Visites d'entreprises : industrie, services, secteur numérique en développement",
-      "Management interculturel et compréhension des codes professionnels locaux",
-      "Immersion culturelle : médinas, artisanat, gastronomie, architecture",
-    ],
-    ideal: "Numérique · Marketing · Commerce · Management",
-  },
-  {
-    city: "Berlin",
-    country: "Allemagne",
-    tag: "Entrepreneuriat & innovation",
-    flag: "🇩🇪",
-    accent: "#1B3D88",
-    photo: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=900&q=80",
-    headline: "L'Europe de l'entrepreneuriat et des idées neuves.",
-    desc: "Berlin pense autrement. Capitale européenne de la scène startup et de l'innovation ouverte, elle offre aux apprentis une immersion dans un écosystème professionnel non conventionnel. Un programme volontairement orienté terrain et rencontres, moins de salle de cours, plus de fondateurs, d'entreprises et d'idées.",
-    highlights: [
-      "Immersion dans l'écosystème startup et entrepreneurial berlinois",
-      "Visites d'entreprises innovantes : tech, digital, créatif, industrie",
-      "Rencontres avec des professionnels, fondateurs et acteurs de la scène locale",
-      "Programme culturel : East Side Gallery, Checkpoint Charlie, quartiers créatifs",
-    ],
-    ideal: "Numérique · Innovation · Commerce · Management",
-  },
-  {
-    city: "Rome",
-    country: "Italie",
-    tag: "Culture & économie italienne",
-    flag: "🇮🇹",
-    accent: "#D4862A",
-    photo: "/Assets/destinations/Rome.jpg",
-    headline: "L'Italie entre grandeur historique et réalité économique.",
-    desc: "Rome offre un cadre de formation unique : une compréhension par l'immersion. Le programme s'appuie sur la richesse culturelle de la Ville éternelle pour ouvrir les apprentis à la réalité économique italienne, ses secteurs d'activité, ses entreprises, ses codes professionnels et son rapport singulier à la qualité.",
-    highlights: [
-      "Panorama socio-économique de l'Italie et de ses grands secteurs d'activité",
-      "Visites d'entreprises locales sélectionnées selon la filière du groupe",
-      "Immersion culturelle : Colossée, Forum romain, Vatican, Trastevere",
-      "Compréhension des pratiques professionnelles et du tissu économique local",
-    ],
-    ideal: "Commerce · Tourisme · Services · Gestion",
-  },
-  {
-    city: "Miami",
-    country: "États-Unis",
-    tag: "Business English & ouverture américaine",
-    flag: "🇺🇸",
-    accent: "#24478F",
-    photo: "/Assets/destinations/Miami-unsplash.jpg",
-    headline: "L'Amérique dans sa version la plus internationale.",
-    desc: "Miami n'est pas New York, et c'est précisément son atout. Carrefour des Amériques, ville internationale par nature, elle offre aux apprentis une lecture concrète du modèle économique américain dans un environnement cosmopolite, accessible et tourné vers l'Atlantique.",
-    highlights: [
-      "Panorama socio-économique des États-Unis et de la région Miami",
-      "Visites de campus américains et d'entreprises locales ou françaises implantées",
-      "Business English professionnel avec des intervenants natifs",
-      "Exposition aux codes culturels et professionnels nord-américains",
-    ],
-    ideal: "Commerce international · Finance · Communication · Tourisme",
-  },
-  {
-    city: "Séoul",
-    country: "Corée du Sud",
-    tag: "Tech & monde asiatique",
-    flag: "🇰🇷",
-    accent: "#1B3D88",
-    photo: "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=900&q=80",
-    headline: "Une fenêtre directe sur l'Asie du XXIe siècle.",
-    desc: "Séoul est l'une des métropoles les plus innovantes de la planète. Un séjour en Corée du Sud expose les apprentis à une culture professionnelle radicalement différente : exigence, culture de l'innovation, technologies de rupture. Un programme pour ceux qui veulent comprendre où se construit l'avenir.",
-    highlights: [
-      "Observation des pratiques professionnelles dans un environnement tech de pointe",
-      "Visites de districts d'innovation, startups et grandes corporations coréennes",
-      "Compréhension des codes sociaux et professionnels du monde du travail asiatique",
-      "Développement de la capacité d'adaptation interculturelle en contexte réel",
-    ],
-    ideal: "Numérique · Tech · Industrie · Innovation",
-  },
-  {
-    city: "Bucarest",
-    country: "Roumanie",
-    tag: "Transformation & culture européenne",
-    flag: "🇷🇴",
-    accent: "#24478F",
-    photo: "https://images.unsplash.com/photo-1772617613154-725567be5174?w=1200&q=90",
-    headline: "Une capitale européenne en pleine transformation.",
-    desc: "Bucarest conjugue architecture monumentale, nouvelles industries et énergie entrepreneuriale. Une destination qui permet aux apprentis de comprendre les mutations de l'Europe centrale, au contact d'acteurs économiques et culturels ancrés dans la ville.",
-    highlights: [
-      "Panorama socio-économique de la Roumanie et de sa capitale",
-      "Visites d'entreprises et rencontres dans les secteurs numérique, services et industrie",
-      "Découverte du patrimoine : Athénée roumain, centre historique et architecture du XXe siècle",
-      "Immersion dans les nouveaux lieux créatifs et entrepreneuriaux de Bucarest",
-    ],
-    ideal: "Numérique · Commerce · Management · Communication",
-  },
-  {
-    city: "Lisbonne",
-    country: "Portugal",
-    tag: "Innovation & ouverture atlantique",
-    flag: "🇵🇹",
-    accent: "#D4862A",
-    photo: "https://images.unsplash.com/photo-1762882450531-c99aca0ba328?w=1200&q=85",
-    headline: "L'Europe atlantique, entre patrimoine et nouveaux usages.",
-    desc: "Lisbonne offre un terrain d'apprentissage particulièrement accessible : une économie ouverte, une scène entrepreneuriale internationale et une culture urbaine forte. Son échelle humaine favorise les rencontres, l'observation et l'immersion professionnelle.",
-    highlights: [
-      "Panorama de l'économie portugaise et de l'écosystème lisboète",
-      "Rencontres professionnelles dans la tech, le tourisme et les industries créatives",
-      "Découverte de la ville : Baixa, Alfama, Belém et les rives du Tage",
-      "Lecture des transformations urbaines et des nouveaux modèles de services",
-    ],
-    ideal: "Tourisme · Commerce · Numérique · Communication",
-  },
-  {
-    city: "Dubai",
-    country: "Émirats arabes unis",
-    tag: "Prochainement",
-    flag: "🇦🇪",
-    accent: "#D4862A",
-    photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=900&q=80",
-    headline: "L'économie du futur, entre tradition et disruption mondiale.",
-    desc: "Un programme orienté vers les modèles économiques émergents du Golfe : innovation, finance internationale, architecture de la disruption. Dubai représente un terrain d'immersion unique pour comprendre comment une ville se réinvente à toute vitesse.",
-    highlights: [],
-    ideal: "",
-    comingSoon: true,
-  },
-];
+  description: `${activeDestinationCount} destinations de mobilité professionnelle internationale, de Montréal à Lisbonne. Chaque programme est structuré pour sa valeur pédagogique et professionnelle, adapté à votre filière.`,
+  path: "/destinations",
+});
 
 export default function DestinationsPage() {
   return (
     <>
-      {/* Hero header */}
       <section className="page-hero-section" style={{
         position: "relative", paddingTop: 160, paddingBottom: 80,
         background: "var(--navy)", overflow: "hidden",
       }}>
-        {/* Background photo, visuel d'atmosphère (city-led) */}
-        <div style={{
-          position: "absolute", inset: 0,
-          backgroundImage: "url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80')",
-          backgroundSize: "cover", backgroundPosition: "center",
-          opacity: 0.18,
-        }} />
-        {/* Gradient overlay */}
+        <Image
+          src={destinationsHeroImage}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          style={{ objectFit: "cover", objectPosition: "center", opacity: 0.18 }}
+        />
         <div style={{
           position: "absolute", inset: 0,
           background: "linear-gradient(to bottom, rgba(11,24,41,0.3) 0%, var(--navy) 100%)",
@@ -261,7 +37,7 @@ export default function DestinationsPage() {
             letterSpacing: "-0.04em", lineHeight: 1.08, maxWidth: 720, marginBottom: 24,
             color: "#fff",
           }}>
-            11 destinations.{" "}
+            {activeDestinationCount} destinations.{" "}
             <span style={{
               fontFamily: "var(--font-serif)", fontStyle: "italic",
               fontWeight: 500, color: "var(--blue-on-dark)",
@@ -272,29 +48,26 @@ export default function DestinationsPage() {
             maxWidth: 580, lineHeight: 1.75,
           }}>
             Chaque destination est sélectionnée pour sa valeur pédagogique,
-            professionnelle et humaine. Le même niveau d'exigence, la même
+            professionnelle et humaine. Le même niveau d&apos;exigence, la même
             structure de programme, adapté au contexte et à la filière de votre groupe.
           </p>
 
-          {/* Flag strip */}
-          <div className="anim-fade-up-4" style={{
-            display: "flex", gap: 8, marginTop: 48, flexWrap: "wrap",
-          }}>
-            {destinations.filter(d => !d.comingSoon).map(d => (
-              <div key={d.city} style={{
+          <div className="anim-fade-up-4" style={{ display: "flex", gap: 8, marginTop: 48, flexWrap: "wrap" }}>
+            {destinations.filter((d) => !d.comingSoon).map((d) => (
+              <Link key={d.slug} href={`/destinations/${d.slug}`} style={{
                 display: "flex", alignItems: "center", gap: 8,
                 background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)",
                 borderRadius: 100, padding: "8px 16px",
-                fontSize: 13, color: "rgba(255,255,255,0.7)",
+                fontSize: 13, color: "rgba(255,255,255,0.78)",
               }}>
                 <span>{d.flag}</span> {d.city}
-              </div>
+              </Link>
             ))}
             <div style={{
               display: "flex", alignItems: "center", gap: 8,
               background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)",
               borderRadius: 100, padding: "8px 16px",
-              fontSize: 12, color: "rgba(255,255,255,0.35)",
+              fontSize: 12, color: "rgba(255,255,255,0.7)",
               fontStyle: "italic",
             }}>
               🇦🇪 prochainement
@@ -303,54 +76,51 @@ export default function DestinationsPage() {
         </div>
       </section>
 
-      {/* Destination cards */}
       <section style={{ padding: "64px 24px 96px", background: "var(--bg)" }}>
         <DestinationExplorer destinations={destinations} />
       </section>
 
-      {/* CTA section */}
       <section style={{ padding: "0 24px 96px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <AnimateOnView>
-          <div style={{
-            background: "var(--navy)", borderRadius: 20,
-            padding: "72px 48px", textAlign: "center", position: "relative", overflow: "hidden",
-          }}>
-            {/* Glow blobs */}
             <div style={{
-              position: "absolute", top: "-60px", left: "20%",
-              width: 400, height: 300,
-              background: "radial-gradient(ellipse, rgba(36,71,143,0.25) 0%, transparent 70%)",
-              pointerEvents: "none",
-            }} />
-            <div style={{
-              position: "absolute", bottom: "-40px", right: "20%",
-              width: 300, height: 250,
-              background: "radial-gradient(ellipse, rgba(27,61,136,0.2) 0%, transparent 70%)",
-              pointerEvents: "none",
-            }} />
-            <div className="section-label-light" style={{ justifyContent: "center" }}>Une destination vous intéresse ?</div>
-            <h2 style={{
-              fontSize: "clamp(26px, 3.5vw, 44px)", fontWeight: 500,
-              fontFamily: "var(--font-serif)", fontStyle: "italic",
-              letterSpacing: "-0.02em", marginBottom: 16, color: "#fff", position: "relative",
+              background: "var(--navy)", borderRadius: 20,
+              padding: "72px 48px", textAlign: "center", position: "relative", overflow: "hidden",
             }}>
-              Construisons votre programme ensemble.
-            </h2>
-            <p style={{
-              fontSize: 16, color: "rgba(255,255,255,0.55)",
-              maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.75, position: "relative",
-            }}>
-              Destination envisagée, filière, taille du groupe, dates, partagez votre projet.
-              Nous vous revenons rapidement avec une première proposition adaptée à votre filière.
-            </p>
-            <Link href="/contact" className="btn-primary" style={{ position: "relative" }}>
-              Demander un programme
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-                <path d="M2 7.5h11M8 2.5l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
-          </div>
+              <div style={{
+                position: "absolute", top: "-60px", left: "20%",
+                width: 400, height: 300,
+                background: "radial-gradient(ellipse, rgba(36,71,143,0.25) 0%, transparent 70%)",
+                pointerEvents: "none",
+              }} />
+              <div style={{
+                position: "absolute", bottom: "-40px", right: "20%",
+                width: 300, height: 250,
+                background: "radial-gradient(ellipse, rgba(27,61,136,0.2) 0%, transparent 70%)",
+                pointerEvents: "none",
+              }} />
+              <div className="section-label-light" style={{ justifyContent: "center" }}>Une destination vous intéresse ?</div>
+              <h2 style={{
+                fontSize: "clamp(26px, 3.5vw, 44px)", fontWeight: 500,
+                fontFamily: "var(--font-serif)", fontStyle: "italic",
+                letterSpacing: "-0.02em", marginBottom: 16, color: "#fff", position: "relative",
+              }}>
+                Construisons votre programme ensemble.
+              </h2>
+              <p style={{
+                fontSize: 16, color: "rgba(255,255,255,0.72)",
+                maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.75, position: "relative",
+              }}>
+                Destination envisagée, filière, taille du groupe, dates, partagez votre projet.
+                Nous vous revenons rapidement avec une première proposition adaptée à votre filière.
+              </p>
+              <Link href="/contact" className="btn-primary" style={{ position: "relative" }}>
+                Demander un programme
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                  <path d="M2 7.5h11M8 2.5l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Link>
+            </div>
           </AnimateOnView>
         </div>
       </section>

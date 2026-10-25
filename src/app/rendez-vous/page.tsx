@@ -1,11 +1,12 @@
 import Link from "next/link";
-import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "Prendre rendez-vous",
   description:
     "Réservez un échange de 20 minutes avec l'équipe AMI Panorama pour parler de votre projet de mobilité internationale, sans engagement.",
-};
+  path: "/rendez-vous",
+});
 
 // Lien de réservation Google Calendar (lien de partage public).
 // Surchargeable par l'environnement ; valeur par défaut = lien fourni par AMI Panorama.

@@ -97,6 +97,6 @@ export const HERO_PHOTOS: HeroPhoto[] = [
   { src: "/Assets/groups/berlin-main.jpg",      city: "Berlin",   flag: "🇩🇪" },
   { src: "/Assets/groups/malta-group.jpg",      city: "Malte",    flag: "🇲🇹" },
   { src: "/Assets/groups/rome-group.jpg",       city: "Rome",     flag: "🇮🇹" },
-  { src: "https://images.unsplash.com/photo-1772617613154-725567be5174?w=1200&q=90", city: "Bucarest", flag: "🇷🇴" },
-  { src: "https://images.unsplash.com/photo-1762882450531-c99aca0ba328?w=1200&q=85", city: "Lisbonne", flag: "🇵🇹" },
+  { src: "/Assets/stock/v1/bucarest.jpg", city: "Bucarest", flag: "🇷🇴" },
+  { src: "/Assets/stock/v1/lisbonne.jpg", city: "Lisbonne", flag: "🇵🇹" },
 ];

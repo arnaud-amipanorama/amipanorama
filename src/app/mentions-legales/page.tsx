@@ -1,26 +1,28 @@
 import Link from "next/link";
-import type { Metadata } from "next";
+import { company, host, publicationDirector } from "@/data/legal";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "Mentions légales",
   description: "Mentions légales du site AMI Panorama, informations légales, hébergeur, propriété intellectuelle et données personnelles.",
-  robots: { index: false, follow: false },
-};
+  path: "/mentions-legales",
+  index: false,
+});
 
 const sections = [
   {
     title: "1. Informations légales de la société",
     content: [
-      "Dénomination sociale : AMI PANORAMA",
-      "Forme juridique : Société par actions simplifiée (SAS)",
-      "Capital social : 5 000 €",
-      "Siège social : 2 rue Wimpheling, 67000 Strasbourg, France",
-      "Immatriculation : RCS Strasbourg, n° 978 133 528",
-      "SIRET : 978 133 528 00015",
-      "Code APE/NAF : 79.12Z, activités des voyagistes",
-      "Numéro de TVA intracommunautaire : FR52 978 133 528",
-      "Directeur de la publication : Directeur général",
-      "Contact : info@amipanorama.com",
+      `Dénomination sociale : ${company.name}`,
+      `Forme juridique : ${company.legalForm}`,
+      `Capital social : ${company.capital}`,
+      `Siège social : ${company.street}, ${company.postalCode} ${company.city}, ${company.country}`,
+      `Immatriculation : ${company.rcs}`,
+      `SIRET : ${company.siret}`,
+      `Code APE/NAF : ${company.ape}, ${company.apeLabel}`,
+      `Numéro de TVA intracommunautaire : ${company.vat}`,
+      `Directeur de la publication : ${publicationDirector.publishedLabel}`,
+      `Contact : ${company.email}`,
     ],
     type: "list" as const,
   },
@@ -28,8 +30,8 @@ const sections = [
     title: "2. Hébergeur du site",
     content: [
       "Le présent site est hébergé par :",
-      "Wix Online Platforms Limited",
-      "1 Grant's Row, Dublin 2, D02HX96, Ireland",
+      host.name,
+      host.address,
     ],
     type: "paragraphs" as const,
   },
@@ -96,8 +98,8 @@ export default function MentionsLegalesPage() {
           </h1>
           <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.7 }}>
             Conformément aux dispositions de la loi n°2004-575 du 21 juin 2004 pour la confiance
-            dans l'économie numérique (LCEN), il est précisé aux utilisateurs du site internet
-            AMI Panorama l'identité des différents intervenants dans le cadre de sa réalisation
+            dans l&apos;économie numérique (LCEN), il est précisé aux utilisateurs du site internet
+            AMI Panorama l&apos;identité des différents intervenants dans le cadre de sa réalisation
             et de son suivi.
           </p>
         </div>

@@ -2,6 +2,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { socialLinks } from "@/data/social";
+import { atoutFrance, postalAddressLine } from "@/data/legal";
+import { destinationPath, footerDestinations } from "@/data/destinations";
 
 export default function Footer() {
   return (
@@ -31,7 +33,7 @@ export default function Footer() {
                 style={{ height: 32, width: "auto", objectFit: "contain", opacity: 0.95 }}
               />
             </div>
-            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.75, maxWidth: 240 }}>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.82)", lineHeight: 1.75, maxWidth: 240 }}>
               Programmes de mobilité internationale clé en main pour les CFA, les écoles et les établissements de formation.
             </p>
             <div style={{ display: "flex", gap: 10, marginTop: 24 }}>
@@ -39,7 +41,7 @@ export default function Footer() {
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                   className="footer-link"
                   style={{
-                    fontSize: 11, fontWeight: 500, color: "rgba(255,255,255,0.45)",
+                    fontSize: 12, fontWeight: 500, color: "rgba(255,255,255,0.82)",
                     padding: "6px 12px", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 6,
                   }}>{label}</a>
               ))}
@@ -48,7 +50,7 @@ export default function Footer() {
 
           {/* Navigation */}
           <div>
-            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 18 }}>Navigation</p>
+            <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.72)", marginBottom: 18 }}>Navigation</p>
             {([
               ["Accueil", "/"],
               ["Notre programme", "/notre-programme"],
@@ -57,7 +59,7 @@ export default function Footer() {
               ["Contact", "/contact"],
             ] as [string, string][]).map(([label, href]) => (
               <div key={href} style={{ marginBottom: 11 }}>
-                <Link href={href} className="footer-link" style={{ fontSize: 13, color: "rgba(255,255,255,0.55)" }}>
+                <Link href={href} className="footer-link" style={{ fontSize: 13, color: "rgba(255,255,255,0.82)" }}>
                   {label}
                 </Link>
               </div>
@@ -66,18 +68,11 @@ export default function Footer() {
 
           {/* Destinations */}
           <div>
-            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 18 }}>Destinations</p>
-            {[
-              { label: "Montréal", flag: "🇨🇦" },
-              { label: "New York", flag: "🇺🇸" },
-              { label: "Séville", flag: "🇪🇸" },
-              { label: "Londres", flag: "🇬🇧" },
-              { label: "Maroc", flag: "🇲🇦" },
-              { label: "Séoul", flag: "🇰🇷" },
-            ].map(({ label, flag }) => (
-              <div key={label} style={{ marginBottom: 11 }}>
-                <Link href="/destinations" className="footer-link" style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ fontSize: 14 }}>{flag}</span>{label}
+            <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.72)", marginBottom: 18 }}>Destinations</p>
+            {footerDestinations().map((destination) => (
+              <div key={destination.slug} style={{ marginBottom: 11 }}>
+                <Link href={destinationPath(destination)} className="footer-link" style={{ fontSize: 13, color: "rgba(255,255,255,0.82)", display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: 14 }}>{destination.flag}</span>{destination.city}
                 </Link>
               </div>
             ))}
@@ -85,14 +80,17 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 18 }}>Contact</p>
+            <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.72)", marginBottom: 18 }}>Contact</p>
             <Link href="/contact" className="btn-primary" style={{ padding: "11px 20px", fontSize: 13, marginBottom: 20, display: "inline-flex" }}>
               Demander un programme
             </Link>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>info@amipanorama.com</p>
-              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>Canada · Timezone EST</p>
-              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>Réponse rapide et personnalisée</p>
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.82)" }}>info@amipanorama.com</p>
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.82)" }}>{postalAddressLine()}</p>
+              {atoutFrance.confirmed && (
+                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.82)" }}>Atout France {atoutFrance.registration}</p>
+              )}
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.82)" }}>Réponse rapide et personnalisée</p>
             </div>
           </div>
         </div>
@@ -102,7 +100,7 @@ export default function Footer() {
           borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 24,
           display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12,
         }}>
-          <p style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>
+          <p style={{ fontSize: 12, color: "rgba(255,255,255,0.72)" }}>
             © {new Date().getFullYear()} AMI Panorama. Tous droits réservés.
           </p>
           <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
@@ -112,7 +110,7 @@ export default function Footer() {
               { label: "Confidentialité", href: "/politique-de-confidentialite" },
               { label: "Cookies", href: "/politique-cookies" },
             ].map(({ label, href }) => (
-              <Link key={href} href={href} className="footer-link" style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>
+              <Link key={href} href={href} className="footer-link" style={{ fontSize: 12, color: "rgba(255,255,255,0.72)" }}>
                 {label}
               </Link>
             ))}

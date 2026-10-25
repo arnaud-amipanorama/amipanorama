@@ -1,11 +1,15 @@
 import Link from "next/link";
-import type { Metadata } from "next";
+import Image from "next/image";
+import { activeDestinationCount } from "@/data/destinations";
+import { programmeFaq } from "@/data/programme";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "Notre programme",
   description:
     "Un programme de mobilité internationale complet : formation professionnelle structurée, visites d'entreprise, encadrement terrain, logistique et accompagnement administratif. Découvrez chaque composante du programme AMI Panorama.",
-};
+  path: "/notre-programme",
+});
 
 const whyItems = [
   {
@@ -34,48 +38,7 @@ const whyItems = [
   },
 ];
 
-const faqItems = [
-  {
-    q: "À qui s'adressent les programmes AMI Panorama ?",
-    a: "Aux CFA, lycées professionnels, écoles supérieures et établissements en alternance souhaitant intégrer une mobilité internationale structurée à leur cursus. Nos programmes s'adressent à des groupes de 10 à 40 étudiants, encadrés par un ou plusieurs référents pédagogiques de l'établissement.",
-  },
-  {
-    q: "Combien de temps dure une mobilité ?",
-    a: "Notre format de référence reste le séjour de 8 jours / 7 nuits. Selon votre projet, nous proposons des formats plus courts ou plus longs, de 4 à 5 jours jusqu'à 31 jours, avec une expertise particulière sur les séjours d'une semaine, de deux semaines et d'un mois. La durée se définit avec vous, selon les objectifs pédagogiques, le profil du groupe et la destination.",
-  },
-  {
-    q: "Que comprend concrètement le programme ?",
-    a: "Formation professionnelle (de 15h à 82h selon le format, la destination et les objectifs pédagogiques), visites d'entreprises sélectionnées pour leur pertinence sectorielle, programme d'activités culturelles, hébergement avec petit-déjeuner, ensemble des transports sur place, assurances complètes et accompagnement administratif de bout en bout.",
-  },
-  {
-    q: "Quel est le rôle de l'établissement pendant le séjour ?",
-    a: "L'établissement reste le référent pédagogique du groupe. Son rôle est d'accompagner les étudiants sur le plan éducatif et de valider l'intégration du séjour dans le parcours de formation. Nous prenons en charge tout ce qui relève de la logistique, de l'encadrement terrain et de l'organisation.",
-  },
-  {
-    q: "Comment la mobilité s'intègre-t-elle dans un calendrier de formation ?",
-    a: "Nous adaptons les dates, la destination et le contenu en fonction du calendrier de votre établissement et des contraintes de l'alternance. La coordination avec les entreprises d'accueil des apprentis fait partie de notre accompagnement préalable.",
-  },
-  {
-    q: "Proposez-vous un accompagnement administratif ?",
-    a: "Oui. L'ingénierie administrative fait partie intégrante de chaque programme : structuration du projet de mobilité, rédaction des conventions, identification des cadres de financement mobilisables selon votre situation et suivi documentaire jusqu'à la clôture du projet.",
-  },
-  {
-    q: "Comment abordez-vous la structuration financière ?",
-    a: "Nous accompagnons chaque établissement dans l'identification des dispositifs pertinents selon sa situation, fonds propres, branches professionnelles, collectivités, fonds européens. Nous ne garantissons pas de financement, mais nous structurons le projet pour qu'il soit éligible aux dispositifs existants et coordonnons les démarches.",
-  },
-  {
-    q: "Les programmes sont-ils personnalisables ?",
-    a: "Oui. Chaque programme est adapté à la filière, au niveau et au projet de votre groupe. Le contenu de formation, le choix des entreprises visitées, le programme culturel et les dates peuvent être ajustés en concertation avec votre équipe.",
-  },
-  {
-    q: "Qui encadre les étudiants sur place ?",
-    a: "Une équipe terrain AMI Panorama est présente et disponible 24h/24 pendant toute la durée du séjour. En parallèle, le ou les référents de l'établissement accompagnent le groupe sur le plan pédagogique.",
-  },
-  {
-    q: "Quel est le niveau d'accompagnement avant, pendant et après ?",
-    a: "Avant : coordination complète, programme, logistique, assurances, documents. Pendant : encadrement terrain 24h/24. Après : bilan de séjour, attestations de formation, comptes-rendus de visite et accompagnement pour la clôture administrative du projet.",
-  },
-];
+const faqItems = programmeFaq;
 
 const programPillars = [
   {
@@ -149,7 +112,7 @@ export default function NotreProgrammePage() {
             {([
               ["8 j / 7 nuits", "format de référence, de 4 à 5 j jusqu'à 31 j"],
               ["15 → 82h", "de formation selon le format"],
-              ["10", "destinations actives"],
+              [String(activeDestinationCount), "destinations actives"],
               ["Appui admin.", "inclus dans chaque programme"],
             ] as [string, string][]).map(([v, l], i, arr) => (
               <div key={v} style={{
@@ -187,15 +150,15 @@ export default function NotreProgrammePage() {
                 color: "var(--text-secondary)", marginBottom: 20,
                 letterSpacing: "-0.01em",
               }}>
-                « Ce n'est pas une semaine supplémentaire dans le calendrier.
-                C'est la semaine dont vos participants parleront encore dans dix ans. »
+                « Ce n&apos;est pas une semaine supplémentaire dans le calendrier.
+                C&apos;est la semaine dont vos participants parleront encore dans dix ans. »
               </p>
               <p style={{
                 fontSize: 14, color: "var(--text-muted)", lineHeight: 1.8, marginBottom: 28,
               }}>
                 La mobilité ne complète pas une formation. Elle en change la valeur perçue,
                 pour les candidats qui choisissent votre filière, pour les apprentis qui la vivent,
-                et pour l'établissement qui a su la rendre possible.
+                et pour l&apos;établissement qui a su la rendre possible.
               </p>
               <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 12, color: "var(--text-muted)" }}>
                 <div style={{ width: 28, height: 1.5, background: "var(--coral)", flexShrink: 0 }} />
@@ -233,9 +196,8 @@ export default function NotreProgrammePage() {
         // La citation parle de "coulisses d'entreprises" : le visuel doit montrer
         // une vraie visite pro, pas une rue. Cadrage à droite car le texte occupe
         // la moitié gauche sous le dégradé sombre.
-        backgroundImage: "url('/Assets/program/visite-startup.jpg')",
-        backgroundSize: "cover", backgroundPosition: "72% 42%",
       }}>
+        <Image src="/Assets/program/visite-startup.jpg" alt="" fill sizes="100vw" style={{ objectFit: "cover", objectPosition: "72% 42%" }} />
         <div style={{
           position: "absolute", inset: 0,
           background: "linear-gradient(to right, rgba(11,24,41,0.75) 0%, rgba(11,24,41,0.3) 60%, rgba(11,24,41,0.5) 100%)",
@@ -252,7 +214,7 @@ export default function NotreProgrammePage() {
               letterSpacing: "-0.01em",
             }}>
               « Vos apprentis ne visitent pas des vitrines, ils entrent dans les coulisses
-              d'entreprises qui façonnent leur secteur. »
+              d&apos;entreprises qui façonnent leur secteur. »
             </p>
             <div style={{ marginTop: 20, fontSize: 13, color: "rgba(255,255,255,0.5)" }}>
               AMI Panorama, Philosophie du programme
@@ -277,7 +239,9 @@ export default function NotreProgrammePage() {
           <div className="programme-pillars">
             {programPillars.map(({ label, title, desc, detail, image }) => (
               <article key={label} className="programme-pillar">
-                <div className="programme-pillar-photo" style={{ backgroundImage: `url('${image}')` }} />
+                <div className="programme-pillar-photo">
+                  <Image src={image} alt="" fill sizes="(max-width: 800px) 100vw, 24vw" style={{ objectFit: "cover" }} />
+                </div>
                 <div className="programme-pillar-copy">
                   <div className="programme-pillar-label">{label}</div>
                   <h3>{title}</h3>
@@ -310,7 +274,8 @@ export default function NotreProgrammePage() {
               { src: "/Assets/program/visite-pro.jpg", cap: "Échanges sur le terrain" },
               { src: "/Assets/program/visite-startup-2.jpg", cap: "Écosystème startup" },
             ].map((p) => (
-              <div key={p.src} className="vp-photo" style={{ backgroundImage: `url('${p.src}')` }}>
+              <div key={p.src} className="vp-photo">
+                <Image src={p.src} alt={p.cap} fill sizes="(max-width: 640px) 100vw, 25vw" style={{ objectFit: "cover" }} />
                 <span className="vp-cap">{p.cap}</span>
               </div>
             ))}
@@ -324,7 +289,7 @@ export default function NotreProgrammePage() {
           transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
         }
         .programme-pillar:hover { transform: translateY(-3px); border-color: var(--border-hover); box-shadow: 0 18px 38px rgba(11,24,41,.10); }
-        .programme-pillar-photo { background-size: cover; background-position: center; min-height: 100%; }
+        .programme-pillar-photo { position: relative; min-height: 220px; }
         .programme-pillar-copy { display: flex; flex-direction: column; align-items: flex-start; padding: 30px 28px; }
         .programme-pillar-label { color: var(--blue); font-size: 11px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; margin-bottom: 20px; }
         .programme-pillar h3 { font-size: clamp(20px, 2vw, 28px); line-height: 1.08; letter-spacing: -.04em; margin-bottom: 14px; }
@@ -363,7 +328,7 @@ export default function NotreProgrammePage() {
       />
 
       {/* FAQ */}
-      <section style={{ padding: "0 24px 80px", background: "var(--bg)" }}>
+      <section id="faq" style={{ padding: "0 24px 80px", background: "var(--bg)" }}>
         <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 40 }}>
             <div className="section-label">Questions fréquentes</div>

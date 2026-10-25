@@ -1,18 +1,20 @@
 import Link from "next/link";
-import type { Metadata } from "next";
+import { company } from "@/data/legal";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "Politique de confidentialité",
   description: "Politique de confidentialité d'AMI Panorama, traitement des données personnelles, droits des utilisateurs, RGPD.",
-  robots: { index: false, follow: false },
-};
+  path: "/politique-de-confidentialite",
+  index: false,
+});
 
 const sections = [
   {
     title: "1. Responsable du traitement",
     paras: [
       "Le responsable du traitement des données personnelles collectées via le site amipanorama.com est :",
-      "AMI PANORAMA, SAS, 2 rue Wimpheling, 67000 Strasbourg, France",
+      `${company.name}, SAS, ${company.street}, ${company.postalCode} ${company.city}, ${company.country}`,
       "Contact : info@amipanorama.com",
     ],
   },
@@ -104,7 +106,7 @@ export default function PolitiqueConfidentialitePage() {
             Politique de confidentialité
           </h1>
           <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.7 }}>
-            AMI Panorama s'engage à protéger la vie privée des utilisateurs de son site
+            AMI Panorama s&apos;engage à protéger la vie privée des utilisateurs de son site
             et à traiter leurs données personnelles dans le respect du Règlement général
             sur la protection des données (RGPD, Règlement UE 2016/679) et de la loi
             française « Informatique et Libertés ».

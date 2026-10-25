@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 
 export type GalleryItem = { src: string; city: string; flag: string };
@@ -111,9 +112,9 @@ export default function HeroGallery({ items }: { items: GalleryItem[] }) {
             key={i}
             ref={(el) => { cardRefs.current[i] = el; }}
             className="hg-card"
-            style={{ backgroundImage: `url('${it.src}')` }}
             aria-hidden="true"
           >
+            <Image src={it.src} alt="" fill sizes="300px" priority={i < 3} style={{ objectFit: "cover" }} />
             <span ref={(el) => { capRefs.current[i] = el; }} className="hg-cap" style={{ opacity: 0 }}>
               <span style={{ fontSize: 14 }}>{it.flag}</span> {it.city}
             </span>
@@ -127,7 +128,7 @@ export default function HeroGallery({ items }: { items: GalleryItem[] }) {
         .hg-card {
           position: absolute; left: 50%; top: 50%;
           width: 300px; height: 210px;
-          border-radius: 18px; background-size: cover; background-position: center;
+          border-radius: 18px; overflow: hidden;
           transform-origin: center;
           box-shadow:
             0 24px 50px -22px rgba(11,24,41,0.40),

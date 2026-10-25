@@ -1,17 +1,19 @@
 import Link from "next/link";
-import type { Metadata } from "next";
+import { company } from "@/data/legal";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "Conditions générales",
   description: "Conditions générales de vente et de prestation de services d'AMI Panorama.",
-  robots: { index: false, follow: false },
-};
+  path: "/conditions-generales",
+  index: false,
+});
 
 const articles = [
   {
     title: "Article 1, Objet et parties",
     paras: [
-      "Les présentes conditions générales (ci-après « CGV ») régissent les relations contractuelles entre la société AMI PANORAMA, SAS au capital de 5 000 €, immatriculée au RCS de Strasbourg sous le n° 978 133 528, dont le siège social est situé au 2 rue Wimpheling, 67000 Strasbourg (ci-après « AMI Panorama »), et tout établissement d'enseignement, CFA, lycée professionnel ou organisme de formation (ci-après « l'Établissement ») souhaitant bénéficier de ses services de conception et d'organisation de programmes de mobilité internationale.",
+      `Les présentes conditions générales (ci-après « CGV ») régissent les relations contractuelles entre la société ${company.name}, SAS au capital de ${company.capital}, immatriculée au RCS de Strasbourg sous le n° ${company.sirenDisplay}, dont le siège social est situé au ${company.street}, ${company.postalCode} ${company.city} (ci-après « AMI Panorama »), et tout établissement d'enseignement, CFA, lycée professionnel ou organisme de formation (ci-après « l'Établissement ») souhaitant bénéficier de ses services de conception et d'organisation de programmes de mobilité internationale.`,
       "Toute commande passée auprès d'AMI Panorama implique l'acceptation sans réserve des présentes CGV.",
     ],
   },
