@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 
 export type RailPhoto = { src: string; city: string; flag: string };
@@ -51,7 +52,8 @@ export default function PhotoRail({ photos }: { photos: RailPhoto[] }) {
       <div className="prail-fade prail-fade-r" />
       <div ref={trackRef} className="prail-track">
         {doubled.map((p, i) => (
-          <div key={i} className="prail-item" style={{ backgroundImage: `url('${p.src}')` }}>
+          <div key={i} className="prail-item">
+            <Image src={p.src} alt="" fill sizes="300px" style={{ objectFit: "cover" }} />
             <span className="prail-cap"><span className="prail-flag">{p.flag}</span>{p.city}</span>
           </div>
         ))}
@@ -68,8 +70,7 @@ export default function PhotoRail({ photos }: { photos: RailPhoto[] }) {
         .prail:hover .prail-track { animation-play-state: paused; }
         .prail-item {
           position: relative; flex-shrink: 0;
-          width: 300px; height: 208px; border-radius: 16px;
-          background-size: cover; background-position: center;
+          width: 300px; height: 208px; border-radius: 16px; overflow: hidden;
           transform-origin: center center; will-change: transform, opacity;
           box-shadow: 0 14px 36px rgba(11,24,41,0.16);
         }

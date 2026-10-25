@@ -4,9 +4,10 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { activeDestinationCount } from "@/data/destinations";
 
 const LINKS = [
-  { href: "/destinations", label: "Destinations", tag: "10 pays" },
+  { href: "/destinations", label: "Destinations", tag: `${activeDestinationCount} destinations` },
   { href: "/notre-programme", label: "Notre programme", tag: "Méthode & inclusions" },
   { href: "/a-propos", label: "À propos", tag: "Notre mission · 2022" },
 ];
@@ -15,14 +16,19 @@ export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openPath, setOpenPath] = useState(pathname);
   const isHomepage = pathname === "/";
+
+  if (pathname !== openPath) {
+    setOpenPath(pathname);
+    setOpen(false);
+  }
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 48);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
-  useEffect(() => { setOpen(false); }, [pathname]);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -42,8 +48,8 @@ export default function Navbar() {
         backdropFilter: open ? "none" : "blur(16px)", WebkitBackdropFilter: open ? "none" : "blur(16px)",
       }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-          <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 86 }}>
-            <Link href="/" style={{ display: "flex", alignItems: "center" }} aria-label="AMI Panorama, accueil">
+          <nav aria-label="Navigation principale" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 86 }}>
+            <Link href="/" style={{ display: "flex", alignItems: "center", flexShrink: 0 }} aria-label="AMI Panorama, accueil">
               <Image
                 src={open ? "/Assets/Brand/ami-logo-white.png" : "/Assets/Brand/ami-logo-black.png"}
                 alt="AMI Panorama" width={205} height={100} priority
@@ -51,7 +57,15 @@ export default function Navbar() {
               />
             </Link>
 
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <div className="nav-desktop" style={{ color: open ? "#fff" : "var(--text-primary)" }}>
+              {LINKS.map((l) => (
+                <Link key={l.href} href={l.href} className="nav-desktop-link" aria-current={pathname === l.href ? "page" : undefined}>
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 14, flexShrink: 0 }}>
               <Link href="/rendez-vous" className="nav-cta" style={{ color: open ? "#fff" : "var(--text-primary)" }}>
                 Prendre rendez-vous
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -119,7 +133,7 @@ export default function Navbar() {
                 </Link>
                 <div className="nav-foot-meta">
                   <a href="mailto:info@amipanorama.com">info@amipanorama.com</a>
-                  <span className="nav-foot-sep">Montréal, New York et plus de huit destinations</span>
+                  <span className="nav-foot-sep">{activeDestinationCount} destinations actives</span>
                 </div>
               </motion.div>
             </div>
@@ -128,6 +142,17 @@ export default function Navbar() {
       </AnimatePresence>
 
       <style>{`
+        .nav-desktop { display: none; align-items: center; gap: 26px; }
+        .nav-desktop-link {
+          font-size: 14px; font-weight: 600; letter-spacing: -0.01em;
+          padding: 8px 0; border-bottom: 1px solid transparent;
+        }
+        .nav-desktop-link[aria-current="page"] { border-bottom-color: currentColor; }
+        .nav-desktop-link:hover { opacity: 0.62; }
+        @media (min-width: 1080px) {
+          .nav-desktop { display: flex; }
+          .nav-menu-btn { display: none; }
+        }
         .nav-menu-btn {
           display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
           background: none; border: none; padding: 8px 4px;

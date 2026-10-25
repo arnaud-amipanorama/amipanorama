@@ -1,11 +1,12 @@
 import Link from "next/link";
-import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "Politique de cookies",
   description: "Politique de cookies du site AMI Panorama, types de cookies utilisés, durée de conservation et gestion des préférences.",
-  robots: { index: false, follow: false },
-};
+  path: "/politique-cookies",
+  index: false,
+});
 
 const cookieTypes = [
   {

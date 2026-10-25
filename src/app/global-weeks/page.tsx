@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description:
     "Global Weeks by AMI Panorama permet aux alternants de manifester leur intérêt pour une mobilité internationale encadrée, avec leur CFA et leur employeur.",
   robots: { index: false, follow: false },
+  alternates: { canonical: "/global-weeks" },
   openGraph: {
     title: "Global Weeks by AMI Panorama",
     description:

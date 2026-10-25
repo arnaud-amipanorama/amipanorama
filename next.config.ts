@@ -1,16 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images: {
-    // Hôtes autorisés pour next/image. Les visuels de ville encore issus de
-    // banques d'images passent aujourd'hui en background-image CSS (donc hors
-    // optimisation) ; pexels est déclaré ici pour pouvoir les basculer sur
-    // next/image sans nouvelle configuration.
-    // static.wixstatic.com retiré : plus aucune image ne vient de l'ancien site Wix.
-    remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "images.pexels.com" },
-    ],
+  async redirects() {
+    return [
+      { source: "/services", destination: "/notre-programme", permanent: true },
+    ];
+  },
+  async headers() {
+    return [
+      {
+        // Noms versionnés (dossier v1) : cache long, immuable.
+        // Les photos de groupes gardent leur chemin historique, aussi utilisé
+        // par le simulateur : pas de cache immuable sur ces fichiers.
+        source: "/Assets/stock/v1/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+    ];
   },
 };
 
