@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { accessCookie, createAccessCookie, normalizeEmail, verifySimulatorAccess } from "@/lib/simulator-access";
+import { accessCookie, accessPendingMessage, createAccessCookie, normalizeEmail, verifySimulatorAccess } from "@/lib/simulator-access";
 
 export async function POST(request: NextRequest) {
   let data: Record<string, unknown>;
@@ -17,7 +17,12 @@ export async function POST(request: NextRequest) {
 
   try {
     const result = await verifySimulatorAccess(email, code);
-    const response = NextResponse.json({ ok: true, granted: result.granted, status: result.status });
+    const response = NextResponse.json({
+      ok: true,
+      granted: result.granted,
+      status: result.status,
+      ...(result.granted ? {} : { message: accessPendingMessage(result.status) }),
+    });
     if (result.granted) response.cookies.set(accessCookie.name, createAccessCookie(email), accessCookie.options);
     return response;
   } catch (error) {
