@@ -63,7 +63,77 @@ export const globalWeeksAvailability = [
   { id: "window-4", label: "Fenêtre 4", detail: "Dates à annoncer" },
 ] as const;
 
+/**
+ * Message financement de la landing. Aucun montant, plafond ou dispositif
+ * qui n'est pas déjà affirmé sur cette page : l'accord reste conditionnel.
+ */
+export const globalWeeksFunding = {
+  badge: "Ton séjour peut être financé",
+  steps: [
+    {
+      title: "Tu dis que tu veux partir",
+      text: "Le questionnaire ne réserve pas une place. Tu peux le remplir même si tu ne connais pas encore ton OPCO.",
+    },
+    {
+      title: "On identifie qui peut aider",
+      text: "L’OPCO est en général lié à ton employeur. Demande à tes RH, ton manager ou ton référent mobilité. Si tu ne le sais pas encore, on avance quand même avec toi.",
+    },
+    {
+      title: "Ton CFA et ton employeur valident",
+      text: "Ils sont associés au dossier et à la convention de mobilité. Sans leur accord, la place n’est pas confirmée.",
+    },
+    {
+      title: "Le financement se confirme, ou pas",
+      text: "L’accord, le montant et le délai dépendent de ton dossier, de ton OPCO, de ton CFA, de ton employeur et des règles applicables.",
+    },
+  ],
+  roles: [
+    {
+      title: "Qui peut financer",
+      points: [
+        "Ton OPCO, selon les règles liées à ton employeur",
+        "Ton CFA et ton référent mobilité, associés au dossier",
+        "Ton employeur, informé et impliqué dans la validation",
+      ],
+    },
+    {
+      title: "Ce que tu fais",
+      points: [
+        "Répondre au questionnaire d’intérêt",
+        "Échanger avec ton CFA ou ton référent mobilité",
+        "En parler à ton employeur",
+        "Compléter le dossier et les formalités de voyage",
+      ],
+    },
+    {
+      title: "Ce qu’AMI fait pour toi",
+      points: [
+        "Te guider étape par étape, sans le jargon",
+        "Préparer un kit pour ton référent mobilité",
+        "T’expliquer les modalités de ton dossier, y compris si des frais sont à avancer",
+        "Centraliser les informations utiles avant le départ",
+      ],
+    },
+  ],
+  note: "AMI Panorama t’accompagne dans les démarches, mais ne garantit ni accord, ni montant, ni délai. Ta place est confirmée lorsque le groupe est maintenu, que le dossier est complet, que les validations sont obtenues et que le financement ou le paiement applicable est sécurisé.",
+} as const;
+
 export const globalWeeksFaq = [
+  {
+    question: "Est-ce que c’est financé ?",
+    answer:
+      "Un financement peut exister, mais il n’est pas automatique. Il dépend de ta situation, de ton CFA, de ton employeur, de l’OPCO concerné et des règles applicables. AMI guide les démarches et vérifie avec toi, sans garantir ni l’accord ni le montant.",
+  },
+  {
+    question: "Qui peut financer mon séjour ?",
+    answer:
+      "Ton OPCO, ton CFA et ton employeur peuvent être impliqués. L’OPCO est en général lié à ton employeur. Le montage exact dépend de ton dossier : on le vérifie avec toi, selon ton OPCO et ton employeur. AMI ne garantit pas la prise en charge.",
+  },
+  {
+    question: "Qu’est-ce qu’AMI fait pour le financement ?",
+    answer:
+      "AMI te guide, prépare un kit pour ton référent mobilité et t’explique les modalités applicables à ton dossier, y compris si des frais sont à avancer. L’accord, le montant et le délai restent dépendants de ton CFA, de ton employeur, de l’OPCO et des règles applicables.",
+  },
   {
     question: "Global Weeks, c’est quoi exactement ?",
     answer:
@@ -93,11 +163,6 @@ export const globalWeeksFaq = [
     question: "Est-ce que mon employeur doit être d’accord ?",
     answer:
       "Oui. L’employeur doit être informé et peut être impliqué dans la validation et les signatures selon le dossier.",
-  },
-  {
-    question: "Est-ce que c’est financé ?",
-    answer:
-      "Le financement dépend de ta situation, de ton CFA, de ton employeur, de l’OPCO concerné et des règles applicables. AMI guide les démarches, mais ne garantit ni accord ni montant.",
   },
   {
     question: "Comment savoir quel est mon OPCO ?",
