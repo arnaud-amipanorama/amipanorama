@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
 import {
@@ -56,6 +56,22 @@ const initialForm: FormState = {
   consent: false,
   company: "",
 };
+
+const heroImageCommon = { alt: "", sizes: "(max-width: 700px) 100vw, 44vw" };
+const { props: { srcSet: heroDesktopSrcSet } } = getImageProps({
+  ...heroImageCommon,
+  width: 1600,
+  height: 1200,
+  quality: 75,
+  src: "/Assets/groups/seville-group.jpg",
+});
+const { props: { srcSet: heroMobileSrcSet, ...heroMobileImageProps } } = getImageProps({
+  ...heroImageCommon,
+  width: 1400,
+  height: 1750,
+  quality: 70,
+  src: "/Assets/groups/newyork-bridge.jpg",
+});
 
 const opcos = [
   "AFDAS",
@@ -209,7 +225,13 @@ export default function GlobalWeeksExperience() {
           <span className={styles.mapDotOne} /><span className={styles.mapDotTwo} /><span className={styles.mapRoute} />
         </div>
         <div className={styles.heroVisual} aria-hidden="true">
-          <div className={styles.heroPhotoMain}><Image src="/Assets/groups/seville-group.jpg" alt="" fill priority sizes="(max-width: 760px) 80vw, 44vw" /></div>
+          <div className={styles.heroPhotoMain}>
+            <picture>
+              <source media="(max-width: 700px)" srcSet={heroMobileSrcSet} />
+              <source media="(min-width: 701px)" srcSet={heroDesktopSrcSet} />
+              <img {...heroMobileImageProps} alt="" className={styles.heroShot} />
+            </picture>
+          </div>
           <div className={styles.heroPhotoSmall}><Image src="/Assets/groups/montreal-sunset.jpg" alt="" fill sizes="(max-width: 760px) 38vw, 18vw" /></div>
           <div className={styles.heroStamp}>AMI<br />PANORAMA</div>
           <div className={styles.heroCoordinates}>45°30′N&nbsp;&nbsp;·&nbsp;&nbsp;37°23′N</div>
