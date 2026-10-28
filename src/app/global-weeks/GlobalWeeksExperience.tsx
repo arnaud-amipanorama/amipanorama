@@ -1,12 +1,13 @@
 "use client";
 
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
 import {
   globalWeeksAvailability,
   globalWeeksEditions,
   globalWeeksFaq,
+  globalWeeksFunding,
 } from "@/data/globalWeeks";
 import styles from "./global-weeks.module.css";
 
@@ -55,6 +56,22 @@ const initialForm: FormState = {
   consent: false,
   company: "",
 };
+
+const heroImageCommon = { alt: "", sizes: "(max-width: 700px) 100vw, 44vw" };
+const { props: { srcSet: heroDesktopSrcSet } } = getImageProps({
+  ...heroImageCommon,
+  width: 1600,
+  height: 1200,
+  quality: 75,
+  src: "/Assets/groups/seville-group.jpg",
+});
+const { props: { srcSet: heroMobileSrcSet, ...heroMobileImageProps } } = getImageProps({
+  ...heroImageCommon,
+  width: 1400,
+  height: 1750,
+  quality: 70,
+  src: "/Assets/groups/newyork-bridge.jpg",
+});
 
 const opcos = [
   "AFDAS",
@@ -110,7 +127,7 @@ export default function GlobalWeeksExperience() {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [completed, setCompleted] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [kitOpen, setKitOpen] = useState(false);
 
   const outcome = useMemo<"A" | "B" | "C">(() => {
@@ -208,7 +225,13 @@ export default function GlobalWeeksExperience() {
           <span className={styles.mapDotOne} /><span className={styles.mapDotTwo} /><span className={styles.mapRoute} />
         </div>
         <div className={styles.heroVisual} aria-hidden="true">
-          <div className={styles.heroPhotoMain}><Image src="/Assets/groups/seville-group.jpg" alt="" fill priority sizes="(max-width: 760px) 80vw, 44vw" /></div>
+          <div className={styles.heroPhotoMain}>
+            <picture>
+              <source media="(max-width: 700px)" srcSet={heroMobileSrcSet} />
+              <source media="(min-width: 701px)" srcSet={heroDesktopSrcSet} />
+              <img {...heroMobileImageProps} alt="" className={styles.heroShot} />
+            </picture>
+          </div>
           <div className={styles.heroPhotoSmall}><Image src="/Assets/groups/montreal-sunset.jpg" alt="" fill sizes="(max-width: 760px) 38vw, 18vw" /></div>
           <div className={styles.heroStamp}>AMI<br />PANORAMA</div>
           <div className={styles.heroCoordinates}>45°30′N&nbsp;&nbsp;·&nbsp;&nbsp;37°23′N</div>
@@ -216,23 +239,26 @@ export default function GlobalWeeksExperience() {
         <div className={styles.wrap}>
           <div className={styles.heroContent}>
             <div className={`${styles.eyebrow} ${styles.eyebrowLight}`}>Global Weeks by AMI Panorama</div>
+            <p className={styles.fundingBadge}>{globalWeeksFunding.badge}</p>
             <h1 id="global-weeks-title">Ton école ne propose pas de mobilité internationale&nbsp;? <em>Pars quand même.</em></h1>
-            <p className={styles.heroLead}>Rejoins une semaine de mobilité internationale avec d’autres alternants. Formation, rencontres professionnelles, vie de groupe et accompagnement dans tes démarches.</p>
+            <p className={styles.heroLead}><strong>Selon ton OPCO, ton CFA et ton employeur, un financement peut exister.</strong> Rejoins une semaine avec d’autres alternants. On vérifie avec toi : aucun accord ni montant n’est garanti.</p>
             <div className={styles.heroActions}>
               <button type="button" className="btn-primary" onClick={scrollToEligibility}>Vérifier mon éligibilité <ArrowIcon /></button>
-              <a className="btn-ghost-light" href="#comment-ca-marche">Découvrir comment ça marche <ArrowIcon /></a>
+              <a className="btn-ghost-light" href="#financement">Comprendre le financement <ArrowIcon /></a>
             </div>
-            <p className={styles.heroTrust}>Candidature individuelle <span>·</span> Groupe multi-écoles <span>·</span> Dossier accompagné avec ton CFA et ton employeur</p>
+            <p className={styles.heroTrust}>Candidature individuelle <span>·</span> Financement selon ton OPCO <span>·</span> Dossier avec ton CFA et ton employeur</p>
           </div>
         </div>
       </section>
 
       <nav className={styles.subnav} aria-label="Navigation Global Weeks">
         <div className={styles.subnavInner}>
-          <a href="#experience">L’expérience</a><a href="#editions">Destinations</a><a href="#comment-ca-marche">Comment ça marche</a><a href="#dossier">Ton dossier</a><a href="#faq">FAQ</a>
+          <a href="#financement">Financement</a><a href="#experience">L’expérience</a><a href="#editions">Destinations</a><a href="#comment-ca-marche">Comment ça marche</a><a href="#dossier">Ton dossier</a><a href="#faq">FAQ</a>
           <button type="button" onClick={scrollToEligibility}>Vérifier mon éligibilité <ArrowIcon /></button>
         </div>
       </nav>
+
+      <FundingSection onEligibility={scrollToEligibility} />
 
       <section className={styles.reassurance} aria-label="Les engagements Global Weeks">
         <div className={styles.wrap}>
@@ -303,14 +329,14 @@ export default function GlobalWeeksExperience() {
               "Ta place est confirmée, puis tu pars avec ta cohorte",
             ].map((text, index) => <li key={text}><span>0{index + 1}</span><p>{text}</p></li>)}
           </ol>
-          <div className={styles.howNote}><Icon name="shield" /><p><strong>À retenir :</strong> remplir le questionnaire ne réserve pas automatiquement une place. Il permet de vérifier si ton projet peut avancer et de préparer ton dossier.</p></div>
+          <div className={styles.howNote}><Icon name="shield" /><p><strong>À retenir :</strong> remplir le questionnaire ne réserve pas automatiquement une place. Il permet de vérifier si ton projet peut avancer et de préparer ton dossier. Le financement n’est pas automatique : il se confirme avec ton OPCO, ton CFA et ton employeur.</p></div>
         </div>
       </section>
 
       <section id="dossier" className={styles.dossier}>
         <div className={styles.wrap}>
           <div className={styles.dossierGrid}>
-            <div className={styles.dossierCopy}><div className={styles.eyebrow}>Le dossier, sans le stress</div><h2>On te guide. Tu ne dois pas tout <em>comprendre seul.</em></h2><p>Une Global Week se prépare avec ton CFA, ton employeur et les bons documents. AMI rend le parcours clair, étape par étape.</p><ul>{["Une convention de mobilité qui cadre le séjour", "Une charte d’engagement étudiant", "Une validation avec le CFA et l’employeur", "Les éventuelles étapes de financement", "Les formalités de voyage selon la destination"].map((item) => <li key={item}><CheckIcon />{item}</li>)}</ul></div>
+            <div className={styles.dossierCopy}><div className={styles.eyebrow}>Le dossier, sans le stress</div><h2>On te guide. Tu ne dois pas tout <em>comprendre seul.</em></h2><p>Une Global Week se prépare avec ton CFA, ton employeur et les bons documents. AMI rend le parcours clair, étape par étape, y compris pour le financement.</p><ul>{["Une convention de mobilité qui cadre le séjour", "Une charte d’engagement étudiant", "Une validation avec le CFA et l’employeur", "Le financement possible, à confirmer avec ton OPCO, ton CFA et ton employeur", "Les formalités de voyage selon la destination"].map((item) => <li key={item}><CheckIcon />{item}</li>)}</ul></div>
             <aside className={styles.dossierPanel}><div className={styles.dossierPanelIcon}><Icon name="route" /></div><h3>Le rôle d’AMI</h3><p>Nous fournissons un parcours clair, préparons un kit pour ton référent, centralisons les informations utiles et t’accompagnons avant le départ.</p><div className={styles.transparent}><strong>En toute transparence</strong><p>AMI Panorama t’accompagne dans les démarches, mais l’accord, le montant et le délai d’un financement dépendent de ton dossier, de ton CFA, de ton employeur et des règles applicables.</p></div></aside>
           </div>
         </div>
@@ -321,12 +347,12 @@ export default function GlobalWeeksExperience() {
       </section>
 
       <section className={styles.eligibilityHint}>
-        <div className={styles.wrap}><div className={styles.sectionIntro}><div className="section-label">Une première lecture</div><h2>Tu es peut-être éligible si…</h2></div><div className={styles.hintGrid}>{["tu es actuellement en alternance", "tu as envie de vivre une mobilité internationale", "tu peux échanger avec ton CFA ou ton référent mobilité", "ton employeur peut valider le projet", "une édition correspond à tes disponibilités", "ton dossier peut être finalisé dans les délais"].map((item) => <div key={item}><CheckIcon /><span>{item}</span></div>)}</div><p>Cette liste ne remplace pas la validation de ton dossier : elle t’aide simplement à savoir si le projet mérite d’être exploré.</p></div>
+        <div className={styles.wrap}><div className={styles.sectionIntro}><div className="section-label">Une première lecture</div><h2>Tu es peut-être éligible si…</h2></div><div className={styles.hintGrid}>{["tu es actuellement en alternance", "tu as envie de vivre une mobilité internationale", "un financement peut être étudié avec ton OPCO, ton CFA et ton employeur", "tu peux échanger avec ton CFA ou ton référent mobilité", "ton employeur peut valider le projet", "une édition correspond à tes disponibilités"].map((item) => <div key={item}><CheckIcon /><span>{item}</span></div>)}</div><p>Cette liste ne remplace pas la validation de ton dossier : elle t’aide simplement à savoir si le projet mérite d’être exploré.</p></div>
       </section>
 
       <section id="eligibilite" className={styles.questionnaire} aria-labelledby="eligibility-title">
         <div className={styles.wrap}><div className={styles.questionnaireShell}>
-          <div className={styles.questionnaireIntro}><div className={styles.eyebrow}>Candidature / manifestation d’intérêt</div><h2 id="eligibility-title">Vérifier mon <em>éligibilité.</em></h2><p>Ce questionnaire ne t’inscrit pas à une Global Week. Il nous aide à comprendre ton projet et à préparer la suite avec ton CFA et ton employeur.</p><div className={styles.progress}><span style={{ width: `${completed ? 100 : (step / 3) * 100}%` }} /></div><p className={styles.progressLabel}>{completed ? "Demande transmise" : `Étape ${step} sur 3`}</p></div>
+          <div className={styles.questionnaireIntro}><div className={styles.eyebrow}>Candidature / manifestation d’intérêt</div><h2 id="eligibility-title">Vérifier mon <em>éligibilité.</em></h2><p>Ce questionnaire ne t’inscrit pas à une Global Week. Il nous aide à comprendre ton projet, à préparer la suite avec ton CFA et ton employeur, et à regarder avec toi si un financement est possible.</p><div className={styles.progress}><span style={{ width: `${completed ? 100 : (step / 3) * 100}%` }} /></div><p className={styles.progressLabel}>{completed ? "Demande transmise" : `Étape ${step} sur 3`}</p></div>
           <div className={styles.questionnaireBody}>
             {completed ? <Outcome outcome={outcome} name={form.prenom} onKit={() => setKitOpen(true)} /> : (
               <form onSubmit={submit} noValidate>
@@ -345,12 +371,55 @@ export default function GlobalWeeksExperience() {
         <div className={styles.wrap}><div className={styles.sectionSplit}><div><div className="section-label">Les questions qu’on se pose</div><h2>Tout comprendre, <em>sans jargon.</em></h2></div><p>Une réponse manque ? Tu peux démarrer le questionnaire sans avoir tout résolu : c’est justement fait pour t’orienter.</p></div><div className={styles.faqList}>{globalWeeksFaq.map((item, index) => <article className={styles.faqItem} key={item.question}><button type="button" aria-expanded={openFaq === index} onClick={() => setOpenFaq((current) => current === index ? null : index)}><span>{item.question}</span><i>{openFaq === index ? "−" : "+"}</i></button>{openFaq === index && <p>{item.answer}</p>}</article>)}</div></div>
       </section>
 
-      <section className={styles.finalCta}><div className={styles.wrap}><div><div className={styles.eyebrow}>Global Weeks by AMI Panorama</div><h2>Ton projet international peut <em>commencer aujourd’hui.</em></h2><p>Tu n’as pas besoin d’avoir toutes les réponses avant de commencer. Dis-nous où tu aimerais partir, et nous t’aiderons à comprendre la suite avec ton CFA et ton employeur.</p><div className={styles.finalActions}><button type="button" className="btn-primary" onClick={scrollToEligibility}>Vérifier mon éligibilité <ArrowIcon /></button><button type="button" className="btn-ghost-light" onClick={() => setKitOpen(true)}>Parler de Global Weeks à mon référent <ArrowIcon /></button></div></div></div></section>
+      <section className={styles.finalCta}><div className={styles.wrap}><div><div className={styles.eyebrow}>Global Weeks by AMI Panorama</div><h2>Ton projet international peut <em>commencer aujourd’hui.</em></h2><p>Tu n’as pas besoin d’avoir toutes les réponses. Dis-nous où tu aimerais partir : on t’aide à voir la suite avec ton CFA et ton employeur, et si ton séjour peut être financé.</p><div className={styles.finalActions}><button type="button" className="btn-primary" onClick={scrollToEligibility}>Vérifier mon éligibilité <ArrowIcon /></button><button type="button" className="btn-ghost-light" onClick={() => setKitOpen(true)}>Parler de Global Weeks à mon référent <ArrowIcon /></button></div></div></div></section>
 
-      <button className={styles.mobileSticky} type="button" onClick={scrollToEligibility}>Vérifier mon éligibilité <ArrowIcon /></button>
+      <button className={styles.mobileSticky} type="button" onClick={scrollToEligibility}><span>Vérifier mon éligibilité</span><small>et si ton séjour peut être financé</small></button>
 
       {kitOpen && <div className={styles.modalBackdrop} role="presentation" onMouseDown={() => setKitOpen(false)}><section className={styles.modal} role="dialog" aria-modal="true" aria-labelledby="kit-title" onMouseDown={(event) => event.stopPropagation()}><button className={styles.modalClose} type="button" aria-label="Fermer" onClick={() => setKitOpen(false)}>×</button><div className={styles.eyebrow}>Le futur kit référent</div><h2 id="kit-title">Un dossier conçu pour <em>faire gagner du temps.</em></h2><p>Le PDF final sera disponible lorsqu’une première édition sera validée. Il présentera le séjour, ses objectifs, le rôle du CFA, les contacts AMI et la check-list utile à la validation.</p><ul>{["Résumé du séjour et programme versionné", "Informations contractuelles et pédagogiques validées", "Check-list des documents et signatures", "Contact AMI pour reprendre la main avec le référent"].map((item) => <li key={item}><CheckIcon />{item}</li>)}</ul><button type="button" className="btn-primary" onClick={() => { setKitOpen(false); scrollToEligibility(); }}>Commencer par mon projet <ArrowIcon /></button></section></div>}
     </main>
+  );
+}
+
+function FundingSection({ onEligibility }: { onEligibility: () => void }) {
+  const roleIcons = ["users", "briefcase", "route"] as const;
+
+  return (
+    <section id="financement" className={styles.funding} aria-labelledby="financement-title">
+      <div className={styles.wrap}>
+        <div className={styles.sectionIntro}>
+          <div className="section-label">Le financement</div>
+          <h2 id="financement-title">Comment ton séjour peut <em>être financé.</em></h2>
+          <p>Tu n’as pas à maîtriser les aides avant de te lancer. Voici ce qui est déjà clair, et ce qu’on vérifie avec toi.</p>
+        </div>
+        <ol className={styles.fundingSteps}>
+          {globalWeeksFunding.steps.map((step, index) => (
+            <li key={step.title}>
+              <span>0{index + 1}</span>
+              <strong>{step.title}</strong>
+              <p>{step.text}</p>
+            </li>
+          ))}
+        </ol>
+        <div className={styles.fundingRoles}>
+          {globalWeeksFunding.roles.map((role, index) => (
+            <article className={styles.fundingRole} key={role.title}>
+              <div className={styles.fundingRoleIcon}><Icon name={roleIcons[index]} /></div>
+              <h3>{role.title}</h3>
+              <ul>
+                {role.points.map((point) => (
+                  <li key={point}><CheckIcon />{point}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+        <p className={styles.fundingNote}><strong>En toute transparence. </strong>{globalWeeksFunding.note}</p>
+        <div className={styles.fundingActions}>
+          <button type="button" className="btn-primary" onClick={onEligibility}>Vérifier mon éligibilité <ArrowIcon /></button>
+          <p>On regarde avec toi si un financement est possible, selon ton OPCO et ton employeur.</p>
+        </div>
+      </div>
+    </section>
   );
 }
 
