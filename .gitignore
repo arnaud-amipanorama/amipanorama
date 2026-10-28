@@ -38,6 +38,12 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# PowerPoint du kit référent (environ 18 Mo) : hors Git.
+# Le déposer dans content/global-weeks/kit-referent.pptx
+# ou renseigner GLOBAL_WEEKS_KIT_PPTX_URL.
+content/global-weeks/*.pptx
+.data/
 next-env.d.ts
 public/Assets/Belles photos groupes/
 public/Assets/Belles photos groupes/

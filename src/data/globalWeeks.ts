@@ -64,11 +64,32 @@ export const globalWeeksAvailability = [
 ] as const;
 
 /**
- * Message financement de la landing. Aucun montant, plafond ou dispositif
- * qui n'est pas déjà affirmé sur cette page : l'accord reste conditionnel.
+ * Seul endroit où modifier l'exemple de reste à charge cité sur le site.
+ * La phrase est réutilisée par Global Weeks, Notre programme et le simulateur public.
+ */
+export const globalWeeksFundingExample = {
+  remainingEuros: 400,
+  city: "Montréal",
+  stay: "hébergement avec petits-déjeuners",
+} as const;
+
+export function fundingExamplePhrase(): string {
+  const amount = new Intl.NumberFormat("fr-FR").format(globalWeeksFundingExample.remainingEuros);
+  return `environ ${amount} € pour ${globalWeeksFundingExample.city}, ${globalWeeksFundingExample.stay}`;
+}
+
+/** Mention discrète, sans encadré. Une seule fois sur la page Global Weeks, et sous le résultat du simulateur public. */
+export const fundingWatchNote =
+  "Montants indicatifs d'après notre veille ; les référentiels à jour sont disponibles sur les sites des OPCO.";
+
+export const globalWeeksConsentText =
+  "J’accepte qu’AMI Panorama enregistre mes coordonnées et les informations de mon projet (statut, école ou CFA, employeur, OPCO, destination et, le cas échéant, le résultat de l’estimation) pour étudier ma demande et me recontacter. Je peux écrire à info@amipanorama.com pour y accéder ou demander leur effacement.";
+
+/**
+ * Message financement de la landing.
  */
 export const globalWeeksFunding = {
-  badge: "Ton séjour peut être financé",
+  badge: "Dans la majorité des cas, ton séjour est financé",
   steps: [
     {
       title: "Tu dis que tu veux partir",
@@ -79,21 +100,21 @@ export const globalWeeksFunding = {
       text: "L’OPCO est en général lié à ton employeur. Demande à tes RH, ton manager ou ton référent mobilité. Si tu ne le sais pas encore, on avance quand même avec toi.",
     },
     {
-      title: "Ton CFA et ton employeur valident",
-      text: "Ils sont associés au dossier et à la convention de mobilité. Sans leur accord, la place n’est pas confirmée.",
+      title: "Ton CFA et ton employeur avancent avec toi",
+      text: "Ils sont associés au dossier et à la convention de mobilité. AMI prépare les éléments avec toi.",
     },
     {
-      title: "Le financement se confirme, ou pas",
-      text: "L’accord, le montant et le délai dépendent de ton dossier, de ton OPCO, de ton CFA, de ton employeur et des règles applicables.",
+      title: "AMI monte le dossier avec toi",
+      text: `Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}.`,
     },
   ],
   roles: [
     {
       title: "Qui peut financer",
       points: [
-        "Ton OPCO, selon les règles liées à ton employeur",
+        "Ton OPCO, dans la majorité des cas",
         "Ton CFA et ton référent mobilité, associés au dossier",
-        "Ton employeur, informé et impliqué dans la validation",
+        "Ton employeur, qui peut compléter le reste à charge",
       ],
     },
     {
@@ -108,31 +129,31 @@ export const globalWeeksFunding = {
     {
       title: "Ce qu’AMI fait pour toi",
       points: [
-        "Te guider étape par étape, sans le jargon",
+        "Monter le dossier avec toi, sans le jargon",
         "Préparer un kit pour ton référent mobilité",
-        "T’expliquer les modalités de ton dossier, y compris si des frais sont à avancer",
+        "T’expliquer le reste à charge éventuel",
         "Centraliser les informations utiles avant le départ",
       ],
     },
   ],
-  note: "AMI Panorama t’accompagne dans les démarches, mais ne garantit ni accord, ni montant, ni délai. Ta place est confirmée lorsque le groupe est maintenu, que le dossier est complet, que les validations sont obtenues et que le financement ou le paiement applicable est sécurisé.",
+  note: fundingWatchNote,
 } as const;
 
 export const globalWeeksFaq = [
   {
     question: "Est-ce que c’est financé ?",
     answer:
-      "Un financement peut exister, mais il n’est pas automatique. Il dépend de ta situation, de ton CFA, de ton employeur, de l’OPCO concerné et des règles applicables. AMI guide les démarches et vérifie avec toi, sans garantir ni l’accord ni le montant.",
+      `Oui. Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI monte le dossier avec toi.`,
   },
   {
     question: "Qui peut financer mon séjour ?",
     answer:
-      "Ton OPCO, ton CFA et ton employeur peuvent être impliqués. L’OPCO est en général lié à ton employeur. Le montage exact dépend de ton dossier : on le vérifie avec toi, selon ton OPCO et ton employeur. AMI ne garantit pas la prise en charge.",
+      `Ton OPCO, ton CFA et ton employeur. Dans la majorité des cas, le séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI monte le dossier avec toi.`,
   },
   {
     question: "Qu’est-ce qu’AMI fait pour le financement ?",
     answer:
-      "AMI te guide, prépare un kit pour ton référent mobilité et t’explique les modalités applicables à ton dossier, y compris si des frais sont à avancer. L’accord, le montant et le délai restent dépendants de ton CFA, de ton employeur, de l’OPCO et des règles applicables.",
+      `AMI monte le dossier avec toi et prépare le kit pour ton référent mobilité. Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}.`,
   },
   {
     question: "Global Weeks, c’est quoi exactement ?",
@@ -142,7 +163,7 @@ export const globalWeeksFaq = [
   {
     question: "Est-ce que je peux partir si mon école ne propose pas de voyage ?",
     answer:
-      "C’est précisément l’objectif du dispositif, sous réserve de validation de ton CFA, de ton employeur et de ton dossier.",
+      "Oui, c’est précisément l’objectif. Tu candidates individuellement, puis tu rejoins une cohorte. AMI monte le dossier avec toi, avec ton CFA et ton employeur.",
   },
   {
     question: "Est-ce que je pars seul(e) ?",
@@ -157,12 +178,12 @@ export const globalWeeksFaq = [
   {
     question: "Est-ce que mon CFA doit être au courant ?",
     answer:
-      "Oui. Le CFA et le référent mobilité doivent être associés au dossier et à la convention de mobilité.",
+      "Oui. Le CFA et le référent mobilité avancent le dossier avec toi, notamment pour la convention de mobilité.",
   },
   {
     question: "Est-ce que mon employeur doit être d’accord ?",
     answer:
-      "Oui. L’employeur doit être informé et peut être impliqué dans la validation et les signatures selon le dossier.",
+      "Oui. L’employeur est informé et peut compléter un reste à charge. AMI prépare les éléments du dossier avec toi.",
   },
   {
     question: "Comment savoir quel est mon OPCO ?",
@@ -172,27 +193,27 @@ export const globalWeeksFaq = [
   {
     question: "Est-ce que je dois avancer des frais ?",
     answer:
-      "Cela dépend du montage financier et de l’édition. Nous expliquerons clairement les modalités applicables à ton dossier : rien n’est supposé ou promis à l’avance.",
+      `Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. AMI t’explique le montage avant le départ.`,
   },
   {
     question: "Est-ce que le vol est inclus ?",
     answer:
-      "Cela dépendra de chaque édition. L’offre indiquera toujours ce qui est inclus, ce qui est exclu, qui réserve et si un remboursement éventuel est possible.",
+      "Cela dépend de l’édition. L’offre indique ce qui est inclus, ce qui est à part, et qui réserve le transport.",
   },
   {
     question: "Quand ma place est-elle confirmée ?",
     answer:
-      "Lorsque le groupe est maintenu, que le dossier est complet, que les validations nécessaires sont obtenues et que le financement ou le paiement applicable est sécurisé.",
+      "Quand le groupe est maintenu et que ton dossier est prêt. AMI monte le financement avec toi.",
   },
   {
     question: "Que se passe-t-il si mon dossier n’est pas validé ?",
     answer:
-      "Ta place n’est pas confirmée. Selon les possibilités, nous pouvons t’orienter vers une autre date, une liste d’attente ou un prochain format.",
+      "On regarde avec toi une autre date, une liste d’attente ou un prochain format.",
   },
   {
     question: "Est-ce que je dois déjà avoir un passeport ou une pièce d’identité ?",
     answer:
-      "Il faut pouvoir répondre aux formalités de la destination. AMI donne les informations utiles, mais chaque participant reste responsable de ses documents de voyage.",
+      "Il faut pouvoir répondre aux formalités de la destination. AMI donne les informations utiles, et chaque participant prépare ses documents de voyage.",
   },
   {
     question: "Est-ce que je peux choisir ma destination ?",
@@ -202,6 +223,7 @@ export const globalWeeksFaq = [
   {
     question: "Puis-je venir avec un ami ?",
     answer:
-      "Chacun doit déposer son propre dossier. Tu pourras signaler cette préférence à l’équipe, sans qu’elle constitue une garantie.",
+      "Chacun dépose son propre dossier. Tu peux signaler cette préférence à l’équipe.",
   },
 ];
+

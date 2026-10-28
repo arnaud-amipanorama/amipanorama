@@ -6,12 +6,12 @@ import { hasGlobalWeeksAccess } from "./actions";
 export const metadata: Metadata = {
   title: "Global Weeks, mobilité internationale pour alternants",
   description:
-    "Global Weeks by AMI Panorama : une mobilité internationale pour les alternants, même sans voyage de promo. Un financement peut exister selon l’OPCO, le CFA et l’employeur. Aucun montant n’est garanti.",
+    "Global Weeks by AMI Panorama : une mobilité internationale pour les alternants, même sans voyage de promo. Dans la majorité des cas, le séjour est financé.",
   robots: { index: false, follow: false },
   openGraph: {
     title: "Global Weeks by AMI Panorama",
     description:
-      "Pars en mobilité même sans voyage de classe. Ton séjour peut être financé selon ton OPCO, ton CFA et ton employeur. AMI le vérifie avec toi, sans garantir de montant.",
+      "Pars en mobilité même sans voyage de classe. Dans la majorité des cas, ton séjour est financé. AMI monte le dossier avec toi.",
     url: "/global-weeks",
   },
 };
