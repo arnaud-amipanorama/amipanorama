@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { fundingExamplePhrase } from "@/data/globalWeeks";
 
 export const metadata: Metadata = {
   title: "Notre programme",
@@ -61,7 +62,7 @@ const faqItems = [
   },
   {
     q: "Comment abordez-vous la structuration financière ?",
-    a: "Nous accompagnons chaque établissement dans l'identification des dispositifs pertinents selon sa situation, fonds propres, branches professionnelles, collectivités, fonds européens. Nous ne garantissons pas de financement, mais nous structurons le projet pour qu'il soit éligible aux dispositifs existants et coordonnons les démarches.",
+    a: `Dans la majorité des cas, le séjour est financé. Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. Nous montons le dossier avec vous.`,
   },
   {
     q: "Les programmes sont-ils personnalisables ?",

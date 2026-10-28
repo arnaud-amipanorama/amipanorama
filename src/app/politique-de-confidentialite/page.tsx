@@ -23,6 +23,7 @@ const sections = [
       "Nom, prénom et qualité (directeur pédagogique, référent mobilité, etc.),",
       "Coordonnées professionnelles : adresse e-mail, numéro de téléphone,",
       "Nom de l'établissement, type de formation, effectif envisagé, destination ou dates souhaitées,",
+      "Pour Global Weeks et son simulateur : statut (alternant ou étudiant), employeur, OPCO, et résultat indicatif d’estimation, lorsque ces informations sont saisies,",
       "Données de navigation (adresse IP, pages consultées, durée de visite) via des outils d'analyse d'audience.",
       "Aucune donnée sensible au sens de l'article 9 du RGPD n'est collectée.",
     ],

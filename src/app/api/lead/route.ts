@@ -7,6 +7,7 @@ import {
   type Lead,
 } from "@/lib/lead";
 import { sendTransactionalEmail } from "@/lib/transactional-email";
+import { recordLeadLocally } from "@/lib/lead-store";
 
 /**
  * Diagnostic de configuration. Ne renvoie que des booléens, jamais une clé,
@@ -55,6 +56,7 @@ export async function POST(request: NextRequest) {
     );
   }
   const lead = parsed.lead;
+  recordLeadLocally(lead);
 
   // Trace serveur, toujours active (visible dans les logs Vercel)
   console.log("[AMI Lead]", JSON.stringify(lead));
