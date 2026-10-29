@@ -24,21 +24,21 @@ const values = [
     num: "03",
     title: "Impact sur les apprentis",
     accent: "#24478F",
-    desc: "Une mobilité réussie transforme un parcours. Nous le savons car nos 3 000 alumni nous le disent. C'est cette conviction qui anime chaque programme que nous construisons.",
+    desc: "Une mobilité réussie transforme un parcours. Nous le savons car plus de 5 000 alumni nous le disent. C'est cette conviction qui anime chaque programme que nous construisons.",
   },
   {
     num: "04",
     title: "Partenariat durable",
     accent: "#1B3D88",
-    desc: "Nous construisons des relations à long terme avec les établissements qui nous font confiance. 50 organismes travaillent avec nous depuis plusieurs années, et la majorité repart chaque saison.",
+    desc: "Nous construisons des relations à long terme avec les établissements qui nous font confiance. 70 écoles partenaires travaillent avec nous depuis plusieurs années, et la majorité repart chaque saison.",
   },
 ];
 
 const numbers = [
   { value: "2022", label: "fondé à Montréal" },
-  { value: "3 000+", label: "apprentis accompagnés" },
+  { value: "5 000+", label: "participants accompagnés" },
   { value: "100+", label: "groupes coordonnés" },
-  { value: "50", label: "établissements partenaires" },
+  { value: "70", label: "écoles partenaires" },
 ];
 
 const milestones = [
@@ -65,7 +65,7 @@ const milestones = [
   {
     year: "2026",
     title: "Changement d'échelle",
-    desc: "AMI Panorama dépasse les 3 000 participants accompagnés sur l'année et continue d'élargir son portefeuille de destinations avec une présence renforcée auprès des établissements partenaires.",
+    desc: "AMI Panorama dépasse les 5 000 participants et continue d'élargir son portefeuille de destinations avec une présence renforcée auprès des établissements partenaires.",
   },
 ];
 
@@ -409,8 +409,8 @@ export default function AProposPage() {
               padding: "32px 28px", background: "rgba(255,255,255,0.05)",
               border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, flexShrink: 0, minWidth: 160,
             }}>
-              <div style={{ fontSize: 44, fontWeight: 700, letterSpacing: "-0.05em", color: "#fff", lineHeight: 1 }}>3 000+</div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", marginTop: 8, lineHeight: 1.4 }}>apprentis accompagnés</div>
+              <div style={{ fontSize: 44, fontWeight: 700, letterSpacing: "-0.05em", color: "#fff", lineHeight: 1 }}>5 000+</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", marginTop: 8, lineHeight: 1.4 }}>participants accompagnés</div>
               <div style={{ width: 32, height: 1.5, background: "var(--coral)", margin: "16px auto 0" }} />
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 10 }}>Depuis 2022</div>
             </div>
