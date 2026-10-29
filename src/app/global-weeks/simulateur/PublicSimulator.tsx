@@ -3,27 +3,25 @@
 import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
 import { globalWeeksConsentText, globalWeeksEditions } from "@/data/globalWeeks";
+import { GROUP_SIMULATOR_REQUEST_PATH } from "@/lib/global-weeks/public-path";
 import {
   DEFAULT_PUBLIC_DURATION_DAYS,
   PUBLIC_DURATION_DAYS,
   PUBLIC_OPCOS,
   estimatePublicMobility,
   estimateSummary,
-  type MobilityMode,
   type PublicEstimate,
   type PublicStatus,
 } from "@/lib/global-weeks/public-estimate";
 import styles from "./simulator.module.css";
 
-type Step = "mode" | "who" | "size" | "destination" | "duration" | "opco" | "result";
+type Step = "mode" | "who" | "destination" | "duration" | "opco" | "result";
 
 const euro = (value: number) => `${new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(Math.round(value))} €`;
 
 export default function PublicSimulator() {
   const [step, setStep] = useState<Step>("mode");
-  const [mode, setMode] = useState<MobilityMode | "">("");
   const [status, setStatus] = useState<PublicStatus | "">("");
-  const [participants, setParticipants] = useState(15);
   const [destination, setDestination] = useState("");
   const [days, setDays] = useState<number>(DEFAULT_PUBLIC_DURATION_DAYS);
   const [opcoId, setOpcoId] = useState<string | null>(null);
@@ -33,24 +31,18 @@ export default function PublicSimulator() {
   const [sent, setSent] = useState(false);
 
   const estimate: PublicEstimate | null = useMemo(() => {
-    if (!mode || !destination) return null;
-    if (mode === "individuel" && !status) return null;
+    if (!destination || !status) return null;
     return estimatePublicMobility({
-      mode,
-      status: mode === "groupe" ? "alternant" : status || "alternant",
+      mode: "individuel",
+      status,
       destination,
       days,
-      opcoId: mode === "individuel" && status === "etudiant" ? null : opcoId,
-      participants: mode === "individuel" ? 1 : participants,
+      opcoId: status === "etudiant" ? null : opcoId,
+      participants: 1,
     });
-  }, [days, destination, mode, opcoId, participants, status]);
+  }, [days, destination, opcoId, status]);
 
   const go = (next: Step) => { setError(""); setStep(next); };
-
-  const afterMode = (value: MobilityMode) => {
-    setMode(value);
-    go(value === "individuel" ? "who" : "size");
-  };
 
   const afterWho = (value: PublicStatus) => {
     setStatus(value);
@@ -63,7 +55,7 @@ export default function PublicSimulator() {
   };
 
   const afterDuration = () => {
-    if (mode === "individuel" && status === "etudiant") go("result");
+    if (status === "etudiant") go("result");
     else go("opco");
   };
 
@@ -86,7 +78,7 @@ export default function PublicSimulator() {
           email: contact.email,
           telephone: contact.telephone,
           etablissement: contact.school,
-          profil: mode === "groupe" ? "Groupe" : status === "etudiant" ? "Étudiant" : "Alternant",
+          profil: status === "etudiant" ? "Étudiant" : "Alternant",
           objet: "Simulation Global Weeks",
           destination,
           tailleGroupe: String(estimate.participants),
@@ -112,7 +104,7 @@ export default function PublicSimulator() {
   };
 
   return (
-    <main className={styles.page}>
+    <div className={styles.page}>
       <div className={styles.wrap}>
         <Link className={styles.back} href="/global-weeks">← Global Weeks</Link>
         <section className={styles.card}>
@@ -120,10 +112,10 @@ export default function PublicSimulator() {
           {step === "mode" && (
             <>
               <h1 className={styles.title}>Mobilité individuelle ou mobilité de groupe ?</h1>
-              <p className={styles.lead}>Une première estimation, d’après nos informations. Tu peux la faire pour toi, ou pour un groupe.</p>
+              <p className={styles.lead}>L’estimation individuelle est ouverte. La mobilité de groupe se demande, pour les référents mobilité.</p>
               <div className={styles.choices}>
-                <button type="button" className={styles.choice} onClick={() => afterMode("individuel")}>Mobilité individuelle<small>Tu estimes ton séjour. Dans la majorité des cas, il est financé.</small></button>
-                <button type="button" className={styles.choice} onClick={() => afterMode("groupe")}>Mobilité de groupe<small>Tu estimes un départ à plusieurs.</small></button>
+                <button type="button" className={styles.choice} onClick={() => go("who")}>Mobilité individuelle<small>Ouverte, sans demande d’accès. Dans la majorité des cas, le séjour est financé.</small></button>
+                <Link className={styles.choice} href={GROUP_SIMULATOR_REQUEST_PATH}>Mobilité de groupe<small>Pour les référents mobilité. Demander l’accès.</small></Link>
               </div>
             </>
           )}
@@ -139,20 +131,6 @@ export default function PublicSimulator() {
             </>
           )}
 
-          {step === "size" && (
-            <>
-              <h1 className={styles.title}>Combien de personnes partent ?</h1>
-              <label className={styles.field}>Nombre de participants
-                <input type="number" min={2} max={200} value={participants} onChange={(event) => setParticipants(Number(event.target.value))} />
-              </label>
-              <div className={styles.actions}>
-                <button type="button" className={styles.ghost} onClick={() => go("mode")}>Retour</button>
-                <button type="button" className="btn-primary" onClick={() => { if (participants >= 2 && participants <= 200) go("destination"); else setError("Indique entre 2 et 200 personnes."); }}>Continuer</button>
-              </div>
-              {error && <p className={styles.error}>{error}</p>}
-            </>
-          )}
-
           {step === "destination" && (
             <>
               <h1 className={styles.title}>Quelle destination t’intéresse ?</h1>
@@ -161,7 +139,7 @@ export default function PublicSimulator() {
                   <button type="button" key={edition.id} className={`${styles.choice}${destination === edition.city ? ` ${styles.choiceOn}` : ""}`} onClick={() => afterDestination(edition.city)}>{edition.city}<small>{edition.country}</small></button>
                 ))}
               </div>
-              <div className={styles.actions}><button type="button" className={styles.ghost} onClick={() => go(mode === "groupe" ? "size" : "who")}>Retour</button></div>
+              <div className={styles.actions}><button type="button" className={styles.ghost} onClick={() => go("who")}>Retour</button></div>
             </>
           )}
 
@@ -225,7 +203,7 @@ export default function PublicSimulator() {
                   <label className={styles.honeypot} aria-hidden="true">Entreprise<input tabIndex={-1} autoComplete="off" value={contact.company} onChange={(event) => setContact({ ...contact, company: event.target.value })} /></label>
                   {error && <p className={styles.error} role="alert">{error}</p>}
                   <div className={styles.actions}>
-                    <button type="button" className={styles.ghost} onClick={() => go(mode === "individuel" && status === "etudiant" ? "duration" : "opco")}>Retour</button>
+                    <button type="button" className={styles.ghost} onClick={() => go(status === "etudiant" ? "duration" : "opco")}>Retour</button>
                     <button type="submit" className="btn-primary" disabled={sending}>{sending ? "Envoi…" : "Enregistrer mon estimation"}</button>
                   </div>
                 </form>
@@ -234,6 +212,6 @@ export default function PublicSimulator() {
           )}
         </section>
       </div>
-    </main>
+    </div>
   );
 }

@@ -66,7 +66,7 @@ export const accessCookie = {
     httpOnly: true,
     sameSite: "lax" as const,
     secure: true,
-    path: "/internal",
+    path: "/",
     maxAge: COOKIE_MAX_AGE,
   },
 };

@@ -392,6 +392,32 @@ export default function NotreProgrammePage() {
         </div>
       </section>
 
+      <section aria-labelledby="global-weeks-programme" style={{ padding: "0 24px 80px", background: "var(--bg)" }}>
+        <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{
+            display: "grid", gridTemplateColumns: "1.4fr auto", gap: 28, alignItems: "center",
+            background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 16, padding: "32px 36px",
+          }} className="gw-programme">
+            <div>
+              <div className="section-label">Global Weeks</div>
+              <h2 id="global-weeks-programme" style={{
+                fontSize: "clamp(22px, 3vw, 32px)", fontWeight: 700, letterSpacing: "-0.035em", marginBottom: 10,
+              }}>
+                Une mobilité, même sans voyage de promo.
+              </h2>
+              <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 640 }}>
+                Global Weeks permet à un alternant de rejoindre une cohorte lorsque son établissement n’organise pas de départ.
+                Dans la majorité des cas, le séjour est financé. Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}.
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <Link href="/global-weeks" className="btn-primary">Découvrir Global Weeks</Link>
+              <Link href="/global-weeks/simulateur" className="btn-ghost">Estimer un séjour</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section style={{ padding: "0 24px 96px" }}>
         <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -447,6 +473,7 @@ export default function NotreProgrammePage() {
           .programme-pillar-label { margin-bottom: 14px; }
           .why-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           .faq-row { grid-template-columns: 1fr !important; gap: 12px !important; }
+          .gw-programme { grid-template-columns: 1fr !important; padding: 24px 20px !important; }
         }
       `}</style>
     </>

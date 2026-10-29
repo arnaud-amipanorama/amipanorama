@@ -51,6 +51,8 @@ export default function Footer() {
             <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 18 }}>Navigation</p>
             {([
               ["Accueil", "/"],
+              ["Global Weeks", "/global-weeks"],
+              ["Simulateur", "/global-weeks/simulateur"],
               ["Notre programme", "/notre-programme"],
               ["Destinations", "/destinations"],
               ["À propos", "/a-propos"],
@@ -93,6 +95,9 @@ export default function Footer() {
               <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>info@amipanorama.com</p>
               <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>Canada · Timezone EST</p>
               <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>Réponse rapide et personnalisée</p>
+              <Link href="/global-weeks/simulateur" className="footer-link" style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", marginTop: 8 }}>
+                Estimer un séjour Global Weeks
+              </Link>
             </div>
           </div>
         </div>

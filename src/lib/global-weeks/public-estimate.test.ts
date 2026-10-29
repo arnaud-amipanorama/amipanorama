@@ -19,7 +19,8 @@ describe("simulateur public", () => {
     expect(estimate.title).toContain("majorité des cas");
     expect(estimate.text).toContain("D’après nos informations");
     expect(`${estimate.title} ${estimate.text}`).not.toMatch(/garant|vérifi/i);
-    expect(estimate.watchNote).toContain("veille");
+    expect(estimate.watchNote).toContain("nos informations");
+    expect(estimate.watchNote).toContain("OPCO");
   });
 
   it("ne présente pas une aide OPCO comme acquise pour un étudiant", () => {

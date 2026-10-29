@@ -5,6 +5,12 @@ import { accessCookie, readAccessCookie, recordSimulatorEvent } from "@/lib/simu
 // Capture de simulation (V1) : trace serveur + webhook optionnel.
 // Structure prête pour Notion / HubSpot / Postgres (à brancher en S5).
 export async function POST(request: NextRequest) {
+  const jar = await cookies();
+  const email = readAccessCookie(jar.get(accessCookie.name)?.value);
+  if (!email) {
+    return NextResponse.json({ error: "Accès au simulateur de groupe requis" }, { status: 401 });
+  }
+
   let data: Record<string, unknown>;
   try {
     data = await request.json();
@@ -32,17 +38,13 @@ export async function POST(request: NextRequest) {
 
   // Historique d'utilisation du simulateur, rattaché uniquement à un accès
   // déjà vérifié. L'échec de cette trace ne bloque jamais le téléchargement.
-  const jar = await cookies();
-  const email = readAccessCookie(jar.get(accessCookie.name)?.value);
-  if (email) {
-    try {
-      await recordSimulatorEvent(email, {
-        simulation: data,
-        generatedAt: new Date().toISOString(),
-      });
-    } catch (err) {
-      console.error("[AMI Simulation] Access tracking error:", err);
-    }
+  try {
+    await recordSimulatorEvent(email, {
+      simulation: data,
+      generatedAt: new Date().toISOString(),
+    });
+  } catch (err) {
+    console.error("[AMI Simulation] Access tracking error:", err);
   }
 
   // TODO S5 : insertion Notion (base "Simulations") + push HubSpot deal.

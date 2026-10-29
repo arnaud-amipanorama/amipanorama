@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { socialLinks } from "@/data/social";
+import { fundingExamplePhrase } from "@/data/globalWeeks";
 
 const topics = [
   "Demande de programme",
@@ -89,10 +90,12 @@ export default function ContactPage() {
             Parlons de<br />
             <span className="gradient-text">votre prochain groupe.</span>
           </h1>
-          <p style={{ fontSize: 18, color: "var(--text-secondary)", maxWidth: 560, lineHeight: 1.75 }}>
+            <p style={{ fontSize: 18, color: "var(--text-secondary)", maxWidth: 560, lineHeight: 1.75 }}>
             Décrivez votre projet en quelques lignes. Nous revenons vers vous rapidement
             avec un premier cadrage adapté à votre projet. Vous préférez en parler de vive voix ?{" "}
             <Link href="/rendez-vous" style={{ color: "var(--blue)", fontWeight: 500 }}>Réservez un échange.</Link>
+            {" "}Pour un départ individuel, même sans voyage de promo,{" "}
+            <Link href="/global-weeks" style={{ color: "var(--blue)", fontWeight: 500 }}>découvrez Global Weeks</Link>.
           </p>
         </div>
       </section>
@@ -338,6 +341,19 @@ export default function ContactPage() {
                     >{label}</a>
                   ))}
                 </div>
+              </div>
+
+              <div style={{
+                background: "var(--bg-1)", border: "1px solid var(--border)", borderRadius: 16, padding: "28px",
+              }}>
+                <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Global Weeks</h3>
+                <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.75, marginBottom: 14 }}>
+                  Un départ individuel, même sans voyage de promo. Dans la majorité des cas, le séjour est financé.
+                  Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}.
+                </p>
+                <Link href="/global-weeks/simulateur" style={{ color: "var(--blue)", fontWeight: 600, fontSize: 13 }}>
+                  Estimer un séjour →
+                </Link>
               </div>
 
               <div style={{
