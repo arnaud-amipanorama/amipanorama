@@ -65,19 +65,19 @@ export const globalWeeksAvailability = [
 ] as const;
 
 /**
- * Exemple cité sur le site. Il est le reste à charge du simulateur individuel
- * pour Montréal, 8 jours, OPCO non identifié, après la part de financement
- * mobilité déjà calculée par le moteur (companions = 0). Le test du simulateur
- * public refuse un écart avec ce chiffre.
+ * Exemple Montréal. `remainingEuros` est le résultat exact du simulateur
+ * individuel (8 jours, OPCO non identifié). Les textes du site citent
+ * l'arrondi éditorial, « environ 450 € ». Le simulateur continue d'afficher 449 €.
  */
 export const globalWeeksFundingExample = {
   remainingEuros: 449,
+  editorialRemainingEuros: 450,
   city: "Montréal",
   stay: "hébergement avec petits-déjeuners",
 } as const;
 
 export function fundingExamplePhrase(): string {
-  const amount = new Intl.NumberFormat("fr-FR").format(globalWeeksFundingExample.remainingEuros);
+  const amount = new Intl.NumberFormat("fr-FR").format(globalWeeksFundingExample.editorialRemainingEuros);
   return `environ ${amount} € pour ${globalWeeksFundingExample.city}, ${globalWeeksFundingExample.stay}`;
 }
 

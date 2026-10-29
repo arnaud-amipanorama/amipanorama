@@ -37,6 +37,8 @@ describe("simulateur public", () => {
     expect(estimate.stayEuros).toBe((estimate.apprenticeEuros ?? 0) + (estimate.referentEuros ?? 0) + estimate.remainderEuros);
     expect(estimate.text).toContain("financement mobilité");
     expect(estimate.text).toContain("449");
+    expect(estimate.text).not.toContain("450");
+    expect(fundingExamplePhrase()).toBe("environ 450 € pour Montréal, hébergement avec petits-déjeuners");
   });
 
   it("ne présente pas une aide OPCO comme acquise pour un étudiant", () => {
@@ -60,6 +62,8 @@ describe("simulateur public", () => {
     expect(summary).toContain("AKTO");
     expect(summary).toContain("12");
     expect(globalWeeksFundingExample.remainingEuros).toBe(449);
+    expect(globalWeeksFundingExample.editorialRemainingEuros).toBe(450);
+    expect(fundingExamplePhrase()).not.toContain("449");
   });
 
   it("réduit le reste à charge des autres destinations avec la même part de financement mobilité", () => {
