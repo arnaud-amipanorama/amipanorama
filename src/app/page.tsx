@@ -150,9 +150,9 @@ const IconGlobe = (
 );
 
 const stats = [
-  { value: "3 000+", label: "participants accompagnés", icon: IconUsers },
+  { value: "5 000+", label: "participants accompagnés", icon: IconUsers },
   { value: "100+",   label: "groupes coordonnés",       icon: IconGroups },
-  { value: "50",     label: "écoles partenaires",       icon: IconSchool },
+  { value: "70",     label: "écoles partenaires",       icon: IconSchool },
   { value: "12",     label: "destinations actives",     icon: IconGlobe },
 ];
 
@@ -704,9 +704,9 @@ export default function HomePage() {
               justifyContent: "center", gap: 32,
             }}>
               {[
-                { value: "3 000+", label: "participants accompagnés" },
+                { value: "5 000+", label: "participants accompagnés" },
                 { value: "96 %", label: "de satisfaction déclarée" },
-                { value: "50", label: "CFA partenaires actifs" },
+                { value: "70", label: "écoles partenaires" },
               ].map(({ value, label }) => (
                 <div key={value}>
                   <div style={{ fontSize: 32, fontWeight: 700, letterSpacing: "-0.05em", color: "#fff", lineHeight: 1 }}>{value}</div>

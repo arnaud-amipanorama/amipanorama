@@ -1,40 +1,10 @@
-import type { Metadata } from "next";
-import EuropeanCitizenshipPage from "@/components/european-citizenship/EuropeanCitizenshipPage";
-import { citizenshipCopy, citizenshipJsonLd, citizenshipRoutes } from "@/data/europeanCitizenship";
+import { CitizenshipRoute, citizenshipMetadata } from "@/components/european-citizenship/CitizenshipRoute";
 
-const copy = citizenshipCopy("fr");
+export function generateMetadata() {
+  return citizenshipMetadata("fr");
+}
 
-export const metadata: Metadata = {
-  title: copy.seo.title,
-  description: copy.seo.description,
-  alternates: {
-    canonical: citizenshipRoutes.fr,
-    languages: {
-      fr: citizenshipRoutes.fr,
-      en: citizenshipRoutes.en,
-      "x-default": citizenshipRoutes.fr,
-    },
-  },
-  openGraph: {
-    title: copy.seo.title,
-    description: copy.seo.description,
-    url: citizenshipRoutes.fr,
-    locale: "fr_FR",
-    alternateLocale: ["en_GB"],
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: copy.seo.title,
-    description: copy.seo.description,
-  },
-};
-
-export default function Page() {
-  return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(citizenshipJsonLd("fr")) }} />
-      <EuropeanCitizenshipPage locale="fr" />
-    </>
-  );
+export default async function Page({ searchParams }: { searchParams: Promise<{ access?: string }> }) {
+  const params = await searchParams;
+  return <CitizenshipRoute locale="fr" access={params.access} />;
 }

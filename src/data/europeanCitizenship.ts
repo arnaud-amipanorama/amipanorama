@@ -72,6 +72,7 @@ type LegendItem = { term: string; text: string };
 export type CitizenshipCopy = {
   seo: { title: string; description: string; serviceName: string; serviceType: string };
   lang: { navLabel: string; fr: string; en: string };
+  gate: { eyebrow: string; title: string; text: string; label: string; submit: string; error: string; note: string };
   hero: {
     eyebrow: string;
     title: string;
@@ -109,6 +110,15 @@ const fr: CitizenshipCopy = {
     serviceType: "Séjour pédagogique pour les écoles du réseau FEDE",
   },
   lang: { navLabel: "Langue", fr: "Français", en: "English" },
+  gate: {
+    eyebrow: "Accès réservé",
+    title: "Cette page est protégée.",
+    text: "Saisissez le mot de passe pour consulter l’offre Citoyenneté européenne à Strasbourg.",
+    label: "Mot de passe",
+    submit: "Entrer",
+    error: "Mot de passe incorrect.",
+    note: "L’accès reste ouvert quelques heures sur cet appareil.",
+  },
   hero: {
     eyebrow: "Écoles du réseau FEDE",
     title: "Une immersion au cœur des institutions européennes",
@@ -405,6 +415,15 @@ const en: CitizenshipCopy = {
     serviceType: "Study week for FEDE network schools",
   },
   lang: { navLabel: "Language", fr: "Français", en: "English" },
+  gate: {
+    eyebrow: "Private access",
+    title: "This page is protected.",
+    text: "Enter the password to view the European Citizenship week in Strasbourg.",
+    label: "Password",
+    submit: "Enter",
+    error: "Incorrect password.",
+    note: "Access stays open for a few hours on this device.",
+  },
   hero: {
     eyebrow: "FEDE network schools",
     title: "A Deep Dive into the Heart of the European Institutions",
