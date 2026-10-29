@@ -65,17 +65,19 @@ export const globalWeeksAvailability = [
 ] as const;
 
 /**
- * Seul endroit où modifier l'exemple de reste à charge cité sur le site.
- * La phrase est réutilisée par Global Weeks, Notre programme et le simulateur public.
+ * Exemple Montréal. `remainingEuros` est le résultat exact du simulateur
+ * individuel (8 jours, OPCO non identifié). Les textes du site citent
+ * l'arrondi éditorial, « environ 450 € ». Le simulateur continue d'afficher 449 €.
  */
 export const globalWeeksFundingExample = {
-  remainingEuros: 400,
+  remainingEuros: 449,
+  editorialRemainingEuros: 450,
   city: "Montréal",
   stay: "hébergement avec petits-déjeuners",
 } as const;
 
 export function fundingExamplePhrase(): string {
-  const amount = new Intl.NumberFormat("fr-FR").format(globalWeeksFundingExample.remainingEuros);
+  const amount = new Intl.NumberFormat("fr-FR").format(globalWeeksFundingExample.editorialRemainingEuros);
   return `environ ${amount} € pour ${globalWeeksFundingExample.city}, ${globalWeeksFundingExample.stay}`;
 }
 

@@ -35,7 +35,16 @@ export type PublicEstimate = {
   participants: number;
   opcoLabel: string | null;
   stayEuros: number;
-  /** null pour un étudiant : les aides modélisées accompagnent l'alternance. */
+  /** Prise en charge apprenti, avant la part de financement mobilité. null pour un étudiant. */
+  apprenticeEuros: number | null;
+  /**
+   * Part du forfait référent mobilité effectivement affectée au séjour.
+   * Pour une mobilité individuelle, le moteur n'en réserve rien pour un accompagnateur
+   * (companions = 0), donc tout le forfait disponible réduit le reste à charge,
+   * sans dépasser ce reste. null pour un étudiant.
+   */
+  referentEuros: number | null;
+  /** Apprenti + part référent. null pour un étudiant. */
   fundingEuros: number | null;
   remainderEuros: number;
   title: string;
@@ -69,10 +78,10 @@ export function estimatePublicMobility(input: PublicEstimateInput): PublicEstima
   const participants = outcome.participants;
   const stayEuros = outcome.result.totalCostPerStudent;
   const student = input.status === "etudiant";
-  const fundingEuros = student ? null : outcome.result.financementMoyen;
-  const remainderEuros = student
-    ? stayEuros
-    : outcome.result.perOpco.reduce((sum, line) => sum + line.racStudent * line.count, 0) / Math.max(1, outcome.result.totalStudents);
+  const apprenticeEuros = student ? null : Math.round(outcome.result.financementMoyen);
+  const referentEuros = student ? null : Math.round(outcome.result.reinjected / Math.max(1, participants));
+  const remainderEuros = student ? stayEuros : Math.round(outcome.result.racAvg);
+  const fundingEuros = student || apprenticeEuros === null || referentEuros === null ? null : apprenticeEuros + referentEuros;
   const opcoLabel = student
     ? null
     : input.opcoId
@@ -82,7 +91,7 @@ export function estimatePublicMobility(input: PublicEstimateInput): PublicEstima
   const title = student ? "Ton séjour se prépare avec AMI." : "Dans la majorité des cas, ton séjour est financé.";
   const text = student
     ? `D’après nos informations, les aides les plus courantes accompagnent l’alternance. Pour ton séjour à ${input.destination}, le prix indicatif est de ${euros(stayEuros)}. Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. AMI monte le dossier avec toi.`
-    : `D’après nos informations, une prise en charge d’environ ${euros(fundingEuros ?? 0)}${perPerson} peut exister pour ${input.destination}. Il peut rester un reste à charge d’environ ${euros(remainderEuros)}${perPerson}. AMI monte le dossier avec toi.`;
+    : alternantText(input.destination, fundingEuros ?? 0, referentEuros ?? 0, remainderEuros, perPerson);
 
   return {
     mode: input.mode,
@@ -92,12 +101,24 @@ export function estimatePublicMobility(input: PublicEstimateInput): PublicEstima
     participants,
     opcoLabel,
     stayEuros,
+    apprenticeEuros,
+    referentEuros,
     fundingEuros,
     remainderEuros,
     title,
     text,
     watchNote: fundingWatchNote,
   };
+}
+
+function alternantText(destination: string, funding: number, referent: number, remainder: number, perPerson: string): string {
+  const referentSentence = referent > 0
+    ? " Une partie du financement mobilité peut aussi être mobilisée pour ton séjour, d’après nos informations."
+    : "";
+  const remainderSentence = remainder > 0
+    ? ` Il peut rester un reste à charge d’environ ${euros(remainder)}${perPerson}.`
+    : " Dans cette estimation, il ne reste pas de reste à charge.";
+  return `D’après nos informations, une prise en charge d’environ ${euros(funding)}${perPerson} peut exister pour ${destination}.${referentSentence}${remainderSentence} AMI monte le dossier avec toi.`;
 }
 
 export function estimateSummary(estimate: PublicEstimate): string {
@@ -110,6 +131,8 @@ export function estimateSummary(estimate: PublicEstimate): string {
     `Personnes : ${estimate.participants}`,
     `OPCO : ${estimate.opcoLabel ?? "non concerné (étudiant)"}`,
     `Prix indicatif du séjour : ${Math.round(estimate.stayEuros)} €`,
+    `Prise en charge apprenti : ${estimate.apprenticeEuros === null ? "non calculée (étudiant)" : `${Math.round(estimate.apprenticeEuros)} €`}`,
+    `Part de financement mobilité : ${estimate.referentEuros === null ? "non calculée (étudiant)" : `${Math.round(estimate.referentEuros)} €`}`,
     `Prise en charge indicative : ${estimate.fundingEuros === null ? "non calculée (étudiant)" : `${Math.round(estimate.fundingEuros)} €`}`,
     `Reste à charge indicatif : ${Math.round(estimate.remainderEuros)} €`,
     estimate.text,
