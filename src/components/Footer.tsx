@@ -1,9 +1,13 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { socialLinks } from "@/data/social";
+import { citizenshipHref } from "@/data/europeanCitizenship";
 
 export default function Footer() {
+  const pathname = usePathname();
+  const onEnglish = pathname.startsWith("/en/");
   return (
     <footer style={{
       background: "var(--navy)",
@@ -52,6 +56,7 @@ export default function Footer() {
             {([
               ["Accueil", "/"],
               ["Global Weeks", "/global-weeks"],
+              [onEnglish ? "European citizenship" : "Citoyenneté européenne", citizenshipHref(pathname)],
               ["Simulateur", "/global-weeks/simulateur"],
               ["Notre programme", "/notre-programme"],
               ["Destinations", "/destinations"],

@@ -6,6 +6,10 @@ import HeroGallery from "./HeroGallery";
 import { HERO_PHOTOS } from "./heroConfig";
 import { testimonials } from "@/data/testimonials";
 import { fundingExamplePhrase } from "@/data/globalWeeks";
+import { citizenshipCopy, citizenshipRoutes } from "@/data/europeanCitizenship";
+import EuStars from "@/components/european-citizenship/EuStars";
+
+const citizenshipTeaser = citizenshipCopy("fr").teaser;
 
 const testimonialColumns = [
   testimonials.filter((_, index) => index % 2 === 0),
@@ -716,6 +720,39 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
+          CITOYENNETÉ EUROPÉENNE
+      ══════════════════════════════════════════════ */}
+      <section aria-labelledby="citoyennete-home" style={{ padding: "0 24px 20px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <AnimateOnView>
+            <div className="eu-home">
+              <div className="eu-home-copy">
+                <div className="section-label">{citizenshipTeaser.eyebrow}</div>
+                <h2 id="citoyennete-home" style={{
+                  fontSize: "clamp(28px, 4vw, 46px)", fontWeight: 700,
+                  letterSpacing: "-0.04em", lineHeight: 1.08, marginBottom: 16,
+                }}>
+                  {citizenshipTeaser.title}
+                </h2>
+                <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 540, marginBottom: 28 }}>
+                  {citizenshipTeaser.text}
+                </p>
+                <Link href={citizenshipRoutes.fr} className="btn-primary">
+                  {citizenshipTeaser.cta}
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </Link>
+              </div>
+              <div className="eu-home-mark" aria-hidden="true">
+                <EuStars />
+              </div>
+            </div>
+          </AnimateOnView>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
           GLOBAL WEEKS
       ══════════════════════════════════════════════ */}
       <section aria-labelledby="global-weeks-home" style={{ padding: "0 24px 96px" }}>
@@ -838,10 +875,22 @@ export default function HomePage() {
         }
         .gw-home-copy { padding: 56px 48px; }
         .gw-home-photo { position: relative; min-height: 320px; }
+        .eu-home {
+          display: grid; grid-template-columns: 1.15fr 0.7fr; align-items: stretch;
+          background: var(--bg-1); border: 1px solid var(--border); border-radius: 20; overflow: hidden;
+        }
+        .eu-home-copy { padding: 48px 44px; }
+        .eu-home-mark {
+          background: #003399; display: grid; place-items: center; min-height: 220px;
+        }
+        .eu-home-mark svg { width: min(210px, 42vw); height: auto; }
         @media (max-width: 800px) {
           .gw-home { grid-template-columns: 1fr; }
           .gw-home-photo { min-height: 220px; order: -1; }
           .gw-home-copy { padding: 28px 22px 32px; }
+          .eu-home { grid-template-columns: 1fr; }
+          .eu-home-mark { min-height: 148px; order: -1; }
+          .eu-home-copy { padding: 28px 22px 32px; }
         }
         @media (max-width: 760px) {
           .hero-inner { padding: 116px 22px 30px !important; }

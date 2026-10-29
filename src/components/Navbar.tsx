@@ -4,9 +4,11 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { citizenshipHref } from "@/data/europeanCitizenship";
 
 const LINKS = [
   { href: "/global-weeks", label: "Global Weeks", tag: "Mobilité individuelle" },
+  { href: "/citoyennete-europeenne", label: "Citoyenneté européenne", tag: "Strasbourg · écoles FEDE" },
   { href: "/global-weeks/simulateur", label: "Simulateur", tag: "Estimation ouverte" },
   { href: "/destinations", label: "Destinations", tag: "10 pays" },
   { href: "/notre-programme", label: "Notre programme", tag: "Méthode & inclusions" },
@@ -16,6 +18,9 @@ const LINKS = [
 function isNavActive(href: string, pathname: string) {
   if (href === "/global-weeks/simulateur") return pathname.startsWith("/global-weeks/simulateur");
   if (href === "/global-weeks") return pathname === "/global-weeks";
+  if (href === "/citoyennete-europeenne" || href === "/en/european-citizenship") {
+    return pathname === "/citoyennete-europeenne" || pathname.startsWith("/en/european-citizenship");
+  }
   return pathname === href;
 }
 
@@ -36,6 +41,17 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
+  const onEnglish = pathname.startsWith("/en/");
+  const links = LINKS.map((link) =>
+    link.href === "/citoyennete-europeenne"
+      ? {
+          ...link,
+          href: citizenshipHref(pathname),
+          label: onEnglish ? "European citizenship" : link.label,
+          tag: onEnglish ? "Strasbourg · FEDE schools" : link.tag,
+        }
+      : link,
+  );
   const transparent = isHomepage && !scrolled && !open;
   const navBg = open ? "transparent" : transparent ? "rgba(248,246,241,0.55)" : "rgba(255,255,255,0.96)";
   const navBorder = open || transparent ? "1px solid transparent" : "1px solid rgba(11,24,41,0.08)";
@@ -70,6 +86,17 @@ export default function Navbar() {
                 }}
               >
                 Global Weeks
+              </Link>
+              <Link
+                href={citizenshipHref(pathname)}
+                className={`nav-gw nav-eu${isNavActive("/citoyennete-europeenne", pathname) ? " is-current" : ""}`}
+                style={{
+                  color: open ? "#fff" : "var(--text-primary)",
+                  borderColor: open ? "rgba(255,255,255,0.4)" : undefined,
+                  background: open ? "rgba(255,255,255,0.08)" : undefined,
+                }}
+              >
+                {onEnglish ? "European citizenship" : "Citoyenneté européenne"}
               </Link>
               <Link
                 href="/global-weeks/simulateur"
@@ -117,7 +144,7 @@ export default function Navbar() {
               </motion.div>
 
               <nav className="nav-list">
-                {LINKS.map((l, i) => {
+                {links.map((l, i) => {
                   const active = isNavActive(l.href, pathname);
                   return (
                     <motion.div
@@ -141,7 +168,7 @@ export default function Navbar() {
               <motion.div
                 className="nav-foot"
                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                transition={{ delay: 0.1 + LINKS.length * 0.07, duration: 0.5 }}
+                transition={{ delay: 0.1 + links.length * 0.07, duration: 0.5 }}
               >
                 <Link href="/rendez-vous" className="btn-primary" style={{ padding: "13px 26px" }}>
                   Prendre rendez-vous
@@ -266,6 +293,9 @@ export default function Navbar() {
         .nav-foot-meta a:hover { color: var(--coral); }
         .nav-foot-sep { color: rgba(255,255,255,0.34); text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; }
 
+        @media (max-width: 980px) {
+          .nav-eu { display: none !important; }
+        }
         @media (max-width: 640px) {
           header nav { height: 76px !important; }
           header nav img { height: 40px !important; }
