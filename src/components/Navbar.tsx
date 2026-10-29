@@ -6,10 +6,18 @@ import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const LINKS = [
+  { href: "/global-weeks", label: "Global Weeks", tag: "Mobilité individuelle" },
+  { href: "/global-weeks/simulateur", label: "Simulateur", tag: "Estimation ouverte" },
   { href: "/destinations", label: "Destinations", tag: "10 pays" },
   { href: "/notre-programme", label: "Notre programme", tag: "Méthode & inclusions" },
   { href: "/a-propos", label: "À propos", tag: "Notre mission · 2022" },
 ];
+
+function isNavActive(href: string, pathname: string) {
+  if (href === "/global-weeks/simulateur") return pathname.startsWith("/global-weeks/simulateur");
+  if (href === "/global-weeks") return pathname === "/global-weeks";
+  return pathname === href;
+}
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -52,6 +60,28 @@ export default function Navbar() {
             </Link>
 
             <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <Link
+                href="/global-weeks"
+                className={`nav-gw${isNavActive("/global-weeks", pathname) ? " is-current" : ""}`}
+                style={{
+                  color: open ? "#fff" : "var(--text-primary)",
+                  borderColor: open ? "rgba(255,255,255,0.4)" : undefined,
+                  background: open ? "rgba(255,255,255,0.08)" : undefined,
+                }}
+              >
+                Global Weeks
+              </Link>
+              <Link
+                href="/global-weeks/simulateur"
+                className={`nav-gw nav-sim${isNavActive("/global-weeks/simulateur", pathname) ? " is-current" : ""}`}
+                style={{
+                  color: open ? "#fff" : "var(--text-primary)",
+                  borderColor: open ? "rgba(255,255,255,0.4)" : undefined,
+                  background: open ? "rgba(255,255,255,0.08)" : undefined,
+                }}
+              >
+                Simulateur
+              </Link>
               <Link href="/rendez-vous" className="nav-cta" style={{ color: open ? "#fff" : "var(--text-primary)" }}>
                 Prendre rendez-vous
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -88,7 +118,7 @@ export default function Navbar() {
 
               <nav className="nav-list">
                 {LINKS.map((l, i) => {
-                  const active = pathname === l.href;
+                  const active = isNavActive(l.href, pathname);
                   return (
                     <motion.div
                       key={l.href}
@@ -142,6 +172,15 @@ export default function Navbar() {
         .nav-cta:hover { opacity: .62; }
         .nav-cta svg { transition: transform .22s ease; }
         .nav-cta:hover svg { transform: translateX(3px); }
+        .nav-gw {
+          display: inline-flex; align-items: center; height: 34px; padding: 0 12px;
+          border-radius: 999px; border: 1px solid rgba(27,61,136,0.28);
+          background: rgba(36,71,143,0.08); font-size: 13px; font-weight: 600;
+          letter-spacing: -0.01em; text-decoration: none; white-space: nowrap;
+          transition: background .2s ease, border-color .2s ease;
+        }
+        .nav-gw:hover { background: rgba(36,71,143,0.14); }
+        .nav-gw.is-current { border-color: var(--coral); }
         .nav-bars { display: inline-flex; flex-direction: column; gap: 4px; width: 19px; }
         .nav-bars > span {
           display: block; height: 1.6px; width: 100%; background: currentColor; border-radius: 2px;
@@ -231,6 +270,8 @@ export default function Navbar() {
           header nav { height: 76px !important; }
           header nav img { height: 40px !important; }
           .nav-cta { display: none !important; }
+          .nav-gw { height: 30px; padding: 0 9px; font-size: 12px; }
+          .nav-sim { display: none !important; }
           .nav-eyebrow-r { display: none; }
           .nav-meta { display: none; }
           .nav-row { grid-template-columns: 40px 1fr; }

@@ -10,8 +10,11 @@ export const metadata: Metadata = {
 };
 
 export default async function SimulatorPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+  const params = await searchParams;
   const unlocked = await isUnlocked();
-  if (!unlocked) return <UnlockForm />;
+  const depuis = params.depuis;
+  const depuisGroupe = depuis === "groupe" || (Array.isArray(depuis) && depuis.includes("groupe"));
+  if (!unlocked) return <UnlockForm depuisGroupe={depuisGroupe} />;
   // Sans `?mode=guided` ni `?mode=expert`, on affiche le choix entre les deux simulateurs.
-  return <SimulatorShell mode={parseSimulatorMode((await searchParams).mode)} />;
+  return <SimulatorShell mode={parseSimulatorMode(params.mode)} />;
 }

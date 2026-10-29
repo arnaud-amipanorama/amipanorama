@@ -53,14 +53,15 @@ export const globalWeeksEditions: GlobalWeekEdition[] = [
 ];
 
 /**
- * Remplacer les quatre libellés par de vraies semaines uniquement après
- * validation de l'édition (destination, transport, capacité et conditions).
+ * Préférences de période, tant qu'aucune édition n'a de dates contractualisées.
+ * Remplacer par de vraies semaines uniquement après validation
+ * (destination, transport, capacité et conditions).
  */
 export const globalWeeksAvailability = [
-  { id: "window-1", label: "Fenêtre 1", detail: "Dates à annoncer" },
-  { id: "window-2", label: "Fenêtre 2", detail: "Dates à annoncer" },
-  { id: "window-3", label: "Fenêtre 3", detail: "Dates à annoncer" },
-  { id: "window-4", label: "Fenêtre 4", detail: "Dates à annoncer" },
+  { id: "spring", label: "Printemps", detail: "Mars à juin" },
+  { id: "summer", label: "Été", detail: "Juillet et août" },
+  { id: "autumn", label: "Automne", detail: "Septembre à novembre" },
+  { id: "flexible", label: "Je suis flexible", detail: "Selon les éditions ouvertes" },
 ] as const;
 
 /**
@@ -80,7 +81,7 @@ export function fundingExamplePhrase(): string {
 
 /** Mention discrète, sans encadré. Une seule fois sur la page Global Weeks, et sous le résultat du simulateur public. */
 export const fundingWatchNote =
-  "Montants indicatifs d'après notre veille ; les référentiels à jour sont disponibles sur les sites des OPCO.";
+  "Montants indicatifs d’après nos informations. Les référentiels publics figurent aussi sur les sites des OPCO.";
 
 export const globalWeeksConsentText =
   "J’accepte qu’AMI Panorama enregistre mes coordonnées et les informations de mon projet (statut, école ou CFA, employeur, OPCO, destination et, le cas échéant, le résultat de l’estimation) pour étudier ma demande et me recontacter. Je peux écrire à info@amipanorama.com pour y accéder ou demander leur effacement.";

@@ -132,6 +132,10 @@ export default function RendezVousPage() {
               Vous préférez écrire ?{" "}
               <Link href="/contact" style={{ color: "var(--blue)", fontWeight: 500 }}>Formulaire de contact</Link>
             </span>
+            <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
+              Vous voulez d’abord une estimation ?{" "}
+              <Link href="/global-weeks/simulateur" style={{ color: "var(--blue)", fontWeight: 500 }}>Simulateur Global Weeks</Link>
+            </span>
           </div>
         </div>
       </section>

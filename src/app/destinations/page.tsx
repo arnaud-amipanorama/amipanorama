@@ -344,12 +344,15 @@ export default function DestinationsPage() {
               Destination envisagée, filière, taille du groupe, dates, partagez votre projet.
               Nous vous revenons rapidement avec une première proposition adaptée à votre filière.
             </p>
-            <Link href="/contact" className="btn-primary" style={{ position: "relative" }}>
-              Demander un programme
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-                <path d="M2 7.5h11M8 2.5l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
+            <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", position: "relative" }}>
+              <Link href="/contact" className="btn-primary">
+                Demander un programme
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                  <path d="M2 7.5h11M8 2.5l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Link>
+              <Link href="/global-weeks" className="btn-ghost-light">Partir avec Global Weeks</Link>
+            </div>
           </div>
           </AnimateOnView>
         </div>

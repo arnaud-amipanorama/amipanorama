@@ -222,7 +222,7 @@ export default function GlobalWeeksExperience() {
   };
 
   return (
-    <main className={styles.page}>
+    <div className={styles.page}>
       <section className={styles.hero} aria-labelledby="global-weeks-title">
         <div className={styles.heroMap} aria-hidden="true">
           <span className={styles.mapDotOne} /><span className={styles.mapDotTwo} /><span className={styles.mapRoute} />
@@ -316,7 +316,7 @@ export default function GlobalWeeksExperience() {
               </article>
             ))}
           </div>
-          <p className={styles.editionNote}>Aucune date, place, prestation ou modalité de transport n’est annoncée ici tant qu’une édition n’est pas ouverte et confirmée.</p>
+          <p className={styles.editionNote}>Les dates, les places et le transport sont précisés quand une édition ouvre.</p>
         </div>
       </section>
 
@@ -328,11 +328,11 @@ export default function GlobalWeeksExperience() {
               "Tu choisis l’édition qui t’intéresse",
               "Tu réponds au questionnaire d’éligibilité",
               "Tu reçois ton kit à envoyer à ton référent mobilité",
-              "Ton CFA, ton employeur et ton dossier sont validés",
+              "Ton CFA et ton employeur avancent le dossier avec toi",
               "Ta place est confirmée, puis tu pars avec ta cohorte",
             ].map((text, index) => <li key={text}><span>0{index + 1}</span><p>{text}</p></li>)}
           </ol>
-          <div className={styles.howNote}><Icon name="shield" /><p><strong>À retenir :</strong> remplir le questionnaire ne réserve pas automatiquement une place. Il prépare ton dossier. Dans la majorité des cas, ton séjour est financé. AMI monte le dossier avec toi.</p></div>
+          <div className={styles.howNote}><Icon name="shield" /><p><strong>À retenir :</strong> remplir le questionnaire prépare ton dossier. La place se confirme quand le groupe est maintenu. Dans la majorité des cas, ton séjour est financé. AMI monte le dossier avec toi.</p></div>
         </div>
       </section>
 
@@ -378,8 +378,8 @@ export default function GlobalWeeksExperience() {
 
       <button className={styles.mobileSticky} type="button" onClick={scrollToEligibility}><span>Vérifier mon éligibilité</span><small>le séjour est financé dans la majorité des cas</small></button>
 
-      {kitOpen && <div className={styles.modalBackdrop} role="presentation" onMouseDown={() => setKitOpen(false)}><section className={styles.modal} role="dialog" aria-modal="true" aria-labelledby="kit-title" onMouseDown={(event) => event.stopPropagation()}><button className={styles.modalClose} type="button" aria-label="Fermer" onClick={() => setKitOpen(false)}>×</button><div className={styles.eyebrow}>Kit référent mobilité</div><h2 id="kit-title">Un dossier conçu pour <em>faire gagner du temps.</em></h2><p>Le PDF, le PowerPoint et le flyer sont prêts à transmettre. Après l’envoi du formulaire, le PDF reprend le prénom et le nom saisis.</p><KitDownloads personal={completed ? form : null} /><button type="button" className="btn-primary" onClick={() => { setKitOpen(false); scrollToEligibility(); }}>Commencer par mon projet <ArrowIcon /></button></section></div>}
-    </main>
+      {kitOpen && <div className={styles.modalBackdrop} role="presentation" onMouseDown={() => setKitOpen(false)}><section className={styles.modal} role="dialog" aria-modal="true" aria-labelledby="kit-title" onMouseDown={(event) => event.stopPropagation()}><button className={styles.modalClose} type="button" aria-label="Fermer" onClick={() => setKitOpen(false)}>×</button><div className={styles.eyebrow}>Kit référent mobilité</div><h2 id="kit-title">Un dossier conçu pour <em>faire gagner du temps.</em></h2><p>Le PDF et le flyer sont prêts à transmettre. Après l’envoi du formulaire, le PDF reprend le prénom et le nom saisis. Le PowerPoint s’ajoute dès qu’il est en ligne.</p><KitDownloads personal={completed ? form : null} /><button type="button" className="btn-primary" onClick={() => { setKitOpen(false); scrollToEligibility(); }}>Commencer par mon projet <ArrowIcon /></button></section></div>}
+    </div>
   );
 }
 
@@ -436,7 +436,7 @@ function StepOne({ form, update }: { form: FormState; update: <K extends keyof F
 }
 
 function StepTwo({ form, update, updateAvailability }: { form: FormState; update: <K extends keyof FormState>(key: K, value: FormState[K]) => void; updateAvailability: (id: string, value: Availability) => void }) {
-  return <div className={styles.formStep}><div className={styles.stepTitle}><span>02</span><div><h3>Ton envie de départ</h3><p>Tu nous donnes une préférence, jamais une réservation.</p></div></div><fieldset><legend>Connais-tu ton OPCO ?</legend><div className={styles.choiceGrid}>{["Oui", "Non", "Je ne sais pas"].map((value) => <Choice key={value} label={value} checked={form.opcoKnown === value} onChange={() => update("opcoKnown", value)} />)}</div>{form.opcoKnown && <label className={styles.fieldLabel}>Quel OPCO est lié à ton employeur ?<select value={form.opco} onChange={(event) => update("opco", event.target.value)}><option value="">Sélectionne une réponse</option>{opcos.map((opco) => <option key={opco}>{opco}</option>)}</select><small>L’OPCO est généralement lié à l’employeur. Tu peux demander à tes RH, ton manager ou ton référent mobilité.</small></label>}</fieldset><fieldset><legend>Quelle destination t’intéresse le plus ?</legend><div className={styles.choiceGrid}>{[...globalWeeksEditions.map((item) => item.city), "Je suis ouvert(e)"].map((value) => <Choice key={value} label={value} checked={form.destination === value} onChange={() => update("destination", value)} />)}</div></fieldset><fieldset><legend>Quelles semaines te conviendraient ?</legend><p className={styles.fieldHelp}>Les dates exactes seront annoncées par édition. Indique simplement ce qui te conviendrait le mieux.</p><div className={styles.availabilityList}>{globalWeeksAvailability.map((item) => <div key={item.id} className={styles.availabilityRow}><div><strong>{item.label}</strong><span>{item.detail}</span></div><div>{([ ["yes", "Oui"], ["maybe", "Possible"], ["no", "Impossible"] ] as const).map(([value, label]) => <button type="button" key={value} className={form.availabilities[item.id] === value ? styles.availabilityActive : ""} aria-pressed={form.availabilities[item.id] === value} onClick={() => updateAvailability(item.id, value)}>{label}</button>)}</div></div>)}</div></fieldset><fieldset><legend>Es-tu d’accord pour suivre un dossier avec ton CFA et ton employeur ?</legend><div className={styles.choiceStack}><Choice label="Oui, je veux avancer : AMI monte le dossier avec moi." checked={form.agreement === "yes"} onChange={() => update("agreement", "yes")} /><Choice label="Je préfère en savoir plus." checked={form.agreement === "more"} onChange={() => update("agreement", "more")} /></div></fieldset></div>;
+  return <div className={styles.formStep}><div className={styles.stepTitle}><span>02</span><div><h3>Ton envie de départ</h3><p>Tu nous donnes une préférence, jamais une réservation.</p></div></div><fieldset><legend>Connais-tu ton OPCO ?</legend><div className={styles.choiceGrid}>{["Oui", "Non", "Je ne sais pas"].map((value) => <Choice key={value} label={value} checked={form.opcoKnown === value} onChange={() => update("opcoKnown", value)} />)}</div>{form.opcoKnown && <label className={styles.fieldLabel}>Quel OPCO est lié à ton employeur ?<select value={form.opco} onChange={(event) => update("opco", event.target.value)}><option value="">Sélectionne une réponse</option>{opcos.map((opco) => <option key={opco}>{opco}</option>)}</select><small>L’OPCO est généralement lié à l’employeur. Tu peux demander à tes RH, ton manager ou ton référent mobilité.</small></label>}</fieldset><fieldset><legend>Quelle destination t’intéresse le plus ?</legend><div className={styles.choiceGrid}>{[...globalWeeksEditions.map((item) => item.city), "Je suis ouvert(e)"].map((value) => <Choice key={value} label={value} checked={form.destination === value} onChange={() => update("destination", value)} />)}</div></fieldset><fieldset><legend>Quelle période te conviendrait ?</legend><p className={styles.fieldHelp}>Indique ce qui t’arrange. Les dates exactes sont précisées quand une édition ouvre.</p><div className={styles.availabilityList}>{globalWeeksAvailability.map((item) => <div key={item.id} className={styles.availabilityRow}><div><strong>{item.label}</strong><span>{item.detail}</span></div><div>{([ ["yes", "Oui"], ["maybe", "Possible"], ["no", "Impossible"] ] as const).map(([value, label]) => <button type="button" key={value} className={form.availabilities[item.id] === value ? styles.availabilityActive : ""} aria-pressed={form.availabilities[item.id] === value} onClick={() => updateAvailability(item.id, value)}>{label}</button>)}</div></div>)}</div></fieldset><fieldset><legend>Es-tu d’accord pour suivre un dossier avec ton CFA et ton employeur ?</legend><div className={styles.choiceStack}><Choice label="Oui, je veux avancer : AMI monte le dossier avec moi." checked={form.agreement === "yes"} onChange={() => update("agreement", "yes")} /><Choice label="Je préfère en savoir plus." checked={form.agreement === "more"} onChange={() => update("agreement", "more")} /></div></fieldset></div>;
 }
 
 function StepThree({ form, update }: { form: FormState; update: <K extends keyof FormState>(key: K, value: FormState[K]) => void }) {
@@ -488,12 +488,21 @@ function KitDownloads({ personal, prominent = false }: { personal?: FormState | 
         await saveBlob(response, "kit-referent-global-weeks.pdf");
         return;
       }
-      const response = await fetch(`/global-weeks/documents?doc=${doc}`);
-      if (doc === "pptx" && response.status === 404) {
-        setNote("Le PowerPoint (18 Mo) n’est pas encore en ligne. Le PDF et le flyer sont disponibles.");
+      if (doc === "pptx") {
+        const probe = await fetch("/global-weeks/documents?doc=pptx", { redirect: "manual" });
+        if (probe.status === 404) {
+          setNote("Le PowerPoint (18 Mo) n’est pas encore en ligne. Le PDF et le flyer sont disponibles.");
+          return;
+        }
+        if (probe.type === "opaqueredirect" || (probe.status >= 300 && probe.status < 400)) {
+          window.location.assign("/global-weeks/documents?doc=pptx");
+          return;
+        }
+        await saveBlob(probe, "kit-referent-global-weeks.pptx");
         return;
       }
-      const names = { kit: "kit-referent-global-weeks.pdf", flyer: "flyer-referent-global-weeks.pdf", pptx: "kit-referent-global-weeks.pptx" };
+      const response = await fetch(`/global-weeks/documents?doc=${doc}`);
+      const names = { kit: "kit-referent-global-weeks.pdf", flyer: "flyer-referent-global-weeks.pdf" };
       await saveBlob(response, names[doc]);
     } catch {
       setNote("Le téléchargement n’a pas abouti. Réessaie dans un instant.");

@@ -5,6 +5,7 @@ import AnimateOnView from "@/components/AnimateOnView";
 import HeroGallery from "./HeroGallery";
 import { HERO_PHOTOS } from "./heroConfig";
 import { testimonials } from "@/data/testimonials";
+import { fundingExamplePhrase } from "@/data/globalWeeks";
 
 const testimonialColumns = [
   testimonials.filter((_, index) => index % 2 === 0),
@@ -715,6 +716,50 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
+          GLOBAL WEEKS
+      ══════════════════════════════════════════════ */}
+      <section aria-labelledby="global-weeks-home" style={{ padding: "0 24px 96px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <AnimateOnView>
+            <div className="gw-home">
+              <div className="gw-home-copy">
+                <div className="section-label">Global Weeks · pour les alternants</div>
+                <h2 id="global-weeks-home" style={{
+                  fontSize: "clamp(28px, 4vw, 46px)", fontWeight: 700,
+                  letterSpacing: "-0.04em", lineHeight: 1.08, marginBottom: 16,
+                }}>
+                  Ton école ne propose pas de mobilité&nbsp;?{" "}
+                  <span className="gradient-text">Pars quand même.</span>
+                </h2>
+                <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 540, marginBottom: 28 }}>
+                  Rejoins une semaine avec d’autres alternants. Dans la majorité des cas, ton voyage sera financé.
+                  Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}. AMI monte le dossier avec toi.
+                </p>
+                <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                  <Link href="/global-weeks/simulateur" className="btn-primary">
+                    Estimer mon séjour
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </Link>
+                  <Link href="/global-weeks" className="btn-ghost">Découvrir Global Weeks</Link>
+                </div>
+              </div>
+              <div className="gw-home-photo">
+                <Image
+                  src="/Assets/groups/montreal-group.jpg"
+                  alt="Un groupe AMI Panorama à Montréal"
+                  fill
+                  sizes="(max-width: 800px) 100vw, 420px"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+            </div>
+          </AnimateOnView>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
           FINAL CTA
       ══════════════════════════════════════════════ */}
       <section className="cta-section" style={{ padding: "0 24px 96px" }}>
@@ -787,6 +832,17 @@ export default function HomePage() {
         .hero-link:hover svg { transform: translateX(3px); }
         .hero-link-primary { color: var(--text-primary); border-color: var(--text-primary); }
 
+        .gw-home {
+          display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: stretch;
+          background: var(--bg-1); border: 1px solid var(--border); border-radius: 20; overflow: hidden;
+        }
+        .gw-home-copy { padding: 56px 48px; }
+        .gw-home-photo { position: relative; min-height: 320px; }
+        @media (max-width: 800px) {
+          .gw-home { grid-template-columns: 1fr; }
+          .gw-home-photo { min-height: 220px; order: -1; }
+          .gw-home-copy { padding: 28px 22px 32px; }
+        }
         @media (max-width: 760px) {
           .hero-inner { padding: 116px 22px 30px !important; }
           .hero-text-col { max-width: none !important; }

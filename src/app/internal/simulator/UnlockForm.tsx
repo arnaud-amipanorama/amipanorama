@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 
 type Stage = "request" | "verify" | "pending";
 
-export default function UnlockForm() {
+export default function UnlockForm({ depuisGroupe = false }: { depuisGroupe?: boolean }) {
   const [stage, setStage] = useState<Stage>("request");
   const [form, setForm] = useState({ fullName: "", establishment: "", email: "", phone: "", company: "" });
   const [code, setCode] = useState("");
@@ -43,7 +43,11 @@ export default function UnlockForm() {
       <main style={{ position: "relative", width: "100%", maxWidth: 440, background: "#1D2736", border: "1px solid #53647E", borderRadius: 18, padding: "clamp(28px,5vw,40px)", boxShadow: "0 24px 80px rgba(0,0,0,0.42)", color: "#F8FAFC" }}>
         <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#5C8EF0", boxShadow: "0 0 16px rgba(92,142,240,0.72)", marginBottom: 24 }} />
         <h1 style={{ fontSize: 25, fontWeight: 700, letterSpacing: "-0.03em", margin: 0, color: "#FFFFFF" }}>Simulateur de financement</h1>
-        <p style={{ fontSize: 13.5, color: "#CBD5E1", margin: "10px 0 28px", lineHeight: 1.55 }}>Cet espace est réservé aux établissements accompagnés par AMI Panorama.</p>
+        <p style={{ fontSize: 13.5, color: "#CBD5E1", margin: "10px 0 28px", lineHeight: 1.55 }}>
+          {depuisGroupe
+            ? "La mobilité de groupe est réservée aux référents mobilité. Demandez l’accès pour utiliser ce simulateur. La mobilité individuelle Global Weeks reste ouverte, sans demande."
+            : "Cet espace est réservé aux établissements accompagnés par AMI Panorama."}
+        </p>
         {stage === "request" && <form onSubmit={requestAccess} style={formStyle}>
           <Field label="Nom et prénom"><input required value={form.fullName} onChange={(e) => update("fullName", e.target.value)} style={inputStyle} autoComplete="name" /></Field>
           <Field label="Établissement"><input value={form.establishment} onChange={(e) => update("establishment", e.target.value)} style={inputStyle} autoComplete="organization" /></Field>

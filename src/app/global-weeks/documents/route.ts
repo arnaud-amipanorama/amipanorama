@@ -1,6 +1,5 @@
 import { readFile } from "node:fs/promises";
 import { NextRequest, NextResponse } from "next/server";
-import { hasGlobalWeeksAccess } from "@/app/global-weeks/actions";
 import { FLYER_PDF_PATH, KIT_PPTX_PATH, PUBLIC_SIMULATOR_PATH, isKitPptxReady, kitPptxUrl } from "@/lib/global-weeks/assets";
 import { buildKitPdf, type KitPersonalization } from "@/lib/global-weeks/personalize-kit";
 
@@ -20,15 +19,7 @@ function field(value: unknown): string | undefined {
   return typeof value === "string" ? value : undefined;
 }
 
-async function authorize() {
-  if (await hasGlobalWeeksAccess()) return null;
-  return NextResponse.json({ error: "Accès Global Weeks requis" }, { status: 401 });
-}
-
 export async function GET(request: NextRequest) {
-  const denied = await authorize();
-  if (denied) return denied;
-
   const doc = request.nextUrl.searchParams.get("doc");
   if (doc === "kit") {
     const pdf = await buildKitPdf();
@@ -59,9 +50,6 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const denied = await authorize();
-  if (denied) return denied;
-
   let raw: Record<string, unknown>;
   try {
     raw = await request.json();
