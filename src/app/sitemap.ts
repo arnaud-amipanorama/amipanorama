@@ -20,11 +20,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/politique-cookies", priority: 0.2, freq: "yearly" },
     { path: "/conditions-generales", priority: 0.2, freq: "yearly" },
   ];
-  // Les pages citoyenneté européenne sont protégées : hors sitemap tant que le mot de passe est requis.
-  return routes.map((r) => ({
+
+  const pages: MetadataRoute.Sitemap = routes.map((r) => ({
     url: `${BASE}${r.path}`,
     lastModified: now,
     changeFrequency: r.freq,
     priority: r.priority,
   }));
+
+  const citizenshipLanguages = {
+    fr: `${BASE}/citoyennete-europeenne`,
+    en: `${BASE}/en/european-citizenship`,
+    "x-default": `${BASE}/citoyennete-europeenne`,
+  };
+
+  const citizenship: MetadataRoute.Sitemap = (["fr", "en"] as const).map((locale) => ({
+    url: citizenshipLanguages[locale],
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.8,
+    alternates: { languages: citizenshipLanguages },
+  }));
+
+  return [...pages, ...citizenship];
 }
