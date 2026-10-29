@@ -65,11 +65,13 @@ export const globalWeeksAvailability = [
 ] as const;
 
 /**
- * Seul endroit où modifier l'exemple de reste à charge cité sur le site.
- * La phrase est réutilisée par Global Weeks, Notre programme et le simulateur public.
+ * Exemple cité sur le site. Il est le reste à charge du simulateur individuel
+ * pour Montréal, 8 jours, OPCO non identifié, après la part de financement
+ * mobilité déjà calculée par le moteur (companions = 0). Le test du simulateur
+ * public refuse un écart avec ce chiffre.
  */
 export const globalWeeksFundingExample = {
-  remainingEuros: 400,
+  remainingEuros: 449,
   city: "Montréal",
   stay: "hébergement avec petits-déjeuners",
 } as const;
