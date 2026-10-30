@@ -9,6 +9,7 @@ export default function UnlockForm({ depuisGroupe = false }: { depuisGroupe?: bo
   const [form, setForm] = useState({ fullName: "", establishment: "", email: "", phone: "", company: "" });
   const [code, setCode] = useState("");
   const [message, setMessage] = useState("");
+  const [accessStatus, setAccessStatus] = useState("");
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const update = (key: keyof typeof form, value: string) => setForm((current) => ({ ...current, [key]: value }));
@@ -18,9 +19,10 @@ export default function UnlockForm({ depuisGroupe = false }: { depuisGroupe?: bo
     try {
       const response = await fetch("/api/simulator-access/request", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error);
+      if (!response.ok) throw new Error(result.error || "La demande n’a pas pu être envoyée.");
       if (result.granted) { window.location.reload(); return; }
-      setStage("verify"); setMessage("Un code à 6 chiffres vient d’être envoyé à votre adresse e-mail.");
+      setStage("verify");
+      setMessage(typeof result.message === "string" && result.message ? result.message : "Un code à 6 chiffres vient d’être envoyé à votre adresse e-mail.");
     } catch (requestError) { setError(requestError instanceof Error ? requestError.message : "La demande n’a pas pu être envoyée."); }
     finally { setPending(false); }
   }
@@ -30,8 +32,10 @@ export default function UnlockForm({ depuisGroupe = false }: { depuisGroupe?: bo
     try {
       const response = await fetch("/api/simulator-access/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: form.email, code }) });
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error);
+      if (!response.ok) throw new Error(result.error || "Le code n’a pas pu être vérifié.");
       if (result.granted) { window.location.reload(); return; }
+      setAccessStatus(typeof result.status === "string" ? result.status : "pending");
+      setMessage(typeof result.message === "string" && result.message ? result.message : "Votre adresse e-mail est confirmée. L’accès au simulateur est en attente de validation par l’équipe AMI Panorama.");
       setStage("pending");
     } catch (verifyError) { setError(verifyError instanceof Error ? verifyError.message : "Le code n’a pas pu être vérifié."); }
     finally { setPending(false); }
@@ -62,7 +66,7 @@ export default function UnlockForm({ depuisGroupe = false }: { depuisGroupe?: bo
           <button type="submit" disabled={pending} style={buttonStyle}>{pending ? "Vérification…" : "Vérifier le code"}</button>
           <button type="button" onClick={() => { setStage("request"); setError(""); }} style={linkStyle}>Utiliser une autre adresse</button>
         </form>}
-        {stage === "pending" && <div><h2 style={{ fontSize: 18, margin: "0 0 10px", color: "#8FB4FF" }}>Demande vérifiée</h2><p style={{ margin: 0, fontSize: 13.5, color: "#D5DDEA", lineHeight: 1.6 }}>Merci. Ton adresse e-mail est confirmée. Notre équipe va examiner ta demande et te donnera accès au simulateur.</p></div>}
+        {stage === "pending" && <div><h2 style={{ fontSize: 18, margin: "0 0 10px", color: "#8FB4FF" }}>{accessStatus === "rejected" ? "Accès refusé" : "Accès en attente"}</h2><p style={{ margin: 0, fontSize: 13.5, color: "#D5DDEA", lineHeight: 1.6 }}>{message}</p></div>}
         {error && <p style={{ fontSize: 12.5, color: "#FF8C8C", margin: "18px 0 0", lineHeight: 1.5 }}>{error}</p>}
         <p style={{ fontSize: 11.5, color: "#AAB7C9", margin: "24px 0 0", lineHeight: 1.5 }}>Vos coordonnées servent uniquement à gérer l’accès et le suivi de votre demande.</p>
       </main>

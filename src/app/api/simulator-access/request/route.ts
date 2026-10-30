@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   accessCookie,
+  accessRequestMessage,
   createApprovalToken,
   createAccessCookie,
   createVerificationCode,
   hashVerificationCode,
   isAmiEmail,
   normalizeEmail,
+  planSimulatorAccessDelivery,
   requestSimulatorAccess,
+  verificationEmailParagraph,
+  type AccessStatus,
 } from "@/lib/simulator-access";
 import { sendTransactionalEmail } from "@/lib/transactional-email";
 
@@ -33,7 +37,7 @@ export async function POST(request: NextRequest) {
   const code = createVerificationCode();
   const approvalToken = createApprovalToken();
   try {
-    const status = await requestSimulatorAccess({
+    const { status, legacySignature } = await requestSimulatorAccess({
       fullName,
       establishment,
       email,
@@ -41,17 +45,18 @@ export async function POST(request: NextRequest) {
       codeHash: hashVerificationCode(code),
       approvalTokenHash: hashVerificationCode(approvalToken),
     });
-    if (internal && status === "approved") {
+    const delivery = planSimulatorAccessDelivery({ internal, status, legacySignature });
+    if (delivery.grantCookie) {
       const response = NextResponse.json({ ok: true, granted: true });
       response.cookies.set(accessCookie.name, createAccessCookie(email), accessCookie.options);
       return response;
     }
 
     await Promise.all([
-      sendVerificationCode({ email, code, fullName }),
-      status === "pending" ? sendAccessRequestNotification({ fullName, establishment, email, phone, approvalToken }) : Promise.resolve(),
+      delivery.sendVerificationCode ? sendVerificationCode({ email, code, fullName, internal, status }) : Promise.resolve(),
+      delivery.sendManualApproval ? sendAccessRequestNotification({ fullName, establishment, email, phone, approvalToken }) : Promise.resolve(),
     ]);
-    return NextResponse.json({ ok: true, granted: false, status });
+    return NextResponse.json({ ok: true, granted: false, status, message: accessRequestMessage(internal, status) });
   } catch (error) {
     console.error("[AMI Simulator Access] request error", error);
     return NextResponse.json({ error: error instanceof Error ? error.message : "La demande n’a pas pu être envoyée." }, { status: 400 });
@@ -62,12 +67,13 @@ function escapeHtml(value: string) {
   return value.replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character] ?? character);
 }
 
-async function sendVerificationCode({ email, code, fullName }: { email: string; code: string; fullName: string }) {
+async function sendVerificationCode({ email, code, fullName, internal, status }: { email: string; code: string; fullName: string; internal: boolean; status: AccessStatus }) {
   const from = process.env.LEAD_CONFIRMATION_FROM || process.env.LEAD_NOTIFICATION_FROM;
   if (!from) throw new Error("L’adresse d’envoi n’est pas configurée.");
 
   const safeName = escapeHtml(fullName);
-  await sendTransactionalEmail({ from, to: email, subject: "Votre code d’accès au simulateur AMI Panorama", html: `<div style="font-family:Arial,sans-serif;color:#101B2D;max-width:560px;margin:auto;padding:32px"><p>Bonjour ${safeName},</p><p>Voici votre code de vérification pour le simulateur de financement AMI Panorama :</p><p style="font-size:30px;font-weight:700;letter-spacing:0.18em;margin:28px 0">${code}</p><p>Ce code est valable 15 minutes. Après vérification, votre demande d’accès sera examinée par notre équipe.</p><p style="color:#64748B;font-size:13px">Si vous n’êtes pas à l’origine de cette demande, vous pouvez ignorer cet e-mail.</p></div>` });
+  const paragraph = escapeHtml(verificationEmailParagraph(internal, status));
+  await sendTransactionalEmail({ from, to: email, subject: "Votre code d’accès au simulateur AMI Panorama", html: `<div style="font-family:Arial,sans-serif;color:#101B2D;max-width:560px;margin:auto;padding:32px"><p>Bonjour ${safeName},</p><p>Voici votre code de vérification pour le simulateur de financement AMI Panorama :</p><p style="font-size:30px;font-weight:700;letter-spacing:0.18em;margin:28px 0">${code}</p><p>${paragraph}</p><p style="color:#64748B;font-size:13px">Si vous n’êtes pas à l’origine de cette demande, vous pouvez ignorer cet e-mail.</p></div>` });
 }
 
 async function sendAccessRequestNotification({ fullName, establishment, email, phone, approvalToken }: { fullName: string; establishment: string; email: string; phone: string; approvalToken: string }) {
