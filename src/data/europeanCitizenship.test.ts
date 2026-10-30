@@ -82,6 +82,7 @@ describe("offre citoyenneté européenne", () => {
       expect(text).toContain("Culture et citoyenneté européennes");
       expect(text).toContain("La semaine couvre le module « Culture et citoyenneté européennes » à travers des cours, des ateliers et des visites");
       expect(text).toContain("Toutes les visites sont soumises aux disponibilités des institutions.");
+      expect(text).not.toContain("Les visites d’institutions se font sur réservation, selon les créneaux ouverts par les institutions.");
       expect(text).toContain("alignés");
       expect(text).not.toMatch(/alignées|construites/);
       expect(text).toContain("l’homme");
@@ -94,6 +95,7 @@ describe("offre citoyenneté européenne", () => {
       expect(text).toContain("European Master’s");
       expect(text).toContain("The week covers the “European Culture and Citizenship” module through classes, workshops and visits");
       expect(text).toContain("All visits are subject to the institutions’ availability.");
+      expect(text).not.toContain("Institutional visits require a reservation and follow the slots the institutions open.");
       expect(text).toContain("Human Rights");
       expect(text).toContain("(ECHR)");
     }

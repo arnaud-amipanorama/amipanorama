@@ -74,7 +74,6 @@ export default function EuropeanCitizenshipPage({ locale }: { locale: Citizenshi
               </article>
             ))}
           </div>
-          <p className={styles.footnote}>{copy.why.footnote}</p>
           <p id="visits-availability" className={styles.visitsNote}>
             <span aria-hidden="true">* </span>
             {copy.why.availabilityNote}

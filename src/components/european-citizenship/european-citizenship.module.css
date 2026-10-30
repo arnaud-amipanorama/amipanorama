@@ -214,8 +214,7 @@
 }
 
 .lead,
-.note,
-.footnote {
+.note {
   margin: 0;
   max-width: 68ch;
   font-size: 16.5px;
@@ -227,8 +226,7 @@
   margin-bottom: 28px;
 }
 
-.note,
-.footnote {
+.note {
   margin-top: 28px;
   font-size: 14.5px;
 }

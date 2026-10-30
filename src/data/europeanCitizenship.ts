@@ -81,7 +81,7 @@ export type CitizenshipCopy = {
     priceNote: string;
   };
   fede: { eyebrow: string; title: string; text: string; note: string };
-  why: { eyebrow: string; title: string; lead: string; places: Card[]; footnote: string; availabilityNote: string };
+  why: { eyebrow: string; title: string; lead: string; places: Card[]; availabilityNote: string };
   paths: { eyebrow: string; title: string; lead: string; items: Card[] };
   skills: { eyebrow: string; title: string; note: string; items: string[] };
   week: { eyebrow: string; title: string; lead: string; days: Day[]; legend: LegendItem[]; note: string };
@@ -142,7 +142,6 @@ const fr: CitizenshipCopy = {
         text: "La protection des droits fondamentaux. Visite guidée sur réservation.",
       },
     ],
-    footnote: "Les visites d’institutions se font sur réservation, selon les créneaux ouverts par les institutions.",
     availabilityNote: "Toutes les visites sont soumises aux disponibilités des institutions.",
   },
   paths: {
@@ -437,7 +436,6 @@ const en: CitizenshipCopy = {
         text: "The protection of fundamental rights. Guided tour, reservation required.",
       },
     ],
-    footnote: "Institutional visits require a reservation and follow the slots the institutions open.",
     availabilityNote: "All visits are subject to the institutions’ availability.",
   },
   paths: {
