@@ -4,7 +4,6 @@ export function generateMetadata() {
   return citizenshipMetadata("en");
 }
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ access?: string }> }) {
-  const params = await searchParams;
-  return <CitizenshipRoute locale="en" access={params.access} />;
+export default function Page() {
+  return <CitizenshipRoute locale="en" />;
 }

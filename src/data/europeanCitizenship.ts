@@ -13,7 +13,6 @@ export const citizenshipRoutes = {
 
 /** Décisions d’Arnaud, 29/10/2026. Modifier ici pour mettre à jour les deux langues. */
 export const citizenshipOffer = {
-  trainingHours: 20,
   days: 6,
   nights: 5,
   schools: 70,
@@ -21,7 +20,6 @@ export const citizenshipOffer = {
   /** null : aucun montant n’est publié. */
   priceEuros: null as number | null,
   priceMode: "quote-by-group-size" as const,
-  echrVisit: "subject-to-availability" as const,
   contactSubject: "Citoyenneté européenne",
   contactEmail: "info@amipanorama.com",
   destination: "Strasbourg",
@@ -29,7 +27,7 @@ export const citizenshipOffer = {
 
 /**
  * Points encore ouverts. Tant qu’une valeur est null, la page n’en parle pas.
- * CEDH, volume horaire, prix (sur devis) et chiffres de cette page sont déjà tranchés
+ * Le prix (sur devis) et les chiffres de cette page sont déjà tranchés
  * dans `citizenshipOffer`, pas ici.
  */
 export const citizenshipPending = {
@@ -72,7 +70,6 @@ type LegendItem = { term: string; text: string };
 export type CitizenshipCopy = {
   seo: { title: string; description: string; serviceName: string; serviceType: string };
   lang: { navLabel: string; fr: string; en: string };
-  gate: { eyebrow: string; title: string; text: string; label: string; submit: string; error: string; note: string };
   hero: {
     eyebrow: string;
     title: string;
@@ -84,7 +81,7 @@ export type CitizenshipCopy = {
     priceNote: string;
   };
   fede: { eyebrow: string; title: string; text: string; note: string };
-  why: { eyebrow: string; title: string; lead: string; places: Card[]; footnote: string };
+  why: { eyebrow: string; title: string; lead: string; places: Card[]; availabilityNote: string };
   paths: { eyebrow: string; title: string; lead: string; items: Card[] };
   skills: { eyebrow: string; title: string; note: string; items: string[] };
   week: { eyebrow: string; title: string; lead: string; days: Day[]; legend: LegendItem[]; note: string };
@@ -97,10 +94,6 @@ export type CitizenshipCopy = {
   teaser: { eyebrow: string; title: string; text: string; cta: string };
 };
 
-const hours = citizenshipOffer.trainingHours;
-const hoursFr = `${hours} h`;
-const hoursEn = `${hours} hours`;
-
 const fr: CitizenshipCopy = {
   seo: {
     title: "Citoyenneté européenne à Strasbourg : séjour pédagogique pour écoles FEDE",
@@ -110,22 +103,13 @@ const fr: CitizenshipCopy = {
     serviceType: "Séjour pédagogique pour les écoles du réseau FEDE",
   },
   lang: { navLabel: "Langue", fr: "Français", en: "English" },
-  gate: {
-    eyebrow: "Accès réservé",
-    title: "Cette page est protégée.",
-    text: "Saisissez le mot de passe pour consulter l’offre Citoyenneté européenne à Strasbourg.",
-    label: "Mot de passe",
-    submit: "Entrer",
-    error: "Mot de passe incorrect.",
-    note: "L’accès reste ouvert quelques heures sur cet appareil.",
-  },
   hero: {
     eyebrow: "Écoles du réseau FEDE",
     title: "Une immersion au cœur des institutions européennes",
     subtitle: "Une semaine à Strasbourg pour donner vie à l’enseignement de la culture et de la citoyenneté européennes.",
     intro:
-      `6 jours, 5 nuits, au contact du Parlement européen, du Conseil de l’Europe et de la frontière franco-allemande. ${hoursFr} de cours et d’ateliers, alignées sur le module « Culture et citoyenneté européennes ». Un programme clé en main, construit avec votre établissement.`,
-    facts: ["6 jours", "5 nuits", `${hoursFr} de formation`],
+      "6 jours, 5 nuits, au contact du Parlement européen, du Conseil de l’Europe et de la frontière franco-allemande. Des cours et des ateliers, alignés sur le module « Culture et citoyenneté européennes ». Un programme clé en main, construit avec votre établissement.",
+    facts: ["6 jours", "5 nuits", "Cours et ateliers"],
     ctaPrimary: "Recevoir un programme et un devis",
     ctaSecondary: "Prendre rendez-vous",
     priceNote: "Tarif sur devis selon la taille du groupe.",
@@ -133,7 +117,7 @@ const fr: CitizenshipCopy = {
   fede: {
     eyebrow: "Pour les écoles du réseau FEDE",
     title: "Faire vivre le module là où l’Europe se construit",
-    text: `Tous les diplômes européens de la FEDE comprennent le module commun « Culture et citoyenneté européennes ». Cours, visites d’institutions, enquêtes de terrain et projet collectif : vos étudiants passent de la théorie à la réalité institutionnelle. La semaine compte ${hoursFr} de cours et d’ateliers, alignées sur ce module, pour les parcours Foundation Degree, Bachelor et Mastère. Le programme, l’évaluation et la reconnaissance dans le cursus sont définis avec votre établissement avant le départ.`,
+    text: "Tous les diplômes européens de la FEDE comprennent le module commun « Culture et citoyenneté européennes ». Cours, visites d’institutions, enquêtes de terrain et projet collectif : vos étudiants passent de la théorie à la réalité institutionnelle. La semaine couvre le module « Culture et citoyenneté européennes » à travers des cours, des ateliers et des visites, pour les parcours Foundation Degree, Bachelor européen et Mastère européen. Le programme, l’évaluation et la reconnaissance dans le cursus sont définis avec votre établissement avant le départ.",
     note: "Le séjour est conçu pour s’aligner sur le module. Il ne remplace pas l’examen FEDE : la validation reste celle de votre établissement et de la FEDE.",
   },
   why: {
@@ -154,12 +138,11 @@ const fr: CitizenshipCopy = {
         text: "La coopération transfrontalière au quotidien, du quartier européen au Jardin des Deux Rives.",
       },
       {
-        title: "Cour européenne des droits de l’homme",
-        text: "Une visite possible au fil de la semaine.",
-        meta: "Selon disponibilités",
+        title: "Cour européenne des droits de\u00A0l’homme\u00A0(CEDH)",
+        text: "La protection des droits fondamentaux. Visite guidée sur réservation.",
       },
     ],
-    footnote: "Les visites d’institutions se font sur réservation, selon les créneaux ouverts par les institutions.",
+    availabilityNote: "Toutes les visites sont soumises aux disponibilités des institutions.",
   },
   paths: {
     eyebrow: "Trois parcours",
@@ -168,17 +151,16 @@ const fr: CitizenshipCopy = {
     items: [
       {
         title: "Années 1 et 2",
-        meta: "Foundation Degree · Bachelor",
+        meta: "Foundation Degree · Bachelor européen",
         text: "Citoyenneté européenne, institutions et démocratie.",
       },
       {
         title: "Année 3",
-        meta: "Bachelor",
+        meta: "Bachelor européen",
         text: "Citoyenneté européenne, management interculturel et ressources humaines.",
       },
       {
-        title: "Mastère",
-        meta: "Mastère européen",
+        title: "Mastère européen",
         text: "Les entreprises et la transition écologique.",
       },
     ],
@@ -205,7 +187,7 @@ const fr: CitizenshipCopy = {
         name: "Lundi",
         slots: [
           { label: "Matin", text: "Arrivée à Strasbourg, transfert et installation." },
-          { label: "Après-midi", text: "Découverte de la Grande Île, inscrite au patrimoine mondial de l’UNESCO." },
+          { label: "Après-midi", text: "Découverte de la Grande-Île, inscrite au patrimoine mondial de l’UNESCO." },
         ],
       },
       {
@@ -249,7 +231,7 @@ const fr: CitizenshipCopy = {
     legend: [
       {
         term: "Inclus",
-        text: `Les ${hoursFr} de cours et d’ateliers, l’hébergement, les petits-déjeuners, les déjeuners les jours de formation, les transferts locaux et les visites indiquées comme incluses.`,
+        text: "Les cours et les ateliers, l’hébergement, les petits-déjeuners, les déjeuners les jours de formation, les transferts locaux et les visites indiquées comme incluses.",
       },
       {
         term: "Optionnel",
@@ -291,7 +273,7 @@ const fr: CitizenshipCopy = {
     items: [
       {
         title: "Formation",
-        text: `${hoursFr} de cours et d’ateliers, alignées sur le module « Culture et citoyenneté européennes » des diplômes FEDE (Foundation Degree, Bachelor et Mastère).`,
+        text: "Des cours et des ateliers, alignés sur le module « Culture et citoyenneté européennes » des diplômes FEDE (Foundation Degree, Bachelor européen et Mastère européen).",
       },
       {
         title: "Visites d’entreprises",
@@ -319,7 +301,7 @@ const fr: CitizenshipCopy = {
       },
       {
         title: "Accompagnement",
-        text: "Suivi administratif, et encadrement terrain 24h/24 pendant le séjour. L’équipe AMI Panorama est là avant, pendant et après.",
+        text: "Suivi administratif et encadrement terrain 24h/24 pendant le séjour. L’équipe AMI Panorama est là avant, pendant et après.",
       },
     ],
   },
@@ -361,12 +343,12 @@ const fr: CitizenshipCopy = {
       {
         question: "Le séjour valide-t-il le module FEDE ?",
         answer:
-          `Le programme propose ${hoursFr} de cours et d’ateliers, construites pour s’aligner sur le module « Culture et citoyenneté européennes ». La validation et l’examen relèvent de votre établissement et de la FEDE. Nous définissons ensemble les livrables et l’évaluation avant le départ.`,
+          "Le programme couvre le module « Culture et citoyenneté européennes » à travers des cours, des ateliers et des visites. La validation et l’examen relèvent de votre établissement et de la FEDE. Nous définissons ensemble les livrables et l’évaluation avant le départ.",
       },
       {
         question: "Pour quels parcours ?",
         answer:
-          "Le module est commun aux diplômes européens de la FEDE. La semaine se décline pour le Foundation Degree, le Bachelor et le Mastère, selon le niveau du groupe.",
+          "Le module est commun aux diplômes européens de la FEDE. La semaine se décline pour le Foundation Degree, le Bachelor européen et le Mastère européen, selon le niveau du groupe.",
       },
       {
         question: "Quelle taille de groupe ?",
@@ -382,7 +364,7 @@ const fr: CitizenshipCopy = {
       },
       {
         question: "La Cour européenne des droits de l’homme est-elle au programme ?",
-        answer: "La visite est proposée selon disponibilités. Comme les autres visites d’institutions, elle se fait sur réservation.",
+        answer: "Oui. La visite figure au programme, comme les autres visites d’institutions, et se fait sur réservation.",
       },
       {
         question: "Quels documents prévoir ?",
@@ -401,7 +383,7 @@ const fr: CitizenshipCopy = {
   teaser: {
     eyebrow: "Citoyenneté européenne · Strasbourg",
     title: "Le module de citoyenneté européenne, vécu à Strasbourg.",
-    text: `Pour les écoles du réseau FEDE : une semaine au contact des institutions européennes, avec ${hoursFr} de cours et d’ateliers alignées sur le module « Culture et citoyenneté européennes ». Tarif sur devis selon la taille du groupe.`,
+    text: "Pour les écoles du réseau FEDE : une semaine au contact des institutions européennes, avec des cours et des ateliers alignés sur le module « Culture et citoyenneté européennes ». Tarif sur devis selon la taille du groupe.",
     cta: "Découvrir la semaine",
   },
 };
@@ -415,22 +397,13 @@ const en: CitizenshipCopy = {
     serviceType: "Study week for FEDE network schools",
   },
   lang: { navLabel: "Language", fr: "Français", en: "English" },
-  gate: {
-    eyebrow: "Private access",
-    title: "This page is protected.",
-    text: "Enter the password to view the European Citizenship week in Strasbourg.",
-    label: "Password",
-    submit: "Enter",
-    error: "Incorrect password.",
-    note: "Access stays open for a few hours on this device.",
-  },
   hero: {
     eyebrow: "FEDE network schools",
     title: "A Deep Dive into the Heart of the European Institutions",
     subtitle: "One week in Strasbourg to bring the teaching of European Culture and Citizenship to life.",
     intro:
-      `6 days, 5 nights, close to the European Parliament, the Council of Europe and the French-German border. ${hoursEn} of classes and workshops, aligned with the FEDE “European Culture and Citizenship” module. A turnkey programme, shaped with your school.`,
-    facts: ["6 days", "5 nights", `${hoursEn} of training`],
+      "6 days, 5 nights, close to the European Parliament, the Council of Europe and the French-German border. Classes and workshops, aligned with the FEDE “European Culture and Citizenship” module. A turnkey programme, shaped with your school.",
+    facts: ["6 days", "5 nights", "Classes and workshops"],
     ctaPrimary: "Get a programme and quote",
     ctaSecondary: "Book a call",
     priceNote: "Quote based on group size.",
@@ -438,7 +411,7 @@ const en: CitizenshipCopy = {
   fede: {
     eyebrow: "For FEDE network schools",
     title: "Bring the module to life where Europe is built",
-    text: `Every FEDE European degree includes the shared “European Culture and Citizenship” module. Classes, institutional visits, field enquiries and a team project take your students from theory to the institutions themselves. The week includes ${hoursEn} of classes and workshops, aligned with this module, for Foundation Degree, Bachelor and Master’s pathways. Syllabus, assessment and recognition are agreed with your school before departure.`,
+    text: "Every FEDE European degree includes the shared “European Culture and Citizenship” module. Classes, institutional visits, field enquiries and a team project take your students from theory to the institutions themselves. The week covers the “European Culture and Citizenship” module through classes, workshops and visits, for Foundation Degree, European Bachelor’s and European Master’s pathways. Syllabus, assessment and recognition are agreed with your school before departure.",
     note: "The week is designed to align with the module. It does not replace the FEDE examination: validation remains with your school and with FEDE.",
   },
   why: {
@@ -459,12 +432,11 @@ const en: CitizenshipCopy = {
         text: "Everyday cross-border cooperation, from the European district to the Jardin des Deux Rives.",
       },
       {
-        title: "European Court of Human Rights",
-        text: "A visit that can be included during the week.",
-        meta: "Subject to availability",
+        title: "European Court of Human\u00A0Rights\u00A0(ECHR)",
+        text: "The protection of fundamental rights. Guided tour, reservation required.",
       },
     ],
-    footnote: "Institutional visits require a reservation and follow the slots the institutions open.",
+    availabilityNote: "All visits are subject to the institutions’ availability.",
   },
   paths: {
     eyebrow: "Three pathways",
@@ -473,17 +445,16 @@ const en: CitizenshipCopy = {
     items: [
       {
         title: "Years 1 and 2",
-        meta: "Foundation Degree · Bachelor",
+        meta: "Foundation Degree · European Bachelor’s",
         text: "European citizenship, institutions and democracy.",
       },
       {
         title: "Year 3",
-        meta: "Bachelor",
+        meta: "European Bachelor’s",
         text: "European citizenship, intercultural management and human resources.",
       },
       {
-        title: "Master’s",
-        meta: "European Master’s",
+        title: "European Master’s",
         text: "Businesses and the ecological transition.",
       },
     ],
@@ -510,7 +481,7 @@ const en: CitizenshipCopy = {
         name: "Monday",
         slots: [
           { label: "Morning", text: "Arrival in Strasbourg, transfer and check-in." },
-          { label: "Afternoon", text: "Exploring the UNESCO-listed Grande Île." },
+          { label: "Afternoon", text: "Exploring the UNESCO-listed Grande-Île." },
         ],
       },
       {
@@ -554,7 +525,7 @@ const en: CitizenshipCopy = {
     legend: [
       {
         term: "Included",
-        text: `The ${hoursEn} of classes and workshops, housing, breakfasts, lunches on training days, local transfers and visits marked as included.`,
+        text: "Classes and workshops, housing, breakfasts, lunches on training days, local transfers and visits marked as included.",
       },
       {
         term: "Optional",
@@ -596,7 +567,7 @@ const en: CitizenshipCopy = {
     items: [
       {
         title: "Training",
-        text: `${hoursEn} of classes and workshops, aligned with the FEDE “European Culture and Citizenship” module (Foundation Degree, Bachelor and Master’s).`,
+        text: "Classes and workshops, aligned with the FEDE “European Culture and Citizenship” module (Foundation Degree, European Bachelor’s and European Master’s).",
       },
       {
         title: "Business visits",
@@ -666,12 +637,12 @@ const en: CitizenshipCopy = {
       {
         question: "Does the week validate the FEDE module?",
         answer:
-          `The programme offers ${hoursEn} of classes and workshops, designed to align with the “European Culture and Citizenship” module. Validation and examinations remain with your school and with FEDE. We agree deliverables and assessment together before departure.`,
+          "The programme covers the “European Culture and Citizenship” module through classes, workshops and visits. Validation and examinations remain with your school and with FEDE. We agree deliverables and assessment together before departure.",
       },
       {
         question: "Which pathways does it cover?",
         answer:
-          "The module is shared across FEDE European degrees. The week is shaped for Foundation Degree, Bachelor and Master’s groups, according to the level of the students.",
+          "The module is shared across FEDE European degrees. The week is shaped for Foundation Degree, European Bachelor’s and European Master’s groups, according to the level of the students.",
       },
       {
         question: "How large is the group?",
@@ -687,7 +658,7 @@ const en: CitizenshipCopy = {
       },
       {
         question: "Is the European Court of Human Rights on the programme?",
-        answer: "The visit is offered subject to availability. Like the other institutional visits, it requires a reservation.",
+        answer: "Yes. The visit is on the programme, like the other institutional visits, and it requires a reservation.",
       },
       {
         question: "Which documents are required?",
@@ -706,7 +677,7 @@ const en: CitizenshipCopy = {
   teaser: {
     eyebrow: "European citizenship · Strasbourg",
     title: "The European citizenship module, lived in Strasbourg.",
-    text: `For FEDE network schools: one week with the European institutions, and ${hoursEn} of classes and workshops aligned with the European Culture and Citizenship module. Quote based on group size.`,
+    text: "For FEDE network schools: one week with the European institutions, with classes and workshops aligned with the European Culture and Citizenship module. Quote based on group size.",
     cta: "Discover the week",
   },
 };

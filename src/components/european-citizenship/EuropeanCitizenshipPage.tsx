@@ -62,18 +62,22 @@ export default function EuropeanCitizenshipPage({ locale }: { locale: Citizenshi
       <section className={styles.section} aria-labelledby="why-title">
         <div className={styles.wrap}>
           <p className={`section-label ${styles.label}`}>{copy.why.eyebrow}</p>
-          <h2 id="why-title" className={styles.h2}>{copy.why.title}</h2>
+          <h2 id="why-title" className={styles.h2}>
+            <VisitsHeading title={copy.why.title} note={copy.why.availabilityNote} />
+          </h2>
           <p className={styles.lead}>{copy.why.lead}</p>
           <div className={styles.placeGrid}>
             {copy.why.places.map((place) => (
               <article key={place.title} className={styles.card}>
-                {place.meta ? <p className={styles.badge}>{place.meta}</p> : null}
                 <h3>{place.title}</h3>
                 <p>{place.text}</p>
               </article>
             ))}
           </div>
-          <p className={styles.footnote}>{copy.why.footnote}</p>
+          <p id="visits-availability" className={styles.visitsNote}>
+            <span aria-hidden="true">* </span>
+            {copy.why.availabilityNote}
+          </p>
         </div>
       </section>
 
@@ -250,6 +254,25 @@ export default function EuropeanCitizenshipPage({ locale }: { locale: Citizenshi
         </div>
       </section>
     </article>
+  );
+}
+
+function VisitsHeading({ title, note }: { title: string; note: string }) {
+  const splitAt = title.lastIndexOf(" ");
+  const lead = splitAt === -1 ? "" : title.slice(0, splitAt + 1);
+  const tail = splitAt === -1 ? title : title.slice(splitAt + 1);
+
+  return (
+    <>
+      {lead}
+      <span className={styles.keep}>
+        {tail}
+        <a className={styles.visitsMark} href="#visits-availability">
+          <span aria-hidden="true">*</span>
+          <span className={styles.srOnly}>{note}</span>
+        </a>
+      </span>
+    </>
   );
 }
 
