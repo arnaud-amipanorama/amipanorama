@@ -5,9 +5,10 @@ import { LEAD_STATUSES, type Lead, type LeadStatus } from "./lead";
 /**
  * Journal des leads commerciaux.
  * - Fichier local si LEAD_LOCAL_STORE est défini (essais, tests, admin local).
- * - Table Supabase `commercial_leads` uniquement si LEADS_DB_WRITE=1,
- *   après application manuelle de la migration. Jamais activé par défaut,
- *   pour ne rien écrire en production tant que la table n'est pas validée.
+ * - Table Supabase `commercial_leads` (migration 20261102160000, déjà appliquée)
+ *   uniquement si LEADS_DB_READ ou LEADS_DB_WRITE vaut 1. Les drapeaux restent
+ *   éteints tant que la service role n’est pas posée sur Vercel. Ne pas relancer
+ *   la migration.
  * Les e-mails, Notion et le webhook restent gérés par la route /api/lead.
  */
 

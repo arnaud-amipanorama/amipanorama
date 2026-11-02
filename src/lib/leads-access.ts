@@ -50,9 +50,11 @@ type StaffRow = { email?: string; is_active?: boolean; user_roles?: { role?: str
 
 /**
  * Vérifie le rôle commercial côté serveur.
- * En production : lecture de public.users + user_roles avec la service role.
- * En développement seulement, LEADS_DEV_ADMIN=1 autorise les e-mails de LEADS_DEV_EMAILS,
- * pour essayer l’admin sans écrire dans Supabase.
+ * Aucune session Supabase Auth : l’e-mail saisi est comparé à public.users.email,
+ * puis aux rôles de public.user_roles, via la service role (le Data API public
+ * n’a aucun droit). Le hint de clé étrangère est obligatoire : user_roles
+ * pointe deux fois vers users (user_id et created_by).
+ * L’essai local (LEADS_DEV_ADMIN + LEAD_LOCAL_STORE) ne doit pas être activé sur Vercel.
  */
 export async function commercialRoleFor(email: string): Promise<string | null> {
   const normalized = email.trim().toLowerCase();
@@ -71,7 +73,7 @@ export async function commercialRoleFor(email: string): Promise<string | null> {
   if (!key) return null;
   const url = (process.env.SUPABASE_URL || "https://zknulgrqwdnwsqmmqdvt.supabase.co").replace(/\/$/, "");
   const response = await fetch(
-    `${url}/rest/v1/users?select=email,is_active,user_roles(role)&email=eq.${encodeURIComponent(normalized)}&limit=1`,
+    `${url}/rest/v1/users?select=email,is_active,user_roles!user_roles_user_id_fkey(role)&email=eq.${encodeURIComponent(normalized)}&limit=1`,
     { headers: { apikey: key, Authorization: `Bearer ${key}` }, cache: "no-store" },
   );
   if (!response.ok) return null;
