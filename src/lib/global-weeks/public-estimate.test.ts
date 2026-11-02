@@ -38,7 +38,7 @@ describe("simulateur public", () => {
     expect(estimate.text).toContain("financement mobilité");
     expect(estimate.text).toContain("449");
     expect(estimate.text).not.toContain("450");
-    expect(fundingExamplePhrase()).toBe("environ 450 € pour Montréal, hébergement avec petits-déjeuners");
+    expect(fundingExamplePhrase()).toBe("environ 450 € pour Montréal, logement et petits-déjeuners");
   });
 
   it("ne présente pas une aide OPCO comme acquise pour un étudiant", () => {

@@ -3,18 +3,22 @@
 import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
+import JourneyProgress from "@/components/JourneyProgress";
 import {
+  FLEXIBLE_SESSION,
+  FUNDING_PROMISE,
   fundingExamplePhrase,
-  globalWeeksAvailability,
   globalWeeksConsentText,
   globalWeeksEditions,
   globalWeeksFaq,
   globalWeeksFunding,
+  globalWeeksSessions,
+  sessionLabel,
+  sessionsForCity,
 } from "@/data/globalWeeks";
-import { PUBLIC_SIMULATOR_PATH } from "@/lib/global-weeks/public-path";
+import { readAttribution } from "@/lib/attribution";
+import { GROUP_SIMULATOR_REQUEST_PATH, PUBLIC_SIMULATOR_PATH } from "@/lib/global-weeks/public-path";
 import styles from "./global-weeks.module.css";
-
-type Availability = "yes" | "maybe" | "no" | "";
 
 type FormState = {
   alternance: string;
@@ -24,7 +28,7 @@ type FormState = {
   opcoKnown: string;
   opco: string;
   destination: string;
-  availabilities: Record<string, Availability>;
+  session: string;
   agreement: string;
   prenom: string;
   nom: string;
@@ -46,7 +50,7 @@ const initialForm: FormState = {
   opcoKnown: "",
   opco: "",
   destination: "",
-  availabilities: Object.fromEntries(globalWeeksAvailability.map((item) => [item.id, ""])),
+  session: "",
   agreement: "",
   prenom: "",
   nom: "",
@@ -142,9 +146,6 @@ export default function GlobalWeeksExperience() {
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((current) => ({ ...current, [key]: value }));
 
-  const updateAvailability = (id: string, value: Availability) =>
-    setForm((current) => ({ ...current, availabilities: { ...current.availabilities, [id]: value } }));
-
   const scrollToEligibility = () => {
     document.getElementById("eligibilite")?.scrollIntoView({ behavior: "smooth", block: "start" });
     track("cta_eligibility_click");
@@ -155,8 +156,8 @@ export default function GlobalWeeksExperience() {
     if (value === 2) return Boolean(
       form.opcoKnown &&
       form.destination &&
+      form.session &&
       form.agreement &&
-      Object.values(form.availabilities).some(Boolean) &&
       (form.opcoKnown !== "Oui" || form.opco),
     );
     return Boolean(form.prenom && form.nom && form.email && form.school && form.employer && form.consent);
@@ -181,9 +182,6 @@ export default function GlobalWeeksExperience() {
     setError("");
     setSubmitting(true);
     try {
-      const availability = globalWeeksAvailability
-        .map((item) => `${item.label} : ${form.availabilities[item.id] || "non renseigné"}`)
-        .join(" · ");
       const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -193,14 +191,19 @@ export default function GlobalWeeksExperience() {
           email: form.email,
           telephone: form.telephone,
           etablissement: form.school,
+          role: "alternant",
           profil: "Alternant",
-          objet: "Demande de programme",
+          objet: "Global Weeks",
+          opco: form.opco,
+          entreprise: form.employer,
+          statutAlternant: form.alternance,
           destination: form.destination,
+          session: sessionLabel(form.session),
           message: [
-            "GLOBAL WEEKS, manifestation d’intérêt (pas une inscription définitive).",
+            "GLOBAL WEEKS, manifestation d’intérêt.",
             `Alternance : ${form.alternance}; niveau : ${form.niveau}; mobilité collective cette année : ${form.classeMobility}; mobilité précédente : ${form.previousMobility}.`,
             `OPCO connu : ${form.opcoKnown}; OPCO : ${form.opco || "non renseigné"}.`,
-            `Disponibilités : ${availability}.`,
+            `Session souhaitée : ${sessionLabel(form.session)}.`,
             `Accord dossier CFA/employeur : ${form.agreement}.`,
             `Ville : ${form.city || "non renseignée"}; employeur : ${form.employer}; référent mobilité : ${form.mobilityContact || "non renseigné"}.`,
           ].join("\n"),
@@ -208,7 +211,8 @@ export default function GlobalWeeksExperience() {
           company: form.company,
           page: "/global-weeks",
           date: new Date().toISOString(),
-          source: "formulaire contact",
+          source: "questionnaire global weeks",
+          ...readAttribution(),
         }),
       });
       if (!response.ok) throw new Error("submit");
@@ -244,7 +248,7 @@ export default function GlobalWeeksExperience() {
             <div className={`${styles.eyebrow} ${styles.eyebrowLight}`}>Global Weeks by AMI Panorama</div>
             <p className={styles.fundingBadge}>{globalWeeksFunding.badge}</p>
             <h1 id="global-weeks-title">Ton école ne propose pas de mobilité internationale&nbsp;? <em>Pars quand même.</em></h1>
-            <p className={styles.heroLead}><strong>Dans la majorité des cas, ton séjour est financé.</strong> Rejoins une semaine avec d’autres alternants. Il peut rester un reste à charge, par exemple {fundingExamplePhrase()}. AMI monte le dossier avec toi.</p>
+            <p className={styles.heroLead}><strong>{FUNDING_PROMISE}</strong> Tu choisis une session, tu réponds à un court questionnaire, et AMI monte le dossier avec toi, ton CFA et ton employeur. Il peut rester un reste à charge, par exemple {fundingExamplePhrase()}.</p>
             <div className={styles.heroActions}>
               <button type="button" className="btn-primary" onClick={scrollToEligibility}>Vérifier mon éligibilité <ArrowIcon /></button>
               <a className="btn-ghost-light" href="#financement">Comprendre le financement <ArrowIcon /></a>
@@ -256,10 +260,12 @@ export default function GlobalWeeksExperience() {
 
       <nav className={styles.subnav} aria-label="Navigation Global Weeks">
         <div className={styles.subnavInner}>
-          <a href="#financement">Financement</a><a href="#experience">L’expérience</a><a href="#editions">Destinations</a><a href="#comment-ca-marche">Comment ça marche</a><a href="#dossier">Ton dossier</a><a href={PUBLIC_SIMULATOR_PATH}>Simulateur</a><a href="#faq">FAQ</a>
+          <a href="#sessions">Sessions</a><a href="#financement">Financement</a><a href="#comment-ca-marche">Les étapes</a><a href="#editions">Destinations</a><a href="#referents">Référents</a><a href={PUBLIC_SIMULATOR_PATH}>Simulateur</a><a href="#faq">FAQ</a>
           <button type="button" onClick={scrollToEligibility}>Vérifier mon éligibilité <ArrowIcon /></button>
         </div>
       </nav>
+
+      <SessionStrip onChoose={(city) => { update("destination", city); scrollToEligibility(); }} />
 
       <FundingSection onEligibility={scrollToEligibility} />
 
@@ -303,8 +309,8 @@ export default function GlobalWeeksExperience() {
       <section id="editions" className={styles.editions}>
         <div className={styles.wrap}>
           <div className={styles.sectionSplit}>
-            <div><div className="section-label">Les éditions à venir</div><h2>Où est-ce que <em>tu te projettes&nbsp;?</em></h2></div>
-            <p>Les premières Global Weeks seront ouvertes progressivement. Dis-nous quelle destination te donne le plus envie : cela nous aide à construire les prochaines cohortes.</p>
+            <div><div className="section-label">Les éditions 2027</div><h2>Où est-ce que <em>tu te projettes&nbsp;?</em></h2></div>
+            <p>Séville, Montréal et Londres ont des dates. Tu choisis celle qui te va, puis on prépare le dossier ensemble. New York reste en liste d’intérêt.</p>
           </div>
           <div className={styles.editionGrid}>
             {globalWeeksEditions.map((edition) => (
@@ -312,27 +318,27 @@ export default function GlobalWeeksExperience() {
                 <Image src={edition.image} alt={`Des étudiants AMI Panorama à ${edition.city}`} fill sizes="(max-width: 640px) 82vw, (max-width: 1000px) 42vw, 25vw" />
                 <div className={styles.editionShade} />
                 <div className={styles.editionStatus}>{edition.status}</div>
-                <div className={styles.editionContent}><span>{edition.flag} {edition.country}</span><h3>{edition.city}</h3><p>{edition.angle}</p><button type="button" onClick={() => { update("destination", edition.city); scrollToEligibility(); }}>Je suis intéressé(e) <ArrowIcon /></button></div>
+                <div className={styles.editionContent}><span>{edition.flag} {edition.country}</span><h3>{edition.city}</h3><p>{edition.angle}</p><p className={styles.editionDates}>{sessionsForCity(edition.city).map((session) => session.label).join(" · ") || "Dates à venir"}</p><button type="button" onClick={() => { update("destination", edition.city); scrollToEligibility(); }}>Je suis intéressé(e) <ArrowIcon /></button></div>
               </article>
             ))}
           </div>
-          <p className={styles.editionNote}>Les dates, les places et le transport sont précisés quand une édition ouvre.</p>
+          <p className={styles.editionNote}>Année 2027, d’après l’annonce du 28 octobre. La place se confirme quand le groupe est maintenu et que le dossier est prêt. Le transport est précisé avec l’édition.</p>
         </div>
       </section>
 
       <section id="comment-ca-marche" className={styles.how}>
         <div className={styles.wrap}>
-          <div className={styles.sectionIntro}><div className="section-label">Comment ça marche</div><h2>Simple devant. <em>Rigoureux derrière.</em></h2><p>Tu n’as pas besoin de maîtriser toute l’administration avant de te lancer. Tu as simplement besoin de savoir ce qui se passe ensuite.</p></div>
+          <div className={styles.sectionIntro}><div className="section-label">Comment ça marche</div><h2>Trois choses à faire. <em>On s’occupe du reste.</em></h2><p>Pas de parcours lourd. Tu dis où tu veux partir, tu parles à ton CFA et à ton employeur, et AMI prépare les documents avec toi.</p></div>
           <ol className={styles.steps}>
             {[
-              "Tu choisis l’édition qui t’intéresse",
-              "Tu réponds au questionnaire d’éligibilité",
-              "Tu reçois ton kit à envoyer à ton référent mobilité",
-              "Ton CFA et ton employeur avancent le dossier avec toi",
+              "Tu choisis une session : Séville, Montréal ou Londres",
+              "Tu réponds au questionnaire, en quelques minutes",
+              "Tu transmets le kit à ton référent mobilité",
+              "Ton CFA et ton employeur avancent le dossier avec AMI",
               "Ta place est confirmée, puis tu pars avec ta cohorte",
             ].map((text, index) => <li key={text}><span>0{index + 1}</span><p>{text}</p></li>)}
           </ol>
-          <div className={styles.howNote}><Icon name="shield" /><p><strong>À retenir :</strong> remplir le questionnaire prépare ton dossier. La place se confirme quand le groupe est maintenu. Dans la majorité des cas, ton séjour est financé. AMI monte le dossier avec toi.</p></div>
+          <div className={styles.howNote}><Icon name="shield" /><p><strong>À retenir :</strong> {FUNDING_PROMISE} Remplir le questionnaire prépare ton dossier. La place se confirme quand le groupe est maintenu. AMI monte le dossier avec toi.</p></div>
         </div>
       </section>
 
@@ -340,10 +346,12 @@ export default function GlobalWeeksExperience() {
         <div className={styles.wrap}>
           <div className={styles.dossierGrid}>
             <div className={styles.dossierCopy}><div className={styles.eyebrow}>Le dossier, sans le stress</div><h2>On te guide. Tu ne dois pas tout <em>comprendre seul.</em></h2><p>Une Global Week se prépare avec ton CFA, ton employeur et les bons documents. AMI rend le parcours clair, étape par étape, y compris pour le financement.</p><ul>{["Une convention de mobilité qui cadre le séjour", "Une charte d’engagement étudiant", "Le dossier avancé avec le CFA et l’employeur", "Un séjour financé dans la majorité des cas, avec parfois un reste à charge", "Les formalités de voyage selon la destination"].map((item) => <li key={item}><CheckIcon />{item}</li>)}</ul></div>
-            <aside className={styles.dossierPanel}><div className={styles.dossierPanelIcon}><Icon name="route" /></div><h3>Le rôle d’AMI</h3><p>Nous fournissons un parcours clair, préparons un kit pour ton référent, centralisons les informations utiles et t’accompagnons avant le départ.</p><div className={styles.transparent}><strong>Bon à savoir</strong><p>Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple {fundingExamplePhrase()}. AMI monte le dossier avec toi.</p></div></aside>
+            <aside className={styles.dossierPanel}><div className={styles.dossierPanelIcon}><Icon name="route" /></div><h3>Le rôle d’AMI</h3><p>Nous fournissons un parcours clair, préparons un kit pour ton référent, centralisons les informations utiles et t’accompagnons avant le départ.</p><div className={styles.transparent}><strong>Bon à savoir</strong><p>{FUNDING_PROMISE} Il peut rester un reste à charge, par exemple {fundingExamplePhrase()}. AMI monte le dossier avec toi.</p></div></aside>
           </div>
         </div>
       </section>
+
+      <ReferentBlock />
 
       <section className={styles.referrer}>
         <div className={styles.wrap}><div className={styles.referrerGrid}><div><div className={styles.eyebrow}>Pour ton référent mobilité</div><h2>Tu n’as pas besoin de le convaincre <em>tout seul.</em></h2><p>Une demande structurée, un contexte clair et un interlocuteur AMI : le kit référent est pensé pour faciliter la discussion, pas pour la lui déléguer.</p><div className={styles.kitActions}><button className="btn-ghost-light" type="button" onClick={() => { setKitOpen(true); track("kit_referrer_open"); }}>Voir les téléchargements <ArrowIcon /></button><Link className="btn-ghost-light" href={PUBLIC_SIMULATOR_PATH}>Estimer mon séjour <ArrowIcon /></Link></div></div><div className={styles.kitPreview}><span>GLOBAL WEEKS</span><h3>Kit référent mobilité</h3><ul><li><CheckIcon />Résumé du séjour et objectifs pédagogiques</li><li><CheckIcon />Rôle attendu de l’établissement</li><li><CheckIcon />Contacts AMI et check-list de documents</li><li><CheckIcon />Lien vers le simulateur public</li></ul><KitDownloads /></div></div></div>
@@ -355,12 +363,12 @@ export default function GlobalWeeksExperience() {
 
       <section id="eligibilite" className={styles.questionnaire} aria-labelledby="eligibility-title">
         <div className={styles.wrap}><div className={styles.questionnaireShell}>
-          <div className={styles.questionnaireIntro}><div className={styles.eyebrow}>Candidature / manifestation d’intérêt</div><h2 id="eligibility-title">Vérifier mon <em>éligibilité.</em></h2><p>Ce questionnaire ne t’inscrit pas à une Global Week. Il nous aide à comprendre ton projet. Dans la majorité des cas, le séjour est financé, et AMI monte le dossier avec toi.</p><div className={styles.progress}><span style={{ width: `${completed ? 100 : (step / 3) * 100}%` }} /></div><p className={styles.progressLabel}>{completed ? "Demande transmise" : `Étape ${step} sur 3`}</p></div>
+          <div className={styles.questionnaireIntro}><div className={styles.eyebrow}>Candidature / manifestation d’intérêt</div><h2 id="eligibility-title">Vérifier mon <em>éligibilité.</em></h2><p>Trois étapes, quelques minutes. {FUNDING_PROMISE} AMI monte le dossier avec toi.</p><JourneyProgress step={step} total={3} done={completed} /><div className={styles.progress} role="progressbar" aria-valuemin={1} aria-valuemax={3} aria-valuenow={completed ? 3 : step} aria-valuetext={completed ? "Demande transmise" : `Étape ${step} sur 3`}><span style={{ width: `${completed ? 100 : (step / 3) * 100}%` }} /></div><p className={styles.progressLabel}>{completed ? "Arrivée : demande transmise" : `Étape ${step} sur 3`}</p></div>
           <div className={styles.questionnaireBody}>
             {completed ? <Outcome outcome={outcome} form={form} onKit={() => setKitOpen(true)} /> : (
               <form onSubmit={submit} noValidate>
                 {step === 1 && <StepOne form={form} update={update} />}
-                {step === 2 && <StepTwo form={form} update={update} updateAvailability={updateAvailability} />}
+                {step === 2 && <StepTwo form={form} update={update} />}
                 {step === 3 && <StepThree form={form} update={update} />}
                 {error && <p className={styles.formError} role="alert">{error}</p>}
                 <div className={styles.formActions}>{step > 1 && <button type="button" className={styles.backButton} onClick={() => { setError(""); setStep((current) => current - 1); }}>Retour</button>}{step < 3 ? <button type="button" className="btn-primary" onClick={nextStep}>Continuer <ArrowIcon /></button> : <button type="submit" className="btn-primary" disabled={submitting}>{submitting ? "Envoi en cours…" : "Voir la suite de mon projet"} {!submitting && <ArrowIcon />}</button>}</div>
@@ -374,12 +382,69 @@ export default function GlobalWeeksExperience() {
         <div className={styles.wrap}><div className={styles.sectionSplit}><div><div className="section-label">Les questions qu’on se pose</div><h2>Tout comprendre, <em>sans jargon.</em></h2></div><p>Une réponse manque ? Tu peux démarrer le questionnaire sans avoir tout résolu : c’est justement fait pour t’orienter.</p></div><div className={styles.faqList}>{globalWeeksFaq.map((item, index) => <article className={styles.faqItem} key={item.question}><button type="button" aria-expanded={openFaq === index} onClick={() => setOpenFaq((current) => current === index ? null : index)}><span>{item.question}</span><i>{openFaq === index ? "−" : "+"}</i></button>{openFaq === index && <p>{item.answer}</p>}</article>)}</div></div>
       </section>
 
-      <section className={styles.finalCta}><div className={styles.wrap}><div><div className={styles.eyebrow}>Global Weeks by AMI Panorama</div><h2>Ton projet international peut <em>commencer aujourd’hui.</em></h2><p>Tu n’as pas besoin d’avoir toutes les réponses. Dis-nous où tu aimerais partir : AMI monte le dossier avec toi. Dans la majorité des cas, le séjour est financé.</p><div className={styles.finalActions}><button type="button" className="btn-primary" onClick={scrollToEligibility}>Vérifier mon éligibilité <ArrowIcon /></button><button type="button" className="btn-ghost-light" onClick={() => setKitOpen(true)}>Parler de Global Weeks à mon référent <ArrowIcon /></button></div></div></div></section>
+      <section className={styles.finalCta}><div className={styles.wrap}><div><div className={styles.eyebrow}>Global Weeks by AMI Panorama</div><h2>Ton projet international peut <em>commencer aujourd’hui.</em></h2><p>Tu n’as pas besoin d’avoir toutes les réponses. Dis-nous où tu aimerais partir : AMI monte le dossier avec toi. {FUNDING_PROMISE}</p><div className={styles.finalActions}><button type="button" className="btn-primary" onClick={scrollToEligibility}>Vérifier mon éligibilité <ArrowIcon /></button><button type="button" className="btn-ghost-light" onClick={() => setKitOpen(true)}>Parler de Global Weeks à mon référent <ArrowIcon /></button></div></div></div></section>
 
-      <button className={styles.mobileSticky} type="button" onClick={scrollToEligibility}><span>Vérifier mon éligibilité</span><small>le séjour est financé dans la majorité des cas</small></button>
+      <button className={styles.mobileSticky} type="button" onClick={scrollToEligibility}><span>Vérifier mon éligibilité</span><small>ton voyage sera financé dans la majorité des cas</small></button>
 
       {kitOpen && <div className={styles.modalBackdrop} role="presentation" onMouseDown={() => setKitOpen(false)}><section className={styles.modal} role="dialog" aria-modal="true" aria-labelledby="kit-title" onMouseDown={(event) => event.stopPropagation()}><button className={styles.modalClose} type="button" aria-label="Fermer" onClick={() => setKitOpen(false)}>×</button><div className={styles.eyebrow}>Kit référent mobilité</div><h2 id="kit-title">Un dossier conçu pour <em>faire gagner du temps.</em></h2><p>Le PDF et le flyer sont prêts à transmettre. Après l’envoi du formulaire, le PDF reprend le prénom et le nom saisis. Le PowerPoint s’ajoute dès qu’il est en ligne.</p><KitDownloads personal={completed ? form : null} /><button type="button" className="btn-primary" onClick={() => { setKitOpen(false); scrollToEligibility(); }}>Commencer par mon projet <ArrowIcon /></button></section></div>}
     </div>
+  );
+}
+
+function SessionStrip({ onChoose }: { onChoose: (city: string) => void }) {
+  return (
+    <section id="sessions" className={styles.sessions} aria-labelledby="sessions-title">
+      <div className={styles.wrap}>
+        <div className={styles.sectionIntro}>
+          <div className="section-label">Les prochaines sessions</div>
+          <h2 id="sessions-title">Cinq départs, <em>déjà datés.</em></h2>
+          <p>Tu repères une semaine, tu remplis le questionnaire, et on construit le dossier. {FUNDING_PROMISE}</p>
+        </div>
+        <div className={styles.sessionGrid}>
+          {globalWeeksSessions.map((session) => (
+            <button type="button" className={styles.sessionCard} key={session.id} onClick={() => onChoose(session.city)}>
+              <span>{session.city}</span>
+              <strong>{session.label}</strong>
+              <small>2027 · {session.days} jours</small>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ReferentBlock() {
+  return (
+    <section id="referents" className={styles.referents} aria-labelledby="referents-title">
+      <div className={styles.wrap}>
+        <div className={styles.sectionIntro}>
+          <div className={styles.eyebrow}>Référents mobilité</div>
+          <h2 id="referents-title">Une solution <em>clé en main.</em></h2>
+          <p>Deux façons d’emmener vos alternants à l’international. AMI prépare le programme, la logistique et le dossier. Vous restez le référent de vos étudiants.</p>
+        </div>
+        <div className={styles.referentOptions}>
+          <article>
+            <span>Option 1</span>
+            <h3>Un séjour dédié pour tout le groupe</h3>
+            <p>Votre promotion part ensemble, avec un programme construit pour votre établissement. Le simulateur de groupe estime le montage, après une demande d’accès.</p>
+            <div className={styles.referentActions}>
+              <Link className="btn-primary" href={GROUP_SIMULATOR_REQUEST_PATH}>Demander l’accès au simulateur de groupe <ArrowIcon /></Link>
+              <Link className={styles.referentLink} href="/contact?objet=Partenariat%20%C3%A9cole%20%2F%20CFA">Contacter l’équipe</Link>
+            </div>
+          </article>
+          <article>
+            <span>Option 2</span>
+            <h3>Orienter chaque alternant vers les Global Weeks</h3>
+            <p>Quand l’établissement n’organise pas de voyage de promo, l’alternant rejoint une cohorte. {FUNDING_PROMISE} Le simulateur individuel est ouvert, sans demande d’accès.</p>
+            <div className={styles.referentActions}>
+              <Link className="btn-primary" href={PUBLIC_SIMULATOR_PATH}>Ouvrir le simulateur individuel <ArrowIcon /></Link>
+              <Link className={styles.referentLink} href="#sessions">Voir les sessions</Link>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -392,7 +457,7 @@ function FundingSection({ onEligibility }: { onEligibility: () => void }) {
         <div className={styles.sectionIntro}>
           <div className="section-label">Le financement</div>
           <h2 id="financement-title">Comment ton séjour <em>est financé.</em></h2>
-          <p>Tu n’as pas à maîtriser les aides avant de te lancer. Dans la majorité des cas, ton séjour est financé. AMI monte le dossier avec toi.</p>
+          <p>Tu n’as pas à maîtriser les aides avant de te lancer. {FUNDING_PROMISE} AMI monte le dossier avec toi.</p>
         </div>
         <ol className={styles.fundingSteps}>
           {globalWeeksFunding.steps.map((step, index) => (
@@ -435,8 +500,11 @@ function StepOne({ form, update }: { form: FormState; update: <K extends keyof F
   return <div className={styles.formStep}><div className={styles.stepTitle}><span>01</span><div><h3>Ton contexte</h3><p>Quelques repères pour comprendre où en est ton projet.</p></div></div><fieldset><legend>Es-tu actuellement en alternance ?</legend><div className={styles.choiceGrid}>{["Oui", "Non", "Je ne sais pas"].map((value) => <Choice key={value} label={value} checked={form.alternance === value} onChange={() => update("alternance", value)} />)}</div></fieldset><fieldset><legend>Quel est ton niveau de formation ?</legend><div className={styles.choiceGrid}>{["Bac +1", "Bac +2 / BTS", "Bachelor", "Master", "Autre"].map((value) => <Choice key={value} label={value} checked={form.niveau === value} onChange={() => update("niveau", value)} />)}</div></fieldset><fieldset><legend>Ton école ou ton CFA organise-t-il déjà une mobilité internationale pour ta classe cette année ?</legend><div className={styles.choiceGrid}>{["Oui", "Non", "Je ne sais pas"].map((value) => <Choice key={value} label={value} checked={form.classeMobility === value} onChange={() => update("classeMobility", value)} />)}</div></fieldset><fieldset><legend>As-tu déjà bénéficié d’une mobilité internationale dans ton parcours ?</legend><div className={styles.choiceGrid}>{["Oui", "Non", "Je ne sais pas"].map((value) => <Choice key={value} label={value} checked={form.previousMobility === value} onChange={() => update("previousMobility", value)} />)}</div></fieldset></div>;
 }
 
-function StepTwo({ form, update, updateAvailability }: { form: FormState; update: <K extends keyof FormState>(key: K, value: FormState[K]) => void; updateAvailability: (id: string, value: Availability) => void }) {
-  return <div className={styles.formStep}><div className={styles.stepTitle}><span>02</span><div><h3>Ton envie de départ</h3><p>Tu nous donnes une préférence, jamais une réservation.</p></div></div><fieldset><legend>Connais-tu ton OPCO ?</legend><div className={styles.choiceGrid}>{["Oui", "Non", "Je ne sais pas"].map((value) => <Choice key={value} label={value} checked={form.opcoKnown === value} onChange={() => update("opcoKnown", value)} />)}</div>{form.opcoKnown && <label className={styles.fieldLabel}>Quel OPCO est lié à ton employeur ?<select value={form.opco} onChange={(event) => update("opco", event.target.value)}><option value="">Sélectionne une réponse</option>{opcos.map((opco) => <option key={opco}>{opco}</option>)}</select><small>L’OPCO est généralement lié à l’employeur. Tu peux demander à tes RH, ton manager ou ton référent mobilité.</small></label>}</fieldset><fieldset><legend>Quelle destination t’intéresse le plus ?</legend><div className={styles.choiceGrid}>{[...globalWeeksEditions.map((item) => item.city), "Je suis ouvert(e)"].map((value) => <Choice key={value} label={value} checked={form.destination === value} onChange={() => update("destination", value)} />)}</div></fieldset><fieldset><legend>Quelle période te conviendrait ?</legend><p className={styles.fieldHelp}>Indique ce qui t’arrange. Les dates exactes sont précisées quand une édition ouvre.</p><div className={styles.availabilityList}>{globalWeeksAvailability.map((item) => <div key={item.id} className={styles.availabilityRow}><div><strong>{item.label}</strong><span>{item.detail}</span></div><div>{([ ["yes", "Oui"], ["maybe", "Possible"], ["no", "Impossible"] ] as const).map(([value, label]) => <button type="button" key={value} className={form.availabilities[item.id] === value ? styles.availabilityActive : ""} aria-pressed={form.availabilities[item.id] === value} onClick={() => updateAvailability(item.id, value)}>{label}</button>)}</div></div>)}</div></fieldset><fieldset><legend>Es-tu d’accord pour suivre un dossier avec ton CFA et ton employeur ?</legend><div className={styles.choiceStack}><Choice label="Oui, je veux avancer : AMI monte le dossier avec moi." checked={form.agreement === "yes"} onChange={() => update("agreement", "yes")} /><Choice label="Je préfère en savoir plus." checked={form.agreement === "more"} onChange={() => update("agreement", "more")} /></div></fieldset></div>;
+function StepTwo({ form, update }: { form: FormState; update: <K extends keyof FormState>(key: K, value: FormState[K]) => void }) {
+  const sessions = form.destination && form.destination !== "Je suis ouvert(e)"
+    ? sessionsForCity(form.destination)
+    : [...globalWeeksSessions];
+  return <div className={styles.formStep}><div className={styles.stepTitle}><span>02</span><div><h3>Ton envie de départ</h3><p>Une préférence de session, pour préparer le dossier.</p></div></div><fieldset><legend>Connais-tu ton OPCO ?</legend><div className={styles.choiceGrid}>{["Oui", "Non", "Je ne sais pas"].map((value) => <Choice key={value} label={value} checked={form.opcoKnown === value} onChange={() => update("opcoKnown", value)} />)}</div>{form.opcoKnown && <label className={styles.fieldLabel}>Quel OPCO est lié à ton employeur ?<select value={form.opco} onChange={(event) => update("opco", event.target.value)}><option value="">Sélectionne une réponse</option>{opcos.map((opco) => <option key={opco}>{opco}</option>)}</select><small>L’OPCO est généralement lié à l’employeur, d’après nos infos. Tu peux demander à tes RH, ton manager ou ton référent mobilité.</small></label>}</fieldset><fieldset><legend>Quelle destination t’intéresse le plus ?</legend><div className={styles.choiceGrid}>{[...globalWeeksEditions.map((item) => item.city), "Je suis ouvert(e)"].map((value) => <Choice key={value} label={value} checked={form.destination === value} onChange={() => { update("destination", value); update("session", ""); }} />)}</div></fieldset><fieldset><legend>Quelle session te conviendrait ?</legend><p className={styles.fieldHelp}>Les dates publiques de 2027. Tu peux aussi rester flexible.</p><div className={styles.choiceStack}>{sessions.map((session) => <Choice key={session.id} label={`${session.city}, ${session.label}`} checked={form.session === session.id} onChange={() => update("session", session.id)} />)}<Choice label={FLEXIBLE_SESSION.label} checked={form.session === FLEXIBLE_SESSION.id} onChange={() => update("session", FLEXIBLE_SESSION.id)} /></div></fieldset><fieldset><legend>Es-tu d’accord pour suivre un dossier avec ton CFA et ton employeur ?</legend><div className={styles.choiceStack}><Choice label="Oui, je veux avancer : AMI monte le dossier avec moi." checked={form.agreement === "yes"} onChange={() => update("agreement", "yes")} /><Choice label="Je préfère en savoir plus." checked={form.agreement === "more"} onChange={() => update("agreement", "more")} /></div></fieldset></div>;
 }
 
 function StepThree({ form, update }: { form: FormState; update: <K extends keyof FormState>(key: K, value: FormState[K]) => void }) {
@@ -446,7 +514,7 @@ function StepThree({ form, update }: { form: FormState; update: <K extends keyof
 function Outcome({ outcome, form, onKit }: { outcome: "A" | "B" | "C"; form: FormState; onKit: () => void }) {
   const name = form.prenom;
   const content = {
-    A: { title: "Ton projet peut avancer.", text: `Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI monte le dossier avec toi.` },
+    A: { title: "Ton projet peut avancer.", text: `${FUNDING_PROMISE} Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI monte le dossier avec toi.` },
     B: { title: "On prépare la suite avec ton référent.", text: "Disponibilités, mobilité déjà prévue ou parcours : AMI monte le dossier avec toi et avec ton référent mobilité." },
     C: { title: "On garde le contact pour une autre édition.", text: "Si une autre date ou un autre format s’ouvre, nous pourrons te recontacter. Le kit reste disponible pour en parler." },
   }[outcome];

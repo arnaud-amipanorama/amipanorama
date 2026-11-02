@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { parseLead } from "@/lib/lead";
+import { persistLead } from "@/lib/lead-repository";
 import { accessCookie, readAccessCookie, recordSimulatorEvent } from "@/lib/simulator-access";
 
 // Capture de simulation (V1) : trace serveur + webhook optionnel.
@@ -20,6 +22,7 @@ export async function POST(request: NextRequest) {
 
   // Trace serveur, toujours active (logs Vercel)
   console.log("[AMI Simulation]", JSON.stringify(data));
+  await recordGroupSimulatorLead(data);
 
   // Webhook optionnel dédié (Make/n8n/HubSpot…), non bloquant
   const url = process.env.SIMULATION_WEBHOOK_URL;
@@ -49,4 +52,43 @@ export async function POST(request: NextRequest) {
 
   // TODO S5 : insertion Notion (base "Simulations") + push HubSpot deal.
   return NextResponse.json({ success: true });
+}
+
+/**
+ * Le simulateur de groupe reste un outil de financement.
+ * On n’en garde ici que les coordonnées commerciales du référent,
+ * jamais les montants.
+ */
+async function recordGroupSimulatorLead(data: Record<string, unknown>): Promise<void> {
+  const source = typeof data.source === "string" ? data.source : "";
+  // Le parcours guidé envoie déjà un lead via /api/lead.
+  if (source.includes("parcours guidé")) return;
+  const meta = data.meta && typeof data.meta === "object" ? (data.meta as Record<string, unknown>) : {};
+  const email = String(meta.email ?? data.email ?? "").trim();
+  if (!email.includes("@")) return;
+  const referent = String(meta.referent ?? data.referent ?? "").trim();
+  const [prenom, ...rest] = referent.split(/\s+/);
+  const parsed = parseLead({
+    prenom: prenom || "Référent",
+    nom: rest.join(" ") || "mobilité",
+    email: meta.email ?? data.email,
+    telephone: meta.telephone ?? data.telephone,
+    etablissement: meta.etablissement ?? data.etablissement,
+    role: "referent",
+    profil: "Référent mobilité",
+    objet: "Simulation de groupe",
+    destination: meta.destination ?? data.destination,
+    session: meta.dateSouhaitee ?? data.dateSouhaitee,
+    tailleGroupe: meta.students != null ? String(meta.students) : undefined,
+    message: "Demande issue du simulateur de groupe. Les montants de financement ne sont pas copiés dans le CRM commercial.",
+    rgpd: true,
+    source: "simulateur de groupe",
+    page: "/internal/simulator",
+    date: typeof data.date === "string" ? data.date : new Date().toISOString(),
+    utmSource: data.utmSource,
+    utmMedium: data.utmMedium,
+    utmCampaign: data.utmCampaign,
+  });
+  if (!parsed.ok) return;
+  await persistLead(parsed.lead);
 }

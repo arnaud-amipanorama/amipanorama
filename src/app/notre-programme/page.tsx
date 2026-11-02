@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { fundingExamplePhrase } from "@/data/globalWeeks";
+import { FUNDING_PROMISE, fundingExamplePhrase } from "@/data/globalWeeks";
 import { citizenshipCopy, citizenshipRoutes } from "@/data/europeanCitizenship";
 
 const citizenshipTeaser = citizenshipCopy("fr").teaser;
@@ -65,7 +65,7 @@ const faqItems = [
   },
   {
     q: "Comment abordez-vous la structuration financière ?",
-    a: `Dans la majorité des cas, le séjour est financé. Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. Nous montons le dossier avec vous.`,
+    a: `${FUNDING_PROMISE} Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. Nous montons le dossier avec vous.`,
   },
   {
     q: "Les programmes sont-ils personnalisables ?",
@@ -410,12 +410,13 @@ export default function NotreProgrammePage() {
               </h2>
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 640 }}>
                 Global Weeks permet à un alternant de rejoindre une cohorte lorsque son établissement n’organise pas de départ.
-                Dans la majorité des cas, le séjour est financé. Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}.
+                {FUNDING_PROMISE} Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}.
+                Les référents choisissent un séjour de groupe ou orientent leurs alternants vers les sessions.
               </p>
             </div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link href="/global-weeks" className="btn-primary">Découvrir Global Weeks</Link>
-              <Link href="/global-weeks/simulateur" className="btn-ghost">Estimer un séjour</Link>
+              <Link href="/global-weeks#referents" className="btn-ghost">Pour les référents</Link>
             </div>
           </div>
         </div>

@@ -5,7 +5,7 @@ import AnimateOnView from "@/components/AnimateOnView";
 import HeroGallery from "./HeroGallery";
 import { HERO_PHOTOS } from "./heroConfig";
 import { testimonials } from "@/data/testimonials";
-import { fundingExamplePhrase } from "@/data/globalWeeks";
+import { FUNDING_PROMISE, fundingExamplePhrase } from "@/data/globalWeeks";
 import { citizenshipCopy, citizenshipRoutes } from "@/data/europeanCitizenship";
 import EuStars from "@/components/european-citizenship/EuStars";
 
@@ -760,27 +760,21 @@ export default function HomePage() {
           <AnimateOnView>
             <div className="gw-home">
               <div className="gw-home-copy">
-                <div className="section-label">Global Weeks · pour les alternants</div>
+                <div className="section-label">Global Weeks</div>
                 <h2 id="global-weeks-home" style={{
-                  fontSize: "clamp(28px, 4vw, 46px)", fontWeight: 700,
-                  letterSpacing: "-0.04em", lineHeight: 1.08, marginBottom: 16,
+                  fontSize: "clamp(24px, 3vw, 34px)", fontWeight: 700,
+                  letterSpacing: "-0.04em", lineHeight: 1.15, marginBottom: 12,
                 }}>
-                  Ton école ne propose pas de mobilité&nbsp;?{" "}
-                  <span className="gradient-text">Pars quand même.</span>
+                  Un départ individuel, même sans voyage de promo.
                 </h2>
-                <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 540, marginBottom: 28 }}>
-                  Rejoins une semaine avec d’autres alternants. Dans la majorité des cas, ton voyage sera financé.
-                  Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}. AMI monte le dossier avec toi.
+                <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: 560, marginBottom: 18 }}>
+                  Les Global Weeks réunissent des alternants de plusieurs écoles. {FUNDING_PROMISE} Exemple : {fundingExamplePhrase()}.
+                  {" "}<Link href="/global-weeks" style={{ color: "var(--blue)", fontWeight: 600 }}>Voir les sessions</Link>
+                  {" · "}
+                  <Link href="/global-weeks/simulateur" style={{ color: "var(--blue)", fontWeight: 600 }}>simulateur individuel</Link>
+                  {" · "}
+                  <Link href="/global-weeks#referents" style={{ color: "var(--blue)", fontWeight: 600 }}>espace référents</Link>.
                 </p>
-                <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                  <Link href="/global-weeks/simulateur" className="btn-primary">
-                    Estimer mon séjour
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </Link>
-                  <Link href="/global-weeks" className="btn-ghost">Découvrir Global Weeks</Link>
-                </div>
               </div>
               <div className="gw-home-photo">
                 <Image
@@ -873,8 +867,8 @@ export default function HomePage() {
           display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: stretch;
           background: var(--bg-1); border: 1px solid var(--border); border-radius: 20; overflow: hidden;
         }
-        .gw-home-copy { padding: 56px 48px; }
-        .gw-home-photo { position: relative; min-height: 320px; }
+        .gw-home-copy { padding: 28px 32px; }
+        .gw-home-photo { position: relative; min-height: 180px; }
         .eu-home {
           display: grid; grid-template-columns: 1.15fr 0.7fr; align-items: stretch;
           background: var(--bg-1); border: 1px solid var(--border); border-radius: 20; overflow: hidden;

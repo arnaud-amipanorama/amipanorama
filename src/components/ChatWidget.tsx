@@ -8,6 +8,7 @@ import {
   FormEvent,
   CSSProperties,
 } from "react";
+import { readAttribution } from "@/lib/attribution";
 import { crispConfigured, onCrispAvailability, openCrisp } from "@/lib/crisp";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -406,7 +407,13 @@ export default function ChatWidget() {
       rgpd: coords.rgpd,
       page: window.location.pathname,
       date: new Date().toISOString(),
+      profil: lead.profile,
+      etablissement: lead.etablissement,
+      destination: lead.destination,
+      tailleGroupe: lead.taille,
+      role: /référent|referent|cfa|école/i.test(lead.profile) ? "referent" : /alternant|apprenti/i.test(lead.profile) ? "alternant" : "autre",
       source: "chat site web",
+      ...readAttribution(),
     };
 
     try {

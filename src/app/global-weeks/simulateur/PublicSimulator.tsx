@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
-import { globalWeeksConsentText, globalWeeksEditions } from "@/data/globalWeeks";
+import { FUNDING_PROMISE, fundingExamplePhrase, globalWeeksConsentText, globalWeeksEditions, publicSessionDays, sessionsForCity } from "@/data/globalWeeks";
+import { readAttribution } from "@/lib/attribution";
 import { GROUP_SIMULATOR_REQUEST_PATH } from "@/lib/global-weeks/public-path";
 import {
   DEFAULT_PUBLIC_DURATION_DAYS,
@@ -51,6 +52,7 @@ export default function PublicSimulator() {
 
   const afterDestination = (city: string) => {
     setDestination(city);
+    setDays(publicSessionDays(city));
     go("duration");
   };
 
@@ -78,20 +80,27 @@ export default function PublicSimulator() {
           email: contact.email,
           telephone: contact.telephone,
           etablissement: contact.school,
+          role: status === "etudiant" ? "etudiant" : "alternant",
           profil: status === "etudiant" ? "Étudiant" : "Alternant",
           objet: "Simulation Global Weeks",
+          opco: estimate.opcoLabel ?? undefined,
+          entreprise: contact.employer,
+          statutAlternant: status === "alternant" ? "Oui" : undefined,
           destination,
+          session: sessionsForCity(destination).map((session) => `${session.label} ${session.year}`).join(" · ") || `${days} jours`,
           tailleGroupe: String(estimate.participants),
           message: [
             estimateSummary(estimate),
             `École / CFA : ${contact.school}`,
             `Employeur : ${contact.employer || "non renseigné"}`,
+            `Sessions publiques : ${sessionsForCity(destination).map((session) => session.label).join(", ") || "aucune date annoncée"}`,
           ].join("\n"),
           rgpd: contact.consent,
           company: contact.company,
           source: "simulateur global weeks",
           page: "/global-weeks/simulateur",
           date: new Date().toISOString(),
+          ...readAttribution(),
         }),
       });
       if (!response.ok) throw new Error("lead");
@@ -114,7 +123,7 @@ export default function PublicSimulator() {
               <h1 className={styles.title}>Mobilité individuelle ou mobilité de groupe ?</h1>
               <p className={styles.lead}>L’estimation individuelle est ouverte. La mobilité de groupe se demande, pour les référents mobilité.</p>
               <div className={styles.choices}>
-                <button type="button" className={styles.choice} onClick={() => go("who")}>Mobilité individuelle<small>Ouverte, sans demande d’accès. Dans la majorité des cas, le séjour est financé.</small></button>
+                <button type="button" className={styles.choice} onClick={() => go("who")}>Mobilité individuelle<small>Ouverte, sans demande d’accès. {FUNDING_PROMISE}</small></button>
                 <Link className={styles.choice} href={GROUP_SIMULATOR_REQUEST_PATH}>Mobilité de groupe<small>Pour les référents mobilité. Demander l’accès.</small></Link>
               </div>
             </>
@@ -135,9 +144,15 @@ export default function PublicSimulator() {
             <>
               <h1 className={styles.title}>Quelle destination t’intéresse ?</h1>
               <div className={styles.grid}>
-                {globalWeeksEditions.map((edition) => (
-                  <button type="button" key={edition.id} className={`${styles.choice}${destination === edition.city ? ` ${styles.choiceOn}` : ""}`} onClick={() => afterDestination(edition.city)}>{edition.city}<small>{edition.country}</small></button>
-                ))}
+                {globalWeeksEditions.map((edition) => {
+                  const sessions = sessionsForCity(edition.city);
+                  return (
+                    <button type="button" key={edition.id} className={`${styles.choice}${destination === edition.city ? ` ${styles.choiceOn}` : ""}`} onClick={() => afterDestination(edition.city)}>
+                      {edition.city}
+                      <small>{sessions.length ? sessions.map((session) => session.label).join(" · ") : edition.country}</small>
+                    </button>
+                  );
+                })}
               </div>
               <div className={styles.actions}><button type="button" className={styles.ghost} onClick={() => go("who")}>Retour</button></div>
             </>
@@ -146,6 +161,9 @@ export default function PublicSimulator() {
           {step === "duration" && (
             <>
               <h1 className={styles.title}>Combien de temps ?</h1>
+              {sessionsForCity(destination).length > 0 && (
+                <p className={styles.lead}>Les sessions annoncées pour {destination} durent {publicSessionDays(destination)} jours : {sessionsForCity(destination).map((session) => session.label).join(", ")}. Le calcul s’aligne sur cette durée, et tu peux la comparer.</p>
+              )}
               <div className={styles.choices}>
                 {PUBLIC_DURATION_DAYS.map((value) => (
                   <button type="button" key={value} className={`${styles.choice}${days === value ? ` ${styles.choiceOn}` : ""}`} onClick={() => setDays(value)}>{value} jours{value === 8 && <small>Le format le plus courant d’une Global Week.</small>}</button>
@@ -161,7 +179,7 @@ export default function PublicSimulator() {
           {step === "opco" && (
             <>
               <h1 className={styles.title}>Quel OPCO ?</h1>
-              <p className={styles.lead}>Si tu ne le sais pas encore, on avance avec une estimation d’après nos informations.</p>
+              <p className={styles.lead}>Si tu ne le sais pas encore, on avance avec une estimation, d’après nos infos.</p>
               <div className={styles.choices}>
                 <button type="button" className={`${styles.choice}${opcoId === null ? ` ${styles.choiceOn}` : ""}`} onClick={() => setOpcoId(null)}>Je ne le sais pas encore</button>
                 {PUBLIC_OPCOS.map((opco) => (
@@ -185,6 +203,9 @@ export default function PublicSimulator() {
                 <div><span>Reste à charge indicatif</span><b>{euro(estimate.remainderEuros)}</b></div>
               </div>
               <p className={styles.watch}>{estimate.watchNote}</p>
+              {destination === "Montréal" && days === 8 && !opcoId && status === "alternant" && (
+                <p className={styles.watch}>L’exemple public retient {fundingExamplePhrase()}. Le montant affiché ici est le calcul précis de la même estimation, {estimate.remainderEuros} €.</p>
+              )}
               {sent ? (
                 <p className={styles.success}>C’est enregistré. AMI revient vers toi pour la suite du dossier.</p>
               ) : (

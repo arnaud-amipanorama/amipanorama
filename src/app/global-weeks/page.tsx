@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { fundingExamplePhrase } from "@/data/globalWeeks";
+import { FUNDING_PROMISE, fundingExamplePhrase } from "@/data/globalWeeks";
 import GlobalWeeksExperience from "./GlobalWeeksExperience";
 
-const description = `Global Weeks by AMI Panorama : une mobilité internationale pour les alternants, même sans voyage de promo. Dans la majorité des cas, ton voyage sera financé. Un reste à charge peut s’appliquer, par exemple ${fundingExamplePhrase()}.`;
+const description = `Global Weeks by AMI Panorama : une mobilité internationale pour les alternants, même sans voyage de promo. ${FUNDING_PROMISE} Un reste à charge peut s’appliquer, par exemple ${fundingExamplePhrase()}.`;
 
 export const metadata: Metadata = {
   title: "Global Weeks, mobilité internationale pour alternants",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Global Weeks by AMI Panorama",
     description:
-      "Pars en mobilité même sans voyage de classe. Dans la majorité des cas, ton voyage sera financé. AMI monte le dossier avec toi.",
+      `Pars en mobilité même sans voyage de classe. ${FUNDING_PROMISE} AMI monte le dossier avec toi.`,
     url: "/global-weeks",
     type: "website",
     locale: "fr_FR",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Global Weeks by AMI Panorama",
     description:
-      "Pars en mobilité même sans voyage de classe. Dans la majorité des cas, ton voyage sera financé.",
+      `Pars en mobilité même sans voyage de classe. ${FUNDING_PROMISE}`,
   },
 };
 

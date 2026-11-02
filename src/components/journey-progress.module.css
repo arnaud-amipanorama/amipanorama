@@ -1,0 +1,76 @@
+.scene {
+  --p: 0;
+  margin: 28px 0 0;
+  max-width: 420px;
+}
+.svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.sky { fill: rgba(255, 255, 255, 0.06); }
+.ground { stroke: rgba(255, 255, 255, 0.28); stroke-width: 1.5; }
+.house { stroke: rgba(255, 255, 255, 0.78); stroke-width: 1.6; stroke-linejoin: round; }
+.door {
+  stroke: #7eb6ff;
+  transform-box: fill-box;
+  transform-origin: 0% 50%;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.scene[data-stage="depart"] .door,
+.scene[data-stage="flight"] .door,
+.scene[data-stage="landed"] .door {
+  transform: perspective(80px) rotateY(-62deg);
+}
+.walker {
+  stroke: #fff;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  transform: translateX(calc(78px + var(--p) * 70px));
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+}
+.pack { stroke: #7eb6ff; }
+.scene[data-stage="door"] .walker { animation: bob 1.6s ease-in-out infinite; }
+.scene[data-stage="depart"] .walker { animation: bob 0.7s ease-in-out infinite; }
+.scene[data-stage="flight"] .walker,
+.scene[data-stage="landed"] .walker { opacity: 0; }
+.plane {
+  stroke: #7eb6ff;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  fill: rgba(126, 182, 255, 0.16);
+  opacity: 0;
+  transform: translate(150px, 42px);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+.scene[data-stage="depart"] .plane { opacity: 1; transform: translate(210px, 36px); }
+.scene[data-stage="flight"] .plane { opacity: 1; transform: translate(360px, 28px); animation: cruise 2.4s ease-in-out infinite; }
+.scene[data-stage="landed"] .plane { opacity: 1; transform: translate(520px, 58px) rotate(8deg); }
+.runway { stroke: rgba(255, 255, 255, 0.35); stroke-width: 1.4; opacity: 0; transition: opacity 0.4s ease; }
+.scene[data-stage="flight"] .runway,
+.scene[data-stage="landed"] .runway { opacity: 1; }
+.touchdown {
+  stroke: #0b1829;
+  stroke-width: 1.8;
+  fill: #7eb6ff;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.scene[data-stage="landed"] .touchdown { opacity: 1; transform: none; }
+
+@keyframes bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -3px; }
+}
+@keyframes cruise {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 10px -3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .door, .walker, .plane, .runway, .touchdown { transition: none; animation: none; }
+}

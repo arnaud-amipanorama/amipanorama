@@ -58,6 +58,7 @@ export default function Footer() {
               ["Global Weeks", "/global-weeks"],
               [onEnglish ? "European citizenship" : "Citoyenneté européenne", citizenshipHref(pathname)],
               ["Simulateur", "/global-weeks/simulateur"],
+              ["Référents mobilité", "/global-weeks#referents"],
               ["Notre programme", "/notre-programme"],
               ["Destinations", "/destinations"],
               ["À propos", "/a-propos"],
