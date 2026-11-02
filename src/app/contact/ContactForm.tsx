@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { socialLinks } from "@/data/social";
 import { fundingExamplePhrase } from "@/data/globalWeeks";
+import { readAttribution } from "@/lib/attribution";
 import { contactDestinations, contactTopics } from "./options";
 
 const profiles = [
@@ -52,8 +53,10 @@ export default function ContactForm({
           email: form.email,
           telephone: form.telephone,
           etablissement: form.org,
+          role: /cfa|école|ecole|établissement|etablissement/i.test(form.profile) ? "referent" : /étudiant|etudiant|alternant/i.test(form.profile) ? "alternant" : "autre",
           profil: form.profile,
           objet: form.topic,
+          entreprise: /entreprise/i.test(form.profile) ? form.org : undefined,
           destination: form.destination,
           tailleGroupe: form.groupSize,
           message: form.message,
@@ -62,6 +65,7 @@ export default function ContactForm({
           page: typeof window !== "undefined" ? window.location.pathname : "/contact",
           date: new Date().toISOString(),
           source: "formulaire contact",
+          ...readAttribution(),
         }),
       });
       if (!res.ok) throw new Error("server");
@@ -97,6 +101,8 @@ export default function ContactForm({
             <Link href="/rendez-vous" style={{ color: "var(--blue)", fontWeight: 500 }}>Réservez un échange.</Link>
             {" "}Pour un départ individuel, même sans voyage de promo,{" "}
             <Link href="/global-weeks" style={{ color: "var(--blue)", fontWeight: 500 }}>découvrez Global Weeks</Link>.
+            {" "}Référent mobilité : séjour de groupe ou orientation vers les Global Weeks,{" "}
+            <Link href="/global-weeks#referents" style={{ color: "var(--blue)", fontWeight: 500 }}>les deux options sont ici</Link>.
           </p>
         </div>
       </section>
@@ -351,7 +357,7 @@ export default function ContactForm({
               }}>
                 <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Global Weeks</h3>
                 <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.75, marginBottom: 14 }}>
-                  Un départ individuel, même sans voyage de promo. Dans la majorité des cas, le séjour est financé.
+                  Un départ individuel, même sans voyage de promo. Dans la majorité des cas, le voyage sera financé.
                   Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}.
                 </p>
                 <Link href="/global-weeks/simulateur" style={{ color: "var(--blue)", fontWeight: 600, fontSize: 13 }}>

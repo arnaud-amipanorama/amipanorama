@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { readAttribution } from "@/lib/attribution";
 import type { GuidedOutcome } from "@/lib/simulator/guided";
 import type { SimulationData } from "../SimulationDocument";
 import { invalidContactFields, type ContactField, type GuidedContact } from "./contact";
@@ -94,8 +95,11 @@ export default function GuidedVerifyForm({ outcome, contact, onContact }: { outc
           email: contact.email,
           telephone: contact.telephone,
           etablissement: contact.etablissement,
+          role: "referent",
+          profil: "Référent mobilité",
           objet: "Vérification d’une simulation de financement",
           destination: outcome.destination.label,
+          session: contact.dateSouhaitee,
           tailleGroupe: String(outcome.participants),
           message: verificationMessage(outcome, contact),
           rgpd: true,
@@ -103,6 +107,7 @@ export default function GuidedVerifyForm({ outcome, contact, onContact }: { outc
           page: window.location.pathname,
           date: new Date().toISOString(),
           source: "simulateur guidé",
+          ...readAttribution(),
         }),
       });
       await savedPromise;

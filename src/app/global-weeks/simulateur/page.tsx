@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { FUNDING_PROMISE } from "@/data/globalWeeks";
 import PublicSimulator from "./PublicSimulator";
 
 const description =
-  "Estimation indicative d’un séjour Global Weeks, en mobilité individuelle ou de groupe. Dans la majorité des cas, le séjour est financé. D’après nos informations.";
+  `Estimation indicative d’un séjour Global Weeks, en mobilité individuelle ou de groupe. ${FUNDING_PROMISE} D’après nos infos.`;
 
 export const metadata: Metadata = {
   title: "Estimer mon séjour Global Weeks",

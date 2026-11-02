@@ -4,14 +4,16 @@ export type GlobalWeekEdition = {
   country: string;
   flag: string;
   angle: string;
-  status: "Liste d’intérêt";
+  status: string;
   image: string;
 };
 
+/** Phrase de financement reprise sur les pages publiques. */
+export const FUNDING_PROMISE = "Dans la majorité des cas, ton voyage sera financé.";
+
 /**
  * Point de configuration unique de la landing page Global Weeks.
- * Les dates, capacités, prestations et tarifs ne sont volontairement pas
- * renseignés ici tant qu'une édition n'est pas contractualisée et validée.
+ * Les sessions datées sont dans `globalWeeksSessions`.
  */
 export const globalWeeksEditions: GlobalWeekEdition[] = [
   {
@@ -20,7 +22,7 @@ export const globalWeeksEditions: GlobalWeekEdition[] = [
     country: "Espagne",
     flag: "🇪🇸",
     angle: "Culture, services et immersion collective",
-    status: "Liste d’intérêt",
+    status: "Sessions ouvertes",
     image: "/Assets/groups/seville-garden.jpg",
   },
   {
@@ -29,7 +31,7 @@ export const globalWeeksEditions: GlobalWeekEdition[] = [
     country: "Canada",
     flag: "🇨🇦",
     angle: "Ouverture nord-américaine et rencontres professionnelles",
-    status: "Liste d’intérêt",
+    status: "Sessions ouvertes",
     image: "/Assets/groups/montreal-sunset.jpg",
   },
   {
@@ -38,7 +40,7 @@ export const globalWeeksEditions: GlobalWeekEdition[] = [
     country: "Royaume-Uni",
     flag: "🇬🇧",
     angle: "Business English et environnement international",
-    status: "Liste d’intérêt",
+    status: "Sessions ouvertes",
     image: "/Assets/groups/london-bridge.jpg",
   },
   {
@@ -53,16 +55,38 @@ export const globalWeeksEditions: GlobalWeekEdition[] = [
 ];
 
 /**
- * Préférences de période, tant qu'aucune édition n'a de dates contractualisées.
- * Remplacer par de vraies semaines uniquement après validation
- * (destination, transport, capacité et conditions).
+ * Sessions publiques annoncées le 28 octobre 2026.
+ * L’année 2027 est déduite : à la date du post, mars, mai, juin et le 3 octobre
+ * 2026 étaient déjà passés. Le brouillon « Séville du 3 au 10 octobre » n’est pas retenu.
  */
-export const globalWeeksAvailability = [
-  { id: "spring", label: "Printemps", detail: "Mars à juin" },
-  { id: "summer", label: "Été", detail: "Juillet et août" },
-  { id: "autumn", label: "Automne", detail: "Septembre à novembre" },
-  { id: "flexible", label: "Je suis flexible", detail: "Selon les éditions ouvertes" },
+export const globalWeeksSessions = [
+  { id: "seville-mars", editionId: "seville", city: "Séville", label: "7 au 13 mars", year: 2027, start: "2027-03-07", end: "2027-03-13", days: 7 },
+  { id: "seville-octobre", editionId: "seville", city: "Séville", label: "3 au 9 octobre", year: 2027, start: "2027-10-03", end: "2027-10-09", days: 7 },
+  { id: "montreal-mai-1", editionId: "montreal", city: "Montréal", label: "2 au 9 mai", year: 2027, start: "2027-05-02", end: "2027-05-09", days: 8 },
+  { id: "montreal-mai-2", editionId: "montreal", city: "Montréal", label: "9 au 16 mai", year: 2027, start: "2027-05-09", end: "2027-05-16", days: 8 },
+  { id: "londres-juin", editionId: "londres", city: "Londres", label: "6 au 12 juin", year: 2027, start: "2027-06-06", end: "2027-06-12", days: 7 },
 ] as const;
+
+export type GlobalWeekSession = (typeof globalWeeksSessions)[number];
+
+export const FLEXIBLE_SESSION = { id: "flexible", label: "Je suis flexible", detail: "Selon les sessions ouvertes" } as const;
+
+export function sessionsForCity(city: string): GlobalWeekSession[] {
+  return globalWeeksSessions.filter((session) => session.city === city);
+}
+
+/** Durée du format public le plus proche des sessions annoncées. Montréal : 8 jours. Séville et Londres : 7 jours. */
+export function publicSessionDays(city: string): number {
+  const sessions = sessionsForCity(city);
+  if (sessions.length === 0) return 8;
+  return sessions[0].days;
+}
+
+export function sessionLabel(id: string): string {
+  if (id === FLEXIBLE_SESSION.id) return FLEXIBLE_SESSION.label;
+  const session = globalWeeksSessions.find((item) => item.id === id);
+  return session ? `${session.city}, ${session.label} ${session.year}` : id;
+}
 
 /**
  * Exemple Montréal. `remainingEuros` est le résultat exact du simulateur
@@ -73,12 +97,12 @@ export const globalWeeksFundingExample = {
   remainingEuros: 449,
   editorialRemainingEuros: 450,
   city: "Montréal",
-  stay: "hébergement avec petits-déjeuners",
+  stay: "logement et petits-déjeuners",
 } as const;
 
 export function fundingExamplePhrase(): string {
   const amount = new Intl.NumberFormat("fr-FR").format(globalWeeksFundingExample.editorialRemainingEuros);
-  return `environ ${amount} € pour ${globalWeeksFundingExample.city}, ${globalWeeksFundingExample.stay}`;
+  return `environ ${amount} € pour ${globalWeeksFundingExample.city}, logement et petits-déjeuners`;
 }
 
 /** Mention discrète, sans encadré. Une seule fois sur la page Global Weeks, et sous le résultat du simulateur public. */
@@ -92,7 +116,7 @@ export const globalWeeksConsentText =
  * Message financement de la landing.
  */
 export const globalWeeksFunding = {
-  badge: "Dans la majorité des cas, ton séjour est financé",
+  badge: FUNDING_PROMISE,
   steps: [
     {
       title: "Tu dis que tu veux partir",
@@ -100,7 +124,7 @@ export const globalWeeksFunding = {
     },
     {
       title: "On identifie qui peut aider",
-      text: "L’OPCO est en général lié à ton employeur. Demande à tes RH, ton manager ou ton référent mobilité. Si tu ne le sais pas encore, on avance quand même avec toi.",
+      text: "L’OPCO est en général lié à ton employeur, d’après nos infos. Demande à tes RH, ton manager ou ton référent mobilité. Si tu ne le sais pas encore, on avance quand même avec toi.",
     },
     {
       title: "Ton CFA et ton employeur avancent avec toi",
@@ -108,7 +132,7 @@ export const globalWeeksFunding = {
     },
     {
       title: "AMI monte le dossier avec toi",
-      text: `Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}.`,
+      text: `${FUNDING_PROMISE} Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}.`,
     },
   ],
   roles: [
@@ -146,17 +170,17 @@ export const globalWeeksFaq = [
   {
     question: "Est-ce que c’est financé ?",
     answer:
-      `Oui. Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI monte le dossier avec toi.`,
+      `Oui. ${FUNDING_PROMISE} Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI monte le dossier avec toi.`,
   },
   {
     question: "Qui peut financer mon séjour ?",
     answer:
-      `Ton OPCO, ton CFA et ton employeur. Dans la majorité des cas, le séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI monte le dossier avec toi.`,
+      `Ton OPCO, d’après nos infos, ton CFA et ton employeur. ${FUNDING_PROMISE} Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI monte le dossier avec toi.`,
   },
   {
     question: "Qu’est-ce qu’AMI fait pour le financement ?",
     answer:
-      `AMI monte le dossier avec toi et prépare le kit pour ton référent mobilité. Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}.`,
+      `AMI monte le dossier avec toi et prépare le kit pour ton référent mobilité. ${FUNDING_PROMISE} Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}.`,
   },
   {
     question: "Global Weeks, c’est quoi exactement ?",
@@ -191,7 +215,7 @@ export const globalWeeksFaq = [
   {
     question: "Comment savoir quel est mon OPCO ?",
     answer:
-      "L’OPCO est généralement lié à ton employeur. Demande à ton service RH, ton manager ou ton référent mobilité. Tu peux commencer ta candidature même si tu ne le connais pas encore.",
+      "L’OPCO est généralement lié à ton employeur, d’après nos infos. Demande à ton service RH, ton manager ou ton référent mobilité. Tu peux commencer ta candidature même si tu ne le connais pas encore.",
   },
   {
     question: "Est-ce que je dois avancer des frais ?",

@@ -3,6 +3,7 @@ import { Manrope, Lora } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AttributionCapture from "@/components/AttributionCapture";
 import CrispChat from "@/components/CrispChat";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -99,6 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <main className="flex-1 relative z-10">{children}</main>
         <Footer />
+        <AttributionCapture />
         <CrispChat />
         <Analytics />
         <SpeedInsights />

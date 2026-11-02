@@ -4,17 +4,46 @@
 // Aucune dépendance externe : validation maison, simple et robuste.
 // ──────────────────────────────────────────────────────────────
 
+export const LEAD_ROLES = ["alternant", "referent", "etudiant", "autre"] as const;
+export type LeadRole = (typeof LEAD_ROLES)[number];
+
+export const LEAD_STATUSES = ["nouveau", "a_contacter", "en_cours", "relance", "inscrit", "clos"] as const;
+export type LeadStatus = (typeof LEAD_STATUSES)[number];
+
+export const LEAD_STATUS_LABELS: Record<LeadStatus, string> = {
+  nouveau: "Nouveau",
+  a_contacter: "À contacter",
+  en_cours: "En cours",
+  relance: "Relance",
+  inscrit: "Inscrit",
+  clos: "Clos",
+};
+
 export type Lead = {
+  id: string;
   prenom: string;
   nom: string;
   email: string;
   telephone?: string;
   etablissement?: string;
+  /** Rôle commercial : alternant, référent mobilité, étudiant, autre. */
+  role?: LeadRole;
   profil?: string;
   objet?: string;
+  opco?: string;
+  entreprise?: string;
+  statutAlternant?: string;
   destination?: string;
+  session?: string;
   tailleGroupe?: string;
   message?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+  utmTerm?: string;
+  referrer?: string;
+  leadStatus: LeadStatus;
   rgpd: boolean;
   source: string; // ex. "formulaire contact" | "chat site web"
   page?: string;
@@ -23,8 +52,18 @@ export type Lead = {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function str(v: unknown): string {
-  return typeof v === "string" ? v.trim() : "";
+function str(v: unknown, max = 300): string {
+  return typeof v === "string" ? v.trim().slice(0, max) : "";
+}
+
+function roleOf(value: string, profil: string): LeadRole | undefined {
+  const raw = value.toLowerCase();
+  if ((LEAD_ROLES as readonly string[]).includes(raw)) return raw as LeadRole;
+  const hint = `${value} ${profil}`.toLowerCase();
+  if (hint.includes("référent") || hint.includes("referent") || hint.includes("cfa") || hint.includes("école") || hint.includes("ecole")) return "referent";
+  if (hint.includes("étudiant") || hint.includes("etudiant")) return "etudiant";
+  if (hint.includes("alternant") || hint.includes("apprenti")) return "alternant";
+  return value || profil ? "autre" : undefined;
 }
 
 /**
@@ -47,26 +86,41 @@ export function parseLead(
   if (!rgpd) errors.push("Consentement requis");
 
   // Garde-fous longueur (anti-abus léger)
-  const message = str(raw.message);
+  const message = str(raw.message, 5000);
   if (message.length > 5000) errors.push("Message trop long");
 
   if (errors.length) return { ok: false, errors };
 
+  const profil = str(raw.profil);
+  const role = roleOf(str(raw.role, 40), profil);
   const lead: Lead = {
+    id: str(raw.id, 80) || crypto.randomUUID(),
     prenom,
     nom,
     email,
-    telephone: str(raw.telephone) || undefined,
+    telephone: str(raw.telephone, 40) || undefined,
     etablissement: str(raw.etablissement) || undefined,
-    profil: str(raw.profil) || undefined,
+    role,
+    profil: profil || undefined,
     objet: str(raw.objet) || undefined,
+    opco: str(raw.opco) || undefined,
+    entreprise: str(raw.entreprise) || undefined,
+    statutAlternant: str(raw.statutAlternant) || undefined,
     destination: str(raw.destination) || undefined,
-    tailleGroupe: str(raw.tailleGroupe) || undefined,
+    session: str(raw.session) || undefined,
+    tailleGroupe: str(raw.tailleGroupe, 40) || undefined,
     message: message || undefined,
+    utmSource: str(raw.utmSource, 120) || undefined,
+    utmMedium: str(raw.utmMedium, 120) || undefined,
+    utmCampaign: str(raw.utmCampaign, 160) || undefined,
+    utmContent: str(raw.utmContent, 160) || undefined,
+    utmTerm: str(raw.utmTerm, 160) || undefined,
+    referrer: str(raw.referrer, 500) || undefined,
+    leadStatus: "nouveau",
     rgpd: true,
     source: str(raw.source) || "site web",
     page: str(raw.page) || undefined,
-    date: str(raw.date) || new Date().toISOString(),
+    date: str(raw.date, 40) || new Date().toISOString(),
   };
 
   return { ok: true, lead };
@@ -91,10 +145,17 @@ export function leadToEmailHtml(lead: Lead): string {
           ${row("Email", lead.email)}
           ${row("Téléphone", lead.telephone)}
           ${row("Établissement", lead.etablissement)}
+          ${row("Rôle", lead.role)}
           ${row("Profil", lead.profil)}
+          ${row("Statut alternant", lead.statutAlternant)}
+          ${row("OPCO", lead.opco)}
+          ${row("Entreprise", lead.entreprise)}
           ${row("Objet", lead.objet)}
           ${row("Destination", lead.destination)}
+          ${row("Session", lead.session)}
           ${row("Taille du groupe", lead.tailleGroupe)}
+          ${row("Source", lead.source)}
+          ${row("UTM", [lead.utmSource, lead.utmMedium, lead.utmCampaign].filter(Boolean).join(" · ") || undefined)}
           ${row("Page", lead.page)}
         </table>
         ${
