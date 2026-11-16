@@ -770,7 +770,7 @@ export default function HomePage() {
                 </h2>
                 <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 540, marginBottom: 28 }}>
                   Rejoins une semaine avec d’autres alternants. Dans la majorité des cas, ton voyage sera financé.
-                  Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}. AMI monte le dossier avec toi.
+                  Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.
                 </p>
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                   <Link href="/global-weeks/simulateur" className="btn-primary">

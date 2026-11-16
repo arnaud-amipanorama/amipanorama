@@ -125,7 +125,7 @@ export default function PublicSimulator() {
               <h1 className={styles.title}>Tu pars en tant qu’alternant ou étudiant ?</h1>
               <div className={styles.choices}>
                 <button type="button" className={styles.choice} onClick={() => afterWho("alternant")}>Alternant<small>Les aides les plus courantes accompagnent l’alternance.</small></button>
-                <button type="button" className={styles.choice} onClick={() => afterWho("etudiant")}>Étudiant<small>AMI monte le dossier avec toi, sur le prix indicatif du séjour.</small></button>
+                <button type="button" className={styles.choice} onClick={() => afterWho("etudiant")}>Étudiant<small>AMI Panorama monte le dossier avec toi, sur le prix indicatif du séjour.</small></button>
               </div>
               <div className={styles.actions}><button type="button" className={styles.ghost} onClick={() => go("mode")}>Retour</button></div>
             </>
@@ -186,7 +186,7 @@ export default function PublicSimulator() {
               </div>
               <p className={styles.watch}>{estimate.watchNote}</p>
               {sent ? (
-                <p className={styles.success}>C’est enregistré. AMI revient vers toi pour la suite du dossier.</p>
+                <p className={styles.success}>C’est enregistré. AMI Panorama revient vers toi pour la suite du dossier.</p>
               ) : (
                 <form onSubmit={submitLead}>
                   <div className={styles.grid}>

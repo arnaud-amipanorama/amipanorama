@@ -88,9 +88,9 @@ export function estimatePublicMobility(input: PublicEstimateInput): PublicEstima
       ? PUBLIC_OPCOS.find((opco) => opco.id === input.opcoId)?.label ?? null
       : "Pas encore identifié";
   const perPerson = input.mode === "groupe" ? " par personne" : "";
-  const title = student ? "Ton séjour se prépare avec AMI." : "Dans la majorité des cas, ton séjour est financé.";
+  const title = student ? "Ton séjour se prépare avec AMI Panorama." : "Dans la majorité des cas, ton séjour est financé.";
   const text = student
-    ? `D’après nos informations, les aides les plus courantes accompagnent l’alternance. Pour ton séjour à ${input.destination}, le prix indicatif est de ${euros(stayEuros)}. Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. AMI monte le dossier avec toi.`
+    ? `D’après nos informations, les aides les plus courantes accompagnent l’alternance. Pour ton séjour à ${input.destination}, le prix indicatif est de ${euros(stayEuros)}. Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.`
     : alternantText(input.destination, fundingEuros ?? 0, referentEuros ?? 0, remainderEuros, perPerson);
 
   return {
@@ -118,7 +118,7 @@ function alternantText(destination: string, funding: number, referent: number, r
   const remainderSentence = remainder > 0
     ? ` Il peut rester un reste à charge d’environ ${euros(remainder)}${perPerson}.`
     : " Dans cette estimation, il ne reste pas de reste à charge.";
-  return `D’après nos informations, une prise en charge d’environ ${euros(funding)}${perPerson} peut exister pour ${destination}.${referentSentence}${remainderSentence} AMI monte le dossier avec toi.`;
+  return `D’après nos informations, une prise en charge d’environ ${euros(funding)}${perPerson} peut exister pour ${destination}.${referentSentence}${remainderSentence} AMI Panorama monte le dossier avec toi.`;
 }
 
 export function estimateSummary(estimate: PublicEstimate): string {

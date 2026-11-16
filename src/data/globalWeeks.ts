@@ -104,10 +104,10 @@ export const globalWeeksFunding = {
     },
     {
       title: "Ton CFA et ton employeur avancent avec toi",
-      text: "Ils sont associés au dossier et à la convention de mobilité. AMI prépare les éléments avec toi.",
+      text: "Ils sont associés au dossier et à la convention de mobilité. AMI Panorama prépare les éléments avec toi.",
     },
     {
-      title: "AMI monte le dossier avec toi",
+      title: "AMI Panorama monte le dossier avec toi",
       text: `Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}.`,
     },
   ],
@@ -130,7 +130,7 @@ export const globalWeeksFunding = {
       ],
     },
     {
-      title: "Ce qu’AMI fait pour toi",
+      title: "Ce qu’AMI Panorama fait pour toi",
       points: [
         "Monter le dossier avec toi, sans le jargon",
         "Préparer un kit pour ton référent mobilité",
@@ -146,17 +146,17 @@ export const globalWeeksFaq = [
   {
     question: "Est-ce que c’est financé ?",
     answer:
-      `Oui. Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI monte le dossier avec toi.`,
+      `Oui. Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.`,
   },
   {
     question: "Qui peut financer mon séjour ?",
     answer:
-      `Ton OPCO, ton CFA et ton employeur. Dans la majorité des cas, le séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI monte le dossier avec toi.`,
+      `Ton OPCO, ton CFA et ton employeur. Dans la majorité des cas, le séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.`,
   },
   {
-    question: "Qu’est-ce qu’AMI fait pour le financement ?",
+    question: "Qu’est-ce qu’AMI Panorama fait pour le financement ?",
     answer:
-      `AMI monte le dossier avec toi et prépare le kit pour ton référent mobilité. Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}.`,
+      `AMI Panorama monte le dossier avec toi et prépare le kit pour ton référent mobilité. Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}.`,
   },
   {
     question: "Global Weeks, c’est quoi exactement ?",
@@ -166,7 +166,7 @@ export const globalWeeksFaq = [
   {
     question: "Est-ce que je peux partir si mon école ne propose pas de voyage ?",
     answer:
-      "Oui, c’est précisément l’objectif. Tu candidates individuellement, puis tu rejoins une cohorte. AMI monte le dossier avec toi, avec ton CFA et ton employeur.",
+      "Oui, c’est précisément l’objectif. Tu candidates individuellement, puis tu rejoins une cohorte. AMI Panorama monte le dossier avec toi, avec ton CFA et ton employeur.",
   },
   {
     question: "Est-ce que je pars seul(e) ?",
@@ -179,6 +179,11 @@ export const globalWeeksFaq = [
       "Non. Le séjour repose sur un programme pédagogique et professionnel : formation, découverte d’écosystèmes, visites et activités collectives.",
   },
   {
+    question: "Part-on sur une semaine de cours ou une semaine en entreprise ?",
+    answer:
+      "Le départ se fait généralement sur une semaine de cours, pour ne pas empiéter sur ton temps en entreprise. Sur place, tu suis une formation, qui peut aussi inclure des visites d’entreprises et des rencontres professionnelles.",
+  },
+  {
     question: "Est-ce que mon CFA doit être au courant ?",
     answer:
       "Oui. Le CFA et le référent mobilité avancent le dossier avec toi, notamment pour la convention de mobilité.",
@@ -186,7 +191,7 @@ export const globalWeeksFaq = [
   {
     question: "Est-ce que mon employeur doit être d’accord ?",
     answer:
-      "Oui. L’employeur est informé et peut compléter un reste à charge. AMI prépare les éléments du dossier avec toi.",
+      "Oui. L’employeur est informé et peut compléter un reste à charge. AMI Panorama prépare les éléments du dossier avec toi.",
   },
   {
     question: "Comment savoir quel est mon OPCO ?",
@@ -196,7 +201,7 @@ export const globalWeeksFaq = [
   {
     question: "Est-ce que je dois avancer des frais ?",
     answer:
-      `Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. AMI t’explique le montage avant le départ.`,
+      `Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. AMI Panorama t’explique le montage avant le départ.`,
   },
   {
     question: "Est-ce que le vol est inclus ?",
@@ -206,7 +211,7 @@ export const globalWeeksFaq = [
   {
     question: "Quand ma place est-elle confirmée ?",
     answer:
-      "Quand le groupe est maintenu et que ton dossier est prêt. AMI monte le financement avec toi.",
+      "Quand le groupe est maintenu et que ton dossier est prêt. AMI Panorama monte le financement avec toi.",
   },
   {
     question: "Que se passe-t-il si mon dossier n’est pas validé ?",
@@ -216,7 +221,7 @@ export const globalWeeksFaq = [
   {
     question: "Est-ce que je dois déjà avoir un passeport ou une pièce d’identité ?",
     answer:
-      "Il faut pouvoir répondre aux formalités de la destination. AMI donne les informations utiles, et chaque participant prépare ses documents de voyage.",
+      "Il faut pouvoir répondre aux formalités de la destination. AMI Panorama donne les informations utiles, et chaque participant prépare ses documents de voyage.",
   },
   {
     question: "Est-ce que je peux choisir ma destination ?",

@@ -12,7 +12,7 @@ const values = [
     num: "01",
     title: "Qualité sans compromis",
     accent: "#24478F",
-    desc: "Chaque hébergement, chaque formateur, chaque entreprise partenaire est sélectionné selon des critères stricts. Rien n'est laissé au hasard dans un programme AMI.",
+    desc: "Chaque hébergement, chaque formateur, chaque entreprise partenaire est sélectionné selon des critères stricts. Rien n'est laissé au hasard dans un programme AMI Panorama.",
   },
   {
     num: "02",

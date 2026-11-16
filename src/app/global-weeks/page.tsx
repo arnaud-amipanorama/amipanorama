@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Global Weeks by AMI Panorama",
     description:
-      "Pars en mobilité même sans voyage de classe. Dans la majorité des cas, ton voyage sera financé. AMI monte le dossier avec toi.",
+      "Pars en mobilité même sans voyage de classe. Dans la majorité des cas, ton voyage sera financé. AMI Panorama monte le dossier avec toi.",
     url: "/global-weeks",
     type: "website",
     locale: "fr_FR",

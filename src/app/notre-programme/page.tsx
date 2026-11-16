@@ -269,7 +269,7 @@ export default function NotreProgrammePage() {
       <section style={{ padding: "64px 24px 80px", background: "var(--bg)" }}>
         <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 40 }}>
-            <div className="section-label">Une semaine AMI</div>
+            <div className="section-label">Une semaine AMI Panorama</div>
             <h2 style={{
               fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 700,
               letterSpacing: "-0.035em", maxWidth: 560,

@@ -46,7 +46,7 @@ describe("simulateur public", () => {
     expect(estimate.fundingEuros).toBeNull();
     expect(estimate.remainderEuros).toBe(estimate.stayEuros);
     expect(estimate.text).toContain(fundingExamplePhrase());
-    expect(estimate.text).toContain("AMI monte le dossier avec toi");
+    expect(estimate.text).toContain("AMI Panorama monte le dossier avec toi");
   });
 
   it("estime un groupe et résume le lead", () => {
