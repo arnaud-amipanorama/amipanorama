@@ -1,29 +1,11 @@
 import type { Metadata } from "next";
-import { Manrope, Lora } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CrispChat from "@/components/CrispChat";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
-
-// Police éditoriale (citations, titres en italique). Chargée ici plutôt que par
-// un @import dans globals.css : next/font l'auto-héberge, la précharge et évite
-// une requête bloquante vers fonts.googleapis.com.
-const lora = Lora({
-  subsets: ["latin"],
-  variable: "--font-lora",
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
+import { lora, manrope } from "@/fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://amipanorama.com"),

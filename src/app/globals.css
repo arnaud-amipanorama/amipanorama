@@ -1,6 +1,6 @@
-/* Lora est chargée via next/font dans app/layout.tsx (self-host + preload).
-   Un @import vers fonts.googleapis.com ici bloquerait la construction du CSSOM
-   et ajouterait deux allers-retours réseau avant le premier rendu. */
+/* Manrope et Lora sont chargées via next/font/local (fichiers woff2 du dépôt).
+   Pas d'@import vers fonts.googleapis.com : cela bloquerait le CSSOM et
+   rendrait le build dépendant du téléchargement des polices. */
 
 @import "tailwindcss";
 
