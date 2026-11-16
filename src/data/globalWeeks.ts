@@ -115,7 +115,7 @@ export const globalWeeksFunding = {
     {
       title: "Qui peut financer",
       points: [
-        "Ton OPCO, dans la majorité des cas",
+        "Ton OPCO",
         "Ton CFA et ton référent mobilité, associés au dossier",
         "Ton employeur, qui peut compléter le reste à charge",
       ],
