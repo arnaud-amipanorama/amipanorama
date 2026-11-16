@@ -65,7 +65,7 @@ const faqItems = [
   },
   {
     q: "Comment abordez-vous la structuration financière ?",
-    a: `Dans la majorité des cas, le séjour est financé. Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. Nous montons le dossier avec vous.`,
+    a: `Le séjour est éligible aux financements OPCO. Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. Nous montons le dossier avec vous.`,
   },
   {
     q: "Les programmes sont-ils personnalisables ?",
@@ -269,7 +269,7 @@ export default function NotreProgrammePage() {
       <section style={{ padding: "64px 24px 80px", background: "var(--bg)" }}>
         <div className="reveal" style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 40 }}>
-            <div className="section-label">Une semaine AMI</div>
+            <div className="section-label">Une semaine AMI Panorama</div>
             <h2 style={{
               fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 700,
               letterSpacing: "-0.035em", maxWidth: 560,
@@ -410,7 +410,7 @@ export default function NotreProgrammePage() {
               </h2>
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 640 }}>
                 Global Weeks permet à un alternant de rejoindre une cohorte lorsque son établissement n’organise pas de départ.
-                Dans la majorité des cas, le séjour est financé. Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}.
+                Le séjour est éligible aux financements OPCO. Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}.
               </p>
             </div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
