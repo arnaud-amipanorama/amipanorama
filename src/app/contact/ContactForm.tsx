@@ -351,7 +351,7 @@ export default function ContactForm({
               }}>
                 <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Global Weeks</h3>
                 <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.75, marginBottom: 14 }}>
-                  Un départ individuel, même sans voyage de promo. Dans la majorité des cas, le séjour est financé.
+                  Un départ individuel, même sans voyage de promo. Le séjour est éligible aux financements OPCO.
                   Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}.
                 </p>
                 <Link href="/global-weeks/simulateur" style={{ color: "var(--blue)", fontWeight: 600, fontSize: 13 }}>

@@ -244,12 +244,12 @@ export default function GlobalWeeksExperience() {
             <div className={`${styles.eyebrow} ${styles.eyebrowLight}`}>Global Weeks by AMI Panorama</div>
             <p className={styles.fundingBadge}>{globalWeeksFunding.badge}</p>
             <h1 id="global-weeks-title">Ton école ne propose pas de mobilité internationale&nbsp;? <em>Pars quand même.</em></h1>
-            <p className={styles.heroLead}><strong>Dans la majorité des cas, ton séjour est financé.</strong> Rejoins une semaine avec d’autres alternants. Il peut rester un reste à charge, par exemple {fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.</p>
+            <p className={styles.heroLead}><strong>Ton séjour est éligible aux financements OPCO.</strong> Rejoins une semaine avec d’autres alternants. Il peut rester un reste à charge, par exemple {fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.</p>
             <div className={styles.heroActions}>
               <button type="button" className="btn-primary" onClick={scrollToEligibility}>Vérifier mon éligibilité <ArrowIcon /></button>
               <a className="btn-ghost-light" href="#financement">Comprendre le financement <ArrowIcon /></a>
             </div>
-            <ul className={styles.heroTrust}><li className={styles.heroTrustItem}>Candidature individuelle</li><li className={styles.heroTrustItem}>Séjour financé dans la majorité des cas</li><li className={styles.heroTrustItem}>Dossier avec ton CFA et ton employeur</li></ul>
+            <ul className={styles.heroTrust}><li className={styles.heroTrustItem}>Candidature individuelle</li><li className={styles.heroTrustItem}>Éligible aux financements OPCO</li><li className={styles.heroTrustItem}>Dossier avec ton CFA et ton employeur</li></ul>
           </div>
         </div>
       </section>
@@ -332,15 +332,15 @@ export default function GlobalWeeksExperience() {
               "Ta place est confirmée, puis tu pars avec ta cohorte",
             ].map((text, index) => <li key={text}><span>0{index + 1}</span><p>{text}</p></li>)}
           </ol>
-          <div className={styles.howNote}><Icon name="shield" /><p><strong>À retenir :</strong> remplir le questionnaire prépare ton dossier. La place se confirme quand le groupe est maintenu. Dans la majorité des cas, ton séjour est financé. AMI Panorama monte le dossier avec toi.</p></div>
+          <div className={styles.howNote}><Icon name="shield" /><p><strong>À retenir :</strong> remplir le questionnaire prépare ton dossier. La place se confirme quand le groupe est maintenu. Ton séjour est éligible aux financements OPCO. AMI Panorama monte le dossier avec toi.</p></div>
         </div>
       </section>
 
       <section id="dossier" className={styles.dossier}>
         <div className={styles.wrap}>
           <div className={styles.dossierGrid}>
-            <div className={styles.dossierCopy}><div className={styles.eyebrow}>Le dossier, sans le stress</div><h2>On te guide. Tu ne dois pas tout <em>comprendre seul.</em></h2><p>Une Global Week se prépare avec ton CFA, ton employeur et les bons documents. AMI Panorama rend le parcours clair, étape par étape, y compris pour le financement.</p><ul>{["Une convention de mobilité qui cadre le séjour", "Une charte d’engagement étudiant", "Le dossier avancé avec le CFA et l’employeur", "Un séjour financé dans la majorité des cas, avec parfois un reste à charge", "Les formalités de voyage selon la destination"].map((item) => <li key={item}><CheckIcon />{item}</li>)}</ul></div>
-            <aside className={styles.dossierPanel}><div className={styles.dossierPanelIcon}><Icon name="route" /></div><h3>Le rôle d’AMI Panorama</h3><p>Nous fournissons un parcours clair, préparons un kit pour ton référent, centralisons les informations utiles et t’accompagnons avant le départ.</p><div className={styles.transparent}><strong>Bon à savoir</strong><p>Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple {fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.</p></div></aside>
+            <div className={styles.dossierCopy}><div className={styles.eyebrow}>Le dossier, sans le stress</div><h2>On te guide. Tu ne dois pas tout <em>comprendre seul.</em></h2><p>Une Global Week se prépare avec ton CFA, ton employeur et les bons documents. AMI Panorama rend le parcours clair, étape par étape, y compris pour le financement.</p><ul>{["Une convention de mobilité qui cadre le séjour", "Une charte d’engagement étudiant", "Le dossier avancé avec le CFA et l’employeur", "Un séjour éligible aux financements OPCO, avec parfois un reste à charge", "Les formalités de voyage selon la destination"].map((item) => <li key={item}><CheckIcon />{item}</li>)}</ul></div>
+            <aside className={styles.dossierPanel}><div className={styles.dossierPanelIcon}><Icon name="route" /></div><h3>Le rôle d’AMI Panorama</h3><p>Nous fournissons un parcours clair, préparons un kit pour ton référent, centralisons les informations utiles et t’accompagnons avant le départ.</p><div className={styles.transparent}><strong>Bon à savoir</strong><p>Ton séjour est éligible aux financements OPCO. Il peut rester un reste à charge, par exemple {fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.</p></div></aside>
           </div>
         </div>
       </section>
@@ -350,12 +350,12 @@ export default function GlobalWeeksExperience() {
       </section>
 
       <section className={styles.eligibilityHint}>
-        <div className={styles.wrap}><div className={styles.sectionIntro}><div className="section-label">Une première lecture</div><h2>Tu es peut-être éligible si…</h2></div><div className={styles.hintGrid}>{["tu es actuellement en alternance", "tu as envie de vivre une mobilité internationale", "tu veux un séjour financé dans la majorité des cas", "tu peux échanger avec ton CFA ou ton référent mobilité", "ton employeur peut avancer le projet avec toi", "une édition correspond à tes disponibilités"].map((item) => <div key={item}><CheckIcon /><span>{item}</span></div>)}</div><p>Cette liste t’aide à savoir si le projet te correspond. AMI Panorama monte le dossier avec toi.</p></div>
+        <div className={styles.wrap}><div className={styles.sectionIntro}><div className="section-label">Une première lecture</div><h2>Tu es peut-être éligible si…</h2></div><div className={styles.hintGrid}>{["tu es actuellement en alternance", "tu as envie de vivre une mobilité internationale", "tu veux un séjour éligible aux financements OPCO", "tu peux échanger avec ton CFA ou ton référent mobilité", "ton employeur peut avancer le projet avec toi", "une édition correspond à tes disponibilités"].map((item) => <div key={item}><CheckIcon /><span>{item}</span></div>)}</div><p>Cette liste t’aide à savoir si le projet te correspond. AMI Panorama monte le dossier avec toi.</p></div>
       </section>
 
       <section id="eligibilite" className={styles.questionnaire} aria-labelledby="eligibility-title">
         <div className={styles.wrap}><div className={styles.questionnaireShell}>
-          <div className={styles.questionnaireIntro}><div className={styles.eyebrow}>Candidature / manifestation d’intérêt</div><h2 id="eligibility-title">Vérifier mon <em>éligibilité.</em></h2><p>Ce questionnaire ne t’inscrit pas à une Global Week. Il nous aide à comprendre ton projet. Dans la majorité des cas, le séjour est financé, et AMI Panorama monte le dossier avec toi.</p><div className={styles.progress}><span style={{ width: `${completed ? 100 : (step / 3) * 100}%` }} /></div><p className={styles.progressLabel}>{completed ? "Demande transmise" : `Étape ${step} sur 3`}</p></div>
+          <div className={styles.questionnaireIntro}><div className={styles.eyebrow}>Candidature / manifestation d’intérêt</div><h2 id="eligibility-title">Vérifier mon <em>éligibilité.</em></h2><p>Ce questionnaire ne t’inscrit pas à une Global Week. Il nous aide à comprendre ton projet. Le séjour est éligible aux financements OPCO, et AMI Panorama monte le dossier avec toi.</p><div className={styles.progress}><span style={{ width: `${completed ? 100 : (step / 3) * 100}%` }} /></div><p className={styles.progressLabel}>{completed ? "Demande transmise" : `Étape ${step} sur 3`}</p></div>
           <div className={styles.questionnaireBody}>
             {completed ? <Outcome outcome={outcome} form={form} onKit={() => setKitOpen(true)} /> : (
               <form onSubmit={submit} noValidate>
@@ -374,9 +374,9 @@ export default function GlobalWeeksExperience() {
         <div className={styles.wrap}><div className={styles.sectionSplit}><div><div className="section-label">Les questions qu’on se pose</div><h2>Tout comprendre, <em>sans jargon.</em></h2></div><p>Une réponse manque ? Tu peux démarrer le questionnaire sans avoir tout résolu : c’est justement fait pour t’orienter.</p></div><div className={styles.faqList}>{globalWeeksFaq.map((item, index) => <article className={styles.faqItem} key={item.question}><button type="button" aria-expanded={openFaq === index} onClick={() => setOpenFaq((current) => current === index ? null : index)}><span>{item.question}</span><i>{openFaq === index ? "−" : "+"}</i></button>{openFaq === index && <p>{item.answer}</p>}</article>)}</div></div>
       </section>
 
-      <section className={styles.finalCta}><div className={styles.wrap}><div><div className={styles.eyebrow}>Global Weeks by AMI Panorama</div><h2>Ton projet international peut <em>commencer aujourd’hui.</em></h2><p>Tu n’as pas besoin d’avoir toutes les réponses. Dis-nous où tu aimerais partir : AMI Panorama monte le dossier avec toi. Dans la majorité des cas, le séjour est financé.</p><div className={styles.finalActions}><button type="button" className="btn-primary" onClick={scrollToEligibility}>Vérifier mon éligibilité <ArrowIcon /></button><button type="button" className="btn-ghost-light" onClick={() => setKitOpen(true)}>Parler de Global Weeks à mon référent <ArrowIcon /></button></div></div></div></section>
+      <section className={styles.finalCta}><div className={styles.wrap}><div><div className={styles.eyebrow}>Global Weeks by AMI Panorama</div><h2>Ton projet international peut <em>commencer aujourd’hui.</em></h2><p>Tu n’as pas besoin d’avoir toutes les réponses. Dis-nous où tu aimerais partir : AMI Panorama monte le dossier avec toi. Le séjour est éligible aux financements OPCO.</p><div className={styles.finalActions}><button type="button" className="btn-primary" onClick={scrollToEligibility}>Vérifier mon éligibilité <ArrowIcon /></button><button type="button" className="btn-ghost-light" onClick={() => setKitOpen(true)}>Parler de Global Weeks à mon référent <ArrowIcon /></button></div></div></div></section>
 
-      <button className={styles.mobileSticky} type="button" onClick={scrollToEligibility}><span>Vérifier mon éligibilité</span><small>le séjour est financé dans la majorité des cas</small></button>
+      <button className={styles.mobileSticky} type="button" onClick={scrollToEligibility}><span>Vérifier mon éligibilité</span><small>le séjour est éligible aux financements OPCO</small></button>
 
       {kitOpen && <div className={styles.modalBackdrop} role="presentation" onMouseDown={() => setKitOpen(false)}><section className={styles.modal} role="dialog" aria-modal="true" aria-labelledby="kit-title" onMouseDown={(event) => event.stopPropagation()}><button className={styles.modalClose} type="button" aria-label="Fermer" onClick={() => setKitOpen(false)}>×</button><div className={styles.eyebrow}>Kit référent mobilité</div><h2 id="kit-title">Un dossier conçu pour <em>faire gagner du temps.</em></h2><p>Le PDF et le flyer sont prêts à transmettre. Après l’envoi du formulaire, le PDF reprend le prénom et le nom saisis. Le PowerPoint s’ajoute dès qu’il est en ligne.</p><KitDownloads personal={completed ? form : null} /><button type="button" className="btn-primary" onClick={() => { setKitOpen(false); scrollToEligibility(); }}>Commencer par mon projet <ArrowIcon /></button></section></div>}
     </div>
@@ -392,7 +392,7 @@ function FundingSection({ onEligibility }: { onEligibility: () => void }) {
         <div className={styles.sectionIntro}>
           <div className="section-label">Le financement</div>
           <h2 id="financement-title">Comment ton séjour <em>est financé.</em></h2>
-          <p>Tu n’as pas à maîtriser les aides avant de te lancer. Dans la majorité des cas, ton séjour est financé. AMI Panorama monte le dossier avec toi.</p>
+          <p>Tu n’as pas à maîtriser les aides avant de te lancer. Ton séjour est éligible aux financements OPCO. AMI Panorama monte le dossier avec toi.</p>
         </div>
         <ol className={styles.fundingSteps}>
           {globalWeeksFunding.steps.map((step, index) => (
@@ -446,7 +446,7 @@ function StepThree({ form, update }: { form: FormState; update: <K extends keyof
 function Outcome({ outcome, form, onKit }: { outcome: "A" | "B" | "C"; form: FormState; onKit: () => void }) {
   const name = form.prenom;
   const content = {
-    A: { title: "Ton projet peut avancer.", text: `Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.` },
+    A: { title: "Ton projet peut avancer.", text: `Ton séjour est éligible aux financements OPCO. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.` },
     B: { title: "On prépare la suite avec ton référent.", text: "Disponibilités, mobilité déjà prévue ou parcours : AMI Panorama monte le dossier avec toi et avec ton référent mobilité." },
     C: { title: "On garde le contact pour une autre édition.", text: "Si une autre date ou un autre format s’ouvre, nous pourrons te recontacter. Le kit reste disponible pour en parler." },
   }[outcome];

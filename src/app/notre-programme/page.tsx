@@ -65,7 +65,7 @@ const faqItems = [
   },
   {
     q: "Comment abordez-vous la structuration financière ?",
-    a: `Dans la majorité des cas, le séjour est financé. Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. Nous montons le dossier avec vous.`,
+    a: `Le séjour est éligible aux financements OPCO. Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. Nous montons le dossier avec vous.`,
   },
   {
     q: "Les programmes sont-ils personnalisables ?",
@@ -410,7 +410,7 @@ export default function NotreProgrammePage() {
               </h2>
               <p style={{ fontSize: 15, color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 640 }}>
                 Global Weeks permet à un alternant de rejoindre une cohorte lorsque son établissement n’organise pas de départ.
-                Dans la majorité des cas, le séjour est financé. Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}.
+                Le séjour est éligible aux financements OPCO. Un reste à charge peut s’appliquer, par exemple {fundingExamplePhrase()}.
               </p>
             </div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>

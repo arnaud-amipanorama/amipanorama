@@ -114,7 +114,7 @@ export default function PublicSimulator() {
               <h1 className={styles.title}>Mobilité individuelle ou mobilité de groupe ?</h1>
               <p className={styles.lead}>L’estimation individuelle est ouverte. La mobilité de groupe se demande, pour les référents mobilité.</p>
               <div className={styles.choices}>
-                <button type="button" className={styles.choice} onClick={() => go("who")}>Mobilité individuelle<small>Ouverte, sans demande d’accès. Dans la majorité des cas, le séjour est financé.</small></button>
+                <button type="button" className={styles.choice} onClick={() => go("who")}>Mobilité individuelle<small>Ouverte, sans demande d’accès. Le séjour est éligible aux financements OPCO.</small></button>
                 <Link className={styles.choice} href={GROUP_SIMULATOR_REQUEST_PATH}>Mobilité de groupe<small>Pour les référents mobilité. Demander l’accès.</small></Link>
               </div>
             </>

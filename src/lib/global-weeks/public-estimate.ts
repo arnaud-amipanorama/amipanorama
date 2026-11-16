@@ -88,7 +88,7 @@ export function estimatePublicMobility(input: PublicEstimateInput): PublicEstima
       ? PUBLIC_OPCOS.find((opco) => opco.id === input.opcoId)?.label ?? null
       : "Pas encore identifié";
   const perPerson = input.mode === "groupe" ? " par personne" : "";
-  const title = student ? "Ton séjour se prépare avec AMI Panorama." : "Dans la majorité des cas, ton séjour est financé.";
+  const title = student ? "Ton séjour se prépare avec AMI Panorama." : "Ton séjour est éligible aux financements OPCO.";
   const text = student
     ? `D’après nos informations, les aides les plus courantes accompagnent l’alternance. Pour ton séjour à ${input.destination}, le prix indicatif est de ${euros(stayEuros)}. Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.`
     : alternantText(input.destination, fundingEuros ?? 0, referentEuros ?? 0, remainderEuros, perPerson);

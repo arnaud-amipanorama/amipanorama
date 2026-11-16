@@ -455,7 +455,7 @@ export default function AProposPage() {
             <p style={{ marginTop: 22, fontSize: 14, color: "var(--text-secondary)", position: "relative" }}>
               Les alternants dont l’école ne propose pas de voyage peuvent partir avec{" "}
               <Link href="/global-weeks" style={{ color: "var(--blue)", fontWeight: 600 }}>Global Weeks</Link>.
-              Dans la majorité des cas, le séjour est financé.
+              Le séjour est éligible aux financements OPCO.
             </p>
           </div>
         </div>

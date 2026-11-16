@@ -92,7 +92,7 @@ export const globalWeeksConsentText =
  * Message financement de la landing.
  */
 export const globalWeeksFunding = {
-  badge: "Dans la majorité des cas, ton séjour est financé",
+  badge: "Éligible aux financements OPCO",
   steps: [
     {
       title: "Tu dis que tu veux partir",
@@ -108,7 +108,7 @@ export const globalWeeksFunding = {
     },
     {
       title: "AMI Panorama monte le dossier avec toi",
-      text: `Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}.`,
+      text: `Ton séjour est éligible aux financements OPCO. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}.`,
     },
   ],
   roles: [
@@ -146,17 +146,17 @@ export const globalWeeksFaq = [
   {
     question: "Est-ce que c’est financé ?",
     answer:
-      `Oui. Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.`,
+      `Ton séjour est éligible aux financements OPCO. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.`,
   },
   {
     question: "Qui peut financer mon séjour ?",
     answer:
-      `Ton OPCO, ton CFA et ton employeur. Dans la majorité des cas, le séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.`,
+      `Ton OPCO, ton CFA et ton employeur. Le séjour est éligible aux financements OPCO. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.`,
   },
   {
     question: "Qu’est-ce qu’AMI Panorama fait pour le financement ?",
     answer:
-      `AMI Panorama monte le dossier avec toi et prépare le kit pour ton référent mobilité. Dans la majorité des cas, ton séjour est financé. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}.`,
+      `AMI Panorama monte le dossier avec toi et prépare le kit pour ton référent mobilité. Ton séjour est éligible aux financements OPCO. Il peut rester un reste à charge, par exemple ${fundingExamplePhrase()}.`,
   },
   {
     question: "Global Weeks, c’est quoi exactement ?",

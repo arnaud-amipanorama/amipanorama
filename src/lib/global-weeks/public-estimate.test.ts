@@ -19,7 +19,7 @@ describe("simulateur public", () => {
     expect(estimate.fundingEuros).toBe(1709);
     expect(estimate.remainderEuros).toBe(0);
     expect(estimate.stayEuros).toBe((estimate.fundingEuros ?? 0) + estimate.remainderEuros);
-    expect(estimate.title).toContain("majorité des cas");
+    expect(estimate.title).toContain("éligible aux financements OPCO");
     expect(estimate.text).toContain("D’après nos informations");
     expect(estimate.text).toContain("financement mobilité");
     expect(`${estimate.title} ${estimate.text}`).not.toMatch(/garant|vérifi|pas automatique|sans garantir/i);
