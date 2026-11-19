@@ -35,22 +35,24 @@ export type PublicEstimate = {
   participants: number;
   opcoLabel: string | null;
   stayEuros: number;
-  /** Prise en charge apprenti, avant la part de financement mobilité. null pour un étudiant. */
+  /** Financement apprenti retenu pour le calcul. null pour un étudiant. */
   apprenticeEuros: number | null;
-  /**
-   * Part du forfait référent mobilité effectivement affectée au séjour.
-   * Pour une mobilité individuelle, le moteur n'en réserve rien pour un accompagnateur
-   * (companions = 0), donc tout le forfait disponible réduit le reste à charge,
-   * sans dépasser ce reste. null pour un étudiant.
-   */
-  referentEuros: number | null;
-  /** Apprenti + part référent. null pour un étudiant. */
+  /** Montant de financement affiché, égal au financement apprenti. null pour un étudiant. */
   fundingEuros: number | null;
   remainderEuros: number;
+  /**
+   * Mention informative affichée à côté du résultat, hors financement et hors reste à charge.
+   * null pour un étudiant : ce budget concerne l’alternance.
+   */
+  referentNote: string | null;
   title: string;
   text: string;
   watchNote: string;
 };
+
+/** Mention hors calcul. Le budget est versé à l’école ou au CFA, pas à l’apprenti. */
+export const REFERENT_MOBILITY_NOTE =
+  "D’après nos informations, l’OPCO peut aussi verser à l’école ou au CFA un budget dédié au référent mobilité, jusqu’à 500 €. Ce montant n’est pas destiné à l’apprenti et n’est pas inclus dans ce calcul, mais ton école peut éventuellement t’aider avec une partie de cette somme. Renseigne-toi auprès d’elle.";
 
 function euros(value: number): string {
   return `${new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(Math.round(value))} €`;
@@ -78,10 +80,11 @@ export function estimatePublicMobility(input: PublicEstimateInput): PublicEstima
   const participants = outcome.participants;
   const stayEuros = outcome.result.totalCostPerStudent;
   const student = input.status === "etudiant";
+  // Le forfait référent mobilité est un budget versé à l’école ou au CFA.
+  // Le financement et le reste à charge de l’apprenti ne retiennent que l’aide apprenti.
   const apprenticeEuros = student ? null : Math.round(outcome.result.financementMoyen);
-  const referentEuros = student ? null : Math.round(outcome.result.reinjected / Math.max(1, participants));
-  const remainderEuros = student ? stayEuros : Math.round(outcome.result.racAvg);
-  const fundingEuros = student || apprenticeEuros === null || referentEuros === null ? null : apprenticeEuros + referentEuros;
+  const fundingEuros = apprenticeEuros;
+  const remainderEuros = student || fundingEuros === null ? stayEuros : Math.max(0, stayEuros - fundingEuros);
   const opcoLabel = student
     ? null
     : input.opcoId
@@ -91,7 +94,7 @@ export function estimatePublicMobility(input: PublicEstimateInput): PublicEstima
   const title = student ? "Ton séjour se prépare avec AMI Panorama." : "Ton séjour est éligible aux financements OPCO.";
   const text = student
     ? `D’après nos informations, les aides les plus courantes accompagnent l’alternance. Pour ton séjour à ${input.destination}, le prix indicatif est de ${euros(stayEuros)}. Un reste à charge peut subsister, par exemple ${fundingExamplePhrase()}. AMI Panorama monte le dossier avec toi.`
-    : alternantText(input.destination, fundingEuros ?? 0, referentEuros ?? 0, remainderEuros, perPerson);
+    : alternantText(input.destination, fundingEuros ?? 0, remainderEuros, perPerson);
 
   return {
     mode: input.mode,
@@ -102,23 +105,20 @@ export function estimatePublicMobility(input: PublicEstimateInput): PublicEstima
     opcoLabel,
     stayEuros,
     apprenticeEuros,
-    referentEuros,
     fundingEuros,
     remainderEuros,
+    referentNote: student ? null : REFERENT_MOBILITY_NOTE,
     title,
     text,
     watchNote: fundingWatchNote,
   };
 }
 
-function alternantText(destination: string, funding: number, referent: number, remainder: number, perPerson: string): string {
-  const referentSentence = referent > 0
-    ? " Une partie du financement mobilité peut aussi être mobilisée pour ton séjour, d’après nos informations."
-    : "";
+function alternantText(destination: string, funding: number, remainder: number, perPerson: string): string {
   const remainderSentence = remainder > 0
     ? ` Il peut rester un reste à charge d’environ ${euros(remainder)}${perPerson}.`
     : " Dans cette estimation, il ne reste pas de reste à charge.";
-  return `D’après nos informations, une prise en charge d’environ ${euros(funding)}${perPerson} peut exister pour ${destination}.${referentSentence}${remainderSentence} AMI Panorama monte le dossier avec toi.`;
+  return `D’après nos informations, le financement indicatif est d’environ ${euros(funding)}${perPerson} pour ${destination}.${remainderSentence} AMI Panorama monte le dossier avec toi.`;
 }
 
 export function estimateSummary(estimate: PublicEstimate): string {
@@ -131,11 +131,11 @@ export function estimateSummary(estimate: PublicEstimate): string {
     `Personnes : ${estimate.participants}`,
     `OPCO : ${estimate.opcoLabel ?? "non concerné (étudiant)"}`,
     `Prix indicatif du séjour : ${Math.round(estimate.stayEuros)} €`,
-    `Prise en charge apprenti : ${estimate.apprenticeEuros === null ? "non calculée (étudiant)" : `${Math.round(estimate.apprenticeEuros)} €`}`,
-    `Part de financement mobilité : ${estimate.referentEuros === null ? "non calculée (étudiant)" : `${Math.round(estimate.referentEuros)} €`}`,
-    `Prise en charge indicative : ${estimate.fundingEuros === null ? "non calculée (étudiant)" : `${Math.round(estimate.fundingEuros)} €`}`,
+    `Financement apprenti : ${estimate.apprenticeEuros === null ? "non calculé (étudiant)" : `${Math.round(estimate.apprenticeEuros)} €`}`,
+    `Financement indicatif : ${estimate.fundingEuros === null ? "non calculé (étudiant)" : `${Math.round(estimate.fundingEuros)} €`}`,
     `Reste à charge indicatif : ${Math.round(estimate.remainderEuros)} €`,
     estimate.text,
   ];
+  if (estimate.referentNote) lines.push(estimate.referentNote);
   return lines.join("\n");
 }

@@ -181,9 +181,10 @@ export default function PublicSimulator() {
               <p className={styles.lead}>{estimate.text}</p>
               <div className={styles.figures}>
                 <div><span>Prix indicatif du séjour</span><b>{euro(estimate.stayEuros)}</b></div>
-                <div><span>Prise en charge indicative</span><b>{estimate.fundingEuros === null ? "Aides d’alternance" : euro(estimate.fundingEuros)}</b></div>
+                <div><span>Financement indicatif</span><b>{estimate.fundingEuros === null ? "Aides d’alternance" : euro(estimate.fundingEuros)}</b></div>
                 <div><span>Reste à charge indicatif</span><b>{euro(estimate.remainderEuros)}</b></div>
               </div>
+              {estimate.referentNote && <p className={styles.referentNote}>{estimate.referentNote}</p>}
               <p className={styles.watch}>{estimate.watchNote}</p>
               {sent ? (
                 <p className={styles.success}>C’est enregistré. AMI Panorama revient vers toi pour la suite du dossier.</p>

@@ -66,12 +66,13 @@ export const globalWeeksAvailability = [
 
 /**
  * Exemple Montréal. `remainingEuros` est le résultat exact du simulateur
- * individuel (8 jours, OPCO non identifié). Les textes du site citent
- * l'arrondi éditorial, « environ 450 € ». Le simulateur continue d'afficher 449 €.
+ * individuel (8 jours, OPCO non identifié), sans le budget référent mobilité.
+ * Les textes du site citent l'arrondi éditorial, « environ 940 € ».
+ * Le simulateur affiche 939 €.
  */
 export const globalWeeksFundingExample = {
-  remainingEuros: 449,
-  editorialRemainingEuros: 450,
+  remainingEuros: 939,
+  editorialRemainingEuros: 940,
   city: "Montréal",
   stay: "hébergement avec petits-déjeuners",
 } as const;
