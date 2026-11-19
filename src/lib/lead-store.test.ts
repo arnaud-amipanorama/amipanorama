@@ -52,8 +52,11 @@ describe("leads Global Weeks", () => {
     const stored = JSON.parse(readFileSync(file, "utf8"));
     expect(stored.rgpd).toBe(true);
     expect(stored.email).toBe("camille@example.com");
-    expect(stored.message).toContain("Prise en charge indicative : 1709 €");
-    expect(stored.message).toContain("Part de financement mobilité : 209 €");
+    expect(stored.message).toContain("Financement indicatif : 1500 €");
+    expect(stored.message).toContain("Reste à charge indicatif : 209 €");
+    expect(stored.message).toContain("n’est pas inclus dans ce calcul");
+    expect(stored.message).not.toContain("Part de financement mobilité");
+    expect(stored.message).not.toMatch(/prise en charge/i);
     expect(stored.source).toBe("simulateur global weeks");
   });
 });
